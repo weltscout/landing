@@ -37,6 +37,14 @@ WS_SITE=https://welt-scout-web-preview.vercel.app WS_INDEXABLE=0 python3 deploy/
 
 Contact form environment variables (Vercel): `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`. Without them the endpoint answers `503 not_configured`.
 
+## AWS
+
+```sh
+python3 deploy/build.py dist && python3 deploy/aws.py dist
+```
+
+`deploy/aws.py` translates `dist/vercel.json` into `dist/aws/`: a CloudFront Function for the redirects (301) and clean URLs, a CloudFront response headers policy, `s3-sync.sh` (Content-Type and Cache-Control per file), the AWS Amplify alternative (`amplify-redirects.json`, `customHttp.yml`), and `contact-lambda/` (a Lambda adapter around `deploy/api/contact.js`, same env vars, so `/api/contact` keeps working through a CloudFront behavior). Step-by-step deploy and curl checks: `dist/aws/README.md` (template in `deploy/aws-templates/`). It fails loudly on any `vercel.json` construct it cannot translate and when the function would exceed the CloudFront Functions size limit. Test: `python3 -m unittest deploy/test_aws.py -v` (needs node 20+).
+
 ## Blog
 
 `blog/<code>/<slug>.html` are the posts (18 topics in sl, hr, en, de). Each file starts with a JSON front matter comment; the format and the checks are in `deploy/blog.py`. The build makes `/<code>/blog/` and `/<code>/blog/<slug>/`, hreflang between translations (same `hreflang_group`), BlogPosting/Breadcrumb JSON-LD, sitemap entries with `lastmod`, a Blog link in the nav, and a 301 from every old Webflow post URL listed in the post's `legacy` field. It fails on a missing field, a second `<h1>`, a portal name, "24/7"/"real-time"/"instant", or a missing image. Which statuses are indexed: `blogIndexStatuses` in `langs.json`.
