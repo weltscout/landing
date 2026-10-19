@@ -1,0 +1,94 @@
+/* WeltScout barvni žetoni v2 (18. 10. 2026). Generirano iz paleta.py, ne urejaj ročno. */
+:root {
+  --blue-50: #F3F7FE;
+  --blue-100: #E3EDFF;
+  --blue-200: #C5DAFF;
+  --blue-300: #99BFFF;
+  --blue-400: #649CFF;
+  --blue-500: #0066FF;
+  --blue-600: #0055DC;
+  --blue-700: #0040B1;
+  --blue-800: #002A82;
+  --blue-900: #001655;
+  --blue-950: #000835;
+  --azure-50: #EFF8FF;
+  --azure-100: #DAF1FF;
+  --azure-200: #B0E1FF;
+  --azure-300: #6ACAFF;
+  --azure-400: #00ABED;
+  --azure-500: #038BC1;
+  --azure-600: #016B97;
+  --azure-700: #025476;
+  --azure-800: #003A54;
+  --azure-900: #002334;
+  --azure-950: #00121D;
+  --indigo-50: #F5F6FF;
+  --indigo-100: #E8ECFF;
+  --indigo-200: #D0D6FF;
+  --indigo-300: #AEB8FF;
+  --indigo-400: #8992FE;
+  --indigo-500: #5F5EE6;
+  --indigo-600: #504EC9;
+  --indigo-700: #3D3AA3;
+  --indigo-800: #2A247B;
+  --indigo-900: #170F55;
+  --indigo-950: #0B0139;
+  --navy-50: #F2F7FF;
+  --navy-100: #E6EDF9;
+  --navy-200: #D1DAE7;
+  --navy-300: #B4BFCF;
+  --navy-400: #929FB3;
+  --navy-500: #738197;
+  --navy-600: #54647C;
+  --navy-700: #3D4E67;
+  --navy-800: #253650;
+  --navy-900: #0D1E38;
+  --navy-950: #00122E;
+  --slate-50: #F2F7FE;
+  --slate-100: #E7EDF7;
+  --slate-200: #D2DAE5;
+  --slate-300: #B6BECB;
+  --slate-400: #969FAD;
+  --slate-500: #757F8E;
+  --slate-600: #5B6471;
+  --slate-700: #464E59;
+  --slate-800: #30363F;
+  --slate-900: #1B2026;
+  --slate-950: #0C1015;
+  /* vloge */
+  --bg-page: #F2F7FE;
+  --bg-surface: #FFFFFF;
+  --bg-tint: #F3F7FE;
+  --bg-dark: #00122E;
+  --text: #00122E;
+  --text-strong: #0D1E38;
+  --text-muted: #5B6471;
+  --text-on-dark: #FFFFFF;
+  --text-muted-on-dark: #B6BECB;
+  --accent-on-dark: #E3EDFF;
+  --accent-large-on-dark: #6ACAFF;
+  --brand: #0066FF;
+  --brand-hover: #0055DC;
+  --link: #0055DC;
+  --link-on-dark: #99BFFF;
+  --border: #D2DAE5;
+  --border-input: #757F8E;
+  --focus: #0055DC;
+  /* prelivi (sRGB rezerva) */
+  --g-hero-noc: linear-gradient(135deg, #00122E, #253650, #002A82);
+  --g-modra-elektro: linear-gradient(135deg, #0055DC, #0066FF, #00ABED);
+  --g-gumb: linear-gradient(135deg, #0055DC, #0066FF, #5F5EE6);
+  --g-polnocni-sij: linear-gradient(135deg, #2A247B, #0040B1, #016B97);
+  --g-svetla-zora: linear-gradient(135deg, #FAFCFF, #F3F7FE, #EFF8FF);
+  --g-naslov: linear-gradient(135deg, #0040B1, #504EC9);
+}
+@supports (background: linear-gradient(in oklch, red, blue)) {
+  :root {
+    --g-hero-noc: linear-gradient(135deg in oklch, #00122E, #253650, #002A82);
+    --g-modra-elektro: linear-gradient(135deg in oklch, #0055DC, #0066FF, #00ABED);
+    --g-gumb: linear-gradient(135deg in oklch, #0055DC, #0066FF, #5F5EE6);
+    --g-polnocni-sij: linear-gradient(135deg in oklch, #2A247B, #0040B1, #016B97);
+    --g-svetla-zora: linear-gradient(135deg in oklch, #FAFCFF, #F3F7FE, #EFF8FF);
+    --g-naslov: linear-gradient(135deg in oklch, #0040B1, #504EC9);
+  }
+}

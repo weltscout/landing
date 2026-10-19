@@ -1,0 +1,122 @@
+{
+  "site": "https://welt-scout-web-preview.vercel.app",
+  "indexable": false,
+  "default": "sl",
+  "org": {
+    "legalName": "WeltScout d.o.o.",
+    "companyRegistrationNo": "9450670000",
+    "logo": "/img/logo-square-512.png",
+    "sameAs": [
+      "https://www.instagram.com/weltscout/",
+      "https://www.facebook.com/profile.php?id=61569940130408"
+    ]
+  },
+  "icons": {
+    "icon": "/img/favicon-48.png",
+    "appleTouch": "/img/apple-touch-icon.png"
+  },
+  "legalFallback": "en",
+  "crawlers": [
+    "OAI-SearchBot",
+    "GPTBot",
+    "ChatGPT-User",
+    "Claude-SearchBot",
+    "ClaudeBot",
+    "Claude-User",
+    "PerplexityBot",
+    "Perplexity-User",
+    "Google-Extended",
+    "CCBot"
+  ],
+  "langs": [
+    {
+      "code": "sl",
+      "file": "index.html",
+      "hreflang": [
+        "sl"
+      ],
+      "locale": [
+        "sl_SI"
+      ],
+      "flag": "si",
+      "name": "Slovenščina"
+    },
+    {
+      "code": "hr",
+      "file": "i18n/hr.html",
+      "hreflang": [
+        "hr"
+      ],
+      "locale": [
+        "hr_HR"
+      ],
+      "flag": "hr",
+      "name": "Hrvatski"
+    },
+    {
+      "code": "sr",
+      "file": "i18n/sr.html",
+      "hreflang": [
+        "sr"
+      ],
+      "locale": [
+        "sr_RS"
+      ],
+      "inLanguage": "sr-Latn",
+      "flag": "rs",
+      "name": "Srpski"
+    },
+    {
+      "code": "en",
+      "file": "i18n/en.html",
+      "hreflang": [
+        "en"
+      ],
+      "locale": [
+        "en_GB"
+      ],
+      "flag": "gb",
+      "name": "English"
+    },
+    {
+      "code": "de",
+      "file": "i18n/de.html",
+      "hreflang": [
+        "de"
+      ],
+      "locale": [
+        "de_DE"
+      ],
+      "flag": "de",
+      "name": "Deutsch"
+    },
+    {
+      "code": "nl",
+      "file": "i18n/nl.html",
+      "hreflang": [
+        "nl",
+        "nl-BE"
+      ],
+      "locale": [
+        "nl_NL",
+        "nl_BE"
+      ],
+      "flag": "nl",
+      "name": "Nederlands"
+    },
+    {
+      "code": "fr",
+      "file": "i18n/fr.html",
+      "hreflang": [
+        "fr",
+        "fr-BE"
+      ],
+      "locale": [
+        "fr_FR",
+        "fr_BE"
+      ],
+      "flag": "fr",
+      "name": "Français"
+    }
+  ]
+}
