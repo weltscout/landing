@@ -67,6 +67,26 @@
         "reject": "Zavrnem",
         "settings": "Nastavitve piškotkov",
         "more": "Več o piškotkih"
+      },
+      "blog": {
+        "name": "Blog",
+        "title": "Blog WeltScout: nakup in uvoz rabljenih vozil",
+        "description": "Vodiči za trgovce in kupce: iskanje rabljenih vozil v Evropi, uvoz, stroški in trg.",
+        "home": "Domov",
+        "published": "Objavljeno",
+        "updated": "Posodobljeno",
+        "author": "Avtor",
+        "reviewer": "Pregledal",
+        "sources": "Viri",
+        "related": "Preberi tudi",
+        "cta": "Iščeš vozilo na več portalih hkrati?",
+        "ctaBtn": "Preizkusi brezplačno",
+        "all": "Vsi članki",
+        "read": "Preberi",
+        "how": "Kako je nastal članek",
+        "changes": "Posodobitve",
+        "editor": "Odgovorni urednik",
+        "short": "Na kratko"
       }
     },
     {
@@ -86,6 +106,26 @@
         "reject": "Odbijam",
         "settings": "Postavke kolačića",
         "more": "Više o kolačićima"
+      },
+      "blog": {
+        "name": "Blog",
+        "title": "WeltScout blog: kupnja i uvoz polovnih vozila",
+        "description": "Vodiči za trgovce i kupce: pretraga polovnih vozila u Europi, uvoz, troškovi i tržište.",
+        "home": "Početna",
+        "published": "Objavljeno",
+        "updated": "Ažurirano",
+        "author": "Autor",
+        "reviewer": "Pregledao",
+        "sources": "Izvori",
+        "related": "Pročitaj i",
+        "cta": "Tražiš vozilo na više portala odjednom?",
+        "ctaBtn": "Isprobaj besplatno",
+        "all": "Svi članci",
+        "read": "Pročitaj",
+        "how": "Kako je nastao članak",
+        "changes": "Ažuriranja",
+        "editor": "Odgovorni urednik",
+        "short": "Ukratko"
       }
     },
     {
@@ -106,6 +146,26 @@
         "reject": "Odbijam",
         "settings": "Podešavanja kolačića",
         "more": "Više o kolačićima"
+      },
+      "blog": {
+        "name": "Blog",
+        "title": "WeltScout blog: kupovina i uvoz polovnih vozila",
+        "description": "Vodiči za trgovce i kupce: pretraga polovnih vozila u Evropi, uvoz, troškovi i tržište.",
+        "home": "Početna",
+        "published": "Objavljeno",
+        "updated": "Ažurirano",
+        "author": "Autor",
+        "reviewer": "Pregledao",
+        "sources": "Izvori",
+        "related": "Pročitaj i",
+        "cta": "Tražiš vozilo na više portala odjednom?",
+        "ctaBtn": "Probaj besplatno",
+        "all": "Svi članci",
+        "read": "Pročitaj",
+        "how": "Kako je nastao članak",
+        "changes": "Ažuriranja",
+        "editor": "Odgovorni urednik",
+        "short": "Ukratko"
       }
     },
     {
@@ -125,6 +185,26 @@
         "reject": "Decline",
         "settings": "Cookie settings",
         "more": "More about cookies"
+      },
+      "blog": {
+        "name": "Blog",
+        "title": "WeltScout blog: buying and importing used vehicles",
+        "description": "Guides for dealers and buyers: finding used vehicles across Europe, importing, costs and the market.",
+        "home": "Home",
+        "published": "Published",
+        "updated": "Updated",
+        "author": "Author",
+        "reviewer": "Reviewed by",
+        "sources": "Sources",
+        "related": "Read next",
+        "cta": "Searching several portals at once?",
+        "ctaBtn": "Try it free",
+        "all": "All articles",
+        "read": "Read",
+        "how": "How this article was made",
+        "changes": "Updates",
+        "editor": "Responsible editor",
+        "short": "In short"
       }
     },
     {
@@ -144,6 +224,26 @@
         "reject": "Ablehnen",
         "settings": "Cookie-Einstellungen",
         "more": "Mehr zu Cookies"
+      },
+      "blog": {
+        "name": "Blog",
+        "title": "WeltScout Blog: Gebrauchtwagen kaufen und importieren",
+        "description": "Ratgeber für Händler und Käufer: Gebrauchtwagen in Europa finden, Import, Kosten und Markt.",
+        "home": "Start",
+        "published": "Veröffentlicht",
+        "updated": "Aktualisiert",
+        "author": "Autor",
+        "reviewer": "Geprüft von",
+        "sources": "Quellen",
+        "related": "Weiterlesen",
+        "cta": "Suchen Sie auf mehreren Portalen gleichzeitig?",
+        "ctaBtn": "Kostenlos testen",
+        "all": "Alle Artikel",
+        "read": "Lesen",
+        "how": "So ist dieser Artikel entstanden",
+        "changes": "Aktualisierungen",
+        "editor": "Verantwortliche Redaktion",
+        "short": "Kurz gesagt"
       }
     },
     {
@@ -165,6 +265,26 @@
         "reject": "Weigeren",
         "settings": "Cookie-instellingen",
         "more": "Meer over cookies"
+      },
+      "blog": {
+        "name": "Blog",
+        "title": "WeltScout blog: tweedehandsauto's kopen en importeren",
+        "description": "Gidsen voor handelaren en kopers: tweedehandsauto's vinden in Europa, import, kosten en markt.",
+        "home": "Home",
+        "published": "Gepubliceerd",
+        "updated": "Bijgewerkt",
+        "author": "Auteur",
+        "reviewer": "Gecontroleerd door",
+        "sources": "Bronnen",
+        "related": "Lees ook",
+        "cta": "Zoekt u op meerdere portalen tegelijk?",
+        "ctaBtn": "Gratis proberen",
+        "all": "Alle artikelen",
+        "read": "Lezen",
+        "how": "Zo is dit artikel tot stand gekomen",
+        "changes": "Updates",
+        "editor": "Verantwoordelijke redactie",
+        "short": "In het kort"
       }
     },
     {
@@ -186,7 +306,32 @@
         "reject": "Refuser",
         "settings": "Paramètres des cookies",
         "more": "En savoir plus sur les cookies"
+      },
+      "blog": {
+        "name": "Blog",
+        "title": "Blog WeltScout : acheter et importer des véhicules d’occasion",
+        "description": "Guides pour professionnels et acheteurs : trouver des véhicules d’occasion en Europe, import, coûts et marché.",
+        "home": "Accueil",
+        "published": "Publié",
+        "updated": "Mis à jour",
+        "author": "Auteur",
+        "reviewer": "Relu par",
+        "sources": "Sources",
+        "related": "À lire aussi",
+        "cta": "Vous cherchez sur plusieurs portails à la fois ?",
+        "ctaBtn": "Essai gratuit",
+        "all": "Tous les articles",
+        "read": "Lire",
+        "how": "Comment cet article a été rédigé",
+        "changes": "Mises à jour",
+        "editor": "Responsable éditorial",
+        "short": "En bref"
       }
     }
+  ],
+  "appRegister": "https://app.weltscout.com/auth/register/",
+  "blogIndexStatuses": [
+    "published",
+    "review"
   ]
 }

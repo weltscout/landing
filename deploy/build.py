@@ -2,6 +2,9 @@
 
 import html as htmllib, json, os, pathlib, re, shutil, struct, sys
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import blog  # noqa: E402
+
 SRC = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path(sys.argv[1])
 CONF = json.loads((SRC / "deploy" / "langs.json").read_text())
@@ -398,6 +401,23 @@ LEGAL_CSS = (
 )
 
 
+def theme_styles(code, src):
+    styles = re.findall(r'(@font-face\{[^}]*\}|:root(?:\[data-theme="(?:light|dark)"\])?\{[^}]*\})', src)
+    if len(styles) < 3:
+        sys.exit(f"{code}: theme tokens / font-face not found")
+    return styles
+
+
+def legal_names(code, src):
+    out = {}
+    for s in LEGAL_SLUGS:
+        m = re.search(rf'href="/{s}"[^>]*>([^<]+)</a>', src)
+        if not m:
+            sys.exit(f"{code}: footer link to /{s} not found")
+        out[s] = m.group(1)
+    return out
+
+
 def legal_pages(live, sources):
     site, written, fallback = CONF["site"], [], []
     for l in live:
@@ -532,18 +552,35 @@ for p in OUT.iterdir():
     if p.name != ".vercel":
         shutil.rmtree(p) if p.is_dir() else p.unlink()
 live = [l for l in CONF["langs"] if (SRC / l["file"]).exists()]
+BLOG_POSTS, _ = blog.load(SRC, live)
 missing = [l["code"] for l in CONF["langs"] if l not in live]
 meta, sources = {}, {}
 for l in live:
     (OUT / l["code"]).mkdir()
     sources[l["code"]] = (SRC / l["file"]).read_text()
     page, meta[l["code"]] = seo(localize(sources[l["code"]], l["code"], live), l["code"], live)
+    if BLOG_POSTS.get(l["code"]):
+        page = blog.nav_link(page, l["code"], l["blog"]["name"])
     page = absolutize(consent(link_legal(page, l["code"]), l, f"/{l['code']}/cookie-policy/"))
     (OUT / l["code"] / "index.html").write_text(page)
     if l["code"] == CONF["default"]:
         (OUT / "index.html").write_text(page)
 legal_written, legal_fallback = legal_pages(live, sources)
+blog_out = blog.build(
+    CONF, OUT, live, sources,
+    {"src": SRC, "styles": lambda c: theme_styles(c, sources[c]), "legal_css": LEGAL_CSS, "icon_tags": icon_tags,
+     "consent": consent, "absolutize": absolutize, "legal_slugs": LEGAL_SLUGS,
+     "legal_names": lambda c: legal_names(c, sources[c])},
+)
 robots, sitemap, llms = root_files(live, meta)
+sitemap = sitemap.replace(
+    "</urlset>\n",
+    "".join(
+        f"<url><loc>{u}</loc><lastmod>{d}</lastmod>{re.sub(r'<link rel=\"alternate\" hreflang=\"([^\"]+)\" href=\"([^\"]+)\">', r'<xhtml:link rel=\"alternate\" hreflang=\"\\1\" href=\"\\2\"/>', a)}</url>\n"
+        for u, d, a in blog_out["sitemap"]
+    )
+    + "</urlset>\n",
+)
 (OUT / "robots.txt").write_text(robots)
 (OUT / "sitemap.xml").write_text(sitemap)
 (OUT / "llms.txt").write_text(llms)
@@ -555,7 +592,7 @@ cfg = json.loads((SRC / "deploy" / "vercel.base.json").read_text())
 if CONF["indexable"]:
     for rule in cfg["headers"]:
         rule["headers"] = [h for h in rule["headers"] if h["key"] != "X-Robots-Tag"]
-cfg["redirects"] = [
+cfg["redirects"] = blog_out["redirects"] + [
     {"source": f"/{slug}", "destination": f"/{CONF['default']}/{slug}/", "permanent": True}
     for slug in LEGAL_SLUGS
 ] + [
@@ -571,4 +608,5 @@ print(
     "| indexable:",
     CONF["indexable"],
 )
+print("blog posts:", {c: len(p) for c, p in blog_out["posts"].items() if p}, "| legacy redirects:", len(blog_out["redirects"]), "| not indexed (status):", len(blog_out["held"]))
 print("legal pages:", len(legal_written), "| %s text used for:" % CONF["legalFallback"], legal_fallback or "none")

@@ -37,6 +37,10 @@ WS_SITE=https://welt-scout-web-preview.vercel.app WS_INDEXABLE=0 python3 deploy/
 
 Contact form environment variables (Vercel): `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`. Without them the endpoint answers `503 not_configured`.
 
+## Blog
+
+`blog/<code>/<slug>.html` are the posts (18 topics in sl, hr, en, de). Each file starts with a JSON front matter comment; the format and the checks are in `deploy/blog.py`. The build makes `/<code>/blog/` and `/<code>/blog/<slug>/`, hreflang between translations (same `hreflang_group`), BlogPosting/Breadcrumb JSON-LD, sitemap entries with `lastmod`, a Blog link in the nav, and a 301 from every old Webflow post URL listed in the post's `legacy` field. It fails on a missing field, a second `<h1>`, a portal name, "24/7"/"real-time"/"instant", or a missing image. Which statuses are indexed: `blogIndexStatuses` in `langs.json`.
+
 ## Adding a language
 
 1. Copy `i18n/en.html` to `i18n/<code>.html` and translate the visible strings.
