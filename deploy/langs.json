@@ -61,6 +61,7 @@
         "more": "Več o piškotkih"
       },
       "blog": {
+        "latest": "Najnovejše z bloga",
         "name": "Blog",
         "title": "Blog WeltScout: nakup in uvoz rabljenih vozil",
         "description": "Vodiči za trgovce in kupce: iskanje rabljenih vozil v Evropi, uvoz, stroški in trg.",
@@ -118,6 +119,7 @@
         "more": "Više o kolačićima"
       },
       "blog": {
+        "latest": "Najnovije s bloga",
         "name": "Blog",
         "title": "WeltScout blog: kupnja i uvoz polovnih vozila",
         "description": "Vodiči za trgovce i kupce: pretraga polovnih vozila u Europi, uvoz, troškovi i tržište.",
@@ -176,6 +178,7 @@
         "more": "Više o kolačićima"
       },
       "blog": {
+        "latest": "Najnovije sa bloga",
         "name": "Blog",
         "title": "WeltScout blog: kupovina i uvoz polovnih vozila",
         "description": "Vodiči za trgovce i kupce: pretraga polovnih vozila u Evropi, uvoz, troškovi i tržište.",
@@ -233,6 +236,7 @@
         "more": "More about cookies"
       },
       "blog": {
+        "latest": "Latest from the blog",
         "name": "Blog",
         "title": "WeltScout blog: buying and importing used vehicles",
         "description": "Guides for dealers and buyers: finding used vehicles across Europe, importing, costs and the market.",
@@ -304,6 +308,7 @@
         "more": "Mehr zu Cookies"
       },
       "blog": {
+        "latest": "Neu im Blog",
         "name": "Blog",
         "title": "WeltScout Blog: Gebrauchtwagen kaufen und importieren",
         "description": "Ratgeber für Händler und Käufer: Gebrauchtwagen in Europa finden, Import, Kosten und Markt.",
@@ -363,6 +368,7 @@
         "more": "Meer over cookies"
       },
       "blog": {
+        "latest": "Nieuw op de blog",
         "name": "Blog",
         "title": "WeltScout blog: tweedehandsauto's kopen en importeren",
         "description": "Gidsen voor handelaren en kopers: tweedehandsauto's vinden in Europa, import, kosten en markt.",
@@ -436,6 +442,7 @@
         "more": "En savoir plus sur les cookies"
       },
       "blog": {
+        "latest": "Derniers articles du blog",
         "name": "Blog",
         "title": "Blog WeltScout : acheter et importer des véhicules d’occasion",
         "description": "Guides pour professionnels et acheteurs : trouver des véhicules d’occasion en Europe, import, coûts et marché.",

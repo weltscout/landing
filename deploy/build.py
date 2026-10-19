@@ -433,9 +433,9 @@ CHROME_SEL = re.compile(
     r'^(?:\[data-theme="(?:light|dark)"\] )?(?:\*|html|body(?:>nav)?|a|img|nav|footer|:focus-visible|section\.(?:band|final)|'
     r"\.(?:btn|skip|logo|lg-[ld]|nav-in|links|right|login|lang|lang-[bm]|mlangs|burger|mnav|flag|sw|sr|band|final|note))(?![\w-])"
 )
-CHROME_KEYFRAMES = ("langin",)
+CHROME_KEYFRAMES = ("langin", "mnavin", "mitem")
 CHROME_MUST = (".nav-in{", ".burger{", ".mnav{", "footer .cols{", ".sw button{", ".lang-m{", ".skip{", ".final .btn{")
-CHROME_JS = ("theme", "mobile menu", "language switcher")
+CHROME_JS = ("theme", "mobile menu", "nav indicator", "language switcher")
 
 
 def css_blocks(css):
@@ -742,6 +742,7 @@ for l in live:
         page = blog.nav_link(page, l["code"], l["blog"]["name"])
     page = link_legal(page, l["code"])
     CHROME[l["code"]] = chrome_parts(l["code"], page, sources[l["code"]])
+    page = blog.home_section(page, l, BLOG_POSTS.get(l["code"]))
     page = absolutize(consent(page, l, legal_url(l["code"], COOKIE_STEM)))
     (OUT / l["code"] / "index.html").write_text(page)
     if l["code"] == CONF["default"]:
