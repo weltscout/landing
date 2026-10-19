@@ -50,19 +50,40 @@ BANNED = re.compile(
 
 WPM = 200
 UI_KEYS = ("toc", "crumbs", "table", "date")
-BLOG_KEYS = ("audience", "filter", "minutes", "all", "short", "cta", "home", "name")
+BLOG_KEYS = ("audience", "filter", "minutes", "all", "short", "cta", "home", "name", "latest")
 FEED_SIZES = ("lead", "md", "md", "sm", "sm", "sm")
 FEED_REST = "row"
 REL_N = 3
+HOME_N = 3
 
-BLOG_CSS = (
-    ".prog{position:fixed;inset:0 0 auto;height:3px;z-index:60;pointer-events:none}"
-    ".prog i{display:block;height:100%;background:var(--blue-500);transform:scaleX(0);transform-origin:0 50%}"
+CARD_CSS = (
     ".kick{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin:0;font-size:14px;color:var(--tx3)}"
     ".kick time{white-space:nowrap}"
     ".tag{display:inline-flex;align-items:center;min-height:28px;padding:2px 12px;border-radius:999px;background:var(--chip);color:var(--tx);font-size:13.5px;font-weight:500;line-height:1.2}"
     ".tag:before{content:\"\";width:6px;height:6px;margin-right:8px;border-radius:50%;background:var(--acc)}"
     ".tag[data-aud=b2c]:before{background:var(--azure-400)}.tag[data-aud=both]:before{background:linear-gradient(90deg,var(--acc) 50%,var(--azure-400) 50%)}"
+    ".card{position:relative;min-width:0}"
+    ".card img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:18px;background:var(--surf2)}"
+    ".card-t{min-width:0}.card .kick{margin-top:18px}"
+    ".card h2,.card h3,.bi-h h1,.final h2{overflow-wrap:break-word;hyphens:auto}.card h2,.card h3{margin:10px 0 0;font-size:21px;line-height:1.2;letter-spacing:-.02em;font-weight:600;color:var(--tx);text-wrap:balance}"
+    ".card h2 a,.card h3 a{color:inherit;text-decoration:none}.card h2 a:after,.card h3 a:after{content:\"\";position:absolute;inset:0;border-radius:18px}"
+    ".card:hover h2 a,.card:hover h3 a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}"
+    ".card a:focus-visible{outline:none}.card:focus-within{outline:2px solid var(--acc);outline-offset:8px;border-radius:20px}"
+    ".card .desc{margin:10px 0 0;color:var(--tx2);font-size:16px;line-height:1.55;text-wrap:pretty}"
+)
+
+HOME_CSS = (
+    ".hb{padding-top:0}.hb-h{max-width:var(--maxw);margin-left:auto;margin-right:auto;display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px 32px}"
+    ".hb-h .eyebrow{margin-bottom:12px}.hb-h h2{margin:0}"
+    ".hb-all{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:var(--tx);font-weight:500;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}"
+    ".hb-l{list-style:none;max-width:var(--maxw);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}"
+    "@media (max-width:900px){.hb-l{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.hb-l li:nth-child(3){display:none}}"
+    "@media (max-width:600px){.hb-l{grid-template-columns:minmax(0,1fr);gap:28px;padding:0 16px}.hb-l li:nth-child(3){display:block}}"
+)
+
+BLOG_CSS = CARD_CSS + (
+    ".prog{position:fixed;inset:0 0 auto;height:3px;z-index:60;pointer-events:none}"
+    ".prog i{display:block;height:100%;background:var(--blue-500);transform:scaleX(0);transform-origin:0 50%}"
     ".ph .kick{margin-top:30px}.ph h1{margin-top:16px}.ph .crumbs [aria-current]{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
     ".by{display:flex;flex-wrap:wrap;gap:14px 44px;margin:30px 0 0;font-size:15px}.by dt{margin:0 0 3px;font-size:13px;color:var(--tx3)}"
     ".by dd{margin:0;color:var(--tx);font-weight:500;white-space:nowrap}.by a{color:inherit;text-underline-offset:3px}"
@@ -82,14 +103,6 @@ BLOG_CSS = (
     ".rel{max-width:var(--maxw);margin:96px auto 0;padding:0 24px}"
     ".rel>h2{margin:0 0 28px;font-size:clamp(24px,2.4vw,30px);font-weight:600;letter-spacing:-.025em}"
     ".rel ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}"
-    ".card{position:relative;min-width:0}"
-    ".card img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:18px;background:var(--surf2)}"
-    ".card-t{min-width:0}.card .kick{margin-top:18px}"
-    ".card h2,.card h3,.bi-h h1,.final h2{overflow-wrap:break-word;hyphens:auto}.card h2,.card h3{margin:10px 0 0;font-size:21px;line-height:1.2;letter-spacing:-.02em;font-weight:600;color:var(--tx);text-wrap:balance}"
-    ".card h2 a,.card h3 a{color:inherit;text-decoration:none}.card h2 a:after,.card h3 a:after{content:\"\";position:absolute;inset:0;border-radius:18px}"
-    ".card:hover h2 a,.card:hover h3 a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}"
-    ".card a:focus-visible{outline:none}.card:focus-within{outline:2px solid var(--acc);outline-offset:8px;border-radius:20px}"
-    ".card .desc{margin:10px 0 0;color:var(--tx2);font-size:16px;line-height:1.55;text-wrap:pretty}"
     ".bi-h{max-width:var(--maxw);margin:0 auto;padding:64px 24px 0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px 72px;align-items:end}"
     ".bi-h .crumbs{grid-column:1/-1}"
     ".bi-h h1{margin:0;font-size:clamp(40px,6vw,80px);line-height:.98;letter-spacing:-.048em;font-weight:600;max-width:15ch;text-wrap:balance}"
@@ -348,6 +361,27 @@ FILTER_JS = (
 )
 
 
+def _e(v):
+    return htmllib.escape(str(v), quote=True)
+
+
+def kick(p, t, u, date=True):
+    return (
+        f'<p class="kick"><span class="tag" data-aud="{p["audience"]}">{_e(t["audience"][p["audience"]])}</span>'
+        f'<span>{_e(t["minutes"].format(n=minutes(p)))}</span>{time_tag(p["published"], u) if date else ""}</p>'
+    )
+
+def card(p, t, u, size, i, tag="h2"):
+    img = p["image"]
+    load_attr = 'fetchpriority="high"' if i == 0 else 'loading="lazy" decoding="async"'
+    return (
+        f'<li class="card"{f" data-size={chr(34)}{size}{chr(34)}" if size else ""} data-aud="{p["audience"]}">'
+        f'<img src="{img["src"]}" alt="" width="{img["width"]}" height="{img["height"]}" {load_attr}>'
+        f'<div class="card-t">{kick(p, t, u)}<{tag}><a href="/{p["lang"]}/blog/{p["slug"]}/">{_e(p["title"])}</a></{tag}>'
+        f'<p class="desc">{_e(p["meta_description"])}</p></div></li>'
+    )
+
+
 def build(conf, out, live, sources, h):
     """h: helpers from build.py (src, page, consent, absolutize, cookie_url)."""
     site, default = conf["site"], conf["default"]
@@ -397,22 +431,6 @@ def build(conf, out, live, sources, h):
 
     def switch(fn):
         return {c: fn(c) or (f"/{c}/blog/" if posts.get(c) else f"/{c}/") for c in by_code}
-
-    def kick(p, t, u, date=True):
-        return (
-            f'<p class="kick"><span class="tag" data-aud="{p["audience"]}">{e(t["audience"][p["audience"]])}</span>'
-            f'<span>{e(t["minutes"].format(n=minutes(p)))}</span>{time_tag(p["published"], u) if date else ""}</p>'
-        )
-
-    def card(p, t, u, size, i, tag="h2"):
-        img = p["image"]
-        load_attr = 'fetchpriority="high"' if i == 0 else 'loading="lazy" decoding="async"'
-        return (
-            f'<li class="card"{f" data-size={chr(34)}{size}{chr(34)}" if size else ""} data-aud="{p["audience"]}">'
-            f'<img src="{img["src"]}" alt="" width="{img["width"]}" height="{img["height"]}" {load_attr}>'
-            f'<div class="card-t">{kick(p, t, u)}<{tag}><a href="/{p["lang"]}/blog/{p["slug"]}/">{e(p["title"])}</a></{tag}>'
-            f'<p class="desc">{e(p["meta_description"])}</p></div></li>'
-        )
 
     def final(l, t):
         c = h["chrome"][l["code"]]
@@ -675,3 +693,19 @@ def nav_link(html, code, label):
     if n != 3:
         sys.exit(f"{code}: expected 3 nav places for the blog link, found {n}")
     return html
+
+
+def home_section(html, l, posts):
+    """Latest HOME_N posts as blog cards before the homepage FAQ section; the page is unchanged when the language has no posts."""
+    if not posts:
+        return html
+    t, u, code = l["blog"], ui(l), l["code"]
+    sec = (
+        f'<section id="blog" class="hb" aria-labelledby="hb-h"><div class="sec-h hb-h rv"><div><p class="eyebrow">{_e(t["name"])}</p>'
+        f'<h2 id="hb-h">{_e(t["latest"])}</h2></div><a class="hb-all" href="/{code}/blog/">{_e(t["all"])}<span aria-hidden="true">→</span></a></div>'
+        f'<ul class="hb-l">{"".join(card(p, t, u, None, 1, "h3") for p in posts[:HOME_N])}</ul></section>\n\n'
+    )
+    anchor = '<section id="vprasanja"'
+    if html.count(anchor) != 1 or html.count("</head>") != 1:
+        sys.exit(f"{code}: homepage needs exactly one {anchor} and one </head> for the blog section")
+    return html.replace(anchor, sec + anchor).replace("</head>", f"<style>{CARD_CSS}{HOME_CSS}</style></head>")
