@@ -15,6 +15,27 @@
     "icon": "/img/favicon-48.png",
     "appleTouch": "/img/apple-touch-icon.png"
   },
+  "analytics": {
+    "ga4": "G-CDWDYSCQN4"
+  },
+  "legacyRedirects": [
+    {
+      "from": "/blog",
+      "to": "/{default}/"
+    },
+    {
+      "from": "/post/:slug*",
+      "to": "/{default}/"
+    },
+    {
+      "from": "/:lang(hr|en|de)/blog",
+      "to": "/:lang/"
+    },
+    {
+      "from": "/:lang(hr|en|de)/post/:slug*",
+      "to": "/:lang/"
+    }
+  ],
   "legalFallback": "en",
   "crawlers": [
     "OAI-SearchBot",
@@ -39,7 +60,14 @@
         "sl_SI"
       ],
       "flag": "si",
-      "name": "Slovenščina"
+      "name": "Slovenščina",
+      "consent": {
+        "text": "Uporabljamo piškotke za analitiko (Google Analytics), da vidimo, kaj na strani deluje. Nastavimo jih samo, če se strinjaš.",
+        "accept": "Sprejmem",
+        "reject": "Zavrnem",
+        "settings": "Nastavitve piškotkov",
+        "more": "Več o piškotkih"
+      }
     },
     {
       "code": "hr",
@@ -51,7 +79,14 @@
         "hr_HR"
       ],
       "flag": "hr",
-      "name": "Hrvatski"
+      "name": "Hrvatski",
+      "consent": {
+        "text": "Koristimo kolačiće za analitiku (Google Analytics) da vidimo što na stranici funkcionira. Postavljamo ih samo ako se slažeš.",
+        "accept": "Prihvaćam",
+        "reject": "Odbijam",
+        "settings": "Postavke kolačića",
+        "more": "Više o kolačićima"
+      }
     },
     {
       "code": "sr",
@@ -64,7 +99,14 @@
       ],
       "inLanguage": "sr-Latn",
       "flag": "rs",
-      "name": "Srpski"
+      "name": "Srpski",
+      "consent": {
+        "text": "Koristimo kolačiće za analitiku (Google Analytics) da vidimo šta na sajtu funkcioniše. Postavljamo ih samo ako se slažeš.",
+        "accept": "Prihvatam",
+        "reject": "Odbijam",
+        "settings": "Podešavanja kolačića",
+        "more": "Više o kolačićima"
+      }
     },
     {
       "code": "en",
@@ -76,7 +118,14 @@
         "en_GB"
       ],
       "flag": "gb",
-      "name": "English"
+      "name": "English",
+      "consent": {
+        "text": "We use cookies for analytics (Google Analytics) to see what works on this site. We only set them if you agree.",
+        "accept": "Accept",
+        "reject": "Decline",
+        "settings": "Cookie settings",
+        "more": "More about cookies"
+      }
     },
     {
       "code": "de",
@@ -88,7 +137,14 @@
         "de_DE"
       ],
       "flag": "de",
-      "name": "Deutsch"
+      "name": "Deutsch",
+      "consent": {
+        "text": "Wir verwenden Cookies für Analysen (Google Analytics), um zu sehen, was auf dieser Website funktioniert. Wir setzen sie nur mit Ihrer Zustimmung.",
+        "accept": "Akzeptieren",
+        "reject": "Ablehnen",
+        "settings": "Cookie-Einstellungen",
+        "more": "Mehr zu Cookies"
+      }
     },
     {
       "code": "nl",
@@ -102,7 +158,14 @@
         "nl_BE"
       ],
       "flag": "nl",
-      "name": "Nederlands"
+      "name": "Nederlands",
+      "consent": {
+        "text": "Wij gebruiken cookies voor analyse (Google Analytics) om te zien wat op deze website werkt. Wij plaatsen ze alleen met uw toestemming.",
+        "accept": "Accepteren",
+        "reject": "Weigeren",
+        "settings": "Cookie-instellingen",
+        "more": "Meer over cookies"
+      }
     },
     {
       "code": "fr",
@@ -116,7 +179,14 @@
         "fr_BE"
       ],
       "flag": "fr",
-      "name": "Français"
+      "name": "Français",
+      "consent": {
+        "text": "Nous utilisons des cookies d’analyse (Google Analytics) pour voir ce qui fonctionne sur ce site. Nous ne les déposons qu’avec votre accord.",
+        "accept": "Accepter",
+        "reject": "Refuser",
+        "settings": "Paramètres des cookies",
+        "more": "En savoir plus sur les cookies"
+      }
     }
   ]
 }

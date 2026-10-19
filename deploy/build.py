@@ -7,6 +7,8 @@ OUT = pathlib.Path(sys.argv[1])
 CONF = json.loads((SRC / "deploy" / "langs.json").read_text())
 if os.environ.get("WS_SITE"):
     CONF["site"] = os.environ["WS_SITE"].rstrip("/")
+if os.environ.get("WS_GA") is not None:
+    CONF.setdefault("analytics", {})["ga4"] = "" if os.environ["WS_GA"].lower() in ("", "0", "off") else os.environ["WS_GA"]
 if os.environ.get("WS_INDEXABLE"):
     CONF["indexable"] = os.environ["WS_INDEXABLE"].lower() in ("1", "true", "yes")
 
@@ -457,9 +459,58 @@ def legal_pages(live, sources):
             )
             d = OUT / l["code"] / s
             d.mkdir(parents=True, exist_ok=True)
-            (d / "index.html").write_text(absolutize(page))
+            (d / "index.html").write_text(absolutize(consent(page, l, f"/{l['code']}/cookie-policy/")))
             written.append(f"{l['code']}/{s}")
     return written, fallback
+
+
+CONSENT_CSS = (
+    ".ck{position:fixed;left:16px;right:16px;bottom:16px;z-index:90;max-width:560px;margin:0 auto;padding:18px 20px;border-radius:16px;"
+    "background:var(--surf);color:var(--tx);box-shadow:var(--sh-lg);border:1px solid var(--line2);font:15px/1.5 Geist,system-ui,sans-serif}"
+    ".ck[hidden]{display:none}.ck p{margin:0 0 14px;color:var(--tx2)}.ck a{color:var(--acc)}"
+    ".ck .b{display:flex;flex-wrap:wrap;gap:10px}.ck button{flex:1 1 140px;min-height:44px;border-radius:10px;font:600 15px Geist,system-ui,sans-serif;cursor:pointer;"
+    "border:1px solid var(--line3);background:transparent;color:var(--tx)}.ck button:focus-visible,.ck-open:focus-visible{outline:2px solid var(--acc);outline-offset:2px}"
+    ".ck-open{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer}"
+    "@media (min-width:900px){.ck{left:auto;right:24px;bottom:24px;max-width:400px;margin:0}}"
+)
+
+
+def consent(html, l, legal_href):
+    ga = CONF.get("analytics", {}).get("ga4", "")
+    if not ga:
+        return html
+    if not re.fullmatch(r"G-[A-Z0-9]{6,}", ga):
+        sys.exit(f"analytics.ga4 {ga!r} is not a GA4 measurement ID")
+    t = l.get("consent")
+    if not t:
+        sys.exit(f"{l['code']}: consent strings missing in langs.json")
+    e = lambda v: htmllib.escape(v, quote=True)
+    banner = (
+        f'<div class="ck" id="ck" role="region" aria-label="{e(t["settings"])}" hidden><p>{e(t["text"])} '
+        f'<a href="{legal_href}">{e(t["more"])}</a></p><div class="b">'
+        f'<button type="button" data-ck="granted">{e(t["accept"])}</button>'
+        f'<button type="button" data-ck="denied">{e(t["reject"])}</button></div></div>'
+    )
+    js = (
+        "<script>(()=>{const K='ws-consent',ID='" + ga + "',b=document.getElementById('ck');"
+        "let v=null;try{v=localStorage.getItem(K)}catch(e){}"
+        "const load=()=>{if(window.__ga)return;window.__ga=1;window.dataLayer=window.dataLayer||[];"
+        "window.gtag=function(){dataLayer.push(arguments)};gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'granted'});"
+        "gtag('js',new Date());gtag('config',ID);const s=document.createElement('script');s.async=true;"
+        "s.src='https://www.googletagmanager.com/gtag/js?id='+ID;document.head.appendChild(s)};"
+        "const clear=()=>{document.cookie.split(';').map(c=>c.trim().split('=')[0]).filter(n=>/^_ga/.test(n)).forEach(n=>{"
+        "const h=location.hostname.split('.');for(let i=0;i<h.length-1;i++)document.cookie=n+'=;Max-Age=0;path=/;domain=.'+h.slice(i).join('.');document.cookie=n+'=;Max-Age=0;path=/'})};"
+        "const set=x=>{try{localStorage.setItem(K,x)}catch(e){}b.hidden=true;if(x==='granted')load();else{clear();if(window.__ga)location.reload()}};"
+        "b.querySelectorAll('[data-ck]').forEach(x=>x.addEventListener('click',()=>set(x.dataset.ck)));"
+        "document.querySelectorAll('.ck-open').forEach(x=>x.addEventListener('click',()=>{b.hidden=false;b.querySelector('button').focus()}));"
+        "if(v==='granted')load();else if(v!=='denied')b.hidden=false})()</script>"
+    )
+    opener = f'<button type="button" class="ck-open">{e(t["settings"])}</button>'
+    html, n = re.subn(r'(<a href="' + re.escape(legal_href) + r'"[^>]*>[^<]*</a>)', lambda m: m.group(1) + opener, html, count=1)
+    if n != 1:
+        sys.exit(f"{l['code']}: footer cookie-policy link {legal_href} not found for the consent opener")
+    html = html.replace("</head>", f"<style>{CONSENT_CSS}</style></head>", 1)
+    return html.replace("</body>", banner + js + "</body>", 1)
 
 
 def link_legal(html, page):
@@ -487,7 +538,7 @@ for l in live:
     (OUT / l["code"]).mkdir()
     sources[l["code"]] = (SRC / l["file"]).read_text()
     page, meta[l["code"]] = seo(localize(sources[l["code"]], l["code"], live), l["code"], live)
-    page = absolutize(link_legal(page, l["code"]))
+    page = absolutize(consent(link_legal(page, l["code"]), l, f"/{l['code']}/cookie-policy/"))
     (OUT / l["code"] / "index.html").write_text(page)
     if l["code"] == CONF["default"]:
         (OUT / "index.html").write_text(page)
@@ -507,6 +558,9 @@ if CONF["indexable"]:
 cfg["redirects"] = [
     {"source": f"/{slug}", "destination": f"/{CONF['default']}/{slug}/", "permanent": True}
     for slug in LEGAL_SLUGS
+] + [
+    {"source": r["from"], "destination": r["to"].replace("{default}", CONF["default"]), "permanent": True}
+    for r in CONF.get("legacyRedirects", [])
 ]
 (OUT / "vercel.json").write_text(json.dumps(cfg, indent=2))
 print(

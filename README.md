@@ -47,8 +47,8 @@ The language switcher, hreflang, sitemap and JSON-LD languages are generated, ne
 
 ## Production notes
 
-`langs.json` already points at `https://www.weltscout.com` with `indexable: true`: no `noindex`, sitemap listed in robots.txt, every canonical, hreflang and og:url on www.weltscout.com. The old legal URLs (`/privacy-policy`, `/terms-and-conditions`, `/cookie-policy`) already redirect (301) to the default language. Other old Webflow URLs (`/en/...`, blog posts) still need 301 redirects when the domain is switched.
+`langs.json` already points at `https://www.weltscout.com` with `indexable: true`: no `noindex`, sitemap listed in robots.txt, every canonical, hreflang and og:url on www.weltscout.com. All 92 URLs of the old Webflow sitemap resolve: legal pages redirect to the new legal pages, `/blog` and `/<lang>/post/*` redirect (301) to the language home page until the articles are moved (rules in `legacyRedirects` in `langs.json`).
 
-Analytics (GA4, PostHog) are described in the legal pages but not installed on this site yet: they need a consent banner first.
+Analytics: GA4 (`analytics.ga4` in `langs.json`) loads only after the visitor clicks Accept in the consent banner; Decline sets nothing and removes `_ga` cookies; the footer link reopens the banner. `WS_GA=off` builds without analytics.
 
 Translations (hr, sr, de, nl, fr) and the legal texts are machine translations awaiting review by native speakers and a lawyer.
