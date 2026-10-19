@@ -386,18 +386,210 @@ LEGAL_SLUGS = (
     if LEGAL_DIR.exists()
     else []
 )
+COOKIE_STEM = "cookie-policy"
+
+
+def legal_slug(code, stem):
+    l = next((x for x in CONF["langs"] if x["code"] == code), {})
+    s = l.get("legalSlugs", {}).get(stem)
+    if not s or not blog.SLUG.fullmatch(s):
+        sys.exit(f"{code}: langs.json legalSlugs has no valid slug for {stem}")
+    return s
+
+
+def legal_url(code, stem):
+    return f"/{code}/{legal_slug(code, stem)}/"
+
+
+def check_legal_slugs():
+    if COOKIE_STEM not in LEGAL_SLUGS:
+        sys.exit(f"legal/{CONF['legalFallback']}/{COOKIE_STEM}.html missing (consent links to it)")
+    for l in CONF["langs"]:
+        got = [legal_slug(l["code"], s) for s in LEGAL_SLUGS]
+        extra = sorted(set(l.get("legalSlugs", {})) - set(LEGAL_SLUGS))
+        if extra:
+            sys.exit(f"{l['code']}: legalSlugs keys without a legal/ file: {extra}")
+        if len(set(got)) != len(got) or "blog" in got:
+            sys.exit(f"{l['code']}: legalSlugs must be distinct and not 'blog': {got}")
+
+
+def legal_redirects(live):
+    """301s in one hop to the localized legal URL: /<lang>/<english stem> (preview, old Webflow) and the root /<stem>. Both slash forms, because redirect sources match strictly."""
+    out = []
+
+    def add(src, dst):
+        out.extend({"source": v, "destination": dst, "permanent": True} for v in (src, src + "/"))
+
+    for l in live:
+        for s in LEGAL_SLUGS:
+            if legal_slug(l["code"], s) != s:
+                add(f"/{l['code']}/{s}", legal_url(l["code"], s))
+    for s in LEGAL_SLUGS:
+        add(f"/{s}", legal_url(CONF["default"], s))
+    return out
+
+
+CHROME_SEL = re.compile(
+    r'^(?:\[data-theme="(?:light|dark)"\] )?(?:\*|html|body(?:>nav)?|a|img|nav|footer|:focus-visible|section\.(?:band|final)|'
+    r"\.(?:btn|skip|logo|lg-[ld]|nav-in|links|right|login|lang|lang-[bm]|mlangs|burger|mnav|flag|sw|sr|band|final|note))(?![\w-])"
+)
+CHROME_KEYFRAMES = ("langin",)
+CHROME_MUST = (".nav-in{", ".burger{", ".mnav{", "footer .cols{", ".sw button{", ".lang-m{", ".skip{", ".final .btn{")
+CHROME_JS = ("theme", "mobile menu", "language switcher")
+
+
+def css_blocks(css):
+    out, i = [], 0
+    while True:
+        j = css.find("{", i)
+        if j < 0:
+            return out
+        depth, k = 1, j + 1
+        while depth:
+            depth += {"{": 1, "}": -1}.get(css[k], 0)
+            k += 1
+        out.append((css[i:j].strip(), css[j + 1 : k - 1]))
+        i = k
+
+
+def chrome_rules(css):
+    out = []
+    for head, body in css_blocks(css):
+        if head.startswith("@media"):
+            inner = chrome_rules(body)
+            if inner:
+                out.append(f"{head}{{{inner}}}")
+        elif head.startswith("@keyframes"):
+            if head.split()[1] in CHROME_KEYFRAMES:
+                out.append(f"{head}{{{body}}}")
+        elif not head.startswith("@"):
+            sel = ",".join(x.strip() for x in head.split(",") if CHROME_SEL.match(x.strip()))
+            if sel:
+                out.append(f"{sel}{{{body.strip()}}}")
+    return "".join(out)
+
+
+def chrome_parts(code, html, src):
+    """Nav, footer, skip link, CTA band, their CSS and JS, cut from the language's own built homepage (one source of truth)."""
+
+    def one(pattern, what):
+        m = re.search(pattern, html, re.S)
+        if not m:
+            sys.exit(f"{code}: homepage {what} not found for the blog/legal chrome")
+        return m.group(1)
+
+    head = html.split("</head>", 1)[0]
+    css = re.sub(r"/\*.*?\*/", "", "".join(re.findall(r"<style[^>]*>(.*?)</style>", head, re.S)), flags=re.S)
+    rules = chrome_rules(css)
+    for need in CHROME_MUST:
+        if need not in rules:
+            sys.exit(f"{code}: chrome CSS rule {need}...}} not found on the homepage")
+    script = one(r"<script>\s*\(\(\) => \{(.*?)\}\)\(\);?\s*</script>\s*</body>", "main script")
+    js = []
+    for name in CHROME_JS:
+        m = re.search(rf"/\* {name} \*/(.*?)(?=\n\s*/\* |\Z)", script, re.S)
+        if not m:
+            sys.exit(f"{code}: homepage script block /* {name} */ not found")
+        js.append(m.group(1).strip())
+    key = re.search(r'localStorage\.getItem\("([^"]+)"\)', js[0])
+    theme = re.search(r'<html lang="[^"]+" data-theme="(\w+)"', html)
+    fonts = re.findall(r'<link rel="preload" href="fonts/[^"]+" as="font"[^>]*>', head)
+    if not key or not theme or not fonts:
+        sys.exit(f"{code}: theme storage key, default theme or font preloads not found on the homepage")
+    page = lambda s: re.sub(r'href="#([^"]+)"', rf'href="/{code}/#\1"', s)
+    cta = re.search(r'<section class="final band">.*?(<div class="ctas">.*?</div>)\s*<p class="note"[^>]*>(.*?)</p>', html, re.S)
+    if not cta:
+        sys.exit(f"{code}: homepage final CTA band (.ctas + .note) not found")
+    return {
+        "css": "".join(theme_styles(code, src)) + rules,
+        "skip": one(r'(<a class="skip" href="#main">[^<]*</a>)', "skip link"),
+        "nav": page(one(r'(<nav aria-label="[^"]*">\s*<div class="nav-in">.*?</nav>)', "top nav")),
+        "footer": page(one(r"(<footer>.*?</footer>)", "footer")),
+        "ctas": page(cta.group(1)),
+        "note": cta.group(2),
+        "js": ";".join(js),
+        "key": key.group(1),
+        "theme": theme.group(1),
+        "themes": json.dumps(sorted(set(re.findall(r':root\[data-theme="(\w+)"\]', css)))),
+        "fonts": "".join(fonts),
+    }
+
+
+def chrome_render(code, alt, current=None):
+    """alt: {code: url} for every language-switcher link; current: href marked aria-current in nav and footer."""
+    p, n_live = CHROME[code], len(CHROME)
+
+    def langs(s, want):
+        s, n = re.subn(
+            r'href="/([a-z]{2})/"( hreflang="\1")',
+            lambda m: f'href="{alt[m.group(1)]}"{m.group(2)}',
+            s,
+        )
+        if n != want:
+            sys.exit(f"{code}: expected {want} language links in the chrome, found {n}")
+        if current:
+            s = re.sub(rf'(<a href="{re.escape(current)}")(?![^>]*aria-current)', r'\1 aria-current="page"', s)
+        return s
+
+    if set(alt) != set(CHROME):
+        sys.exit(f"{code}: language switcher targets {sorted(alt)} do not cover {sorted(CHROME)}")
+    return langs(p["nav"], 2 * n_live), langs(p["footer"], n_live)
+
+
+def doc_page(l, head, main, alt, css="", current=None, js="", cls=""):
+    """Blog and legal page shell: the homepage chrome around <main>; head carries title, meta, canonical, hreflang, OG, JSON-LD."""
+    code, p = l["code"], CHROME[l["code"]]
+    nav, foot = chrome_render(code, alt, current)
+    return (
+        f'<!doctype html><html lang="{code}" data-theme="{p["theme"]}"><head><meta charset="utf-8">'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        f'{head}{icon_tags()}{p["fonts"]}<link rel="stylesheet" href="tokens.css">'
+        f'<script>try{{const t=localStorage.getItem("{p["key"]}");if({p["themes"]}.includes(t))document.documentElement.dataset.theme=t}}catch(e){{}}</script>'
+        f"<style>{p['css']}{LEGAL_CSS}{css}</style></head><body>{p['skip']}{nav}"
+        f'<main id="main"{f" class={chr(34)}{cls}{chr(34)}" if cls else ""}>{main}</main>{foot}'
+        f"<script>(()=>{{const root=document.documentElement,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];{p['js']}}})()</script>"
+        f"{js}</body></html>"
+    )
+
+
 LEGAL_CSS = (
-    "body{margin:0;background:var(--pg);color:var(--tx);font:16px/1.65 Geist,system-ui,sans-serif}"
-    "header,main,footer{max-width:760px;margin:0 auto;padding:0 24px}"
-    "header{display:flex;align-items:center;justify-content:space-between;padding-top:28px;padding-bottom:28px;border-bottom:1px solid var(--line)}"
-    "header img{display:block;height:20px;width:auto}header a{color:var(--tx2);text-decoration:none;font-size:14px}"
-    "main{padding-top:48px;padding-bottom:72px}h1{font-size:clamp(32px,5vw,44px);line-height:1.1;letter-spacing:-.03em;margin:0 0 8px}"
-    "h2{font-size:22px;letter-spacing:-.015em;margin:44px 0 10px}h3{font-size:17px;margin:28px 0 6px}"
-    "p,li{color:var(--tx2)}a{color:var(--acc)}.upd{font-size:14px;color:var(--tx3)}"
-    "table{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0;display:block;overflow-x:auto}"
-    "th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--tx)}"
-    "footer{padding-top:24px;padding-bottom:48px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px}"
-    "footer a{color:var(--tx2);text-decoration:none}footer a[aria-current]{color:var(--tx)}"
+    "main{display:block;padding-bottom:24px}"
+    "@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}"
+    ".crumbs{font-size:14px;color:var(--tx3)}.crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center}"
+    ".crumbs li{display:inline-flex;align-items:center;min-width:0;max-width:100%}.crumbs li+li:before{content:\"/\";margin:0 10px;color:var(--tx3)}"
+    ".crumbs a{display:inline-block;padding:4px 0;color:var(--tx2);text-decoration:none}.crumbs a:hover{color:var(--tx);text-decoration:underline}"
+    ".crumbs [aria-current]{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:44ch}"
+    ".doc-h,.doc{max-width:var(--maxw);margin:0 auto;padding:0 24px;display:grid;font-size:18px;"
+    "grid-template-columns:minmax(0,15rem) minmax(0,68ch) minmax(0,1fr);column-gap:56px}"
+    ".doc-h{padding-top:56px;padding-bottom:8px}.doc-h>*{grid-column:2/4;min-width:0}"
+    ".doc-h h1{margin:22px 0 0;font-size:clamp(36px,5.4vw,66px);line-height:1.02;letter-spacing:-.042em;font-weight:600;color:var(--tx);max-width:19ch;text-wrap:balance;overflow-wrap:break-word;hyphens:auto}"
+    ".upd{margin:18px 0 0;font-size:15px;color:var(--tx3)}"
+    ".doc{padding-top:56px}"
+    ".toc{grid-column:1;grid-row:1/span 20;align-self:start;position:sticky;top:104px;max-height:calc(100vh - 128px);overflow-y:auto;font-size:14px;padding:2px 4px 8px 0}"
+    ".toc-h{margin:0 0 12px;font-weight:600;color:var(--tx)}"
+    ".toc ol,.toc-m ol{list-style:none;margin:0;padding:0}.toc ol{border-left:1px solid var(--line2)}"
+    ".toc a{display:block;margin-left:-1px;padding:6px 0 6px 14px;border-left:2px solid transparent;color:var(--tx2);text-decoration:none;line-height:1.35;text-wrap:pretty}"
+    ".toc a:hover{color:var(--tx)}.toc a[aria-current]{color:var(--tx);border-left-color:var(--acc)}"
+    ".toc-m{display:none;margin:0 0 44px;border-radius:16px;background:var(--surf);box-shadow:var(--sh);font-size:16px}"
+    ".toc-m summary{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0 20px;font-weight:600;color:var(--tx);cursor:pointer;list-style:none}"
+    ".toc-m summary::-webkit-details-marker{display:none}.toc-m summary:after{content:\"\";width:8px;height:8px;border:solid var(--tx2);border-width:0 2px 2px 0;transform:translateY(-2px) rotate(45deg)}"
+    ".toc-m[open] summary:after{transform:translateY(2px) rotate(-135deg)}.toc-m ol{padding:0 8px 10px}"
+    ".toc-m a{display:block;padding:10px 12px;border-radius:10px;color:var(--tx2);text-decoration:none;line-height:1.35}.toc-m a:hover{background:var(--surf2);color:var(--tx)}"
+    ".prose{grid-column:2;grid-row:1;min-width:0;color:color-mix(in srgb,var(--tx) 82%,var(--pg));line-height:1.7;overflow-wrap:break-word;hyphens:auto}"
+    ".prose>:first-child{margin-top:0}.prose p,.prose ul,.prose ol{margin:0 0 1.15em}"
+    ".prose h2{margin:2.3em 0 .6em;font-size:clamp(24px,2.3vw,30px);line-height:1.15;letter-spacing:-.025em;font-weight:600;color:var(--tx);text-wrap:balance;scroll-margin-top:104px}"
+    ".prose h3{margin:1.7em 0 .45em;font-size:20px;line-height:1.3;letter-spacing:-.015em;font-weight:600;color:var(--tx)}"
+    ".prose strong,.prose b{color:var(--tx);font-weight:600}"
+    ".prose a{color:var(--acc);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}.prose a:hover{text-decoration-thickness:2px}"
+    ".prose ul,.prose ol{padding-left:1.3em}.prose li{margin:.4em 0;padding-left:.25em}.prose li::marker{color:var(--acc);font-weight:600;font-variant-numeric:tabular-nums}"
+    ".prose blockquote{margin:1.6em 0;padding:4px 0 4px 20px;border-left:2px solid var(--line3);color:var(--tx2)}"
+    ".tw{margin:1.6em 0 2em;overflow-x:auto;border-radius:16px;background:var(--surf);box-shadow:var(--sh)}"
+    ".tw table{width:100%;min-width:34rem;border-collapse:collapse;font-size:15px;line-height:1.5}"
+    ".tw th{padding:13px 16px;background:var(--surf2);color:var(--tx);font-size:14px;font-weight:600;text-align:left;vertical-align:bottom}"
+    ".tw td{padding:14px 16px;border-top:1px solid var(--line2);vertical-align:top}.tw td:first-child{color:var(--tx);font-weight:500}"
+    ".tw tr>:first-child{padding-left:20px}.tw tr>:last-child{padding-right:20px}"
+    "@media (max-width:1100px){.doc-h,.doc{grid-template-columns:minmax(0,68ch);justify-content:center}.doc-h>*,.prose{grid-column:1}.toc{display:none}.toc-m{display:block}}"
+    "@media (max-width:600px){.doc-h,.doc{padding:0 16px;font-size:17px}.doc-h{padding-top:32px}.doc{padding-top:36px}.doc-h h1{font-size:clamp(30px,8.6vw,36px)}}"
 )
 
 
@@ -420,26 +612,15 @@ def legal_names(code, src):
 
 def legal_pages(live, sources):
     site, written, fallback = CONF["site"], [], []
+    e = lambda v: htmllib.escape(v, quote=True)
     for l in live:
-        src = sources[l["code"]]
-        styles = re.findall(
-            r'(@font-face\{[^}]*\}|:root(?:\[data-theme="(?:light|dark)"\])?\{[^}]*\})',
-            src,
-        )
-        if len(styles) < 3:
-            sys.exit(f"{l['code']}: theme tokens / font-face not found for legal pages")
-        names = {
-            s: re.search(rf'href="/{s}"[^>]*>([^<]+)</a>', src) for s in LEGAL_SLUGS
-        }
-        for s, m in names.items():
-            if not m:
-                sys.exit(f"{l['code']}: footer link to /{s} not found")
+        code, ui = l["code"], blog.ui(l)
         for s in LEGAL_SLUGS:
-            f = LEGAL_DIR / l["code"] / f"{s}.html"
+            f = LEGAL_DIR / code / f"{s}.html"
             own = f.exists()
             if not own:
                 f = LEGAL_DIR / CONF["legalFallback"] / f"{s}.html"
-                fallback.append(f"{l['code']}/{s}")
+                fallback.append(f"{code}/{s}")
             body = f.read_text()
             h1 = re.search(r"<h1>(.*?)</h1>", body, re.S)
             if not h1:
@@ -447,40 +628,36 @@ def legal_pages(live, sources):
             first = re.search(r"<p>(.*?)</p>", body, re.S)
             desc = norm(first.group(1)) if first else norm(h1.group(1))
             desc = desc if len(desc) <= 155 else desc[:152].rsplit(" ", 1)[0] + "…"
-            canon = f"{site}/{l['code'] if own else CONF['legalFallback']}/{s}/"
+            canon = f"{site}{legal_url(code if own else CONF['legalFallback'], s)}"
+            have = [x for x in live if (LEGAL_DIR / x["code"] / f"{s}.html").exists()]
             alts = "".join(
-                f'<link rel="alternate" hreflang="{h}" href="{site}/{x["code"]}/{s}/">'
-                for x in live
-                if (LEGAL_DIR / x["code"] / f"{s}.html").exists()
-                for h in x["hreflang"]
-            )
-            robots = (
-                ""
-                if CONF["indexable"]
-                else '<meta name="robots" content="noindex, nofollow">'
-            )
-            foot = "".join(
-                f'<a href="/{l["code"]}/{t}/"{' aria-current="page"' if t == s else ""}>{names[t].group(1)}</a>'
-                for t in LEGAL_SLUGS
+                f'<link rel="alternate" hreflang="{h}" href="{site}{legal_url(x["code"], s)}">' for x in have for h in x["hreflang"]
             ) + "".join(
-                f'<a href="/{x["code"]}/{s}/" hreflang="{x["code"]}" lang="{x["code"]}">{x["code"].upper()}</a>'
-                for x in live
+                f'<link rel="alternate" hreflang="x-default" href="{site}{legal_url(x["code"], s)}">' for x in have if x["code"] == CONF["default"]
             )
-            page = (
-                f'<!doctype html><html lang="{l["code"]}" data-theme="dark"><head><meta charset="utf-8">'
-                f'<meta name="viewport" content="width=device-width,initial-scale=1">'
-                f"<title>{norm(h1.group(1))} | WeltScout</title>"
-                f'<meta name="description" content="{htmllib.escape(desc, quote=True)}">{robots}'
-                f'<link rel="canonical" href="{canon}">{alts}{icon_tags()}<link rel="stylesheet" href="tokens.css">'
-                f"<style>{''.join(styles)}{LEGAL_CSS}</style></head><body>"
-                f'<header><a href="/{l["code"]}/"><img src="/img/logo-weltscout-dark.svg" alt="WeltScout" width="120" height="20"></a>'
-                f'<a href="/{l["code"]}/">WeltScout</a></header>'
-                f"<main>{body}</main><footer>{foot}</footer></body></html>"
+            robots = "" if CONF["indexable"] else '<meta name="robots" content="noindex, nofollow">'
+            for t in LEGAL_SLUGS:
+                body = body.replace(f'href="../{t}/"', f'href="{legal_url(code, t)}"')
+            upd = re.search(r'<p class="upd">.*?</p>', body, re.S)
+            body = body.replace(h1.group(0), "", 1).replace(upd.group(0) if upd else "\0", "", 1)
+            body, heads = blog.heading_ids(body)
+            body = blog.wrap_tables(body, ui["table"])
+            title = norm(h1.group(1))
+            main = (
+                f'<header class="doc-h">{blog.crumbs([(f"/{code}/", l["blog"]["home"])], title, ui)}'
+                f"<h1>{h1.group(1)}</h1>{upd.group(0) if upd else ''}</header>"
+                f'<div class="doc">{blog.toc(heads, ui)}<article class="prose">{blog.toc(heads, ui, mobile=True)}{body}</article></div>'
             )
-            d = OUT / l["code"] / s
+            head = (
+                f"<title>{title} | WeltScout</title>"
+                f'<meta name="description" content="{e(desc)}">{robots}<link rel="canonical" href="{canon}">{alts}'
+            )
+            url = legal_url(code, s)
+            page = doc_page(l, head, main, {x["code"]: legal_url(x["code"], s) for x in live}, current=url, js=blog.TOC_JS, cls="lg")
+            d = OUT / code / legal_slug(code, s)
             d.mkdir(parents=True, exist_ok=True)
-            (d / "index.html").write_text(absolutize(consent(page, l, f"/{l['code']}/cookie-policy/")))
-            written.append(f"{l['code']}/{s}")
+            (d / "index.html").write_text(absolutize(consent(page, l, legal_url(code, COOKIE_STEM))))
+            written.append(f"{code}/{legal_slug(code, s)}")
     return written, fallback
 
 
@@ -535,7 +712,7 @@ def consent(html, l, legal_href):
 
 def link_legal(html, page):
     for s in LEGAL_SLUGS:
-        html, n = re.subn(rf'href="/{s}"', f'href="/{page}/{s}/"', html)
+        html, n = re.subn(rf'href="/{s}"', f'href="{legal_url(page, s)}"', html)
         if n < 1:
             die(page, f"footer link to /{s} not found")
     return html
@@ -552,6 +729,8 @@ for p in OUT.iterdir():
     if p.name != ".vercel":
         shutil.rmtree(p) if p.is_dir() else p.unlink()
 live = [l for l in CONF["langs"] if (SRC / l["file"]).exists()]
+check_legal_slugs()
+CHROME = {}
 BLOG_POSTS, _ = blog.load(SRC, live)
 missing = [l["code"] for l in CONF["langs"] if l not in live]
 meta, sources = {}, {}
@@ -561,7 +740,9 @@ for l in live:
     page, meta[l["code"]] = seo(localize(sources[l["code"]], l["code"], live), l["code"], live)
     if BLOG_POSTS.get(l["code"]):
         page = blog.nav_link(page, l["code"], l["blog"]["name"])
-    page = absolutize(consent(link_legal(page, l["code"]), l, f"/{l['code']}/cookie-policy/"))
+    page = link_legal(page, l["code"])
+    CHROME[l["code"]] = chrome_parts(l["code"], page, sources[l["code"]])
+    page = absolutize(consent(page, l, legal_url(l["code"], COOKIE_STEM)))
     (OUT / l["code"] / "index.html").write_text(page)
     if l["code"] == CONF["default"]:
         (OUT / "index.html").write_text(page)
@@ -570,8 +751,9 @@ blog_out = blog.build(
     CONF, OUT, live, sources,
     {"src": SRC, "styles": lambda c: theme_styles(c, sources[c]), "legal_css": LEGAL_CSS, "icon_tags": icon_tags,
      "consent": consent, "absolutize": absolutize, "legal_slugs": LEGAL_SLUGS,
-     "legal_names": lambda c: legal_names(c, sources[c])},
+     "legal_names": lambda c: legal_names(c, sources[c]), "page": doc_page, "chrome": CHROME, "cookie_url": lambda c: legal_url(c, COOKIE_STEM)},
 )
+blog_out["redirects"] = legal_redirects(live) + blog_out["redirects"]
 robots, sitemap, llms = root_files(live, meta)
 sitemap = sitemap.replace(
     "</urlset>\n",
@@ -593,9 +775,6 @@ if CONF["indexable"]:
     for rule in cfg["headers"]:
         rule["headers"] = [h for h in rule["headers"] if h["key"] != "X-Robots-Tag"]
 cfg["redirects"] = blog_out["redirects"] + [
-    {"source": f"/{slug}", "destination": f"/{CONF['default']}/{slug}/", "permanent": True}
-    for slug in LEGAL_SLUGS
-] + [
     {"source": r["from"], "destination": r["to"].replace("{default}", CONF["default"]), "permanent": True}
     for r in CONF.get("legacyRedirects", [])
 ]

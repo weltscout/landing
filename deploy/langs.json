@@ -20,16 +20,8 @@
   },
   "legacyRedirects": [
     {
-      "from": "/blog",
-      "to": "/{default}/"
-    },
-    {
       "from": "/post/:slug*",
       "to": "/{default}/"
-    },
-    {
-      "from": "/:lang(hr|en|de)/blog",
-      "to": "/:lang/"
     },
     {
       "from": "/:lang(hr|en|de)/post/:slug*",
@@ -86,7 +78,25 @@
         "how": "Kako je nastal članek",
         "changes": "Posodobitve",
         "editor": "Odgovorni urednik",
-        "short": "Na kratko"
+        "short": "Na kratko",
+        "audience": {
+          "b2b": "Za trgovce",
+          "b2c": "Za kupce",
+          "both": "Za trgovce in kupce"
+        },
+        "filter": "Prikaži članke",
+        "minutes": "{n} min branja"
+      },
+      "legalSlugs": {
+        "privacy-policy": "politika-zasebnosti",
+        "terms-and-conditions": "splosni-pogoji",
+        "cookie-policy": "politika-piskotkov"
+      },
+      "ui": {
+        "toc": "Vsebina",
+        "crumbs": "Drobtinice",
+        "table": "Tabela",
+        "date": "{d}. {m}. {y}"
       }
     },
     {
@@ -125,7 +135,25 @@
         "how": "Kako je nastao članak",
         "changes": "Ažuriranja",
         "editor": "Odgovorni urednik",
-        "short": "Ukratko"
+        "short": "Ukratko",
+        "audience": {
+          "b2b": "Za trgovce",
+          "b2c": "Za kupce",
+          "both": "Za trgovce i kupce"
+        },
+        "filter": "Prikaži članke",
+        "minutes": "{n} min čitanja"
+      },
+      "legalSlugs": {
+        "privacy-policy": "politika-privatnosti",
+        "terms-and-conditions": "opci-uvjeti",
+        "cookie-policy": "politika-kolacica"
+      },
+      "ui": {
+        "toc": "Sadržaj",
+        "crumbs": "Navigacijski put",
+        "table": "Tablica",
+        "date": "{d}. {m}. {y}."
       }
     },
     {
@@ -165,7 +193,25 @@
         "how": "Kako je nastao članak",
         "changes": "Ažuriranja",
         "editor": "Odgovorni urednik",
-        "short": "Ukratko"
+        "short": "Ukratko",
+        "audience": {
+          "b2b": "Za trgovce",
+          "b2c": "Za kupce",
+          "both": "Za trgovce i kupce"
+        },
+        "filter": "Prikaži članke",
+        "minutes": "{n} min čitanja"
+      },
+      "legalSlugs": {
+        "privacy-policy": "politika-privatnosti",
+        "terms-and-conditions": "opsti-uslovi",
+        "cookie-policy": "politika-kolacica"
+      },
+      "ui": {
+        "toc": "Sadržaj",
+        "crumbs": "Navigaciona putanja",
+        "table": "Tabela",
+        "date": "{d}. {m}. {y}."
       }
     },
     {
@@ -204,7 +250,39 @@
         "how": "How this article was made",
         "changes": "Updates",
         "editor": "Responsible editor",
-        "short": "In short"
+        "short": "In short",
+        "audience": {
+          "b2b": "For dealers",
+          "b2c": "For buyers",
+          "both": "For dealers and buyers"
+        },
+        "filter": "Show articles",
+        "minutes": "{n} min read"
+      },
+      "legalSlugs": {
+        "privacy-policy": "privacy-policy",
+        "terms-and-conditions": "terms-and-conditions",
+        "cookie-policy": "cookie-policy"
+      },
+      "ui": {
+        "toc": "Contents",
+        "crumbs": "Breadcrumb",
+        "table": "Table",
+        "date": "{d} {M} {y}",
+        "months": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ]
       }
     },
     {
@@ -243,7 +321,25 @@
         "how": "So ist dieser Artikel entstanden",
         "changes": "Aktualisierungen",
         "editor": "Verantwortliche Redaktion",
-        "short": "Kurz gesagt"
+        "short": "Kurz gesagt",
+        "audience": {
+          "b2b": "Für Händler",
+          "b2c": "Für Käufer",
+          "both": "Für Händler und Käufer"
+        },
+        "filter": "Artikel anzeigen",
+        "minutes": "{n} Min. Lesezeit"
+      },
+      "legalSlugs": {
+        "privacy-policy": "datenschutz",
+        "terms-and-conditions": "agb",
+        "cookie-policy": "cookie-richtlinie"
+      },
+      "ui": {
+        "toc": "Inhalt",
+        "crumbs": "Brotkrümelnavigation",
+        "table": "Tabelle",
+        "date": "{dd}.{mm}.{y}"
       }
     },
     {
@@ -284,7 +380,39 @@
         "how": "Zo is dit artikel tot stand gekomen",
         "changes": "Updates",
         "editor": "Verantwoordelijke redactie",
-        "short": "In het kort"
+        "short": "In het kort",
+        "audience": {
+          "b2b": "Voor handelaren",
+          "b2c": "Voor kopers",
+          "both": "Voor handelaren en kopers"
+        },
+        "filter": "Artikelen tonen",
+        "minutes": "{n} min lezen"
+      },
+      "legalSlugs": {
+        "privacy-policy": "privacybeleid",
+        "terms-and-conditions": "algemene-voorwaarden",
+        "cookie-policy": "cookiebeleid"
+      },
+      "ui": {
+        "toc": "Inhoud",
+        "crumbs": "Kruimelpad",
+        "table": "Tabel",
+        "date": "{d} {M} {y}",
+        "months": [
+          "januari",
+          "februari",
+          "maart",
+          "april",
+          "mei",
+          "juni",
+          "juli",
+          "augustus",
+          "september",
+          "oktober",
+          "november",
+          "december"
+        ]
       }
     },
     {
@@ -325,7 +453,39 @@
         "how": "Comment cet article a été rédigé",
         "changes": "Mises à jour",
         "editor": "Responsable éditorial",
-        "short": "En bref"
+        "short": "En bref",
+        "audience": {
+          "b2b": "Pour les négociants",
+          "b2c": "Pour les acheteurs",
+          "both": "Pour négociants et acheteurs"
+        },
+        "filter": "Afficher les articles",
+        "minutes": "{n} min de lecture"
+      },
+      "legalSlugs": {
+        "privacy-policy": "politique-de-confidentialite",
+        "terms-and-conditions": "conditions-generales",
+        "cookie-policy": "politique-cookies"
+      },
+      "ui": {
+        "toc": "Sommaire",
+        "crumbs": "Fil d’Ariane",
+        "table": "Tableau",
+        "date": "{d} {M} {y}",
+        "months": [
+          "janvier",
+          "février",
+          "mars",
+          "avril",
+          "mai",
+          "juin",
+          "juillet",
+          "août",
+          "septembre",
+          "octobre",
+          "novembre",
+          "décembre"
+        ]
       }
     }
   ],

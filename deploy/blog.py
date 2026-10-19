@@ -22,7 +22,7 @@ Posts sharing hreflang_group are translations of each other. "legacy" lists old 
 an unreviewed AI translation is built with noindex and left out of the sitemap).
 """
 
-import datetime, html as htmllib, json, re, sys
+import datetime, html as htmllib, json, math, re, sys, unicodedata
 from zoneinfo import ZoneInfo
 
 TZ = ZoneInfo("Europe/Ljubljana")
@@ -48,25 +48,83 @@ BANNED = re.compile(
     re.I,
 )
 
-BLOG_CSS = (
-    "main{overflow-wrap:break-word;hyphens:auto}"
-    "nav.bc{font-size:14px;color:var(--tx3);margin:0 0 20px}nav.bc a{color:var(--tx2);text-decoration:none}"
-    ".meta{font-size:14px;color:var(--tx3);margin:6px 0 28px}.meta b{color:var(--tx2);font-weight:500}"
-    ".hero-img{margin:0 0 28px}.hero-img img{width:100%;height:auto;border-radius:16px;display:block}"
-    "article img{max-width:100%;height:auto;border-radius:12px}figure{margin:24px 0}figcaption{font-size:14px;color:var(--tx3)}"
-    ".short{padding:16px 20px;border-radius:14px;background:var(--surf);border:1px solid var(--line2);color:var(--tx)}"
-    "blockquote{margin:20px 0;padding:4px 0 4px 18px;border-left:2px solid var(--line3);color:var(--tx2)}"
-    ".src,.how{margin-top:48px;padding-top:20px;border-top:1px solid var(--line)}.src h2,.how h2{font-size:18px;margin-top:0}"
-    ".how h3{font-size:15px;margin:18px 0 4px}.how p,.how li{font-size:14px}"
-    ".cta{margin:48px 0 0;padding:24px;border-radius:16px;background:var(--surf);border:1px solid var(--line2)}"
-    ".cta p{margin:0 0 14px;color:var(--tx);font-weight:600;font-size:18px}"
-    ".cta a{display:inline-block;padding:12px 20px;border-radius:10px;background:var(--btn-bg);color:var(--btn-tx);text-decoration:none;font-weight:600}"
-    ".rel{margin-top:40px}.rel ul{padding-left:18px}"
-    ".list{list-style:none;padding:0;margin:32px 0 0}.list li{padding:22px 0;border-top:1px solid var(--line)}"
-    ".list a{color:var(--tx);text-decoration:none;font-size:20px;font-weight:600;letter-spacing:-.01em}"
-    ".list p{margin:6px 0 0}.list time{font-size:13px;color:var(--tx3)}"
-)
+WPM = 200
+UI_KEYS = ("toc", "crumbs", "table", "date")
+BLOG_KEYS = ("audience", "filter", "minutes", "all", "short", "cta", "home", "name")
+FEED_SIZES = ("lead", "md", "md", "sm", "sm", "sm")
+FEED_REST = "row"
+REL_N = 3
 
+BLOG_CSS = (
+    ".prog{position:fixed;inset:0 0 auto;height:3px;z-index:60;pointer-events:none}"
+    ".prog i{display:block;height:100%;background:var(--blue-500);transform:scaleX(0);transform-origin:0 50%}"
+    ".kick{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin:0;font-size:14px;color:var(--tx3)}"
+    ".kick time{white-space:nowrap}"
+    ".tag{display:inline-flex;align-items:center;min-height:28px;padding:2px 12px;border-radius:999px;background:var(--chip);color:var(--tx);font-size:13.5px;font-weight:500;line-height:1.2}"
+    ".tag:before{content:\"\";width:6px;height:6px;margin-right:8px;border-radius:50%;background:var(--acc)}"
+    ".tag[data-aud=b2c]:before{background:var(--azure-400)}.tag[data-aud=both]:before{background:linear-gradient(90deg,var(--acc) 50%,var(--azure-400) 50%)}"
+    ".ph .kick{margin-top:30px}.ph h1{margin-top:16px}.ph .crumbs [aria-current]{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}"
+    ".by{display:flex;flex-wrap:wrap;gap:14px 44px;margin:30px 0 0;font-size:15px}.by dt{margin:0 0 3px;font-size:13px;color:var(--tx3)}"
+    ".by dd{margin:0;color:var(--tx);font-weight:500;white-space:nowrap}.by a{color:inherit;text-underline-offset:3px}"
+    ".hero-img{max-width:var(--maxw);margin:52px auto 0;padding:0 24px}"
+    ".hero-img img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:24px;background:var(--surf2)}"
+    ".post .doc{padding-top:72px}"
+    ".short{margin:0 0 44px;padding:24px 28px 26px;border-radius:20px;background:var(--surf);box-shadow:var(--sh)}"
+    ".short .short-k{margin:0 0 8px;font-size:14px;font-weight:600;color:var(--acc)}"
+    ".short p:last-child{margin:0;font-size:19px;line-height:1.6;color:var(--tx);text-wrap:pretty}"
+    ".qa{margin:1.2em 0 0;border-top:1px solid var(--line2)}.qa-i{padding:22px 0 6px;border-bottom:1px solid var(--line2)}"
+    ".prose .qa-i h3{margin:0 0 .45em;font-size:19px}"
+    ".prose .src,.prose .how{margin-top:72px;padding-top:28px;border-top:1px solid var(--line2);font-size:15px;line-height:1.6}"
+    ".prose .src h2,.prose .how h2{margin:0 0 14px;font-size:20px}.prose .how h3{margin:20px 0 6px;font-size:16px}"
+    ".src ol{padding-left:1.5em}.src li{margin:0 0 10px}.src .pub{color:var(--tx3)}"
+    ".post .final,.bi .final{margin-top:112px}"
+    ".final h2{font-size:clamp(30px,4vw,50px);font-weight:600;line-height:1.04;letter-spacing:-.035em;text-wrap:balance}"
+    ".rel{max-width:var(--maxw);margin:96px auto 0;padding:0 24px}"
+    ".rel>h2{margin:0 0 28px;font-size:clamp(24px,2.4vw,30px);font-weight:600;letter-spacing:-.025em}"
+    ".rel ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}"
+    ".card{position:relative;min-width:0}"
+    ".card img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:18px;background:var(--surf2)}"
+    ".card-t{min-width:0}.card .kick{margin-top:18px}"
+    ".card h2,.card h3,.bi-h h1,.final h2{overflow-wrap:break-word;hyphens:auto}.card h2,.card h3{margin:10px 0 0;font-size:21px;line-height:1.2;letter-spacing:-.02em;font-weight:600;color:var(--tx);text-wrap:balance}"
+    ".card h2 a,.card h3 a{color:inherit;text-decoration:none}.card h2 a:after,.card h3 a:after{content:\"\";position:absolute;inset:0;border-radius:18px}"
+    ".card:hover h2 a,.card:hover h3 a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}"
+    ".card a:focus-visible{outline:none}.card:focus-within{outline:2px solid var(--acc);outline-offset:8px;border-radius:20px}"
+    ".card .desc{margin:10px 0 0;color:var(--tx2);font-size:16px;line-height:1.55;text-wrap:pretty}"
+    ".bi-h{max-width:var(--maxw);margin:0 auto;padding:64px 24px 0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px 72px;align-items:end}"
+    ".bi-h .crumbs{grid-column:1/-1}"
+    ".bi-h h1{margin:0;font-size:clamp(40px,6vw,80px);line-height:.98;letter-spacing:-.048em;font-weight:600;max-width:15ch;text-wrap:balance}"
+    ".bi-h .lead{margin:0 0 8px;font-size:19px;line-height:1.55;color:var(--tx2);max-width:40ch;text-wrap:pretty}"
+    ".filt{max-width:var(--maxw);margin:48px auto 0;padding:20px 24px 0;display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--line)}"
+    ".filt[hidden]{display:none}"
+    ".filt button{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--tx2);font:500 15px Geist,system-ui,sans-serif;cursor:pointer}"
+    ".filt button:hover{color:var(--tx);border-color:var(--line3)}.filt button[aria-pressed=true]{background:var(--tx);border-color:var(--tx);color:var(--pg)}"
+    ".filt .n{font-size:13px;color:var(--tx3);font-variant-numeric:tabular-nums}.filt [aria-pressed=true] .n{color:inherit}"
+    ".feed{list-style:none;max-width:var(--maxw);margin:40px auto 0;padding:0 24px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:64px 32px}"
+    ".feed>[hidden]{display:none!important}"
+    ".feed [data-size=lead]{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px 56px;align-items:center}"
+    ".feed [data-size=lead] img{aspect-ratio:4/3;border-radius:24px}.feed [data-size=lead] .kick{margin-top:0}"
+    ".feed [data-size=lead] h2{margin-top:16px;font-size:clamp(30px,3.4vw,48px);line-height:1.04;letter-spacing:-.035em}"
+    ".feed [data-size=lead] .desc{margin-top:18px;font-size:18px;max-width:42ch}"
+    ".feed [data-size=md]{grid-column:span 6}.feed [data-size=md] img{aspect-ratio:16/10}.feed [data-size=md] h2{font-size:clamp(23px,2.2vw,28px)}"
+    ".feed [data-size=sm]{grid-column:span 4}.feed [data-size=sm] .desc{display:none}"
+    ".feed [data-size=row]{grid-column:span 6;display:grid;grid-template-columns:minmax(0,10rem) minmax(0,1fr);gap:16px 28px;align-items:start;padding-top:28px;margin-top:-36px;border-top:1px solid var(--line)}"
+    ".feed [data-size=row] img{border-radius:14px}.feed [data-size=row] .kick{margin-top:0}.feed [data-size=row] h2{font-size:clamp(19px,1.6vw,22px)}"
+    ".feed [data-size=row] .desc{font-size:15px}"
+    "@media (max-width:900px){.bi-h{grid-template-columns:minmax(0,1fr);padding-top:40px}.bi-h .lead{max-width:none}"
+    ".feed{gap:48px 20px}.feed [data-size=lead]{grid-template-columns:minmax(0,1fr)}.feed [data-size=lead] img{aspect-ratio:3/2}"
+    ".feed [data-size=row]{grid-column:1/-1}.feed [data-size=md],.feed [data-size=sm]{grid-column:span 6}.rel ul{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.rel li:nth-child(3){display:none}}"
+    "@media (max-width:600px){.bi-h,.filt,.feed,.rel{padding-left:16px;padding-right:16px}.filt{margin-top:32px}"
+    ".feed{grid-template-columns:minmax(0,1fr);gap:36px}.feed>*{grid-column:1/-1!important}"
+    ".feed [data-size=sm],.feed [data-size=md],.feed [data-size=row]{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:0 16px;align-items:start;padding-top:24px;margin-top:-12px;border-top:1px solid var(--line)}"
+    ".feed [data-size=sm] img,.feed [data-size=md] img,.feed [data-size=row] img{aspect-ratio:1;border-radius:12px}"
+    ".feed [data-size=sm] .kick,.feed [data-size=md] .kick,.feed [data-size=row] .kick{margin-top:0;font-size:13px;gap:4px 12px}"
+    ".feed [data-size] .kick .tag{display:none}.feed [data-size=lead] .kick .tag{display:inline-flex}"
+    ".feed [data-size=sm] h2,.feed [data-size=md] h2,.feed [data-size=row] h2{margin-top:6px;font-size:18px}"
+    ".feed [data-size=md] .desc,.feed [data-size=row] .desc{display:none}"
+    ".rel ul{grid-template-columns:minmax(0,1fr);gap:28px}.rel li:nth-child(3){display:block}"
+    ".hero-img{padding:0 12px;margin-top:32px}.hero-img img{aspect-ratio:3/2;border-radius:18px}.post .doc{padding-top:40px}"
+    ".short{padding:20px 20px 22px}.short p:last-child{font-size:18px}.by{gap:12px 28px}}"
+)
 
 def fail(path, msg):
     sys.exit(f"{path}: {msg}")
@@ -150,7 +208,7 @@ def load(src, live):
         d = src / "blog" / l["code"]
         posts[l["code"]] = sorted(
             (parse(p, src) for p in d.glob("*.html")) if d.exists() else [],
-            key=lambda p: (p["updated"], p["slug"]),
+            key=lambda p: (p["published"], p["updated"], p["slug"]),
             reverse=True,
         )
         for p in posts[l["code"]]:
@@ -174,8 +232,124 @@ def url(site, p):
     return f"{site}/{p['lang']}/blog/{p['slug']}/"
 
 
+def ui(l):
+    """UI strings of a language (langs.json "ui" + "blog"); fails loudly when one is missing."""
+    u, t = l.get("ui", {}), l.get("blog", {})
+    miss = [k for k in UI_KEYS if not u.get(k)] + [f"blog.{k}" for k in BLOG_KEYS if not t.get(k)]
+    if "{M}" in u.get("date", "") and len(u.get("months") or []) != 12:
+        miss.append("months")
+    if set(t.get("audience", {})) != {"b2b", "b2c", "both"}:
+        miss.append("blog.audience{b2b,b2c,both}")
+    if miss:
+        sys.exit(f"{l['code']}: langs.json strings missing: {miss}")
+    return u
+
+
+def fmt_date(day, u):
+    d = datetime.date.fromisoformat(day)
+    return u["date"].format(d=d.day, dd=f"{d.day:02d}", m=d.month, mm=f"{d.month:02d}", y=d.year, M=(u.get("months") or [""] * 12)[d.month - 1])
+
+
+def time_tag(day, u):
+    return f'<time datetime="{day}">{fmt_date(day, u)}</time>'
+
+
+def slugify(text):
+    t = unicodedata.normalize("NFKD", htmllib.unescape(re.sub(r"<[^>]+>", "", text))).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-")
+
+
+def heading_ids(body):
+    """Gives every <h2> an id (keeps existing ones); returns the body and [(id, text)] for the table of contents."""
+    seen, heads = set(re.findall(r'\sid="([^"]+)"', body)), []
+
+    def one(m):
+        attrs, inner = m.group(1) or "", m.group(2)
+        old = re.search(r'\sid="([^"]+)"', attrs)
+        if old:
+            hid = old.group(1)
+        else:
+            base = slugify(inner) or f"s{len(heads) + 1}"
+            hid, k = base, 2
+            while hid in seen:
+                hid, k = f"{base}-{k}", k + 1
+            seen.add(hid)
+            attrs += f' id="{hid}"'
+        heads.append((hid, re.sub(r"<[^>]+>", "", inner).strip()))
+        return f"<h2{attrs}>{inner}</h2>"
+
+    return re.sub(r"<h2(\s[^>]*)?>(.*?)</h2>", one, body, flags=re.S), heads
+
+
+def toc(heads, u, mobile=False):
+    items = "".join(f'<li><a href="#{i}">{htmllib.escape(t)}</a></li>' for i, t in heads)
+    if not heads:
+        return ""
+    if mobile:
+        return f'<details class="toc-m"><summary>{htmllib.escape(u["toc"])}</summary><ol>{items}</ol></details>'
+    return f'<nav class="toc" aria-label="{htmllib.escape(u["toc"], quote=True)}"><p class="toc-h">{htmllib.escape(u["toc"])}</p><ol>{items}</ol></nav>'
+
+
+def wrap_tables(body, label):
+    """Scrollable, focusable region around each table, named after the section it sits in."""
+    out, last = [], 0
+    for m in re.finditer(r"<table\b.*?</table>", body, re.S):
+        h = re.findall(r"<h[23][^>]*>(.*?)</h[23]>", body[: m.start()], re.S)
+        name = f"{label}: {re.sub(r'<[^>]+>', '', h[-1]).strip()}" if h else label
+        table = re.sub(r'(<table\b[^>]*?) tabindex="0"', r"\1", m.group(0))
+        out += [body[last : m.start()], f'<div class="tw" role="region" tabindex="0" aria-label="{htmllib.escape(htmllib.unescape(name), quote=True)}">{table}</div>']
+        last = m.end()
+    return "".join(out) + body[last:]
+
+
+def qa_sections(body):
+    """An H2 section made only of question H3s with answer paragraphs becomes a Q&A list."""
+    parts = re.split(r"(?=<h2[\s>])", body)
+    pair = r"<h3[^>]*>[^<]*\?\s*</h3>\s*(?:<p>.*?</p>\s*)+"
+    for i, part in enumerate(parts):
+        m = re.match(r"(<h2.*?</h2>)(.*)", part, re.S)
+        if m and re.fullmatch(rf"\s*(?:{pair})+", m.group(2), re.S):
+            items = re.sub(rf"({pair})", lambda x: f'<div class="qa-i">{x.group(1).strip()}</div>', m.group(2).strip(), flags=re.S)
+            parts[i] = f'{m.group(1)}<div class="qa">{items}</div>'
+    return "".join(parts)
+
+
+def crumbs(trail, current, u):
+    e = lambda v: htmllib.escape(v, quote=True)
+    return (
+        f'<nav class="crumbs" aria-label="{e(u["crumbs"])}"><ol>'
+        + "".join(f'<li><a href="{h}">{e(n)}</a></li>' for h, n in trail)
+        + f'<li aria-current="page">{e(current)}</li></ol></nav>'
+    )
+
+
+def minutes(p):
+    return max(1, math.ceil(len(re.sub(r"<[^>]+>", " ", p["body"]).split()) / WPM))
+
+
+TOC_JS = (
+    "<script>(()=>{const L=[...document.querySelectorAll('.toc a')];if(!L.length||!('IntersectionObserver' in window))return;"
+    "const M=new Map(L.map(a=>[decodeURIComponent(a.hash.slice(1)),a]));"
+    "const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;L.forEach(a=>a.removeAttribute('aria-current'));"
+    "const a=M.get(e.target.id);if(a)a.setAttribute('aria-current','true')}),{rootMargin:'-15% 0px -75% 0px'});"
+    "M.forEach((a,id)=>{const h=document.getElementById(id);if(h)io.observe(h)})})()</script>"
+)
+PROGRESS_JS = (
+    "<script>(()=>{const a=document.querySelector('.prose'),b=document.querySelector('.prog i');if(!a||!b)return;let q=0;"
+    "const f=()=>{q=0;const r=a.getBoundingClientRect(),h=r.height-innerHeight;b.style.transform='scaleX('+(h>0?Math.min(1,Math.max(0,-r.top/h)):1)+')'};"
+    "const s=()=>{if(!q)q=requestAnimationFrame(f)};addEventListener('scroll',s,{passive:true});addEventListener('resize',s);f()})()</script>"
+)
+FILTER_JS = (
+    "<script>(()=>{const g=document.querySelector('.filt'),F=document.querySelector('.feed');if(!g||!F)return;"
+    "const S=F.dataset.sizes.split(','),R=F.dataset.rest,I=[...F.children];g.hidden=false;"
+    "const set=f=>{g.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.f===f)));let i=0;"
+    "I.forEach(li=>{const ok=f==='all'||li.dataset.aud===f||li.dataset.aud==='both';li.hidden=!ok;if(ok)li.dataset.size=S[i++]||R})};"
+    "g.addEventListener('click',e=>{const b=e.target.closest('button');if(b)set(b.dataset.f)})})()</script>"
+)
+
+
 def build(conf, out, live, sources, h):
-    """h: helpers from build.py (src, styles, legal_css, icon_tags, consent, absolutize, legal_slugs, legal_names)."""
+    """h: helpers from build.py (src, page, consent, absolutize, cookie_url)."""
     site, default = conf["site"], conf["default"]
     posts, groups = load(h["src"], live)
     e = lambda v: htmllib.escape(str(v), quote=True)
@@ -185,7 +359,7 @@ def build(conf, out, live, sources, h):
     written, sitemap, redirects, held = [], [], [], []
     by_code = {l["code"]: l for l in live}
 
-    def shell(l, title, desc, canon, alts, body, ld, index, og_img=None):
+    def head(l, title, desc, canon, alts, ld, index, og_img=None):
         robots = "" if index else '<meta name="robots" content="noindex, nofollow">'
         og = (
             f'<meta property="og:image" content="{site}{og_img["src"]}"><meta property="og:image:width" content="{og_img["width"]}">'
@@ -195,23 +369,18 @@ def build(conf, out, live, sources, h):
             else ""
         )
         return (
-            f'<!doctype html><html lang="{l["code"]}" data-theme="dark"><head><meta charset="utf-8">'
-            '<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{e(title)}</title><meta name="description" content="{e(desc)}">{robots}'
-            f'<link rel="canonical" href="{canon}">{alts}{h["icon_tags"]()}<link rel="stylesheet" href="tokens.css">'
+            f'<link rel="canonical" href="{canon}">{alts}'
             f'<meta property="og:type" content="{"article" if og_img else "website"}"><meta property="og:title" content="{e(title)}">'
             f'<meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canon}">'
             f'<meta property="og:locale" content="{l["locale"][0]}">{og}'
-            f"<style>{''.join(h['styles'](l['code']))}{h['legal_css']}{BLOG_CSS}</style>"
-            f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False, separators=(",", ":"))}</script></head><body>'
-            f'<header><a href="/{l["code"]}/"><img src="/img/logo-weltscout-dark.svg" alt="WeltScout" width="120" height="20"></a>'
-            f'<a href="/{l["code"]}/blog/">{e(l["blog"]["name"])}</a></header><main>{body}</main><footer>'
-            + "".join(
-                f'<a href="/{l["code"]}/{s}/">{e(h["legal_names"](l["code"])[s])}</a>'
-                for s in h["legal_slugs"]
-            )
-            + "</footer></body></html>"
+            f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False, separators=(",", ":"))}</script>'
         )
+
+    def write(l, path, page):
+        d = out / l["code"] / path
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "index.html").write_text(h["absolutize"](h["consent"](page, l, h["cookie_url"](l["code"]))))
 
     def hreflangs(members, path_of):
         tags = "".join(
@@ -226,8 +395,32 @@ def build(conf, out, live, sources, h):
             else ""
         )
 
+    def switch(fn):
+        return {c: fn(c) or (f"/{c}/blog/" if posts.get(c) else f"/{c}/") for c in by_code}
+
+    def kick(p, t, u, date=True):
+        return (
+            f'<p class="kick"><span class="tag" data-aud="{p["audience"]}">{e(t["audience"][p["audience"]])}</span>'
+            f'<span>{e(t["minutes"].format(n=minutes(p)))}</span>{time_tag(p["published"], u) if date else ""}</p>'
+        )
+
+    def card(p, t, u, size, i, tag="h2"):
+        img = p["image"]
+        load_attr = 'fetchpriority="high"' if i == 0 else 'loading="lazy" decoding="async"'
+        return (
+            f'<li class="card"{f" data-size={chr(34)}{size}{chr(34)}" if size else ""} data-aud="{p["audience"]}">'
+            f'<img src="{img["src"]}" alt="" width="{img["width"]}" height="{img["height"]}" {load_attr}>'
+            f'<div class="card-t">{kick(p, t, u)}<{tag}><a href="/{p["lang"]}/blog/{p["slug"]}/">{e(p["title"])}</a></{tag}>'
+            f'<p class="desc">{e(p["meta_description"])}</p></div></li>'
+        )
+
+    def final(l, t):
+        c = h["chrome"][l["code"]]
+        return f'<section class="final band" aria-label="{e(t["cta"])}"><h2>{e(t["cta"])}</h2>{c["ctas"]}<p class="note">{c["note"]}</p></section>'
+
     for l in live:
         code, t, ps = l["code"], l["blog"], posts[l["code"]]
+        u = ui(l)
         if not ps:
             continue
         for p in ps:
@@ -238,40 +431,28 @@ def build(conf, out, live, sources, h):
             }
             canon = url(site, p)
             alts = hreflangs(members, lambda c: url(site, members[c]))
-            rel = [q for q in ps if q is not p][:3]
+            same = [q for q in ps if q is not p and q["audience"] in (p["audience"], "both")]
+            rel = (same + [q for q in ps if q is not p and q not in same])[:REL_N]
             rv = p.get("reviewer") or {}
             img = p["image"]
-            meta_line = (
-                f'<p class="meta"><b>{e(t["author"])}:</b> {e(p["author"]["name"])}'
-                + (
-                    f" · <b>{e(t['reviewer'])}:</b> {e(rv['name'])}"
-                    + (f" ({e(rv['role'])})" if rv.get("role") else "")
-                    if rv.get("name")
-                    else ""
-                )
-                + f' · {e(t["published"])} <time datetime="{p["published"]}">{p["published"]}</time>'
-                + f' · {e(t["updated"])} <time datetime="{p["updated"]}">{p["updated"]}</time></p>'
-                + f'<figure class="hero-img"><img src="{img["src"]}" alt="{e(img["alt"])}" width="{img["width"]}" height="{img["height"]}" fetchpriority="high"></figure>'
-            )
-            body = re.sub(
-                r"(</h1>)", lambda m: m.group(1) + meta_line, p["body"], count=1
-            )
-            body = re.sub(r"<table(?![^>]*tabindex)", '<table tabindex="0"', body)
+            h1m = re.search(r"<h1[^>]*>(.*?)</h1>", p["body"], re.S)
+            h1 = re.sub(r"<[^>]+>", "", h1m.group(1)).strip()
+            body, heads = heading_ids(p["body"].replace(h1m.group(0), "", 1))
+            body = wrap_tables(qa_sections(body), u["table"])
             src_html = (
-                f'<section class="src"><h2>{e(t["sources"])}</h2><ul>'
+                f'<section class="src" aria-labelledby="ws-sources"><h2 id="ws-sources">{e(t["sources"])}</h2><ol>'
                 + "".join(
                     f'<li><a href="{e(s["url"])}" rel="noopener">{e(s["title"])}</a>'
-                    + (f", {e(s['publisher'])}" if s.get("publisher") else "")
-                    + f" ({e(s['accessed'])})</li>"
+                    + f' <span class="pub">{e(s["publisher"]) + ", " if s.get("publisher") else ""}{time_tag(s["accessed"], u)}</span></li>'
                     for s in p["sources"]
                 )
-                + "</ul></section>"
+                + "</ol></section>"
                 if p.get("sources")
                 else ""
             )
             disclosed = bool(p.get("ai_disclosure_text"))
             how = (
-                f'<section class="how"><h2>{e(t["how"] if disclosed else t["changes"])}</h2>'
+                f'<section class="how" aria-labelledby="ws-how"><h2 id="ws-how">{e(t["how"] if disclosed else t["changes"])}</h2>'
                 + (
                     f"<p>{e(p['ai_disclosure_text'])}</p>"
                     f"<p><b>{e(t['editor'])}:</b> {e(p['editor_responsible'])}</p>"
@@ -282,7 +463,7 @@ def build(conf, out, live, sources, h):
                     (f"<h3>{e(t['changes'])}</h3>" if disclosed else "")
                     + "<ul>"
                     + "".join(
-                        f'<li><time datetime="{c["date"]}">{c["date"]}</time>: {e(c["change"])}</li>'
+                        f'<li>{time_tag(c["date"], u)}: {e(c["change"])}</li>'
                         for c in p["changelog"]
                     )
                     + "</ul>"
@@ -293,26 +474,39 @@ def build(conf, out, live, sources, h):
                 if disclosed or p.get("changelog")
                 else ""
             )
-            rel_html = (
-                f'<section class="rel"><h2>{e(t["related"])}</h2><ul>'
-                + "".join(
-                    f'<li><a href="/{code}/blog/{q["slug"]}/">{e(q["title"])}</a></li>'
-                    for q in rel
+            heads += [(i, x) for i, x, ok in (("ws-sources", t["sources"], src_html), ("ws-how", t["how"] if disclosed else t["changes"], how)) if ok]
+            body = re.sub(
+                r'<p class="short">(.*?)</p>',
+                lambda m: f'<div class="short"><p class="short-k">{e(t["short"])}</p><p>{m.group(1)}</p></div>{toc(heads, u, mobile=True)}',
+                body,
+                count=1,
+                flags=re.S,
+            )
+            author = e(p["author"]["name"])
+            if p["author"].get("url"):
+                author = f'<a href="{e(p["author"]["url"])}" rel="author">{author}</a>'
+            byline = (
+                f'<dl class="by"><div><dt>{e(t["author"])}</dt><dd>{author}</dd></div>'
+                + (f'<div><dt>{e(t["reviewer"])}</dt><dd>{e(rv["name"])}{f" ({e(rv['role'])})" if rv.get("role") else ""}</dd></div>' if rv.get("name") else "")
+                + f'<div><dt>{e(t["published"])}</dt><dd>{time_tag(p["published"], u)}</dd></div>'
+                + (f'<div><dt>{e(t["updated"])}</dt><dd>{time_tag(p["updated"], u)}</dd></div>' if p["updated"] != p["published"] else "")
+                + "</dl>"
+            )
+            main = (
+                '<div class="prog" aria-hidden="true"><i></i></div>'
+                f'<header class="doc-h ph">{crumbs([(f"/{code}/", t["home"]), (f"/{code}/blog/", t["name"])], h1, u)}'
+                f"{kick(p, t, u, date=False)}<h1>{h1m.group(1)}</h1>{byline}</header>"
+                f'<figure class="hero-img"><img src="{img["src"]}" alt="{e(img["alt"])}" width="{img["width"]}" height="{img["height"]}" fetchpriority="high"></figure>'
+                f'<div class="doc">{toc(heads, u)}<article class="prose">{body}{src_html}{how}</article></div>'
+                + final(l, t)
+                + (
+                    f'<section class="rel" aria-labelledby="ws-rel"><h2 id="ws-rel">{e(t["related"])}</h2><ul>'
+                    + "".join(card(q, t, u, None, 1, "h3") for q in rel)
+                    + "</ul></section>"
+                    if rel
+                    else ""
                 )
-                + "</ul></section>"
-                if rel
-                else ""
             )
-            cta = f'<div class="cta"><p>{e(t["cta"])}</p><a href="{conf["appRegister"]}">{e(t["ctaBtn"])}</a></div>'
-            crumbs = (
-                f'<nav class="bc" aria-label="Breadcrumb"><a href="/{code}/">{e(t["home"])}</a> / '
-                f'<a href="/{code}/blog/">{e(t["name"])}</a></nav>'
-            )
-            h1 = re.sub(
-                r"<[^>]+>",
-                "",
-                re.search(r"<h1[^>]*>(.*?)</h1>", p["body"], re.S).group(1),
-            ).strip()
             page_node = {
                 "@type": "WebPage",
                 "@id": canon + "#page",
@@ -395,22 +589,16 @@ def build(conf, out, live, sources, h):
                     },
                 ],
             }
-            page = shell(
+            page = h["page"](
                 l,
-                p["title"],
-                p["meta_description"],
-                canon,
-                alts,
-                f"{crumbs}<article>{body}{src_html}{how}</article>{cta}{rel_html}",
-                ld,
-                indexable(p),
-                img,
+                head(l, p["title"], p["meta_description"], canon, alts, ld, indexable(p), img),
+                main,
+                switch(lambda c: f"/{c}/blog/{members[c]['slug']}/" if c in members else None),
+                BLOG_CSS,
+                js=TOC_JS + PROGRESS_JS,
+                cls="post",
             )
-            d = out / code / "blog" / p["slug"]
-            d.mkdir(parents=True, exist_ok=True)
-            (d / "index.html").write_text(
-                h["absolutize"](h["consent"](page, l, f"/{code}/cookie-policy/"))
-            )
+            write(l, f"blog/{p['slug']}", page)
             written.append(f"{code}/{p['slug']}")
             if indexable(p):
                 sitemap.append((canon, p["updated"], alts))
@@ -427,11 +615,12 @@ def build(conf, out, live, sources, h):
         canon = f"{site}/{code}/blog/"
         langs_with = [c for c in by_code if posts.get(c)]
         alts = hreflangs(langs_with, lambda c: f"{site}/{c}/blog/")
-        items = "".join(
-            f'<li><a href="/{code}/blog/{p["slug"]}/">{e(p["title"])}</a><p>{e(p["meta_description"])}</p>'
-            f'<time datetime="{p["updated"]}">{p["updated"]}</time></li>'
-            for p in ps
+        counts = {"all": len(ps), **{a: sum(q["audience"] in (a, "both") for q in ps) for a in ("b2b", "b2c")}}
+        chips = "".join(
+            f'<button type="button" data-f="{f}" aria-pressed="{str(f == "all").lower()}">{e(t["all"] if f == "all" else t["audience"][f])}<span class="n">{n}</span></button>'
+            for f, n in counts.items()
         )
+        feed = "".join(card(p, t, u, FEED_SIZES[i] if i < len(FEED_SIZES) else FEED_REST, i) for i, p in enumerate(ps))
         ld = {
             "@context": "https://schema.org",
             "@type": "Blog",
@@ -442,27 +631,36 @@ def build(conf, out, live, sources, h):
             "blogPost": [{"@id": url(site, p) + "#post"} for p in ps if indexable(p)],
         }
         index_ok = conf["indexable"] and any(indexable(p) for p in ps)
-        page = shell(
+        main = (
+            f'<header class="bi-h">{crumbs([(f"/{code}/", t["home"])], t["name"], u)}<h1>{e(t["title"])}</h1><p class="lead">{e(t["description"])}</p></header>'
+            f'<div class="filt" role="group" aria-label="{e(t["filter"])}" hidden>{chips}</div>'
+            f'<ul class="feed" data-sizes="{",".join(FEED_SIZES)}" data-rest="{FEED_REST}">{feed}</ul>'
+            + final(l, t)
+        )
+        page = h["page"](
             l,
-            t["title"],
-            t["description"],
-            canon,
-            alts,
-            f'<h1>{e(t["title"])}</h1><p>{e(t["description"])}</p><ul class="list">{items}</ul>',
-            ld,
-            index_ok,
+            head(l, t["title"], t["description"], canon, alts, ld, index_ok),
+            main,
+            switch(lambda c: None),
+            BLOG_CSS,
+            current=f"/{code}/blog/",
+            js=FILTER_JS,
+            cls="bi",
         )
-        (out / code / "blog").mkdir(parents=True, exist_ok=True)
-        (out / code / "blog" / "index.html").write_text(
-            h["absolutize"](h["consent"](page, l, f"/{code}/cookie-policy/"))
-        )
+        write(l, "blog", page)
         if index_ok:
             sitemap.append((canon, max(p["updated"] for p in ps if indexable(p)), alts))
+    index_redirects = [
+        {"source": src, "destination": f"/{c}/blog/", "permanent": True}
+        for c in by_code
+        if posts.get(c)
+        for src in ([f"/{c}/blog"] + (["/blog", "/blog/"] if c == default else []))
+    ]
     return {
         "posts": posts,
         "written": written,
         "sitemap": sitemap,
-        "redirects": redirects,
+        "redirects": index_redirects + redirects,
         "held": held,
     }
 
