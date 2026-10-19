@@ -1,6 +1,6 @@
 {
-  "site": "https://welt-scout-web-preview.vercel.app",
-  "indexable": false,
+  "site": "https://www.weltscout.com",
+  "indexable": true,
   "default": "sl",
   "org": {
     "legalName": "WeltScout d.o.o.",

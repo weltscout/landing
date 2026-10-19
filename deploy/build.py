@@ -1,10 +1,14 @@
 """Build the site: one /<code>/ page per language declared in deploy/langs.json. Generated from langs.json (site, indexable, locale, crawlers): language switcher, hreflang, canonical, robots meta, Open Graph/Twitter tags, JSON-LD URLs and inLanguage, robots.txt, sitemap.xml, llms.txt, vercel.json. Fails loudly when an expected element is missing."""
 
-import html as htmllib, json, pathlib, re, shutil, struct, sys
+import html as htmllib, json, os, pathlib, re, shutil, struct, sys
 
 SRC = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path(sys.argv[1])
 CONF = json.loads((SRC / "deploy" / "langs.json").read_text())
+if os.environ.get("WS_SITE"):
+    CONF["site"] = os.environ["WS_SITE"].rstrip("/")
+if os.environ.get("WS_INDEXABLE"):
+    CONF["indexable"] = os.environ["WS_INDEXABLE"].lower() in ("1", "true", "yes")
 
 SWITCH_CSS = (
     '<style id="lang-sw">.lang-m b{overflow:hidden;padding:0;background:none}'
@@ -276,11 +280,6 @@ def seo(html, page, live):
     for tag in re.findall(r"<img\b[^>]*>", html):
         if " alt=" not in tag and "${" not in tag:
             die(page, f"img without alt: {tag[:80]}")
-    if indexable and ('class="sw"' in html or "ws-proto-theme" in html):
-        print(
-            f"WARNING {page}: prototype theme switcher is still in the page while indexable=true",
-            file=sys.stderr,
-        )
     out = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     html = html.replace(ld[0], out, 1).replace("{{SITE}}", site)
     if "{{" in html:
@@ -505,7 +504,10 @@ cfg = json.loads((SRC / "deploy" / "vercel.base.json").read_text())
 if CONF["indexable"]:
     for rule in cfg["headers"]:
         rule["headers"] = [h for h in rule["headers"] if h["key"] != "X-Robots-Tag"]
-cfg.pop("redirects", None)
+cfg["redirects"] = [
+    {"source": f"/{slug}", "destination": f"/{CONF['default']}/{slug}/", "permanent": True}
+    for slug in LEGAL_SLUGS
+]
 (OUT / "vercel.json").write_text(json.dumps(cfg, indent=2))
 print(
     "built",

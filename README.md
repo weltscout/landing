@@ -18,10 +18,22 @@ Static HTML, no framework. Preview: https://welt-scout-web-preview.vercel.app/
 
 ## Build and deploy
 
+Production (https://www.weltscout.com, indexable; these are the defaults in `deploy/langs.json`):
+
 ```sh
 python3 deploy/build.py dist        # fails loudly on a missing tag, FAQ/JSON-LD mismatch, missing image
-cd dist && vercel deploy --prod      # project: welt-scout-web-preview
+cd dist && vercel deploy --prod      # or upload dist/ to any static host that runs the api/ function
 ```
+
+`dist/` is the whole site: `/` serves the default language, `/<code>/` each language, `/<code>/<legal-slug>/` the legal pages, plus `robots.txt`, `sitemap.xml`, `llms.txt` and `vercel.json` (headers, clean URLs).
+
+Preview on another domain, kept out of search engines:
+
+```sh
+WS_SITE=https://welt-scout-web-preview.vercel.app WS_INDEXABLE=0 python3 deploy/build.py dist
+```
+
+`WS_SITE` and `WS_INDEXABLE` override `site` and `indexable` from `langs.json` without editing it.
 
 Contact form environment variables (Vercel): `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`. Without them the endpoint answers `503 not_configured`.
 
@@ -33,9 +45,9 @@ Contact form environment variables (Vercel): `RESEND_API_KEY`, `CONTACT_FROM`, `
 
 The language switcher, hreflang, sitemap and JSON-LD languages are generated, never edited by hand.
 
-## Going to production
+## Production notes
 
-In `deploy/langs.json`: set `site` to `https://www.weltscout.com` and `indexable` to `true`, then rebuild. That removes `noindex`, adds the sitemap to robots.txt and rewrites every canonical, hreflang and og:url.
+`langs.json` already points at `https://www.weltscout.com` with `indexable: true`: no `noindex`, sitemap listed in robots.txt, every canonical, hreflang and og:url on www.weltscout.com. The old legal URLs (`/privacy-policy`, `/terms-and-conditions`, `/cookie-policy`) already redirect (301) to the default language. Other old Webflow URLs (`/en/...`, blog posts) still need 301 redirects when the domain is switched.
 
 Analytics (GA4, PostHog) are described in the legal pages but not installed on this site yet: they need a consent banner first.
 
