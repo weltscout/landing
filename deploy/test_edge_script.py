@@ -194,6 +194,7 @@ class EdgeScript(unittest.TestCase):
             {"cleanUrls": True, "headers": [], "redirects": [], "rewrites": []},
             {"cleanUrls": True, "headers": [], "redirects": [{"source": "/a/:slug+", "destination": "/b/", "permanent": True}]},
             {"cleanUrls": True, "headers": [], "redirects": [{"source": "/ab:rest*", "destination": "/b/", "permanent": True}]},
+            {"cleanUrls": True, "headers": [], "redirects": [{"source": "/a", "destination": "/:x/", "permanent": True}]},
             {"cleanUrls": True, "headers": [], "redirects": [{"source": "/a", "destination": "/b", "permanent": True, "has": []}]},
             {"cleanUrls": True, "headers": [], "redirects": [{"source": "/a", "destination": "/b", "permanent": True, "statusCode": 301}]},
             {"cleanUrls": False, "headers": [], "redirects": []},

@@ -27,7 +27,7 @@ jobs:
       # The deploy gates on its own commit's tests — CI on main is a parallel
       # workflow and must not be a silent dependency for shipping.
       - name: Run tests
-        run: python3 -m unittest deploy/test_aws.py deploy/test_edge_script.py -v
+        run: python3 -m unittest discover -s deploy -p "test_*.py" -v
 
       # Preview build until the www.weltscout.com cut-over: canonical URLs on
       # the b-cdn.net hostname and X-Robots-Tag: noindex (WS_INDEXABLE=0).

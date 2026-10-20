@@ -30,4 +30,4 @@ jobs:
         run: python3 deploy/edge_script.py dist
 
       - name: Run tests
-        run: python3 -m unittest deploy/test_aws.py deploy/test_edge_script.py -v
+        run: python3 -m unittest discover -s deploy -p "test_*.py" -v

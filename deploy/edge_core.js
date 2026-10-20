@@ -52,7 +52,7 @@ async function contact(req, deps) {
 function compiled(data) {
   if (!data._compiled) {
     data._compiled = {
-      redirects: data.redirects.map((r) => (r.exact !== undefined ? null : new RegExp(r.re))),
+      redirects: data.redirects.map((r) => new RegExp(r.re)),
       headerRules: data.headerRules.map((r) => new RegExp(r.re)),
     };
   }
@@ -62,28 +62,17 @@ function compiled(data) {
 // First match wins across the ordered rule list, exactly as on Vercel.
 function matchRedirect(data, path) {
   const res = compiled(data).redirects;
-  for (let i = 0; i < data.redirects.length; i++) {
-    const r = data.redirects[i];
-    if (r.exact !== undefined) {
-      if (r.exact === path) return { status: r.status, location: fill(r.dest, null, null) };
-      continue;
-    }
+  for (let i = 0; i < res.length; i++) {
     const m = res[i].exec(path);
-    if (m) return { status: r.status, location: fill(r.dest, r.params, m) };
+    if (m) return { status: data.redirects[i].status, location: fill(data.redirects[i].dest, m) };
   }
   return null;
 }
 
-// Substitute :name tokens with regex captures (:name* captures without the
-// leading separator and is "" when absent).
-function fill(dest, params, m) {
-  return dest.replace(/:([A-Za-z_][A-Za-z0-9_]*)/g, (whole, name) => {
-    if (!params) return whole;
-    const idx = params.findIndex((p) => p.name === name);
-    if (idx < 0) return whole;
-    const v = m[idx + 1];
-    return v === undefined ? "" : v;
-  });
+// Destinations are positional templates ($1..$n): edge_script.py maps every
+// :name in the destination to its source capture index at generation time.
+function fill(dest, m) {
+  return dest.replace(/\$(\d+)/g, (whole, i) => (m[+i] === undefined ? "" : m[+i]));
 }
 
 // Vercel cleanUrls: "/x.html" and "/x/index.html" redirect (301) to "/x";
@@ -99,7 +88,6 @@ function cleanResolve(data, path) {
   for (const cand of [base + ".html", base + "/index.html"]) {
     if (data.files.indexOf(cand.replace(/^\//, "")) >= 0) return { type: "rewrite", path: cand };
   }
-  if (data.files.indexOf(path.replace(/^\//, "")) >= 0) return { type: "rewrite", path };
   return { type: "rewrite", path };
 }
 
@@ -119,7 +107,7 @@ async function wsHandle(data, req, deps) {
   const headers = responseHeaders(data, req.path);
   if (req.path === "/api/contact") {
     const res = await contact(req, deps);
-    res.headers = Object.assign(headers, res.headers);
+    res.headers = Object.assign({}, headers, res.headers);
     return res;
   }
   const hit = matchRedirect(data, req.path);
