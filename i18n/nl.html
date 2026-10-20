@@ -817,6 +817,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 /* hero video (20. 10.): real app recording instead of the composed mock; tall crop on phones */
 .hero .sheet{display:none}
 .hero-vid{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:18px;background:var(--surf);box-shadow:var(--sh-lg);border:1px solid var(--line)}
+.hero h1 .b2{color:var(--acc)}
 @media (max-width:600px){.hero-vid{aspect-ratio:4/5}}
 @media (min-width:980px){.hero-in{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);column-gap:48px}.hero h1{font-size:clamp(40px,3.6vw,54px)}.hero .stage{padding-top:36px}}
 </style>
@@ -839,8 +840,8 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   <div class="hero-in">
     <div class="copy">
       <p class="eyebrow">Tweedehandsauto’s zoeken voor handelaren en tussenpersonen</p>
-      <h1><span class="b1">Een klant vraagt</span> <span class="ask" data-asks='["‘Ook iets uit Duitsland?’", "‘Een stationwagen tot € 20.000?’", "‘Octavia Combi, tot € 20.000?’"]'><span class="on">‘Wat hebt u staan?’</span></span> <span class="b2">U opent zijn zoekopdracht.</span></h1>
-      <p class="lead">Webapp voor handelaren in tweedehandsauto’s: per klant bewaart u een zoekopdracht op maximaal 29 portalen in 14 landen, nieuwe advertenties krijgt u via WhatsApp of e-mail.</p>
+      <h1><span class="b1">Autonoom auto’s zoeken.</span> <span class="b2">Tot 29 portalen in 14 landen.</span></h1>
+      <p class="lead">Webapp voor handelaren in tweedehandsauto’s: stel een zoekopdracht één keer in, WeltScout herhaalt die 1 of 2 keer per dag (afhankelijk van uw pakket) en stuurt nieuwe advertenties via WhatsApp of e-mail.</p>
       <div class="ctas"><a class="btn" href="https://app.weltscout.com/auth/register/">Maak een gratis zoekopdracht</a><a class="btn alt" href="#dokaz">Zie hoe het werkt (55 s)</a></div>
       <p class="note offer">Geen creditcard nodig. 2 gratis zoekopdrachten die u ook na de proefperiode houdt. Daarna vanaf € 129,90 per maand.</p>
     </div>
@@ -1223,7 +1224,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 
   /* hero: the customer's ask rotates in the H1; screen readers keep one stable sentence */
   const askBox = $(".hero .ask"), h1 = $(".hero h1");
-  const ASKS = JSON.parse(askBox.dataset.asks || "[]");
+  const ASKS = JSON.parse((askBox && askBox.dataset.asks) || "[]");
   let askEls = [], askCur = -1;
   if (!RM && !STILL && ASKS.length) {
     const sr = document.createElement("span"); sr.className = "sr"; sr.textContent = h1.textContent.replace(/\s+/g, " ").trim();

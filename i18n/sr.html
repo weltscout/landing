@@ -817,6 +817,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 /* hero video (20. 10.): real app recording instead of the composed mock; tall crop on phones */
 .hero .sheet{display:none}
 .hero-vid{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:18px;background:var(--surf);box-shadow:var(--sh-lg);border:1px solid var(--line)}
+.hero h1 .b2{color:var(--acc)}
 @media (max-width:600px){.hero-vid{aspect-ratio:4/5}}
 @media (min-width:980px){.hero-in{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);column-gap:48px}.hero h1{font-size:clamp(40px,3.6vw,54px)}.hero .stage{padding-top:36px}}
 </style>
@@ -839,8 +840,8 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   <div class="hero-in">
     <div class="copy">
       <p class="eyebrow">Pretraga polovnih vozila za trgovce i posrednike</p>
-      <h1><span class="b1">Kupac pita</span> <span class="ask" data-asks='["„Šta imate iz Nemačke?“", "„Imate karavan do 20.000?“", "„Octavia Combi do 20.000?“"]'><span class="on">„Šta imate?“</span></span> <span class="b2">Ti otvoriš njegovu pretragu.</span></h1>
-      <p class="lead">Veb aplikacija za trgovce polovnim vozilima. Za svakog kupca sačuvaš pretragu na do 29 portala u 14 zemalja, a nove oglase dobijaš na WhatsApp ili imejl.</p>
+      <h1><span class="b1">Autonomna pretraga automobila.</span> <span class="b2">Do 29 portala u 14 zemalja.</span></h1>
+      <p class="lead">Veb aplikacija za trgovce polovnim vozilima. Pretragu podesiš jednom, WeltScout je sam ponavlja 1× ili 2× dnevno (zavisno od paketa) i nove oglase šalje ti na WhatsApp ili imejl.</p>
       <div class="ctas"><a class="btn" href="https://app.weltscout.com/auth/register/">Podesi prvu pretragu besplatno</a><a class="btn alt" href="#dokaz">Pogledaj kako radi (55 s)</a></div>
       <p class="note offer">Bez kartice. 2 pretrage besplatno, ostaju ti i posle probnog perioda. Zatim od 129,90 € mesečno.</p>
     </div>
@@ -1223,7 +1224,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 
   /* hero: the customer's ask rotates in the H1; screen readers keep one stable sentence */
   const askBox = $(".hero .ask"), h1 = $(".hero h1");
-  const ASKS = JSON.parse(askBox.dataset.asks || "[]");
+  const ASKS = JSON.parse((askBox && askBox.dataset.asks) || "[]");
   let askEls = [], askCur = -1;
   if (!RM && !STILL && ASKS.length) {
     const sr = document.createElement("span"); sr.className = "sr"; sr.textContent = h1.textContent.replace(/\s+/g, " ").trim();
