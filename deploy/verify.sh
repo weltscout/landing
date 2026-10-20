@@ -11,6 +11,10 @@ code=$(curl -s -o /dev/null -w '%{http_code}' "$BASE/")
 hdrs=$(curl -sI "$BASE/")
 grep -qi '^x-content-type-options: nosniff' <<<"$hdrs" || { echo "missing security headers on /"; exit 1; }
 
+# Preview contract: keep out of search engines until the www.weltscout.com
+# cut-over. Remove this check when WS_INDEXABLE flips to 1.
+grep -qi '^x-robots-tag: noindex' <<<"$hdrs" || { echo "preview build missing noindex on /"; exit 1; }
+
 redir=$(curl -sI "$BASE/post/")
 { grep -q '^HTTP/[^ ]* 301' <<<"$redir" && grep -qi '^location: /sl/' <<<"$redir"; } || {
   echo "GET /post/ is not 301 -> /sl/:"
