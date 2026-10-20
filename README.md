@@ -53,6 +53,8 @@ python3 deploy/build.py dist && python3 deploy/edge_script.py dist
 
 `deploy/edge_script.py` translates `dist/vercel.json` into `dist/edge_script.js` — the Bunny middleware (before-cache edge script): redirects (301/302) and clean URLs, response headers, and `/api/contact` (port of `deploy/api/contact.js`, same env vars; `503 not_configured` without them). The routing logic lives in `deploy/edge_core.js` and is shared verbatim into the generated script. It fails loudly on any `vercel.json` construct it cannot translate and never writes a partial translation. Test: `python3 -m unittest deploy/test_edge_script.py -v` (needs node 20+).
 
+Deploys run on merge to `main` via `.github/workflows/deploy.yaml`: build (preview flags until the www.weltscout.com cut-over), generate, upload via `deploy/stage_upload.py`, push the script, then `deploy/verify.sh` smoke-tests the live edge (page, headers, a redirect, the contact endpoint).
+
 ## Blog
 
 `blog/<code>/<slug>.html` are the posts (18 topics in sl, hr, en, de). Each file starts with a JSON front matter comment; the format and the checks are in `deploy/blog.py`. The build makes `/<code>/blog/` and `/<code>/blog/<slug>/`, hreflang between translations (same `hreflang_group`), BlogPosting/Breadcrumb JSON-LD, sitemap entries with `lastmod`, a Blog link in the nav, and a 301 from every old Webflow post URL listed in the post's `legacy` field. It fails on a missing field, a second `<h1>`, a portal name, "24/7"/"real-time"/"instant", or a missing image. Which statuses are indexed: `blogIndexStatuses` in `langs.json`.

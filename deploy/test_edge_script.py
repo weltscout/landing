@@ -247,6 +247,22 @@ class EdgeScript(unittest.TestCase):
         r = subprocess.run(["node", "--check", str(mjs)], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stderr)
 
+    def test_stage_upload_copies_exactly_the_site_files(self):
+        # The upload set and the middleware's clean-URL file list must be the
+        # same set — both come from edge_script.site_files.
+        dest = self.tmp / "upload"
+        r = subprocess.run(
+            [sys.executable, str(HERE / "stage_upload.py"), str(self.dist), str(dest)],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(r.returncode, 0, r.stderr)
+        copied = sorted(p.relative_to(dest).as_posix() for p in dest.rglob("*") if p.is_file())
+        self.assertEqual(copied, sorted(self.data["files"]))
+        for banned in ("vercel.json", "edge_script.js", "edge_data.json"):
+            self.assertNotIn(banned, copied)
+
     # --- helpers ---
 
     def run_cases(self, cases):
