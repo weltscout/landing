@@ -625,7 +625,7 @@ def legal_pages(live, sources):
             h1 = re.search(r"<h1>(.*?)</h1>", body, re.S)
             if not h1:
                 sys.exit(f"{f}: no h1")
-            first = re.search(r"<p>(.*?)</p>", body, re.S)
+            first = re.search(r"<h2[^>]*>.*?</h2>.*?<p>(.*?)</p>", body, re.S) or re.search(r"<p>(.*?)</p>", body, re.S)
             desc = norm(first.group(1)) if first else norm(h1.group(1))
             desc = desc if len(desc) <= 155 else desc[:152].rsplit(" ", 1)[0] + "…"
             canon = f"{site}{legal_url(code if own else CONF['legalFallback'], s)}"
@@ -651,6 +651,10 @@ def legal_pages(live, sources):
             head = (
                 f"<title>{title} | WeltScout</title>"
                 f'<meta name="description" content="{e(desc)}">{robots}<link rel="canonical" href="{canon}">{alts}'
+                f'<meta property="og:type" content="website"><meta property="og:title" content="{e(title)} | WeltScout">'
+                f'<meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canon}">'
+                f'<meta property="og:locale" content="{l["locale"][0]}"><meta property="og:image" content="{site}/img/og/{code}.jpg">'
+                '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
             )
             url = legal_url(code, s)
             page = doc_page(l, head, main, {x["code"]: legal_url(x["code"], s) for x in live}, current=url, js=blog.TOC_JS, cls="lg")
