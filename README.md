@@ -13,7 +13,7 @@ Static HTML, no framework. Preview: https://welt-scout-web-preview.vercel.app/
 | `deploy/langs.json` | Single source for languages, site URL, indexing switch, company data, icons |
 | `deploy/build.py` | Builds `/<code>/` per language: language switcher, hreflang, canonical, Open Graph, JSON-LD, robots.txt, sitemap.xml, llms.txt, legal pages, root page |
 | `deploy/og.js` | Renders `img/og/<code>.jpg` (1200x630) from each page's og:title (Playwright) |
-| `deploy/api/contact.js` | Contact form endpoint (Vercel function, sends via Resend) |
+| `deploy/api/contact.js` | Contact form endpoint (Vercel function, opens a Chatwoot conversation) |
 | `tokens.css` | Colour tokens |
 
 ## Build and deploy
@@ -35,7 +35,7 @@ WS_SITE=https://welt-scout-web-preview.vercel.app WS_INDEXABLE=0 python3 deploy/
 
 `WS_SITE` and `WS_INDEXABLE` override `site` and `indexable` from `langs.json` without editing it.
 
-Contact form environment variables (Vercel): `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`. Without them the endpoint answers `503 not_configured`.
+Contact form delivery: the Chatwoot Client API (`chatwoot.weltscout.com`, inbox `6v8z6KrTPtUF7VWRRrBqvq8o`) — no secrets or environment variables. A valid submission lands as a Chatwoot conversation; the honeypot field silently accepts bots.
 
 ## AWS
 
@@ -51,7 +51,7 @@ python3 deploy/build.py dist && python3 deploy/aws.py dist
 python3 deploy/build.py dist && python3 deploy/edge_script.py dist
 ```
 
-`deploy/edge_script.py` translates `dist/vercel.json` into `dist/edge_script.js` — the Bunny middleware (before-cache edge script): redirects (301/302) and clean URLs, response headers, and `/api/contact` (port of `deploy/api/contact.js`, same env vars; `503 not_configured` without them). The routing logic lives in `deploy/edge_core.js` and is shared verbatim into the generated script. It fails loudly on any `vercel.json` construct it cannot translate and never writes a partial translation. Test: `python3 -m unittest deploy/test_edge_script.py -v` (needs node 20+).
+`deploy/edge_script.py` translates `dist/vercel.json` into `dist/edge_script.js` — the Bunny middleware (before-cache edge script): redirects (301/302) and clean URLs, response headers, and `/api/contact` (port of `deploy/api/contact.js`, same status matrix, same Chatwoot Client API delivery). The routing logic lives in `deploy/edge_core.js` and is shared verbatim into the generated script. It fails loudly on any `vercel.json` construct it cannot translate and never writes a partial translation. Test: `python3 -m unittest deploy/test_edge_script.py -v` (needs node 20+).
 
 Deploys run on merge to `main` via `.github/workflows/deploy.yaml`: build (preview flags until the www.weltscout.com cut-over), generate, upload via `deploy/stage_upload.py`, push the script, then `deploy/verify.sh` smoke-tests the live edge (page, headers, a redirect, the contact endpoint).
 

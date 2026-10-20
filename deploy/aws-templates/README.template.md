@@ -100,10 +100,9 @@ the endpoint has to answer on the same host and path; the page needs no change.
 
 1. **Lambda**: Node.js 20 or newer, handler `index.handler`, code = `index.mjs` + `contact.js` from
    `contact-lambda/` (`cd dist/aws/contact-lambda && zip ../contact-lambda.zip index.mjs contact.js`),
-   timeout 15 s (the Resend call is cut at 10 s), memory 128 MB.
-   Environment: `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO` (the same names as on Vercel; keep the key in
-   Secrets Manager or an encrypted environment variable, never in the repository). Without
-   `RESEND_API_KEY`/`CONTACT_FROM` the endpoint answers `503 not_configured`, as on Vercel.
+   timeout 15 s (each Chatwoot call is cut at 4 s, three may run), memory 128 MB.
+   No environment variables: `contact.js` posts to the Chatwoot Client API with its public inbox
+   identifier, so there is no key to store.
 2. **Entry point**, one of:
    - Function URL, auth type NONE (simplest; CloudFront OAC for Lambda requires the browser to sign the
      POST body with `x-amz-content-sha256`, which the page does not do). The URL is public, like the Vercel
@@ -115,8 +114,9 @@ the endpoint has to answer on the same host and path; the page needs no change.
    policy `AllViewerExceptHostHeader`, **no** viewer-request function. The viewer-request function also passes
    `{{PASSTHROUGH}}` through untouched in case it is attached there by mistake.
 4. Responses (identical to Vercel, the code is the same `contact.js`): 405 for a method other than POST,
-   400 `json` for a body that is not JSON, 200 for the honeypot, 422 `invalid`, 503 `not_configured`,
-   502 `send_failed`, 200 `{"ok": true}`. A thrown error (Resend unreachable or timed out) is 500, as on Vercel.
+   400 `json` for a body that is not JSON, 200 for the honeypot, 422 `invalid`, 502 `send_failed`,
+   200 `{"ok": true}`. An accepted submission makes three Chatwoot Client API calls (contact ->
+   conversation -> message); a thrown error (Chatwoot unreachable or timed out) is 500, as on Vercel.
 
 ## Verify
 

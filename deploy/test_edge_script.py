@@ -6,8 +6,8 @@ generated logic (deploy/edge_core.js) in node.
 Expected outcomes are derived here independently of the generator: rule order and
 Vercel's first-match semantics from dist/vercel.json, destinations with sample
 values filled in, cleanUrls resolution against the built file list, and the contact
-status matrix from deploy/api/contact.js. sendEmail payloads are asserted
-structurally — the boundary to Resend is part of the contract.
+status matrix from deploy/api/contact.js. submitContact payloads are asserted
+structurally — the boundary to the Chatwoot Client API is part of the contract.
 """
 
 import json
@@ -30,8 +30,7 @@ const cases = JSON.parse(casesJson);
   const decisions = [], sent = [];
   for (const c of cases) {
     const deps = {
-      env: c.env || {},
-      sendEmail: async (p) => { sent.push(p); return c.send || { ok: true }; },
+      submitContact: async (p) => { sent.push(p); return c.send || { ok: true }; },
     };
     decisions.push(await core.wsHandle(data, c.req, deps));
   }
@@ -142,24 +141,22 @@ class EdgeScript(unittest.TestCase):
             {"req": {"method": "POST", "path": "/api/contact", "body": json.dumps({**VALID_BODY, "website": "spam"})}},
             {"req": {"method": "POST", "path": "/api/contact", "body": json.dumps({**VALID_BODY, "email": "nope"})}},
             {"req": {"method": "POST", "path": "/api/contact", "body": json.dumps({k: v for k, v in VALID_BODY.items() if k != "consent"})}},
-            {"req": {"method": "POST", "path": "/api/contact", "body": json.dumps(VALID_BODY)}},
-            {"req": {"method": "POST", "path": "/api/contact", "body": json.dumps(VALID_BODY)},
-             "env": {"RESEND_API_KEY": "k", "CONTACT_FROM": "f@x.com"}, "send": {"ok": False}},
-            {"req": {"method": "POST", "path": "/api/contact", "body": json.dumps(VALID_BODY)},
-             "env": {"RESEND_API_KEY": "k", "CONTACT_FROM": "f@x.com"}, "send": {"ok": True}},
+            {"req": {"method": "POST", "path": "/api/contact", "body": json.dumps(VALID_BODY)}, "send": {"ok": False}},
+            {"req": {"method": "POST", "path": "/api/contact", "body": json.dumps(VALID_BODY)}, "send": {"ok": True}},
             {"req": {"method": "POST", "path": "/api/contact", "body": "{bad json"}},
         ]
-        want_status = [405, 422, 200, 422, 422, 503, 502, 200, 400]
+        want_status = [405, 422, 200, 422, 422, 502, 200, 400]
         out = self.run_cases(cases)
         self.assertEqual([d["status"] for d in out["decisions"]], want_status)
         self.assertEqual(out["decisions"][0]["headers"].get("Allow"), "POST")
-        self.assertEqual(out["decisions"][5]["body"], {"ok": False, "error": "not_configured"})
-        self.assertEqual(len(out["sent"]), 2)  # the 502 and the 200 both reach sendEmail
+        self.assertEqual(len(out["sent"]), 2)  # the 502 and the 200 both reach submitContact
         for payload in out["sent"]:
-            self.assertEqual(sorted(payload), ["from", "html", "reply_to", "subject", "text", "to"])
-            self.assertEqual(payload["to"], ["info@weltscout.com"])
-            self.assertEqual(payload["reply_to"], VALID_BODY["email"])
-            self.assertIn("Preizkus", payload["subject"])
+            self.assertEqual(sorted(payload), ["content", "email", "name"])
+            self.assertEqual(payload["name"], VALID_BODY["name"])
+            self.assertEqual(payload["email"], VALID_BODY["email"])
+            self.assertIn("Ime: Ana", payload["content"])
+            self.assertIn("Zanima ga: Preizkus", payload["content"])
+            self.assertIn(VALID_BODY["msg"], payload["content"])
 
     # --- response headers (vercel.json headers) ---
 
@@ -179,13 +176,17 @@ class EdgeScript(unittest.TestCase):
         # edge_core.js is a hand port of deploy/api/contact.js — the shared
         # literals must not drift apart silently. (Behavior is pinned by the
         # status matrix above; test_aws.py runs the real contact.js against the
-        # same matrix.)
+        # same matrix.) The delivery block is shared between contact.js and the
+        # edge bundle template the same way.
         src = (HERE / "api" / "contact.js").read_text()
         core = self.core.read_text()
-        for decl in ("const TOPICS =", "const MAX ="):
+        template = (HERE / "edge-templates" / "script.template.js").read_text()
+        for decl in ("const TOPICS =", "const MAX =", "const rows =", "const content ="):
             self.assertEqual(line_with(src, decl), line_with(core, decl), decl)
         self.assertIn(r"^[^\s@]+@[^\s@]+\.[^\s@]{2,}$", src)
         self.assertIn(r"^[^\s@]+@[^\s@]+\.[^\s@]{2,}$", core)
+        self.assertEqual(line_with(src, "const CHATWOOT ="), line_with(template, "const CHATWOOT ="))
+        self.assertEqual(fn_block(src, "submitContact"), fn_block(template, "submitContact"))
 
     # --- generator contract ---
 
@@ -299,6 +300,12 @@ def is_exact(source):
 
 def line_with(text, decl):
     return next(line.strip() for line in text.splitlines() if decl in line)
+
+
+def fn_block(text, name):
+    start = text.index("async function " + name + "(")
+    end = text.index("\n}\n", start) + len("\n}\n")
+    return text[start:end]
 
 
 def sample_path(source):

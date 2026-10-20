@@ -22,9 +22,9 @@ redir=$(curl -sI "$BASE/post/")
   exit 1
 }
 
-# The honeypot proves the middleware serves /api/contact without ever sending
-# mail — valid submissions would email info@weltscout.com on every deploy once
-# RESEND_API_KEY lands, and "not_configured" would vanish when it does.
+# The honeypot proves the middleware serves /api/contact without ever opening
+# a conversation — a valid submission would create a real Chatwoot contact and
+# conversation in the shared inbox on every deploy.
 body=$(mktemp)
 contact_code=$(curl -s -o "$body" -w '%{http_code}' -X POST "$BASE/api/contact" \
   -H 'content-type: application/json' \
