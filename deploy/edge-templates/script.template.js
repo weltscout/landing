@@ -5,13 +5,29 @@ const DATA = {{DATA}};
 
 {{CORE}}
 
-async function sendEmail(payload) {
-  const r = await fetch("https://api.resend.com/emails", {
+const CHATWOOT = { apiUrl: "https://chatwoot.weltscout.com/public/api/v1/", inbox: "6v8z6KrTPtUF7VWRRrBqvq8o" };
+
+// Chatwoot Client API: contact -> conversation -> message — the same endpoints
+// the dashboard widget speaks (web/src/components/ChatWoot/ChatWoot.ts). Kept
+// verbatim in sync with deploy/api/contact.js (tripwire).
+async function submitContact(sub) {
+  const base = CHATWOOT.apiUrl + "inboxes/" + CHATWOOT.inbox;
+  const created = await fetch(base + "/contacts", {
     method: "POST",
-    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: sub.name, email: sub.email }),
   });
-  return { ok: r.ok };
+  if (!created.ok) return { ok: false };
+  const sourceId = (await created.json()).source_id;
+  const conversation = await fetch(base + "/contacts/" + sourceId + "/conversations", { method: "POST" });
+  if (!conversation.ok) return { ok: false };
+  const conversationId = (await conversation.json()).id;
+  const message = await fetch(base + "/contacts/" + sourceId + "/conversations/" + conversationId + "/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: sub.content }),
+  });
+  return { ok: message.ok };
 }
 
 function toResponse(decision) {
@@ -41,7 +57,7 @@ BunnySDK.net.http
         // consumed body throws in the edge runtime.
         body: ctx.request.method === "POST" && url.pathname === "/api/contact" ? await ctx.request.text() : undefined,
       },
-      { env: process.env, sendEmail },
+      { submitContact },
     );
     if (decision.type === "rewrite") {
       if (decision.path === url.pathname) return ctx.request;

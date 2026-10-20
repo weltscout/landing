@@ -73,38 +73,41 @@ const cases = JSON.parse(fs.readFileSync(0, "utf8"));
 RUN_CONTACT = r"""
 const { createRequire } = require("module");
 const lambdaDir = process.argv[2], vercelFn = require(process.argv[3]);
-let fetchOk = true, fetchCalls = 0;
-globalThis.fetch = async (url, opts) => { fetchCalls++; return { ok: fetchOk }; };
-const ENV = { RESEND_API_KEY: "test-key", CONTACT_FROM: "from@example.test", CONTACT_TO: "to@example.test" };
+let fetchOk = true;
+const calls = [];
+globalThis.fetch = async (url, opts) => {
+  calls.push({ url, method: (opts && opts.method) || "GET", body: (opts && opts.body) || null });
+  return { ok: fetchOk, json: async () => ({ source_id: "src-1", id: 7 }) };
+};
 const valid = { name: "Ana", email: "ana@example.test", msg: "Zdravo", consent: true, topic: "preizkus", lang: "sl" };
 const cases = [
-  ["GET", "application/json", undefined, true, true],
-  ["POST", "application/json", {}, true, true],
-  ["POST", "application/json", { ...valid, website: "bot" }, true, true],
-  ["POST", "application/json", { ...valid, consent: "yes" }, true, true],
-  ["POST", "application/json", { ...valid, email: "not-an-email" }, true, true],
-  ["POST", "application/json", valid, false, true],
-  ["POST", "application/json", valid, true, false],
-  ["POST", "application/json", valid, true, true],
-  ["POST", "text/plain", "{not json", true, true],
+  ["GET", "application/json", undefined, true],
+  ["POST", "application/json", {}, true],
+  ["POST", "application/json", { ...valid, website: "bot" }, true],
+  ["POST", "application/json", { ...valid, consent: "yes" }, true],
+  ["POST", "application/json", { ...valid, email: "not-an-email" }, true],
+  ["POST", "application/json", valid, false],
+  ["POST", "application/json", valid, true],
+  ["POST", "text/plain", "{not json", true],
 ];
 (async () => {
   const { handler } = await import(lambdaDir + "/index.mjs");
   const out = [];
-  for (const [method, type, body, env, ok] of cases) {
-    for (const k of Object.keys(ENV)) { if (env) process.env[k] = ENV[k]; else delete process.env[k]; }
+  for (const [method, type, body, ok] of cases) {
     fetchOk = ok;
     let vercel = null;
     const res = { setHeader() { return res; }, status(c) { return { json(o) { vercel = { status: c, body: o }; } }; } };
+    calls.length = 0;
     await vercelFn({ method, body }, res);
+    const vercelCalls = calls.splice(0);
     const raw = body === undefined ? undefined : typeof body === "string" ? body : JSON.stringify(body);
     const l = await handler({ version: "2.0", requestContext: { http: { method } }, headers: { "content-type": type }, body: raw, isBase64Encoded: false });
+    const lambdaCalls = calls.splice(0);
     const b64 = raw === undefined ? null : await handler({ version: "2.0", requestContext: { http: { method } }, headers: { "Content-Type": type }, body: Buffer.from(raw).toString("base64"), isBase64Encoded: true });
-    out.push({ method, body, vercel, lambda: { status: l.statusCode, body: JSON.parse(l.body), type: l.headers["content-type"], allow: l.headers.allow }, b64: b64 && { status: b64.statusCode, body: JSON.parse(b64.body) } });
+    out.push({ method, body, vercel, vercelCalls, lambdaCalls, lambda: { status: l.statusCode, body: JSON.parse(l.body), type: l.headers["content-type"], allow: l.headers.allow }, b64: b64 && { status: b64.statusCode, body: JSON.parse(b64.body) } });
   }
-  process.env.RESEND_API_KEY = "k"; process.env.CONTACT_FROM = "f@example.test";
   const bad = await handler({ requestContext: { http: { method: "POST" } }, headers: { "content-type": "application/json" }, body: "{not json" });
-  console.log(JSON.stringify({ cases: out, badJson: { status: bad.statusCode, body: JSON.parse(bad.body) }, fetchCalls }));
+  console.log(JSON.stringify({ cases: out, badJson: { status: bad.statusCode, body: JSON.parse(bad.body) } }));
 })();
 """
 
@@ -447,11 +450,50 @@ class AwsTranslation(unittest.TestCase):
                 )
         statuses = [c["lambda"]["status"] for c in r["cases"]]
         print("contact statuses:", statuses, "| bad JSON:", r["badJson"]["status"])
-        self.assertEqual(sorted(set(statuses)), [200, 400, 405, 422, 502, 503])
+        self.assertEqual(
+            statuses, [405, 422, 200, 422, 422, 502, 200, 400]
+        )
         self.assertEqual(r["cases"][0]["lambda"]["allow"], "POST")
         self.assertEqual(
             r["badJson"], {"status": 400, "body": {"ok": False, "error": "json"}}
         )
+
+    def test_contact_boundary_is_the_chatwoot_client_api(self):
+        # Structural boundary assertions: an accepted submission makes exactly
+        # the contact -> conversation -> message chain with the documented
+        # payloads, a rejected send stops at the contact create, and both
+        # implementations (Vercel function and Lambda adapter) hit identical
+        # requests. URL shape is compared with the inbox segment normalized —
+        # the inbox id itself is deployment config, not contract.
+        r = node(
+            RUN_CONTACT,
+            str(self.aws / "contact-lambda"),
+            str(HERE / "api" / "contact.js"),
+        )
+        failed, ok = r["cases"][5], r["cases"][6]
+        want = [
+            ("POST", "inboxes/<inbox>/contacts", ["email", "name"]),
+            ("POST", "inboxes/<inbox>/contacts/src-1/conversations", None),
+            ("POST", "inboxes/<inbox>/contacts/src-1/conversations/7/messages", ["content"]),
+        ]
+        for calls in (ok["vercelCalls"], ok["lambdaCalls"]):
+            self.assertEqual(
+                [
+                    (
+                        c["method"],
+                        re.sub(r"/inboxes/[^/]+/", "/inboxes/<inbox>/", c["url"]).split("/public/api/v1/", 1)[1],
+                        sorted(json.loads(c["body"])) if c["body"] else None,
+                    )
+                    for c in calls
+                ],
+                want,
+            )
+            self.assertEqual(json.loads(calls[0]["body"])["name"], "Ana")
+            self.assertEqual(json.loads(calls[0]["body"])["email"], "ana@example.test")
+            self.assertIn("Zdravo", json.loads(calls[2]["body"])["content"])
+        for calls in (failed["vercelCalls"], failed["lambdaCalls"]):
+            self.assertEqual(len(calls), 1)  # stops at the failed contact create
+            self.assertTrue(calls[0]["url"].endswith("/contacts"))
 
     def test_untranslatable_config_fails_loudly(self):
         bad = {

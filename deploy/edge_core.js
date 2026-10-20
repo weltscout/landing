@@ -10,12 +10,11 @@
 "use strict";
 
 // Port of deploy/api/contact.js — same status matrix:
-// 405 method, 400 bad JSON, 200 honeypot, 422 validation, 503 not_configured,
-// 502 send_failed, 200 ok.
+// 405 method, 400 bad JSON, 200 honeypot, 422 validation, 502 send_failed,
+// 200 ok. Delivery goes through deps.submitContact (Chatwoot Client API).
 const TOPICS = { preizkus: "Preizkus", enterprise: "Business MAX za ekipo", portal: "Nov portal", drugo: "Drugo" };
 const MAX = { name: 120, company: 160, email: 200, tel: 40, msg: 4000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 async function contact(req, deps) {
   const respond = (status, body, headers) => ({ type: "response", status, headers: headers || {}, body });
@@ -31,20 +30,11 @@ async function contact(req, deps) {
   if (!f.name || !f.msg || !EMAIL_RE.test(f.email) || b.consent !== true) {
     return respond(422, { ok: false, error: "invalid" });
   }
-  const env = deps.env || {};
-  if (!env.RESEND_API_KEY || !env.CONTACT_FROM) return respond(503, { ok: false, error: "not_configured" });
   const lang = String(b.lang || "sl").slice(0, 2);
   const rows = [["Ime", f.name], ["Podjetje", f.company], ["E-pošta", f.email], ["Telefon", f.tel], ["Zanima ga", TOPICS[topic]], ["Jezik strani", lang]];
-  const html = `<table>${rows.map(([k, v]) => `<tr><td><b>${k}</b></td><td>${esc(v || "–")}</td></tr>`).join("")}</table><p>${esc(f.msg).replace(/\n/g, "<br>")}</p>`;
-  const sent = await deps.sendEmail({
-    from: env.CONTACT_FROM,
-    to: [env.CONTACT_TO || "info@weltscout.com"],
-    reply_to: f.email,
-    subject: `WeltScout kontakt: ${TOPICS[topic]} · ${f.name}`,
-    html,
-    text: rows.map(([k, v]) => `${k}: ${v || "–"}`).join("\n") + "\n\n" + f.msg,
-  });
-  if (!sent || sent.ok !== true) return respond(502, { ok: false, error: "send_failed" });
+  const content = rows.map(([k, v]) => `${k}: ${v || "–"}`).join("\n") + "\n\n" + f.msg;
+  const submitted = await deps.submitContact({ name: f.name, email: f.email, content });
+  if (submitted.ok !== true) return respond(502, { ok: false, error: "send_failed" });
   return respond(200, { ok: true });
 }
 
