@@ -816,6 +816,11 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   footer .in{padding-top:40px;padding-bottom:48px}
   footer .bot{margin-top:32px}
 }
+/* hero video (20. 10.): real app recording instead of the composed mock; tall crop on phones */
+.hero .sheet{display:none}
+.hero-vid{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:18px;background:var(--surf);box-shadow:var(--sh-lg);border:1px solid var(--line)}
+@media (max-width:600px){.hero-vid{aspect-ratio:4/5}}
+@media (min-width:980px){.hero-in{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);column-gap:48px}.hero h1{font-size:clamp(40px,3.6vw,54px)}.hero .stage{padding-top:36px}}
 </style>
 </head>
 <body>
@@ -836,12 +841,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   <div class="hero-in">
     <div class="copy">
       <p class="eyebrow">Recherche de véhicules d’occasion pour négociants et intermédiaires</p>
-      <h1><span class="b1">Un client demande :</span> <span class="ask" data-asks='["« Rien en import d’Allemagne ? »", "« Un break à moins de 20 000 € ? »", "« Octavia Combi jusqu’à 20 000 € ? »"]'><span class="on">« Vous avez quoi en ce moment ? »</span></span> <span class="b2">Votre liste est prête.</span></h1>
-      <p class="lead">Chaque « Je regarde et je vous rappelle » est un client qui appelle un concurrent entre-temps. Vous répondez pendant qu’il est encore au téléphone<span class="long"> : vous choisissez vos portails, jusqu’à 29 dans 14 pays, les premiers résultats arrivent dans votre liste en quelques secondes et nous envoyons les nouvelles annonces sur votre WhatsApp</span>.</p>
+      <h1><span class="b1">Un client demande :</span> <span class="ask" data-asks='["« Rien en import d’Allemagne ? »", "« Un break à moins de 20 000 € ? »", "« Octavia Combi jusqu’à 20 000 € ? »"]'><span class="on">« Vous avez quoi en ce moment ? »</span></span> <span class="b2">Vous ouvrez sa recherche.</span></h1>
+      <p class="lead">Application web pour les négociants en véhicules d’occasion : pour chaque client, vous enregistrez une recherche sur jusqu’à 29 portails dans 14 pays et recevez les nouvelles annonces sur WhatsApp ou par e-mail.</p>
       <div class="ctas"><a class="btn" href="https://app.weltscout.com/auth/register/">Créer ma première recherche</a><a class="btn alt" href="#dokaz">Voir la démo (55 s)</a></div>
       <p class="note offer">Sans carte bancaire. 2 recherches gratuites, conservées après l’essai. Ensuite, à partir de 129,90 € HT par mois.</p>
     </div>
     <div class="stage">
+      <video class="hero-vid" muted loop playsinline preload="metadata" poster="img/hero-loop-poster.jpg" aria-label="Enregistrement de l’application WeltScout : liste de résultats, création d’une recherche, choix des portails et comptage des résultats"><source media="(max-width:600px)" src="img/hero-loop-tall.mp4" type="video/mp4"><source src="img/hero-loop-wide.mp4" type="video/mp4"></video>
       <div class="sheet" id="app" role="img" aria-label="L’application WeltScout, enregistrée le 17 octobre 2026 : une recherche récurrente d’une Octavia Combi jusqu’à 20 000 € et 150 000 km, sur un portail croate, un portail allemand et un portail autrichien. 2 126 résultats en 20 secondes ; le portail croate a terminé, le portail allemand et le portail autrichien cherchent encore. Exemple de notification WhatsApp sur de nouvelles annonces." data-secs="20">
         <span class="sh-proof">Enregistrement du 17/10/2026<i class="sep"></i><b id="wtime">20 s</b></span>
         <div class="sh-head"><p class="sh-title">Octavia Combi jusqu’à 20 000 €</p><p class="sh-meta"><span class="mc"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a5 5 0 0 1 8.6-3.4L13 5M13 2v3h-3M13 9a5 5 0 0 1-8.6 3.4L3 11M3 14v-3h3"/></svg>Récurrente</span><span class="mc for">Stock propre</span><span class="ms"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.4"/></svg>Vérifie les nouvelles annonces selon le rythme de votre formule</span></p></div>
@@ -851,7 +857,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
         <div class="sh-list"><div class="tabs"><span class="tb on">Toutes <b>999+</b></span><span class="tb">Non lues <b>0</b></span></div><div class="hits"><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi 2.0 TDI DSG Clever Navi AHK</div><div class="m">2023 · 92 413 km · 110 ch</div></div><div class="p">18 499 €<small>à l’instant</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style 2.0 TDI LED/APP/AHK</div><div class="m">2023 · 150 000 km · 150 ch</div></div><div class="p">15 990 €<small>à l’instant</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style</div><div class="m">2023 · 134 924 km · 110 ch</div></div><div class="p">17 499 €<small>à l’instant</small></div></div></div></div>
         <div class="ping" id="wa"><div class="ping-h"><b>✓</b>WhatsApp · WeltScout<span class="tm">exemple</span></div><p><b>Nouvelles annonces pour votre recherche « Octavia Combi jusqu’à 20 000 € »</b><br>Škoda Octavia Combi 2.0 TDI DSG, 2023, 92 413 km<br><span class="pr">18 499 €</span></p></div>
       </div>
-      <p class="note mock-note">L’animation est accélérée et composée d’écrans de l’application. Les chiffres proviennent d’un enregistrement réel du 17 octobre 2026 : 2 126 résultats au bout de 20 s, puis la recherche a continué. Le message est un exemple.</p>
+      <p class="note mock-note">Enregistrement réel de l’application du 17 octobre 2026, en extraits : la saisie est accélérée, le comptage des résultats ne l’est pas. Portails floutés.</p>
       <button class="motion" type="button" aria-pressed="false">Mettre l’animation en pause</button>
     </div>
     <p class="trustbar"><span class="rt"><span class="st" aria-hidden="true">★★★★★</span><b>4,9</b></span><span class="sep" aria-hidden="true"></span><span class="who">plus de <b>120</b> entreprises cherchent déjà avec WeltScout</span></p>
@@ -1136,6 +1142,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
     wv.addEventListener("timeupdate", () => bub.classList.toggle("on", wv.currentTime > 1.6 && wv.currentTime < 6.9));
     let wvVis = false; const wvSync = () => (wvVis && !motionOff) ? wv.play().catch(() => {}) : wv.pause();
     new IntersectionObserver(es => { wvVis = es[0].isIntersecting; wvSync(); }, { threshold: .25 }).observe(wv); document.addEventListener("motionchange", wvSync);
+  }
+
+  /* hero video: plays only while visible, follows the motion switch */
+  const hv = $(".hero-vid");
+  if (hv && !RM && !STILL) {
+    let hvVis = false; const hvSync = () => (hvVis && !motionOff) ? hv.play().catch(() => {}) : hv.pause();
+    new IntersectionObserver(es => { hvVis = es[0].isIntersecting; hvSync(); }, { threshold: .25 }).observe(hv); document.addEventListener("motionchange", hvSync);
   }
 
   /* faq: one open at a time, height + content eased */

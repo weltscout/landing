@@ -814,6 +814,11 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   footer .in{padding-top:40px;padding-bottom:48px}
   footer .bot{margin-top:32px}
 }
+/* hero video (20. 10.): real app recording instead of the composed mock; tall crop on phones */
+.hero .sheet{display:none}
+.hero-vid{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:18px;background:var(--surf);box-shadow:var(--sh-lg);border:1px solid var(--line)}
+@media (max-width:600px){.hero-vid{aspect-ratio:4/5}}
+@media (min-width:980px){.hero-in{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);column-gap:48px}.hero h1{font-size:clamp(40px,3.6vw,54px)}.hero .stage{padding-top:36px}}
 </style>
 </head>
 <body>
@@ -834,12 +839,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   <div class="hero-in">
     <div class="copy">
       <p class="eyebrow">Used vehicle search for dealers and brokers</p>
-      <h1><span class="b1">A customer asks</span> <span class="ask" data-asks='["‘Anything from Germany?’", "‘Any estates under 20k?’", "‘Octavia Combi, up to 20k?’"]'><span class="on">‘What have you got?’</span></span> <span class="b2">You already have a list.</span></h1>
-      <p class="lead">Every ‘I’ll have a look and get back to you’ is a customer who rings another dealer in the meantime. You answer while they’re still on the phone<span class="long">: you pick from up to 29 portals in 14 countries, the first results are on your list within seconds, and we send new listings to your WhatsApp</span>.</p>
+      <h1><span class="b1">A customer asks</span> <span class="ask" data-asks='["‘Anything from Germany?’", "‘Any estates under 20k?’", "‘Octavia Combi, up to 20k?’"]'><span class="on">‘What have you got?’</span></span> <span class="b2">You open their saved search.</span></h1>
+      <p class="lead">A web app for used-car dealers. Save a search for each customer across up to 29 portals in 14 countries and get new listings on WhatsApp or by email.</p>
       <div class="ctas"><a class="btn" href="https://app.weltscout.com/auth/register/">Set up your first search free</a><a class="btn alt" href="#dokaz">See how it works (55 s)</a></div>
       <p class="note offer">No card needed. 2 free searches, yours to keep after the trial. Then from €129.90 a month.</p>
     </div>
     <div class="stage">
+      <video class="hero-vid" muted loop playsinline preload="metadata" poster="img/hero-loop-poster.jpg" aria-label="WeltScout app recording: result list, setting up a search, choosing portals and counting results"><source media="(max-width:600px)" src="img/hero-loop-tall.mp4" type="video/mp4"><source src="img/hero-loop-wide.mp4" type="video/mp4"></video>
       <div class="sheet" id="app" role="img" aria-label="The WeltScout app as recorded on 17 October 2026: a recurring search for an Octavia Combi up to €20,000 and 150,000 km, across a Croatian, a German and an Austrian portal. 2,126 results in 20 seconds; the Croatian portal has finished, while the German and Austrian ones are still searching. An example WhatsApp notification about new listings." data-secs="20">
         <span class="sh-proof">Recorded 17 Oct 2026<i class="sep"></i><b id="wtime">20 s</b></span>
         <div class="sh-head"><p class="sh-title">Octavia Combi do 20.000 €</p><p class="sh-meta"><span class="mc"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a5 5 0 0 1 8.6-3.4L13 5M13 2v3h-3M13 9a5 5 0 0 1-8.6 3.4L3 11M3 14v-3h3"/></svg>Recurring</span><span class="mc for">Business inventory</span><span class="ms"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.4"/></svg>Checks for new listings on your plan’s schedule</span></p></div>
@@ -849,7 +855,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
         <div class="sh-list"><div class="tabs"><span class="tb on">All <b>999+</b></span><span class="tb">Unread <b>0</b></span></div><div class="hits"><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi 2.0 TDI DSG Clever Navi AHK</div><div class="m">2023 · 92,413 km · 110 HP</div></div><div class="p">€18,499<small>now</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style 2.0 TDI LED/APP/AHK</div><div class="m">2023 · 150,000 km · 150 HP</div></div><div class="p">€15,990<small>now</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style</div><div class="m">2023 · 134,924 km · 110 HP</div></div><div class="p">€17,499<small>now</small></div></div></div></div>
         <div class="ping" id="wa"><div class="ping-h"><b>✓</b>WhatsApp · WeltScout<span class="tm">example</span></div><p><b>New listings for your search ‘Octavia Combi do 20.000 €’</b><br>Škoda Octavia Combi 2.0 TDI DSG, 2023, 92,413 km<br><span class="pr">€18,499</span></p></div>
       </div>
-      <p class="note mock-note">The animation is sped up and assembled from app screens. The figures come from a real recording on 17 October 2026: 2,126 results after 20 s, and the search kept going after that. The message is an example.</p>
+      <p class="note mock-note">Real app recording, 17 October 2026, in excerpts: data entry is sped up, the result count is not. Portals are blurred.</p>
       <button class="motion" type="button" aria-pressed="false">Pause motion</button>
     </div>
     <p class="trustbar"><span class="rt"><span class="st" aria-hidden="true">★★★★★</span><b>4.9</b></span><span class="sep" aria-hidden="true"></span><span class="who">more than <b>120</b> companies already search with WeltScout</span></p>
@@ -1134,6 +1140,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
     wv.addEventListener("timeupdate", () => bub.classList.toggle("on", wv.currentTime > 1.6 && wv.currentTime < 6.9));
     let wvVis = false; const wvSync = () => (wvVis && !motionOff) ? wv.play().catch(() => {}) : wv.pause();
     new IntersectionObserver(es => { wvVis = es[0].isIntersecting; wvSync(); }, { threshold: .25 }).observe(wv); document.addEventListener("motionchange", wvSync);
+  }
+
+  /* hero video: plays only while visible, follows the motion switch */
+  const hv = $(".hero-vid");
+  if (hv && !RM && !STILL) {
+    let hvVis = false; const hvSync = () => (hvVis && !motionOff) ? hv.play().catch(() => {}) : hv.pause();
+    new IntersectionObserver(es => { hvVis = es[0].isIntersecting; hvSync(); }, { threshold: .25 }).observe(hv); document.addEventListener("motionchange", hvSync);
   }
 
   /* faq: one open at a time, height + content eased */

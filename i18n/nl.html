@@ -814,6 +814,11 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   footer .in{padding-top:40px;padding-bottom:48px}
   footer .bot{margin-top:32px}
 }
+/* hero video (20. 10.): real app recording instead of the composed mock; tall crop on phones */
+.hero .sheet{display:none}
+.hero-vid{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:18px;background:var(--surf);box-shadow:var(--sh-lg);border:1px solid var(--line)}
+@media (max-width:600px){.hero-vid{aspect-ratio:4/5}}
+@media (min-width:980px){.hero-in{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);column-gap:48px}.hero h1{font-size:clamp(40px,3.6vw,54px)}.hero .stage{padding-top:36px}}
 </style>
 </head>
 <body>
@@ -834,12 +839,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   <div class="hero-in">
     <div class="copy">
       <p class="eyebrow">Tweedehandsauto’s zoeken voor handelaren en tussenpersonen</p>
-      <h1><span class="b1">Een klant vraagt</span> <span class="ask" data-asks='["‘Ook iets uit Duitsland?’", "‘Een stationwagen tot € 20.000?’", "‘Octavia Combi, tot € 20.000?’"]'><span class="on">‘Wat hebt u staan?’</span></span> <span class="b2">U hebt al een lijst.</span></h1>
-      <p class="lead">Elke ‘ik zoek het even uit en bel u terug’ is een klant die ondertussen een andere handelaar belt. U geeft antwoord terwijl de klant nog aan de lijn is<span class="long">: u kiest uit maximaal 29 portalen in 14 landen, de eerste resultaten staan binnen seconden in uw lijst en nieuwe advertenties sturen wij naar uw WhatsApp</span>.</p>
+      <h1><span class="b1">Een klant vraagt</span> <span class="ask" data-asks='["‘Ook iets uit Duitsland?’", "‘Een stationwagen tot € 20.000?’", "‘Octavia Combi, tot € 20.000?’"]'><span class="on">‘Wat hebt u staan?’</span></span> <span class="b2">U opent zijn zoekopdracht.</span></h1>
+      <p class="lead">Webapp voor handelaren in tweedehandsauto’s: per klant bewaart u een zoekopdracht op maximaal 29 portalen in 14 landen, nieuwe advertenties krijgt u via WhatsApp of e-mail.</p>
       <div class="ctas"><a class="btn" href="https://app.weltscout.com/auth/register/">Maak een gratis zoekopdracht</a><a class="btn alt" href="#dokaz">Zie hoe het werkt (55 s)</a></div>
       <p class="note offer">Geen creditcard nodig. 2 gratis zoekopdrachten die u ook na de proefperiode houdt. Daarna vanaf € 129,90 per maand.</p>
     </div>
     <div class="stage">
+      <video class="hero-vid" muted loop playsinline preload="metadata" poster="img/hero-loop-poster.jpg" aria-label="Opname van de WeltScout-app: resultatenlijst, zoekopdracht instellen, portalen kiezen en resultaten tellen"><source media="(max-width:600px)" src="img/hero-loop-tall.mp4" type="video/mp4"><source src="img/hero-loop-wide.mp4" type="video/mp4"></video>
       <div class="sheet" id="app" role="img" aria-label="De WeltScout-app zoals opgenomen op 17 oktober 2026: een terugkerende zoekopdracht naar een Octavia Combi tot € 20.000 en 150.000 km, op een Kroatisch, een Duits en een Oostenrijks portaal. 2.126 resultaten in 20 seconden; het Kroatische portaal is klaar, het Duitse en het Oostenrijkse zoeken nog. Een voorbeeldmelding op WhatsApp over nieuwe advertenties." data-secs="20">
         <span class="sh-proof">Opname 17 okt. 2026<i class="sep"></i><b id="wtime">20 s</b></span>
         <div class="sh-head"><p class="sh-title">Octavia Combi tot € 20.000</p><p class="sh-meta"><span class="mc"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a5 5 0 0 1 8.6-3.4L13 5M13 2v3h-3M13 9a5 5 0 0 1-8.6 3.4L3 11M3 14v-3h3"/></svg>Terugkerend</span><span class="mc for">Eigen voorraad</span><span class="ms"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.4"/></svg>Controleert nieuwe advertenties volgens het schema van uw abonnement</span></p></div>
@@ -849,7 +855,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
         <div class="sh-list"><div class="tabs"><span class="tb on">Alle <b>999+</b></span><span class="tb">Ongelezen <b>0</b></span></div><div class="hits"><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi 2.0 TDI DSG Clever Navi AHK</div><div class="m">2023 · 92.413 km · 110 pk</div></div><div class="p">€ 18.499<small>nu</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style 2.0 TDI LED/APP/AHK</div><div class="m">2023 · 150.000 km · 150 pk</div></div><div class="p">€ 15.990<small>nu</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style</div><div class="m">2023 · 134.924 km · 110 pk</div></div><div class="p">€ 17.499<small>nu</small></div></div></div></div>
         <div class="ping" id="wa"><div class="ping-h"><b>✓</b>WhatsApp · WeltScout<span class="tm">voorbeeld</span></div><p><b>Nieuwe advertenties voor uw zoekopdracht ‘Octavia Combi tot € 20.000’</b><br>Škoda Octavia Combi 2.0 TDI DSG, 2023, 92.413 km<br><span class="pr">€ 18.499</span></p></div>
       </div>
-      <p class="note mock-note">De animatie is versneld en samengesteld uit schermen van de app. De cijfers komen uit een echte opname van 17 oktober 2026: na 20 s 2.126 resultaten, en daarna zocht de app nog verder. Het bericht is een voorbeeld.</p>
+      <p class="note mock-note">Echte opname van de app, 17 oktober 2026, in fragmenten: de invoer is versneld, het tellen van resultaten niet. Portalen zijn vervaagd.</p>
       <button class="motion" type="button" aria-pressed="false">Pauzeer animatie</button>
     </div>
     <p class="trustbar"><span class="rt"><span class="st" aria-hidden="true">★★★★★</span><b>4,9</b></span><span class="sep" aria-hidden="true"></span><span class="who">al meer dan <b>120</b> bedrijven zoeken met WeltScout</span></p>
@@ -1134,6 +1140,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
     wv.addEventListener("timeupdate", () => bub.classList.toggle("on", wv.currentTime > 1.6 && wv.currentTime < 6.9));
     let wvVis = false; const wvSync = () => (wvVis && !motionOff) ? wv.play().catch(() => {}) : wv.pause();
     new IntersectionObserver(es => { wvVis = es[0].isIntersecting; wvSync(); }, { threshold: .25 }).observe(wv); document.addEventListener("motionchange", wvSync);
+  }
+
+  /* hero video: plays only while visible, follows the motion switch */
+  const hv = $(".hero-vid");
+  if (hv && !RM && !STILL) {
+    let hvVis = false; const hvSync = () => (hvVis && !motionOff) ? hv.play().catch(() => {}) : hv.pause();
+    new IntersectionObserver(es => { hvVis = es[0].isIntersecting; hvSync(); }, { threshold: .25 }).observe(hv); document.addEventListener("motionchange", hvSync);
   }
 
   /* faq: one open at a time, height + content eased */
