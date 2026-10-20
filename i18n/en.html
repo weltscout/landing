@@ -817,6 +817,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 /* hero video (20. 10.): real app recording instead of the composed mock; tall crop on phones */
 .hero .sheet{display:none}
 .hero-vid{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:18px;background:var(--surf);box-shadow:var(--sh-lg);border:1px solid var(--line)}
+.hero h1 .b2{color:var(--acc)}
 @media (max-width:600px){.hero-vid{aspect-ratio:4/5}}
 @media (min-width:980px){.hero-in{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);column-gap:48px}.hero h1{font-size:clamp(40px,3.6vw,54px)}.hero .stage{padding-top:36px}}
 </style>
@@ -839,8 +840,8 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   <div class="hero-in">
     <div class="copy">
       <p class="eyebrow">Used vehicle search for dealers and brokers</p>
-      <h1><span class="b1">A customer asks</span> <span class="ask" data-asks='["‘Anything from Germany?’", "‘Any estates under 20k?’", "‘Octavia Combi, up to 20k?’"]'><span class="on">‘What have you got?’</span></span> <span class="b2">You open their saved search.</span></h1>
-      <p class="lead">A web app for used-car dealers. Save a search for each customer across up to 29 portals in 14 countries and get new listings on WhatsApp or by email.</p>
+      <h1><span class="b1">Autonomous car search.</span> <span class="b2">Up to 29 portals in 14 countries.</span></h1>
+      <p class="lead">A web app for used-car dealers. Set up a search once; WeltScout repeats it once or twice a day (depending on your plan) and sends new listings to your WhatsApp or email.</p>
       <div class="ctas"><a class="btn" href="https://app.weltscout.com/auth/register/">Set up your first search free</a><a class="btn alt" href="#dokaz">See how it works (55 s)</a></div>
       <p class="note offer">No card needed. 2 free searches, yours to keep after the trial. Then from €129.90 a month.</p>
     </div>
@@ -1223,7 +1224,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 
   /* hero: the customer's ask rotates in the H1; screen readers keep one stable sentence */
   const askBox = $(".hero .ask"), h1 = $(".hero h1");
-  const ASKS = JSON.parse(askBox.dataset.asks || "[]");
+  const ASKS = JSON.parse((askBox && askBox.dataset.asks) || "[]");
   let askEls = [], askCur = -1;
   if (!RM && !STILL && ASKS.length) {
     const sr = document.createElement("span"); sr.className = "sr"; sr.textContent = h1.textContent.replace(/\s+/g, " ").trim();
