@@ -814,6 +814,11 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   footer .in{padding-top:40px;padding-bottom:48px}
   footer .bot{margin-top:32px}
 }
+/* hero video (20. 10.): real app recording instead of the composed mock; tall crop on phones */
+.hero .sheet{display:none}
+.hero-vid{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:18px;background:var(--surf);box-shadow:var(--sh-lg);border:1px solid var(--line)}
+@media (max-width:600px){.hero-vid{aspect-ratio:4/5}}
+@media (min-width:980px){.hero-in{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);column-gap:48px}.hero h1{font-size:clamp(40px,3.6vw,54px)}.hero .stage{padding-top:36px}}
 </style>
 </head>
 <body>
@@ -834,12 +839,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   <div class="hero-in">
     <div class="copy">
       <p class="eyebrow">Pretraga polovnih vozila za trgovce i posrednike</p>
-      <h1><span class="b1">Kupac pita</span> <span class="ask" data-asks='["»Imate nešto iz Njemačke?«", "»Imate karavan do 20.000?«", "»Octavia Combi do 20.000?«"]'><span class="on">»Što imate?«</span></span> <span class="b2">Ti već imaš popis.</span></h1>
-      <p class="lead">Iza svakog »pogledat ću pa javim« stoji kupac koji u međuvremenu nazove drugog trgovca. Ti mu odgovoriš dok je još na telefonu<span class="long">: na raspolaganju ti je do 29 portala u 14 država, prvi rezultati su na popisu za nekoliko sekundi, a nove oglase šaljemo ti na WhatsApp</span>.</p>
+      <h1><span class="b1">Kupac pita</span> <span class="ask" data-asks='["»Imate nešto iz Njemačke?«", "»Imate karavan do 20.000?«", "»Octavia Combi do 20.000?«"]'><span class="on">»Što imate?«</span></span> <span class="b2">Ti otvoriš njegovu pretragu.</span></h1>
+      <p class="lead">Web aplikacija za trgovce rabljenim vozilima. Za svakog kupca spremiš pretragu na do 29 portala u 14 država, a nove oglase dobivaš na WhatsApp ili e-poštu.</p>
       <div class="ctas"><a class="btn" href="https://app.weltscout.com/auth/register/">Postavi prvu pretragu besplatno</a><a class="btn alt" href="#dokaz">Pogledaj kako radi (55 s)</a></div>
       <p class="note offer">Bez kartice. 2 pretrage besplatno, ostaju ti i nakon probnog razdoblja. Zatim od 129,90 € mjesečno.</p>
     </div>
     <div class="stage">
+      <video class="hero-vid" muted loop playsinline preload="metadata" poster="img/hero-loop-poster.jpg" aria-label="Snimka aplikacije WeltScout: popis rezultata, postavljanje pretrage, odabir portala i brojanje rezultata"><source media="(max-width:600px)" src="img/hero-loop-tall.mp4" type="video/mp4"><source src="img/hero-loop-wide.mp4" type="video/mp4"></video>
       <div class="sheet" id="app" role="img" aria-label="Prikaz aplikacije WeltScout sa snimke od 17. 10. 2026.: ponavljajuća pretraga Octavia Combi do 20.000 €, do 150.000 km, na hrvatskom, njemačkom i austrijskom portalu. Za 20 sekundi 2.126 rezultata, hrvatski portal je gotov, njemački i austrijski još se pretražuju. Primjer WhatsApp obavijesti o novim oglasima." data-secs="20">
         <span class="sh-proof">Snimka 17. 10. 2026.<i class="sep"></i><b id="wtime">20 s</b></span>
         <div class="sh-head"><p class="sh-title">Octavia Combi do 20.000 €</p><p class="sh-meta"><span class="mc"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a5 5 0 0 1 8.6-3.4L13 5M13 2v3h-3M13 9a5 5 0 0 1-8.6 3.4L3 11M3 14v-3h3"/></svg>Ponavljajuće</span><span class="mc for">Vlastita zaliha</span><span class="ms"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.4"/></svg>Nove oglase provjerava prema rasporedu paketa</span></p></div>
@@ -849,7 +855,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
         <div class="sh-list"><div class="tabs"><span class="tb on">Svi <b>999+</b></span><span class="tb">Nepročitani <b>0</b></span></div><div class="hits"><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi 2.0 TDI DSG Clever Navi AHK</div><div class="m">2023 · 92.413 km · 110 KS</div></div><div class="p">18.499 €<small>sada</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style 2.0 TDI LED/APP/AHK</div><div class="m">2023 · 150.000 km · 150 KS</div></div><div class="p">15.990 €<small>sada</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style</div><div class="m">2023 · 134.924 km · 110 KS</div></div><div class="p">17.499 €<small>sada</small></div></div></div></div>
         <div class="ping" id="wa"><div class="ping-h"><b>✓</b>WhatsApp · WeltScout<span class="tm">primjer</span></div><p><b>Novi oglasi za pretragu »Octavia Combi do 20.000 €«</b><br>Škoda Octavia Combi 2.0 TDI DSG, 2023, 92.413 km<br><span class="pr">18.499 €</span></p></div>
       </div>
-      <p class="note mock-note">Animacija je ubrzana i sastavljena od zaslona aplikacije. Brojke su s prave snimke od 17. 10. 2026.: nakon 20 s bilo je 2.126 rezultata, a pretraga se potom nastavila. Poruka je primjer.</p>
+      <p class="note mock-note">Prava snimka aplikacije od 17. 10. 2026. u isječcima: unos je ubrzan, brojanje rezultata nije. Portali su zamućeni.</p>
       <button class="motion" type="button" aria-pressed="false">Zaustavi animacije</button>
     </div>
     <p class="trustbar"><span class="rt"><span class="st" aria-hidden="true">★★★★★</span><b>4,9</b></span><span class="sep" aria-hidden="true"></span><span class="who">više od <b>120</b> tvrtki već traži s WeltScoutom</span></p>
@@ -1134,6 +1140,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
     wv.addEventListener("timeupdate", () => bub.classList.toggle("on", wv.currentTime > 1.6 && wv.currentTime < 6.9));
     let wvVis = false; const wvSync = () => (wvVis && !motionOff) ? wv.play().catch(() => {}) : wv.pause();
     new IntersectionObserver(es => { wvVis = es[0].isIntersecting; wvSync(); }, { threshold: .25 }).observe(wv); document.addEventListener("motionchange", wvSync);
+  }
+
+  /* hero video: plays only while visible, follows the motion switch */
+  const hv = $(".hero-vid");
+  if (hv && !RM && !STILL) {
+    let hvVis = false; const hvSync = () => (hvVis && !motionOff) ? hv.play().catch(() => {}) : hv.pause();
+    new IntersectionObserver(es => { hvVis = es[0].isIntersecting; hvSync(); }, { threshold: .25 }).observe(hv); document.addEventListener("motionchange", hvSync);
   }
 
   /* faq: one open at a time, height + content eased */
