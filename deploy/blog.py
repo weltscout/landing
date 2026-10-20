@@ -182,6 +182,8 @@ def parse(path, src):
             path,
             f"meta_description longer than 170 characters ({len(meta['meta_description'])})",
         )
+    if len(meta.get("seo_title") or meta["title"]) > 60:
+        fail(path, f"title for search longer than 60 characters; shorten it or add a seo_title ({len(meta.get('seo_title') or meta['title'])})")
     if "copy of" in meta["title"].lower():
         fail(path, "title still says 'Copy of'")
     if len(re.findall(r"<h1[ >]", body)) != 1:
@@ -609,7 +611,7 @@ def build(conf, out, live, sources, h):
             }
             page = h["page"](
                 l,
-                head(l, p["title"], p["meta_description"], canon, alts, ld, indexable(p), img),
+                head(l, p.get("seo_title") or p["title"], p["meta_description"], canon, alts, ld, indexable(p), img),
                 main,
                 switch(lambda c: f"/{c}/blog/{members[c]['slug']}/" if c in members else None),
                 BLOG_CSS,
