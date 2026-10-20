@@ -135,7 +135,7 @@ BLOG_CSS = CARD_CSS + (
     ".feed [data-size=sm] h2,.feed [data-size=md] h2,.feed [data-size=row] h2{margin-top:6px;font-size:18px}"
     ".feed [data-size=md] .desc,.feed [data-size=row] .desc{display:none}"
     ".rel ul{grid-template-columns:minmax(0,1fr);gap:28px}.rel li:nth-child(3){display:block}"
-    ".hero-img{padding:0 12px;margin-top:32px}.hero-img img{aspect-ratio:3/2;border-radius:18px}.post .doc{padding-top:40px}"
+    ".hero-img{padding:0 16px;margin-top:32px}.hero-img img{aspect-ratio:3/2;border-radius:18px}.post .doc{padding-top:40px}"
     ".short{padding:20px 20px 22px}.short p:last-child{font-size:18px}.by{gap:12px 28px}}"
 )
 
