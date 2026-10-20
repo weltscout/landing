@@ -791,6 +791,20 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 @media (prefers-reduced-motion:reduce){
   .sheet.pre .hit>*,.sheet.pre .ping{opacity:1;transform:none}
 }
+/* mobile rhythm (20. 10.): one 16 px gutter for text and cards, inset bands keep 20 px inside, no empty stage around the statement */
+@media (max-width:600px){
+  :root{--gut:16px}
+  .w,.wa,.sec-h,.split,.price-head,.faq-wrap,.contact-wrap,.bento,.guides,.nots,.nots2,.assure,.assure1,.def{padding-left:var(--gut)!important;padding-right:var(--gut)!important}
+  .plans{padding-left:var(--gut)!important;padding-right:var(--gut)!important}
+  section.band,.tabs-wrap,.photo,section.final{margin-left:var(--gut)!important;margin-right:var(--gut)!important}
+  section.band .w{padding-left:20px!important;padding-right:20px!important}
+  .facts.spec{margin-left:var(--gut);margin-right:var(--gut)}
+  section{padding:56px 0}
+  section.band{padding:40px 0}
+  section.final{padding:56px 20px}
+  .say .stick,.still .say .stick{min-height:0;padding:104px 0 64px}
+  .say p{padding:0 var(--gut)}
+}
 </style>
 </head>
 <body>
