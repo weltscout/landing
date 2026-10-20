@@ -26,5 +26,8 @@ jobs:
       - name: Build site
         run: python3 deploy/build.py dist
 
+      - name: Generate edge script
+        run: python3 deploy/edge_script.py dist
+
       - name: Run tests
-        run: python3 -m unittest deploy/test_aws.py -v
+        run: python3 -m unittest deploy/test_aws.py deploy/test_edge_script.py -v
