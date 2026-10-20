@@ -1,0 +1,62 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# One deploy at a time; later pushes queue instead of interleaving uploads.
+concurrency:
+  group: deploy-main
+
+jobs:
+  deploy:
+    name: Build & deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      # Preview build until the www.weltscout.com cut-over: canonical URLs on
+      # the b-cdn.net hostname and X-Robots-Tag: noindex (WS_INDEXABLE=0).
+      - name: Build site
+        run: python3 deploy/build.py dist
+        env:
+          WS_SITE: https://weltscout-landing.b-cdn.net
+          WS_INDEXABLE: "0"
+
+      - name: Generate edge script
+        run: python3 deploy/edge_script.py dist
+
+      - name: Stage upload
+        run: python3 deploy/stage_upload.py dist /tmp/upload
+
+      # Upload + remove use only the storage-zone password — the account API
+      # key never reaches this repo. No purge step: the no-cache edge rules on
+      # HTML make purging unnecessary.
+      - name: Deploy files to Bunny storage
+        uses: ayeressian/bunnycdn-storage-deploy@74f4ef4922470087621a4d134f7960b74492e8fc # v2.3.0
+        with:
+          source: /tmp/upload
+          destination: ""
+          storageZoneName: weltscout-landing
+          storagePassword: ${{ secrets.BUNNY_WELTSCOUT_LANDING_PASSWORD }}
+          upload: "true"
+          remove: "true"
+
+      - name: Deploy edge script
+        uses: BunnyWay/actions/deploy-script@931a74b9c45ea9f9f01435fbbf1649830e67d3b3 # main
+        with:
+          script_id: ${{ secrets.SCRIPT_ID }}
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          file: dist/edge_script.js
+
+      - name: Verify the deploy
+        run: bash deploy/verify.sh
