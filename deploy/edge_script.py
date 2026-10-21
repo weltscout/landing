@@ -12,13 +12,14 @@ it never writes a partial translation.
 
 import json
 import pathlib
+import os
 import re
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 CORE = HERE / "edge_core.js"
 TEMPLATE = HERE / "edge-templates" / "script.template.js"
-SITE_URL = "https://weltscout-landing.b-cdn.net"
+SITE_URL = os.environ.get("WS_SITE", "https://weltscout-landing.b-cdn.net")
 
 KNOWN_TOP_KEYS = {"cleanUrls", "headers", "redirects"}
 KNOWN_REDIRECT_KEYS = {"source", "destination", "permanent", "statusCode"}

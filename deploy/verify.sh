@@ -3,7 +3,7 @@
 # The redirect and contact checks only pass if the generated middleware is
 # serving; the security-header check alone would pass on the CDN edge rule.
 set -euo pipefail
-BASE="${BASE_URL:-https://weltscout-landing.b-cdn.net}"
+BASE="${BASE_URL:-${WS_SITE:-https://weltscout-landing.b-cdn.net}}"
 
 code=$(curl -s -o /dev/null -w '%{http_code}' "$BASE/")
 [ "$code" = 200 ] || { echo "GET / -> $code (want 200)"; exit 1; }
@@ -13,7 +13,11 @@ grep -qi '^x-content-type-options: nosniff' <<<"$hdrs" || { echo "missing securi
 
 # Preview contract: keep out of search engines until the www.weltscout.com
 # cut-over. Remove this check when WS_INDEXABLE flips to 1.
-grep -qi '^x-robots-tag: noindex' <<<"$hdrs" || { echo "preview build missing noindex on /"; exit 1; }
+if [ "${WS_INDEXABLE:-0}" = "1" ]; then
+  ! grep -qi '^x-robots-tag: noindex' <<<"$hdrs" || { echo "production build still sends noindex on /"; exit 1; }
+else
+  grep -qi '^x-robots-tag: noindex' <<<"$hdrs" || { echo "preview build missing noindex on /"; exit 1; }
+fi
 
 redir=$(curl -sI "$BASE/post/")
 { grep -q '^HTTP/[^ ]* 301' <<<"$redir" && grep -qi '^location: /sl/' <<<"$redir"; } || {
