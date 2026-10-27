@@ -1,0 +1,1 @@
+Screenshots for the owners: landing changes of 27 Oct 2026 (main a2e7f58, draft PR pricing/trial-7-days). Rendered locally from the built site, sl, dark theme, Chromium. Not part of the site; delete this branch when no longer needed.
