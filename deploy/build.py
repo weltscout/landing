@@ -287,6 +287,14 @@ def seo(html, page, live):
             die(page, f"img without alt: {tag[:80]}")
     out = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     html = html.replace(ld[0], out, 1).replace("{{SITE}}", site)
+    app = CONF.get("app")
+    if not app:
+        die(page, 'langs.json has no "app" URL for {{APP}} links')
+    if app.rstrip("/") in html:
+        die(page, f"literal {app} in the page; link the web app with {{{{APP}}}}")
+    if "{{APP}}" not in html:
+        die(page, "no {{APP}} link to the web app")
+    html = html.replace("{{APP}}", app)
     if "{{" in html:
         die(page, "unresolved {{ token")
     return html, {"title": title, "desc": desc}
@@ -723,6 +731,7 @@ def link_legal(html, page):
 
 
 def absolutize(html):
+    html = re.sub(r'srcset="([^"]*)"', lambda m: 'srcset="' + re.sub(r"(^|,\s*)((?:img|fonts)/)", r"\1/\2", m.group(1)) + '"', html)
     html = re.sub(r'((?:src|href|poster|srcset)=")((?:img|fonts)/)', r"\1/\2", html)
     html = re.sub(r'url\((["\']?)((?:img|fonts)/)', r"url(\1/\2", html)
     return html.replace('href="tokens.css"', 'href="/tokens.css"')

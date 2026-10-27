@@ -496,7 +496,7 @@
       }
     }
   ],
-  "appRegister": "https://app.weltscout.com/auth/register/",
+  "app": "https://app.weltscout.com/",
   "blogIndexStatuses": [
     "published",
     "review"
