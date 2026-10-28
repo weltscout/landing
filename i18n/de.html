@@ -253,7 +253,7 @@ section.final{background-image:linear-gradient(rgba(255,255,255,.06) 1px,transpa
 .sw button{color:var(--tx2)!important}.sw button[aria-pressed="true"]{background:var(--tx)!important;color:var(--pg)!important}
 .motion{position:static!important;display:block;margin:12px auto 0;box-shadow:none!important;min-height:40px}
 #vprasanja .def{margin:0 auto 64px}
-.assure1{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;max-width:var(--maxw);margin:56px auto 0!important;padding:0 24px;font-size:15px;color:var(--tx2)}
+.assure1{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;max-width:var(--maxw);margin:var(--block-gap) auto 0!important;padding:0 24px;font-size:15px;color:var(--tx2)}
 .assure1 span:before{content:"✓";color:var(--acc);font-weight:700;margin-right:8px}
 @media (max-width:600px){
   .hero .eyebrow{display:none}
@@ -1024,6 +1024,24 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 @keyframes h1sheen{0%{background-position:100% 0,0 0}24%,100%{background-position:0 0,0 0}}
 .still .hero h1 .sheen,.motion-off .hero h1 .sheen{animation:none}
 @media (forced-colors:active){.hero h1 .sheen{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText}}
+
+/* vertical rhythm (28. 10.): one set of spacing tokens for the whole page, fluid from 390 to 1440.
+   --sec-y between sections (one gap, never two paddings back to back), --band-y inside every band, --block-gap between blocks
+   of one section, --sec-head from a heading block to its content, --lead-gap from a heading to its lead.
+   Defined on html so the blog and legal chrome (section.band, section.final) carries them too */
+html{--sec-y:clamp(80px,6.1vw + 56px,144px);--band-y:clamp(56px,4.2vw + 40px,104px);--block-gap:clamp(48px,3vw + 36px,80px);--sec-head:clamp(32px,2.4vw + 24px,60px);--lead-gap:clamp(12px,.6vw + 10px,20px)}
+section{padding-top:var(--sec-y);padding-bottom:var(--sec-y)}
+section:not(.band)+section:not(.band){padding-top:0}
+section.band{padding-top:var(--band-y);padding-bottom:var(--band-y)}
+.sec-h,.price-head{margin-bottom:var(--sec-head)}
+.sec-h .lead,.honest .sec-h .lead,.price-head .lead{margin-top:var(--lead-gap)}
+.hero{padding-bottom:0}
+.facts.spec{margin-top:var(--sec-y);margin-bottom:var(--sec-y)}
+.split{margin-bottom:var(--block-gap)}
+.addon{margin-top:var(--block-gap)}
+.terms{margin-top:var(--sec-head)}
+#vprasanja .def{margin-bottom:var(--block-gap)}
+@media (max-width:900px){.say{margin-top:var(--sec-y)}}
 </style>
 </head>
 <body>
@@ -1120,7 +1138,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
   </div>
 </section>
 
-<section id="kako" style="padding-top:0">
+<section id="kako">
   <div class="sec-h rv"><p class="eyebrow">So funktioniert’s</p><h2>Drei Schritte. Der erste dauert eine Minute.</h2><p class="lead">Sie legen die Suche einmal an. Danach arbeitet sie für Sie, und Sie kümmern sich um den Kunden.</p></div>
   <div class="tabs-wrap" id="tabs">
     <div class="tabs-l">
@@ -1135,7 +1153,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
   </div>
 </section>
 
-<section style="padding-top:0">
+<section>
   <div class="split rv" id="stranke"><div><p class="eyebrow">Für Händler und Vermittler</p><h2>Jeder Kunde mit eigener Suche, Sie mit einem Überblick</h2><p class="lead">Fragt ein Kunde „Was haben Sie?“, sagen Sie nicht „Ich schau mal und melde mich“. Sie öffnen seine Suche und zeigen es ihm.</p><p class="lead" style="margin-top:14px">Im Modul „Kunden“ speichern Sie für jeden Kunden Name, Telefon und E-Mail und verknüpfen die Suchen mit ihm. Alle Kunden und ihre Suchen sehen Sie auf einem Bildschirm.</p><a class="btn" href="{{APP}}" style="margin-top:26px">Mit einem Kunden testen</a></div><figure style="margin:0"><picture><source type="image/avif" srcset="img/foto5-stranka-960.avif 960w, img/foto5-stranka-1600.avif 1600w" sizes="(max-width:900px) 92vw, 663px"><img src="img/foto5-stranka-1600.webp" srcset="img/foto5-stranka-960.webp 960w, img/foto5-stranka-1600.webp 1600w" sizes="(max-width:900px) 92vw, 663px" width="1600" height="1067" alt="Ein Händler zeigt einer Kundin im Autohaus ihre Suche auf dem Tablet" loading="lazy" decoding="async"></picture></figure></div>
   <div class="bento" tabindex="0" role="region" aria-label="Was Sie außerdem erhalten">
     <div class="bx rv">
@@ -1157,7 +1175,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
   </div>
 </section>
 
-<section id="cenik" style="padding-top:0">
+<section id="cenik">
   <div class="price-head rv">
     <div><p class="eyebrow">Preise</p><h2>Ab 129,90 € im Monat. <span>Die ersten 7 Tage kostenlos, ohne Einschränkungen.</span></h2><p class="lead">Der Test ist bei allen Paketen gleich, das Paket wählen Sie erst danach. Die Preise gelten pro Nutzer, zzgl. MwSt.</p><p class="ph-trial"><span class="nocard">7 Tage kostenlos</span><span class="nocard">Ohne Kreditkarte</span></p></div>
     <div class="bill" role="group" aria-label="Zahlungsweise"><button type="button" data-b="m" aria-pressed="true">Monatlich</button><button type="button" data-b="y" aria-pressed="false">Jährlich <em>−17 %</em></button></div>
@@ -1187,7 +1205,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
   <div class="addon rv" id="fast"><div><p class="k">Optional</p><h3 class="n">Zusatzpaket FAST</h3><p>Häufigere Prüfung neuer Inserate für Suchen, bei denen jede Stunde zählt, als Zusatz zu Business oder Business +.</p></div><div class="ac"><div class="pr txt">Nach Vereinbarung</div><p>Häufigkeit und Preis vereinbaren wir anhand Ihrer Suchen.</p><a class="btn alt" href="#kontakt" data-prefill="Ich interessiere mich für das Zusatzpaket FAST: wie oft es neue Inserate prüft, was es kostet und zu welchem Paket ich es hinzufügen kann.">Nach FAST fragen</a></div></div>
 </section>
 
-<section class="honest" style="padding-top:0">
+<section class="honest">
   <div class="sec-h rv"><h2>Wir sagen auch, was wir nicht tun.</h2><p class="lead">Damit Sie wissen, was Sie kaufen.</p></div>
   <ol class="nots2">
     <li class="rv"><span class="x"><span class="sr">In Business und Business + tun wir nicht: </span><span class="xs">Echtzeit-Alarm</span></span><p><b>Öfter? FAST dazubuchen.</b>Business prüft neue Inserate einmal täglich, Business + zweimal täglich. Häufigere Prüfungen bietet das optionale Zusatzpaket FAST unter den Paketen. <a class="fast" href="#fast">Mehr zu FAST</a></p></li>
@@ -1197,7 +1215,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 </section>
 
 
-<section id="vprasanja" style="padding-top:0">
+<section id="vprasanja">
   <div class="def"><p class="k">Kurz gesagt</p><p><b>WeltScout</b> ist eine Web-App für Gebrauchtwagenhändler und Vermittler. Sie durchsucht bis zu 29 nationale und europäische Portale in 14 Ländern, zeigt erste Treffer in wenigen Sekunden, prüft neue Inserate ein- oder zweimal täglich und sendet sie per WhatsApp oder E-Mail. Ab 129,90 € pro Nutzer und Monat, zzgl. MwSt.</p><ul class="cl" aria-label="Durchsuchte Länder"><li><img class="fl" src="img/flags/si.webp" width="18" height="13" alt="">Slowenien</li><li><img class="fl" src="img/flags/hr.webp" width="18" height="13" alt="">Kroatien</li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">Österreich</li><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">Deutschland</li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt="">Italien</li><li><img class="fl" src="img/flags/fr.webp" width="18" height="13" alt="">Frankreich</li><li><img class="fl" src="img/flags/nl.webp" width="18" height="13" alt="">Niederlande</li><li><img class="fl" src="img/flags/be.webp" width="18" height="13" alt="">Belgien</li><li><img class="fl" src="img/flags/lu.webp" width="18" height="13" alt="">Luxemburg</li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt="">Spanien</li><li><img class="fl" src="img/flags/pt.webp" width="18" height="13" alt="">Portugal</li><li><img class="fl" src="img/flags/pl.webp" width="18" height="13" alt="">Polen</li><li><img class="fl" src="img/flags/ro.webp" width="18" height="13" alt="">Rumänien</li><li><img class="fl" src="img/flags/se.webp" width="18" height="13" alt="">Schweden</li></ul><p class="st">Stand: Oktober 2026</p></div>
   <div class="faq-wrap">
     <div class="side-h rv">
@@ -1220,7 +1238,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
   </div>
 </section>
 
-<section id="kontakt" style="padding-top:0">
+<section id="kontakt">
   <div class="contact-wrap">
     <div class="rv">
       <p class="eyebrow">Kontakt</p>
