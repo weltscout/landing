@@ -298,11 +298,11 @@ The "10 filtrov. 11 držav. 854 zadetkov." section is the large blue moment: a f
 - **Layout:** query on top; below it two columns (hits per portal | sample) split by a hairline from 1101px, one column under that.
 
 ### Product mocks (signature)
-The hero app frame (browser chrome around a real 27. 10. recording; a portrait still from the phone recording on screens ≤ 600px, the results still on larger screens) and the WhatsApp phone with a real listing. They are the strongest proof on the page; keep them sharp and never decorate them.
+The hero app frame (browser chrome around a real 27. 10. recording, enlargeable on click; a portrait still from the phone recording on screens ≤ 600px, the results still on larger screens) and the WhatsApp phone with a real listing. They are the strongest proof on the page; keep them sharp and never decorate them.
 
 ### Motion
 - **One page-load moment:** the first H1 sentence rises word by word (opacity and translateY only, 600ms each, stagger ≤ 60ms) and the second lands as one line; everything settles within 1s. Hyphenated compounds keep their break point.
-- **Response motion:** pressed buttons, FAQ open/close, tab progress, the rotating top bar, autoplaying recordings only while visible, and the proof receipt's portal bars, which grow once from the left when the list enters the view (transform only, 0.5s each with a 40ms stagger, all done within 0.8s). Numbers never count up there.
+- **Response motion:** pressed buttons, FAQ open/close, tab progress, the rotating top bar, autoplaying recordings only while visible, and the proof receipt's portal bars, which grow once from the left when the list enters the view (transform only, 0.5s each with a 40ms stagger, all done within 0.8s). Numbers never count up there. The hero visual opens large on click (a native modal over a dark veil blurred 10px): it grows from the thumbnail's own box to the centre in 400ms with the ease-out expo and shrinks back to it on close (X, Esc, the veil); focus goes to Close and back to the trigger. Reduced motion only fades (200ms).
 - **Easing:** `cubic-bezier(.16,1,.3,1)` (ease-out expo). No bounce.
 - **Respect:** `prefers-reduced-motion` and `?still` show the final static state; the "Ustavi gibanje" control pauses every animation and recording, and remembers the choice.
 
