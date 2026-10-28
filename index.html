@@ -1186,14 +1186,14 @@ nav .btn,nav .right .btn,.ask-card .btn{--h:44px;height:var(--h);padding:0 calc(
 .hero .ctas{margin-top:calc(var(--lead-gap) * 2);gap:12px}
 .hero .note.offer{margin-top:calc(var(--lead-gap) + 6px);line-height:1.6}
 .hero .note.offer .from{display:block;margin-top:4px}
-/* hero zoom (28. 10.): the hero visual opens large in a modal. The thumbnail grows from its own place to the centre
+/* hero zoom (28. 10.): the hero visual opens large in a modal; a blue expand icon in the frame's corner marks it, on touch too;
+   on phones only the app frame opens, so the recording is not covered by the WhatsApp phone. The thumbnail grows from its own place to the centre
    (FLIP, transform only, 400ms ease-out) over a dark blurred veil and shrinks back on close; reduced motion only fades */
-.hero .duo{cursor:zoom-in}
-.hero .zoom{position:absolute;inset:0;z-index:1;margin:0;padding:0;border:0;border-radius:var(--r-lg);background:none;cursor:zoom-in}
+.hero .duo{cursor:pointer}
+.hero .zoom{position:absolute;inset:0;z-index:1;margin:0;padding:0;border:0;border-radius:var(--r-lg);background:none;cursor:pointer}
 .hero .zoom:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
-.hero .zoom svg{position:absolute;left:12px;bottom:12px;width:36px;height:36px;padding:9px;border-radius:999px;background:rgba(0,18,46,.72);color:#fff;opacity:0;transition:opacity .2s}
-.hero .duo:hover .zoom svg,.hero .zoom:focus-visible svg{opacity:1}
-@media (hover:none){.hero .zoom svg{opacity:1}}
+.hero .zoom svg{position:absolute;left:12px;bottom:12px;width:44px;height:44px;padding:12px;border-radius:999px;background:var(--blue-600);color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 6px 16px -6px rgba(0,30,90,.55);transition:transform .2s var(--ease-out),background-color .2s}
+.hero .duo:hover .zoom svg{background:var(--blue-500);transform:scale(1.06)}
 .hero .lb{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:none;overflow:hidden;color:var(--tx)}
 .hero .lb::backdrop{background:transparent}
 .hero .lb-bg{position:absolute;inset:0;background:rgba(0,8,20,.78);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
@@ -1591,48 +1591,58 @@ nav .btn,nav .right .btn,.ask-card .btn{--h:44px;height:var(--h);padding:0 calc(
     }
   }
 
-  /* hero zoom (28. 10.): a copy of the hero visual opens in a modal dialog, growing from the thumbnail's own box to the
-     centre and shrinking back to it on close (X, Esc, the veil); reduced motion, ?still and the motion switch only fade */
+  /* hero zoom (28. 10.): a copy of the hero visual (on phones only the app frame) opens in a modal dialog, growing from its
+     own box to the centre and shrinking back on close (X, Esc, the veil, the browser's back button); a close during the
+     opening reverses from wherever it is; reduced motion, ?still and the motion switch only fade */
   const zduo = $(".hero .duo"), zdlg = $(".hero .lb");
   if (zduo && zdlg && zdlg.showModal) {
-    const zbtn = zduo.querySelector(".zoom"), zm = zdlg.querySelector(".lb-m"), zbg = zdlg.querySelector(".lb-bg");
-    const ZMS = 400, ZEASE = "cubic-bezier(.16,1,.3,1)", calm = () => RM || STILL || motionOff;
-    let zc = null, zbusy = false, zpad = "";
-    const zbox = () => { const d = zduo.getBoundingClientRect(), rs = [d, ...[...zduo.children].filter(e => e !== zbtn).map(e => e.getBoundingClientRect())];
+    const zbtn = zduo.querySelector(".zoom"), zm = zdlg.querySelector(".lb-m"), zbg = zdlg.querySelector(".lb-bg"), zx = zdlg.querySelector(".lb-x");
+    const ZMS = 400, ZEASE = "cubic-bezier(.16,1,.3,1)", calm = () => RM || STILL || motionOff, small = () => innerWidth <= 600 || innerHeight <= 600;
+    let zc = null, zsrc = null, zst = "closed", zpad = "", zpushed = false;
+    const zbox = el => { const d = el.getBoundingClientRect(), rs = [d, ...[...el.children].filter(e => e !== zbtn).map(e => e.getBoundingClientRect())];
       const l = Math.min(...rs.map(r => r.left)), t = Math.min(...rs.map(r => r.top));
       return { d, l, t, w: Math.max(...rs.map(r => r.right)) - l, h: Math.max(...rs.map(r => r.bottom)) - t }; };
     const zfrom = b => `translate(${b.d.left}px, ${b.d.top}px) scale(1)`;
-    const zto = b => { const top = 80, side = innerWidth > 600 ? 48 : 16, s = Math.min((innerWidth - 2 * side) / b.w, (innerHeight - top - side) / b.h, 2.5);
-      const x = (innerWidth - b.w * s) / 2 - (b.l - b.d.left) * s, y = top + (innerHeight - top - side - b.h * s) / 2 - (b.t - b.d.top) * s;
+    const zto = b => { const sm = small(), top = sm ? 72 : 80, side = sm ? 0 : 48, bot = sm ? 8 : 48;
+      const s = Math.min((innerWidth - 2 * side) / b.w, (innerHeight - top - bot) / b.h, 2.5);
+      const x = (innerWidth - b.w * s) / 2 - (b.l - b.d.left) * s, y = top + (innerHeight - top - bot - b.h * s) / 2 - (b.t - b.d.top) * s;
       return `translate(${x}px, ${y}px) scale(${s})`; };
+    const stopAll = () => [zm, zbg, zdlg].forEach(e => e.getAnimations().forEach(a => a.cancel()));
     const zopen = () => {
-      if (zbusy || zdlg.open) return; zbusy = true;
-      const b = zbox(), ov = zduo.querySelector("video");
-      zc = zduo.cloneNode(true); zc.querySelector(".zoom").remove(); zc.querySelectorAll("[id]").forEach(e => e.removeAttribute("id"));
-      zm.style.width = zduo.offsetWidth + "px"; zm.replaceChildren(zc);
+      if (zst !== "closed") return; zst = "opening";
+      zsrc = small() ? zduo.querySelector(".frame") : zduo;
+      const b = zbox(zsrc), ov = zduo.querySelector("video");
+      zc = zsrc.cloneNode(true); const zb = zc.querySelector(".zoom"); if (zb) zb.remove(); zc.querySelectorAll("[id]").forEach(e => e.removeAttribute("id"));
+      zm.style.width = zsrc.offsetWidth + "px"; zm.replaceChildren(zc);
       const cv = zc.querySelector("video");
       if (cv && ov) { cv.muted = true; cv.tabIndex = -1; if (ov.readyState) cv.currentTime = ov.currentTime; if (!ov.paused) cv.play().catch(() => {}); }
       const sbw = innerWidth - root.clientWidth; zpad = root.style.paddingRight; root.style.overflow = "hidden"; if (sbw) root.style.paddingRight = sbw + "px";
-      zdlg.showModal(); zdlg.querySelector(".lb-x").focus(); zduo.style.visibility = "hidden"; zm.style.transform = zto(b);
-      const done = () => { zbusy = false; };
+      zdlg.showModal(); zx.focus(); zsrc.style.visibility = "hidden"; zm.style.transform = zto(b);
+      if (!(history.state && history.state.wsZoom)) { history.pushState({ wsZoom: 1 }, ""); zpushed = true; }
+      const done = () => { if (zst === "opening") zst = "open"; };
       if (calm()) { zdlg.animate({ opacity: [0, 1] }, { duration: 200 }).onfinish = done; return; }
       zbg.animate({ opacity: [0, 1] }, { duration: ZMS, easing: "ease-out" });
       zm.animate({ transform: [zfrom(b), zto(b)] }, { duration: ZMS, easing: ZEASE }).onfinish = done;
     };
-    const zclose = () => {
-      if (zbusy || !zdlg.open) return; zbusy = true;
+    const zclose = fromPop => {
+      if (zst === "closed" || zst === "closing") return;
+      const cur = getComputedStyle(zm).transform, bgo = +getComputedStyle(zbg).opacity, dlo = +getComputedStyle(zdlg).opacity;
+      stopAll(); zst = "closing";
+      if (zpushed && !fromPop) history.back();
+      zpushed = false;
       const cv = zc && zc.querySelector("video"), ov = zduo.querySelector("video");
       if (cv && ov && cv.readyState) ov.currentTime = cv.currentTime;
-      const fin = () => { zdlg.close(); zduo.style.visibility = ""; root.style.overflow = ""; root.style.paddingRight = zpad; zm.replaceChildren(); zm.style.transform = ""; zc = null; zbusy = false; zbtn.focus({ preventScroll: true }); };
-      if (calm()) { zdlg.animate({ opacity: [1, 0] }, { duration: 200 }).onfinish = fin; return; }
-      const b = zbox();
-      zbg.animate({ opacity: [1, 0] }, { duration: ZMS, easing: "ease-in", fill: "forwards" });
-      zm.animate({ transform: [getComputedStyle(zm).transform, zfrom(b)] }, { duration: ZMS, easing: ZEASE, fill: "forwards" }).onfinish = () => { zm.getAnimations().forEach(a => a.cancel()); zbg.getAnimations().forEach(a => a.cancel()); fin(); };
+      const fin = () => { stopAll(); zdlg.close(); zsrc.style.visibility = ""; root.style.overflow = ""; root.style.paddingRight = zpad; zm.replaceChildren(); zm.style.transform = ""; zc = null; zst = "closed"; zbtn.focus({ preventScroll: true }); };
+      if (calm()) { zdlg.animate({ opacity: [dlo, 0] }, { duration: 200, fill: "forwards" }).onfinish = fin; return; }
+      const b = zbox(zsrc);
+      zbg.animate({ opacity: [bgo, 0] }, { duration: ZMS, easing: "ease-in", fill: "forwards" });
+      zm.animate({ transform: [cur, zfrom(b)] }, { duration: ZMS, easing: ZEASE, fill: "forwards" }).onfinish = fin;
     };
-    zduo.addEventListener("click", e => { if (!zdlg.contains(e.target)) zopen(); });
-    zdlg.querySelector(".lb-x").addEventListener("click", zclose);
-    zbg.addEventListener("click", zclose);
+    zduo.addEventListener("click", () => zopen());
+    zx.addEventListener("click", () => zclose());
+    zbg.addEventListener("click", () => zclose());
     zdlg.addEventListener("cancel", e => { e.preventDefault(); zclose(); });
+    addEventListener("popstate", () => { if (zst === "opening" || zst === "open") zclose(true); });
   }
 
   /* faq: one open at a time, height + content eased */
