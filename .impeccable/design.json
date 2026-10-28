@@ -1,0 +1,491 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-28T13:39:10+00:00",
+  "title": "Design System: WeltScout landing",
+  "extensions": {
+    "colorMeta": {
+      "plan-blue": {
+        "role": "primary",
+        "displayName": "Plan Blue",
+        "canonical": "var(--blue-600)",
+        "tonalRamp": [
+          "#000835",
+          "#001655",
+          "#0040B1",
+          "#0055DC",
+          "#0066FF",
+          "#99BFFF",
+          "#E3EDFF",
+          "#F3F7FE"
+        ]
+      },
+      "plan-blue-bright": {
+        "role": "primary",
+        "displayName": "Bright Blue (hover)",
+        "canonical": "var(--blue-500)",
+        "tonalRamp": [
+          "#000835",
+          "#001655",
+          "#0040B1",
+          "#0055DC",
+          "#0066FF",
+          "#99BFFF",
+          "#E3EDFF",
+          "#F3F7FE"
+        ]
+      },
+      "plan-blue-deep": {
+        "role": "primary",
+        "displayName": "Deep Blue (pressed, text on white buttons)",
+        "canonical": "var(--blue-700)",
+        "tonalRamp": [
+          "#000835",
+          "#001655",
+          "#0040B1",
+          "#0055DC",
+          "#0066FF",
+          "#99BFFF",
+          "#E3EDFF",
+          "#F3F7FE"
+        ]
+      },
+      "plan-indigo": {
+        "role": "primary",
+        "displayName": "Plan Indigo (Business + gradient end)",
+        "canonical": "var(--indigo-600)",
+        "tonalRamp": [
+          "#0B0139",
+          "#170F55",
+          "#3D3AA3",
+          "#504EC9",
+          "#5F5EE6",
+          "#AEB8FF",
+          "#E8ECFF",
+          "#F5F6FF"
+        ]
+      },
+      "panel-tint": {
+        "role": "neutral",
+        "displayName": "Panel Tint",
+        "canonical": "color-mix(in oklch, var(--acc) 6%, var(--surf))",
+        "dark": "color-mix(in oklch, #99BFFF 6%, #10151C)"
+      },
+      "trial-green": {
+        "role": "secondary",
+        "displayName": "Trial Green",
+        "canonical": "var(--ok-tx) = color-mix(in srgb, var(--ok) 80%, var(--ok-hi))",
+        "dark": "#3DDC97",
+        "tonalRamp": [
+          "#06301A",
+          "#065C38",
+          "#11764B",
+          "#229C68",
+          "#3DDC97",
+          "#8BEBC0",
+          "#C5F5DF",
+          "#EAFBF3"
+        ]
+      },
+      "trial-green-deep": {
+        "role": "secondary",
+        "displayName": "Trial Green Deep",
+        "canonical": "var(--ok) (light)",
+        "dark": "#3DDC97",
+        "tonalRamp": [
+          "#06301A",
+          "#065C38",
+          "#11764B",
+          "#229C68",
+          "#3DDC97",
+          "#8BEBC0",
+          "#C5F5DF",
+          "#EAFBF3"
+        ]
+      },
+      "trial-mint": {
+        "role": "secondary",
+        "displayName": "Trial Mint",
+        "canonical": "var(--ok-hi)",
+        "tonalRamp": [
+          "#06301A",
+          "#065C38",
+          "#11764B",
+          "#229C68",
+          "#3DDC97",
+          "#8BEBC0",
+          "#C5F5DF",
+          "#EAFBF3"
+        ]
+      },
+      "trial-ink": {
+        "role": "secondary",
+        "displayName": "Trial Ink",
+        "canonical": "var(--ok-ink)",
+        "tonalRamp": [
+          "#06301A",
+          "#065C38",
+          "#11764B",
+          "#229C68",
+          "#3DDC97",
+          "#8BEBC0",
+          "#C5F5DF",
+          "#EAFBF3"
+        ]
+      },
+      "night-navy": {
+        "role": "tertiary",
+        "displayName": "Night Navy",
+        "canonical": "var(--navy-950); band gradient start (--g-hero-noc)",
+        "tonalRamp": [
+          "#00122E",
+          "#0D1E38",
+          "#3D4E67",
+          "#54647C",
+          "#738197",
+          "#B4BFCF",
+          "#E6EDF9",
+          "#F2F7FF"
+        ]
+      },
+      "band-steel": {
+        "role": "tertiary",
+        "displayName": "Band Steel",
+        "canonical": "var(--navy-800)",
+        "tonalRamp": [
+          "#00122E",
+          "#0D1E38",
+          "#3D4E67",
+          "#54647C",
+          "#738197",
+          "#B4BFCF",
+          "#E6EDF9",
+          "#F2F7FF"
+        ]
+      },
+      "band-cobalt": {
+        "role": "tertiary",
+        "displayName": "Band Cobalt",
+        "canonical": "var(--blue-800)",
+        "tonalRamp": [
+          "#000835",
+          "#001655",
+          "#0040B1",
+          "#0055DC",
+          "#0066FF",
+          "#99BFFF",
+          "#E3EDFF",
+          "#F3F7FE"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "var(--slate-600)",
+        "dark": "var(--slate-300)",
+        "tonalRamp": [
+          "#0C1015",
+          "#1B2026",
+          "#464E59",
+          "#5B6471",
+          "#757F8E",
+          "#B6BECB",
+          "#E7EDF7",
+          "#F2F7FE"
+        ]
+      },
+      "page": {
+        "role": "neutral",
+        "displayName": "Page",
+        "canonical": "var(--pg)",
+        "dark": "#080B10"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "var(--surf)",
+        "dark": "#10151C"
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Surface 2",
+        "canonical": "var(--surf2)",
+        "dark": "#151B23"
+      },
+      "surface-3": {
+        "role": "neutral",
+        "displayName": "Surface 3",
+        "canonical": "var(--surf3)",
+        "dark": "#1C232D"
+      },
+      "dark-page": {
+        "role": "neutral",
+        "displayName": "Dark Page",
+        "canonical": "var(--pg) in dark"
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "Dark Surface",
+        "canonical": "var(--surf) in dark"
+      },
+      "dark-ink": {
+        "role": "neutral",
+        "displayName": "Dark Ink",
+        "canonical": "var(--tx) in dark"
+      },
+      "dark-accent": {
+        "role": "primary",
+        "displayName": "Dark Accent",
+        "canonical": "var(--acc) in dark = var(--blue-300)",
+        "tonalRamp": [
+          "#000835",
+          "#001655",
+          "#0040B1",
+          "#0055DC",
+          "#0066FF",
+          "#99BFFF",
+          "#E3EDFF",
+          "#F3F7FE"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero H1 only; second sentence weight 700 in Trial Green. Phones: clamp(32px, 10vw, 38px); 601-979 px: clamp(44px, 4.4vw, 64px)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section h2, max 20ch, balanced wrap."
+      },
+      "price": {
+        "displayName": "Price",
+        "purpose": "Plan prices, tabular figures."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles (24px), plan names (20px), tab panel heading (30px)."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Line under a heading, muted ink, max 58ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text, under 75ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Eyebrows (accent blue) and small labels (muted ink), sentence case."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card",
+        "value": "inset 0 0 0 1px var(--line2), var(--sh)",
+        "purpose": "Every card. Light --sh: 0 1px 2px rgba(0,18,46,.05), 0 8px 24px -12px rgba(0,18,46,.12); dark --sh: 0 0 0 1px rgba(255,255,255,.06)."
+      },
+      {
+        "name": "large",
+        "value": "0 2px 4px rgba(0,18,46,.04), 0 40px 80px -32px rgba(0,30,90,.28)",
+        "purpose": "Open FAQ item, hero app frame."
+      },
+      {
+        "name": "lifted",
+        "value": "0 30px 70px -30px color-mix(in srgb, var(--blue-600) 70%, transparent), inset 0 0 0 1px rgba(255,255,255,.16)",
+        "purpose": "Business + card only."
+      },
+      {
+        "name": "button",
+        "value": "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,18,46,.18), 0 8px 18px -10px color-mix(in srgb, var(--blue-600) 60%, transparent)",
+        "purpose": "Primary buttons at rest."
+      },
+      {
+        "name": "button-pressed",
+        "value": "inset 0 2px 5px rgba(0,8,53,.35)",
+        "purpose": "Primary buttons while pressed."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "All entrances and state changes (--ease-out)."
+      },
+      {
+        "name": "h1-word-reveal",
+        "value": "opacity + translateY(.42em), 600ms, stagger min(60ms, 400ms / words)",
+        "purpose": "The single page-load moment; settles within 1s, then the plain markup returns."
+      },
+      {
+        "name": "button-state",
+        "value": "background-color/box-shadow 150ms; pressed 50ms",
+        "purpose": "Hover lifts colour, not position."
+      },
+      {
+        "name": "reduced",
+        "value": "prefers-reduced-motion, ?still, the 'Ustavi gibanje' control",
+        "purpose": "Static final state; recordings pause; the choice is remembered."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "xs",
+        "value": "370px"
+      },
+      {
+        "name": "phone",
+        "value": "600px"
+      },
+      {
+        "name": "addon",
+        "value": "700px"
+      },
+      {
+        "name": "tablet",
+        "value": "900px"
+      },
+      {
+        "name": "hero-split",
+        "value": "980px"
+      },
+      {
+        "name": "maxw",
+        "value": "1440px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Every primary action; 44px in the nav, 48px default, 56px in the hero and closing band.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Preizkusi brezplačno</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;padding:0 23px;border:0;border-radius:999px;font:600 16px/1 Geist,system-ui,sans-serif;cursor:pointer;transition:background-color .15s,box-shadow .15s} .ds-btn-primary{background-color:#0055DC;background-image:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 62%);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,18,46,.18),0 8px 18px -10px rgba(0,85,220,.6)} .ds-btn-primary:hover{background-color:#0066FF} .ds-btn-primary:active{background-color:#0040B1;background-image:none;box-shadow:inset 0 2px 5px rgba(0,8,53,.35)} .ds-btn-primary:focus-visible{outline:2px solid #0055DC;outline-offset:3px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "The second choice next to a primary button.",
+      "html": "<button class=\"ds-btn ds-btn-secondary\">Poglej cenik</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;padding:0 23px;border:0;border-radius:999px;font:600 16px/1 Geist,system-ui,sans-serif;cursor:pointer;transition:background-color .15s,box-shadow .15s} .ds-btn-secondary{background:transparent;color:#00122E;box-shadow:inset 0 0 0 1px rgba(0,18,46,.2)} .ds-btn-secondary:hover{background:#EEF2F7;box-shadow:inset 0 0 0 1px #5B6471} .ds-btn-secondary:active{background:#E6ECF4} .ds-btn-secondary:focus-visible{outline:2px solid #0055DC;outline-offset:3px}"
+    },
+    {
+      "name": "On-colour Button",
+      "kind": "button",
+      "refersTo": "button-on-color",
+      "description": "Primary action on the Business + card and the closing band.",
+      "html": "<div class=\"ds-band\"><button class=\"ds-btn ds-btn-oncolor\">Preizkusi brezplačno</button></div>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;padding:0 23px;border:0;border-radius:999px;font:600 16px/1 Geist,system-ui,sans-serif;cursor:pointer;transition:background-color .15s,box-shadow .15s} .ds-band{padding:24px;border-radius:24px;background:linear-gradient(135deg,#00122E,#253650,#002A82)} .ds-btn-oncolor{height:56px;padding:0 24px;font-size:17px;background:#fff;color:#0040B1;box-shadow:0 1px 2px rgba(0,8,53,.2),0 12px 26px -14px rgba(0,8,53,.55)} .ds-btn-oncolor:hover{background:#F3F7FE} .ds-btn-oncolor:active{background:#E3EDFF} .ds-btn-oncolor:focus-visible{outline:2px solid #fff;outline-offset:3px}"
+    },
+    {
+      "name": "Trial Pill",
+      "kind": "chip",
+      "refersTo": "pill-trial",
+      "description": "Trial facts: 7 dni brezplačno, Brez kartice.",
+      "html": "<span class=\"ds-pill\">Brez kartice</span>",
+      "css": ".ds-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 18px 8px 14px;border-radius:999px;background:#3DDC97;color:#06301A;font:700 17px/1.2 Geist,system-ui,sans-serif} .ds-pill:before{content:\"✓\";font-weight:700}"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Every standalone card; nested panels are a tint with radius 16px.",
+      "html": "<div class=\"ds-card\"><h3 class=\"ds-card-t\">Vidiš, kje je kaj novega</h3><div class=\"ds-panel\">Primer: sedeš na kavo. Telefon zavibrira.</div></div>",
+      "css": ".ds-card{max-width:360px;padding:32px;border-radius:24px;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,18,46,.13),0 1px 2px rgba(0,18,46,.05),0 8px 24px -12px rgba(0,18,46,.12);font:400 16px/1.55 Geist,system-ui,sans-serif;color:#00122E} .ds-card-t{margin:0 0 16px;font-size:24px;font-weight:600;letter-spacing:-.02em;line-height:1.2} .ds-panel{padding:18px 20px;border-radius:16px;background:#F0F5FD;color:#5B6471}"
+    },
+    {
+      "name": "Business + card",
+      "kind": "card",
+      "refersTo": "card-highlight",
+      "description": "The one lifted element on the page.",
+      "html": "<div class=\"ds-hl\"><b>Business +</b><div class=\"ds-hl-pr\">199,90 €</div></div>",
+      "css": ".ds-hl{max-width:360px;padding:32px;border-radius:24px;color:#fff;background:radial-gradient(circle at 92% 4%,rgba(255,255,255,.1) 0 70px,transparent 71px),radial-gradient(circle at 74% 0,rgba(255,255,255,.05) 0 110px,transparent 111px),linear-gradient(160deg,#0055DC,#504EC9);box-shadow:0 30px 70px -30px rgba(0,85,220,.7),inset 0 0 0 1px rgba(255,255,255,.16);font:600 20px/1.2 Geist,system-ui,sans-serif} .ds-hl-pr{margin-top:18px;font-size:52px;letter-spacing:-.05em;line-height:1}"
+    },
+    {
+      "name": "Segmented control",
+      "kind": "custom",
+      "refersTo": "segmented",
+      "description": "Billing toggle and the 'Trije koraki' tabs.",
+      "html": "<div class=\"ds-seg\" role=\"group\"><button aria-pressed=\"true\">Mesečno</button><button aria-pressed=\"false\">Letno</button></div>",
+      "css": ".ds-seg{display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,18,46,.13)} .ds-seg button{padding:10px 18px;border:0;border-radius:999px;background:transparent;color:#5B6471;font:600 15px/1 Geist,system-ui,sans-serif;cursor:pointer} .ds-seg button[aria-pressed=\"true\"]{background:#00122E;color:#F5F7FA} .ds-seg button:focus-visible{outline:2px solid #0055DC;outline-offset:2px}"
+    },
+    {
+      "name": "Text field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Contact form fields; labels above, 16px text.",
+      "html": "<label class=\"ds-f\">E-pošta<input type=\"email\" placeholder=\"ime@podjetje.si\"></label>",
+      "css": ".ds-f{display:flex;flex-direction:column;gap:7px;font:600 14px/1.3 Geist,system-ui,sans-serif;color:#00122E} .ds-f input{font:400 16px/1.4 Geist,system-ui,sans-serif;color:#00122E;background:#F5F7FA;border:1px solid #757F8E;border-radius:12px;padding:13px 14px} .ds-f input:focus{outline:none;border-color:#0066FF;box-shadow:0 0 0 4px rgba(0,102,255,.18)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Dealer's Workbench",
+    "overview": "**Creative North Star: \"The Dealer's Workbench\"**\n\nThe page should work like a good tool on a dealer's bench: real screenshots of the app, real numbers from those screenshots, prices and the trial in plain sight, nothing that has to be taken on faith. PRODUCT.md puts it as *\"Trgovsko praktično: kot dobro orodje za trgovce\"* (practical, like a good tool for dealers). The visitor is usually a dealer on the lot or in a small office with a phone in hand, so 390 px is the primary viewport and every section has to read at a glance.\n\nThe system is one sans family (Geist) with strong weight and size contrast, a light page in cool greys with white cards, and two committed colour roles. Blue is the action and plan colour; green is the trial, WhatsApp and success colour. Depth comes from hairlines and very soft shadows, never from glows. One element per page section may be \"lifted\" (the Business + plan card); everything else stays quiet so that card wins.\n\nIt rejects what PRODUCT.md lists as anti-references: a page that looks AI-made (\"generični SaaS, prelivno besedilo, sijoče kroglice, enake kartice z ikonami, Inter povsod\"), invented numbers, customer logos or testimonials, and names or logos of foreign portals used as decoration.",
+    "keyCharacteristics": [
+      "Product first: app recordings, the WhatsApp phone, the results list with real prices.",
+      "Two colour roles only: blue acts, green reassures.",
+      "Hairline cards on a light grey page; nested panels are a tint, never a second border.",
+      "One vertical rhythm from tokens (`--sec-y`, `--block-gap`, `--sec-head`, `--lead-gap`), fluid from 390 to 1440 px.",
+      "One orchestrated motion moment (the H1 word reveal), everything else answers the visitor.",
+      "Seven languages, so every component survives the longest of them (de, fr, nl)."
+    ],
+    "rules": [
+      {
+        "name": "The Two Roles Rule",
+        "body": "Blue means \"do this\" (buttons, plan emphasis, links). Green means \"this is safe\" (trial, no card, WhatsApp, success). Never swap them, and never add a third accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Text Is Solid Rule",
+        "body": "Text is always one solid colour. Gradients belong to surfaces (the Business + card, the bands), never to letters.",
+        "section": "colors"
+      },
+      {
+        "name": "The Green Contrast Rule",
+        "body": "Green text on the light page is Trial Green or darker (≥ 4.5:1). Trial Mint is a fill, not a light-theme text colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "No tracked all-caps labels. Eyebrows and labels are sentence case, 14px, weight 600.",
+        "section": "typography"
+      },
+      {
+        "name": "The Longest Language Rule",
+        "body": "Size type for German, French and Dutch, not Slovenian. If a heading breaks badly in one language, change the size token or the copy, never add a per-language override.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Lift Rule",
+        "body": "Only the Business + card has a coloured shadow and soft circles. No glows on badges, facts or bands.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Tint-Not-Border Rule",
+        "body": "A panel inside a card (trial panel, FAST price, bento visual, tab screenshot, the \"Primer\" note) is a tint with radius 16px and no border. Two concentric borders read as a card inside a card.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use Plan Blue (#0055DC) for every action and Trial Green / Trial Mint for every trial, WhatsApp and success message.",
+      "**Do** put spacing on the tokens: `--sec-y` between sections (one gap, never two paddings back to back), `--block-gap` inside a section, `--sec-head` under a heading block, `--lead-gap` under a heading.",
+      "**Do** give every standalone card radius 24px, the Card shadow and `--card-p` padding; give nested panels radius 16px and a tint only.",
+      "**Do** check every text colour on a gradient or image by sampling the pixels under it; axe cannot measure those.",
+      "**Do** design at 390 px first and test 320, 390 and 1440 px in all 7 languages, light and dark.",
+      "**Do** show the product with real recordings and real numbers from those recordings."
+    ],
+    "donts": [
+      "**Don't** make a page that looks AI-made: \"generični SaaS, prelivno besedilo, sijoče kroglice, enake kartice z ikonami, Inter povsod\" (PRODUCT.md). Concretely: no gradient or shimmering text, no glowing orbs or halos, no grid of identical icon cards, no Inter.",
+      "**Don't** invent numbers, customer logos or testimonials (\"Izmišljene številke, logotipi strank in pričevanja\").",
+      "**Don't** use names or logos of foreign portals as decoration (\"Imena in logotipi tujih portalov\", D15); portals appear only where the product shows them.",
+      "**Don't** make speed or \"unlimited\" claims (D19); the trial wording \"7 dni brezplačno, brez omejitev\" is an owner decision and is the only exception.",
+      "**Don't** put soft circles or coloured glows on anything but the Business + card.",
+      "**Don't** nest a bordered panel inside a bordered card.",
+      "**Don't** move buttons on hover; change their colour.",
+      "**Don't** use tracked all-caps labels or an eyebrow chip above the H1.",
+      "**Don't** add a third accent colour, and don't use Trial Mint as text on the light page."
+    ]
+  }
+}
