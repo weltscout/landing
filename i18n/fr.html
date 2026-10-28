@@ -952,8 +952,6 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 .price-head h2{max-width:22ch;margin:0 auto}
 .price-head h2 span{display:block}
 .price-head .lead{margin:18px auto 0;max-width:56ch}
-.ph-trial{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:24px 0 0}
-.ph-trial .nocard{padding:8px 18px 8px 14px;font-size:17px;font-weight:700;background:var(--ok-hi);color:var(--ok-ink)}
 .bill{display:inline-flex;gap:4px;margin-top:24px;padding:5px;border-radius:999px;background:var(--surf);box-shadow:inset 0 0 0 1px var(--line2)}
 .bill button{display:flex;align-items:center;gap:8px;padding:10px 18px;border:0;border-radius:999px;background:transparent;color:var(--tx2);font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:background-color .2s,color .2s}
 .bill button[aria-pressed="true"]{background:var(--tx);color:var(--pg)}
@@ -999,7 +997,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 .plan.max{background:transparent;box-shadow:inset 0 0 0 1px var(--line3)}
 .plan.max:has(.btn:hover,.also:hover){box-shadow:inset 0 0 0 1px var(--tx3)}
 @media (max-width:900px){.price-head{padding:0 12px}.plans{grid-template-columns:minmax(0,1fr);gap:24px;padding:0 12px}.plan .pr{font-size:44px}.plan .pr.txt{min-height:0}}
-@media (max-width:600px){.price-head{margin-bottom:28px}.ph-trial .nocard{font-size:16px}.bill{width:100%}.bill button{flex:1;justify-content:center}.plans{gap:16px;padding-left:var(--gut);padding-right:var(--gut)}.plan{--px:20px;padding:24px var(--px)}.plan .pitch{min-height:0}.plan ul{font-size:15px}.plan li{padding:4px 0}.plans>.plan.max ul,.plans>.plan.max .inc{display:none}}
+@media (max-width:600px){.price-head{margin-bottom:28px}.bill{width:100%}.bill button{flex:1;justify-content:center}.plans{gap:16px;padding-left:var(--gut);padding-right:var(--gut)}.plan{--px:20px;padding:24px var(--px)}.plan .pitch{min-height:0}.plan ul{font-size:15px}.plan li{padding:4px 0}.plans>.plan.max ul,.plans>.plan.max .inc{display:none}}
 
 /* hero H1 v16 (28. 10.): the first sentence rises word by word, the second lands as one line in solid green.
    Transform and opacity only; settles within 1 s; ?still and reduced motion get the static final text */
@@ -1012,7 +1010,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
    --sec-y between sections (one gap, never two paddings back to back), --band-y inside every band, --block-gap between blocks
    of one section, --sec-head from a heading block to its content, --lead-gap from a heading to its lead.
    Defined on html so the blog and legal chrome (section.band, section.final) carries them too */
-html{--sec-y:clamp(80px,6.1vw + 56px,144px);--band-y:clamp(56px,4.2vw + 40px,104px);--block-gap:clamp(48px,3vw + 36px,80px);--sec-head:clamp(32px,2.4vw + 24px,60px);--lead-gap:clamp(12px,.6vw + 10px,20px);--card-p:clamp(20px,1.15vw + 15.5px,32px);--card-sh:inset 0 0 0 1px var(--line2),var(--sh);--panel-bg:color-mix(in oklch,var(--acc) 6%,var(--surf));--hl-bg:radial-gradient(circle at 92% 4%,rgba(255,255,255,.1) 0 70px,transparent 71px),radial-gradient(circle at 74% 0,rgba(255,255,255,.05) 0 110px,transparent 111px),linear-gradient(160deg,var(--blue-600),var(--indigo-600))}
+html{--sec-y:clamp(80px,6.1vw + 56px,144px);--band-y:clamp(56px,4.2vw + 40px,104px);--block-gap:clamp(48px,3vw + 36px,80px);--sec-head:clamp(32px,2.4vw + 24px,60px);--lead-gap:clamp(12px,.6vw + 10px,20px);--card-p:clamp(20px,1.15vw + 15.5px,32px);--card-sh:inset 0 0 0 1px var(--line2),var(--sh);--panel-bg:color-mix(in oklch,var(--acc) 6%,var(--surf));--hl-bg:radial-gradient(circle at 92% 4%,rgba(255,255,255,.1) 0 70px,transparent 71px),radial-gradient(circle at 74% 0,rgba(255,255,255,.05) 0 110px,transparent 111px),linear-gradient(160deg,var(--blue-600),var(--indigo-600));--hl-sh:0 30px 70px -30px color-mix(in srgb,var(--blue-600) 70%,transparent),inset 0 0 0 1px rgba(255,255,255,.16);--hl-band:radial-gradient(circle at 94% 0,rgba(255,255,255,.08) 0 220px,transparent 221px),radial-gradient(circle at 82% -8%,rgba(255,255,255,.05) 0 360px,transparent 361px),radial-gradient(circle at 2% 104%,rgba(255,255,255,.05) 0 260px,transparent 261px),linear-gradient(160deg,var(--blue-600),var(--indigo-600))}
 section{padding-top:var(--sec-y);padding-bottom:var(--sec-y)}
 section:not(.band)+section:not(.band){padding-top:0}
 section.band{padding-top:var(--band-y);padding-bottom:var(--band-y)}
@@ -1116,9 +1114,63 @@ nav .btn,nav .right .btn,.ask-card .btn{--h:44px;height:var(--h);padding:0 calc(
 
 /* approved critique (28. 10.): trial emphasis by colour on the facts strip; the hero still is a CSS background so phones get
    the portrait frame of the 27. 10. recording and desktops the results frame, with no second download */
-.facts.spec>div.hl b{color:var(--ok-tx)}
 .hero-vid{background:var(--surf) url("img/hero-eu-poster.jpg") center top/cover no-repeat}
 @media (max-width:600px){.hero-vid{background-image:url("img/hero-eu-poster-tall.webp")}}
+
+/* facts strip as cards (owner decision 28. 10.; reverses the critique item), "7 dni" is one of the blue moments */
+.facts.spec{gap:16px!important;border:0;width:calc(100% - 48px);max-width:calc(var(--maxw) - 48px)}
+.facts.spec>div:nth-child(n){padding:var(--card-p);border:0;border-radius:var(--r-lg);background:var(--surf);box-shadow:var(--card-sh)}
+.facts.spec>div.hl:nth-child(n){background:var(--blue-600);background:var(--hl-bg);box-shadow:var(--hl-sh);color:#fff}
+.facts.spec>div.hl .k,.facts.spec>div.hl span,.facts.spec>div.hl b{color:#fff}
+@media (max-width:900px){.facts.spec{width:calc(100% - 24px)}}
+@media (max-width:600px){.facts.spec{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px!important;width:auto}.facts.spec>div:nth-child(n){display:block;padding:18px}.facts.spec b,.facts.spec b.word{margin-top:10px;font-size:24px}.facts.spec span{margin-top:6px}}
+
+/* proof band v10 (28. 10.): the "10 filtrov" section is the page's large blue moment. The numbers are the statement, the
+   filters and countries are two labelled chip groups, the recording sits in a white frame as the hero object, and the photo
+   and the four results share one paper card */
+#dokaz{background:var(--blue-600);background:var(--hl-band);box-shadow:var(--hl-sh);color:#fff}
+#dokaz .lead,#dokaz .note{color:var(--blue-100)}
+#dokaz .eyebrow{color:#fff}
+#dokaz .proof{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,4vw,64px);align-items:start}
+#dokaz h2{font-size:clamp(40px,4.8vw,64px);letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
+#dokaz .lead{margin-top:var(--lead-gap)!important;max-width:46ch}
+#dokaz .pmeta{gap:8px;margin-top:28px}
+#dokaz .pmeta+.pmeta{margin-top:20px}
+#dokaz .pmeta .k{flex-basis:100%;padding:0;margin-bottom:2px;background:none;color:#fff;font-size:14px;font-weight:600}
+#dokaz .pmeta span:not(.k){padding:6px 12px;background:rgba(255,255,255,.12);font-weight:500}
+#dokaz .pv{padding-top:8px}
+#dokaz .pv video{display:block;border-radius:var(--r-md);box-shadow:0 0 0 8px var(--paper),var(--sh-lg)}
+#dokaz .pv .note{margin:24px 0 0;max-width:62ch}
+#dokaz .proof2{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px;align-items:stretch;margin:var(--block-gap) 56px 0;padding:12px!important;border-radius:var(--r-lg);background:var(--paper);color:var(--paper-tx);box-shadow:var(--sh-lg)}
+#dokaz .proof2 figure,#dokaz .proof2 picture{display:block;height:100%}
+#dokaz .proof2 figure img{height:100%;min-height:320px;aspect-ratio:auto;border-radius:var(--r-md);box-shadow:none}
+#dokaz .hits2{padding:calc(var(--card-p) - 12px);border-radius:0;background:none;box-shadow:none}
+#dokaz .hits2 .hh{margin:0 0 6px;font-size:16px;color:var(--paper-tx)}
+#dokaz .hits2 li{padding:14px 0}
+#dokaz .hits2 .p{font-size:17px}
+#dokaz .hits2 .by{border-top-style:dashed}
+@media (max-width:900px){#dokaz .proof{grid-template-columns:minmax(0,1fr)}#dokaz .proof2{grid-template-columns:minmax(0,1fr);margin:36px 24px 0}#dokaz .proof2 figure img{min-height:0;aspect-ratio:16/10}}
+@media (max-width:600px){#dokaz .proof2{margin:28px 20px 0;padding:8px!important}#dokaz .hits2{padding:12px 10px 10px}#dokaz .pv video{box-shadow:0 0 0 6px var(--paper),var(--sh-lg)}}
+
+/* consistency pass (28. 10.): one radius scale (pill, 24 card, 16 panel, 12 small), trial pills always mint, no coloured glow
+   outside the blue moments */
+.hero .frame{border-radius:var(--r-lg);box-shadow:var(--sh-lg)}
+.hero .stage:before{content:none}
+.nav-in,.mnav{border-radius:var(--r-lg)}
+.tabs-r img,.flags span,.skip{border-radius:12px}
+.nocard,.banner .nocard{background:var(--ok-hi);color:var(--ok-ink)}
+.addon .k{font-size:14px}
+
+/* trial at the price (28. 10.): right under each price line the trial reads as two mint pills, "7 dni brezplačno, brez
+   omejitev" and "Brez kartice", then the plan's own note; the header pill pair is gone because the H2 already says it */
+.plan .trial,.plan.max .trial,.plan.hl .trial{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:16px 0 0;padding:0;border-radius:0;background:none;box-shadow:none;color:var(--tx2);font-size:14px;line-height:1.35}
+.plan.hl .trial{color:#fff}
+.plan .trial .k{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.plan .trial b{display:inline-block;padding:4px 12px 4px 10px;border-radius:1.1em;background:var(--ok-hi);color:var(--ok-ink);font-size:14px;font-weight:700;letter-spacing:0;line-height:1.6;text-wrap:wrap}
+.plan .trial b:before{content:"✓" / "";margin-right:6px}
+.plan .trial .l{display:inline}
+.plan .trial b .sr{position:static;width:auto;height:auto;overflow:visible;clip:auto;white-space:normal}
+.plan .trial .s{display:contents}
 </style>
 </head>
 <body>
@@ -1253,7 +1305,7 @@ nav .btn,nav .right .btn,.ask-card .btn{--h:44px;height:var(--h);padding:0 calc(
 
 <section id="cenik">
   <div class="price-head rv">
-    <div><p class="eyebrow">Tarifs</p><h2>À partir de 129,90 € HT par mois. <span>Les 7 premiers jours gratuits, sans limites.</span></h2><p class="lead">L’essai est le même pour toutes les formules ; vous choisissez la vôtre seulement après. Prix par utilisateur, hors TVA.</p><p class="ph-trial"><span class="nocard">7 jours gratuits</span><span class="nocard">Sans carte bancaire</span></p></div>
+    <div><p class="eyebrow">Tarifs</p><h2>À partir de 129,90 € HT par mois. <span>Les 7 premiers jours gratuits, sans limites.</span></h2><p class="lead">L’essai est le même pour toutes les formules ; vous choisissez la vôtre seulement après. Prix par utilisateur, hors TVA.</p></div>
     <div class="bill" role="group" aria-label="Période de facturation"><button type="button" data-b="m" aria-pressed="true">Mensuel</button><button type="button" data-b="y" aria-pressed="false">Annuel <em>−17 %</em></button></div>
   </div>
   <p class="sr" id="bill-live" aria-live="polite" data-m="Prix mensuels affichés." data-y="Prix annuels affichés, payés d’avance."></p>

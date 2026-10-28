@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-28T13:39:10+00:00",
+  "generatedAt": "2026-10-28T14:35:20+00:00",
   "title": "Design System: WeltScout landing",
   "extensions": {
     "colorMeta": {
@@ -290,11 +290,6 @@
         "purpose": "Open FAQ item, hero app frame."
       },
       {
-        "name": "lifted",
-        "value": "0 30px 70px -30px color-mix(in srgb, var(--blue-600) 70%, transparent), inset 0 0 0 1px rgba(255,255,255,.16)",
-        "purpose": "Business + card only."
-      },
-      {
         "name": "button",
         "value": "inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,18,46,.18), 0 8px 18px -10px color-mix(in srgb, var(--blue-600) 60%, transparent)",
         "purpose": "Primary buttons at rest."
@@ -303,6 +298,11 @@
         "name": "button-pressed",
         "value": "inset 0 2px 5px rgba(0,8,53,.35)",
         "purpose": "Primary buttons while pressed."
+      },
+      {
+        "name": "lifted",
+        "value": "0 30px 70px -30px color-mix(in srgb, var(--blue-600) 70%, transparent), inset 0 0 0 1px rgba(255,255,255,.16)",
+        "purpose": "The three blue moments only (--hl-sh)."
       }
     ],
     "motion": [
@@ -383,9 +383,9 @@
       "name": "Trial Pill",
       "kind": "chip",
       "refersTo": "pill-trial",
-      "description": "Trial facts: 7 dni brezplačno, Brez kartice.",
+      "description": "Trial facts at the price line of every plan, in the top bar, the hero note and the closing band.",
       "html": "<span class=\"ds-pill\">Brez kartice</span>",
-      "css": ".ds-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 18px 8px 14px;border-radius:999px;background:#3DDC97;color:#06301A;font:700 17px/1.2 Geist,system-ui,sans-serif} .ds-pill:before{content:\"✓\";font-weight:700}"
+      "css": ".ds-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px 4px 10px;border-radius:999px;background:#3DDC97;color:#06301A;font:700 14px/1.6 Geist,system-ui,sans-serif} .ds-pill:before{content:\"✓\";font-weight:700}"
     },
     {
       "name": "Card",
@@ -418,11 +418,19 @@
       "description": "Contact form fields; labels above, 16px text.",
       "html": "<label class=\"ds-f\">E-pošta<input type=\"email\" placeholder=\"ime@podjetje.si\"></label>",
       "css": ".ds-f{display:flex;flex-direction:column;gap:7px;font:600 14px/1.3 Geist,system-ui,sans-serif;color:#00122E} .ds-f input{font:400 16px/1.4 Geist,system-ui,sans-serif;color:#00122E;background:#F5F7FA;border:1px solid #757F8E;border-radius:12px;padding:13px 14px} .ds-f input:focus{outline:none;border-color:#0066FF;box-shadow:0 0 0 4px rgba(0,102,255,.18)}"
+    },
+    {
+      "name": "Proof band",
+      "kind": "custom",
+      "refersTo": "proof-band",
+      "description": "The large blue moment: statement numbers, labelled evidence chips, the recording in a paper ring.",
+      "html": "<section class=\"ds-proof\"><p class=\"ds-eb\">Napredno iskanje po Evropi</p><h2>10 filtrov.<br>11 držav.<br>854 zadetkov.</h2><p class=\"ds-k\">11 držav</p><span class=\"ds-chip\">Slovenija</span><span class=\"ds-chip\">Avstrija</span></section>",
+      "css": ".ds-proof{padding:40px;border-radius:32px;color:#fff;background:radial-gradient(circle at 94% 0,rgba(255,255,255,.08) 0 220px,transparent 221px),linear-gradient(160deg,#0055DC,#504EC9);font-family:Geist,system-ui,sans-serif} .ds-eb{margin:0 0 14px;font:600 14px/1.3 inherit;color:#fff} .ds-proof h2{margin:0;font-size:56px;font-weight:600;letter-spacing:-.045em;line-height:1} .ds-k{margin:24px 0 8px;font:600 14px/1.3 Geist,system-ui,sans-serif} .ds-chip{display:inline-flex;margin:0 6px 6px 0;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.12);font:500 13.5px/1.3 Geist,system-ui,sans-serif}"
     }
   ],
   "narrative": {
     "northStar": "The Dealer's Workbench",
-    "overview": "**Creative North Star: \"The Dealer's Workbench\"**\n\nThe page should work like a good tool on a dealer's bench: real screenshots of the app, real numbers from those screenshots, prices and the trial in plain sight, nothing that has to be taken on faith. PRODUCT.md puts it as *\"Trgovsko praktično: kot dobro orodje za trgovce\"* (practical, like a good tool for dealers). The visitor is usually a dealer on the lot or in a small office with a phone in hand, so 390 px is the primary viewport and every section has to read at a glance.\n\nThe system is one sans family (Geist) with strong weight and size contrast, a light page in cool greys with white cards, and two committed colour roles. Blue is the action and plan colour; green is the trial, WhatsApp and success colour. Depth comes from hairlines and very soft shadows, never from glows. One element per page section may be \"lifted\" (the Business + plan card); everything else stays quiet so that card wins.\n\nIt rejects what PRODUCT.md lists as anti-references: a page that looks AI-made (\"generični SaaS, prelivno besedilo, sijoče kroglice, enake kartice z ikonami, Inter povsod\"), invented numbers, customer logos or testimonials, and names or logos of foreign portals used as decoration.",
+    "overview": "**Creative North Star: \"The Dealer's Workbench\"**\n\nThe page should work like a good tool on a dealer's bench: real screenshots of the app, real numbers from those screenshots, prices and the trial in plain sight, nothing that has to be taken on faith. PRODUCT.md puts it as *\"Trgovsko praktično: kot dobro orodje za trgovce\"* (practical, like a good tool for dealers). The visitor is usually a dealer on the lot or in a small office with a phone in hand, so 390 px is the primary viewport and every section has to read at a glance.\n\nThe system is one sans family (Geist) with strong weight and size contrast, a light page in cool greys with white cards, and two committed colour roles. Blue is the action and plan colour; green is the trial, WhatsApp and success colour. Depth comes from hairlines and very soft shadows. Three \"blue moments\" carry the brand gradient with soft circles and a blue lift: the trial fact card, the proof band (\"10 filtrov. 11 držav. 854 zadetkov.\") and the Business + plan card. Everything else stays quiet so those three win.\n\nIt rejects what PRODUCT.md lists as anti-references: a page that looks AI-made (\"generični SaaS, prelivno besedilo, sijoče kroglice, enake kartice z ikonami, Inter povsod\"), invented numbers, customer logos or testimonials, and names or logos of foreign portals used as decoration.\n\n**Owner decisions (28. 10. 2026)** override any rule below that would contradict them: the facts strip is four cards with \"7 dni\" as a blue card; \"Priporočamo\" is a green pill; Business + is blue; the hero keeps the \"★★★★★ 4,9 · več kot 120 podjetij\" line; the trial wording is \"7 dni brezplačno, brez omejitev\"; the proof band is blue.\n\n**Rule changes on 28. 10.** (this document is owned by the design work, not fixed):\n- *One Lift* became *Blue Moments*. The owner asked for the facts cards and a blue proof band, so the gradient-with-circles surface now marks three moments instead of one. PRODUCT.md's \"sijoče kroglice\" is read as glowing decoration scattered over the page; three deliberate brand surfaces are not that.\n- The facts strip is cards again (owner), not the hairline strip from the critique.\n- Trial pills moved to the price line of every plan; the pricing header pill pair was dropped because the H2 already states the trial.\n- One radius scale: pill, 24 card, 16 panel, 12 small, 32 band. The nav, hero frame and mobile menu moved onto it.",
     "keyCharacteristics": [
       "Product first: app recordings, the WhatsApp phone, the results list with real prices.",
       "Two colour roles only: blue acts, green reassures.",
@@ -458,8 +466,8 @@
         "section": "typography"
       },
       {
-        "name": "The One Lift Rule",
-        "body": "Only the Business + card has a coloured shadow and soft circles. No glows on badges, facts or bands.",
+        "name": "The Blue Moments Rule",
+        "body": "Exactly three surfaces carry the Plan Blue to Plan Indigo gradient with soft white circles and the Lifted shadow: the \"7 dni\" fact card, the proof band and the Business + card. Nothing else glows: no halo behind the hero frame, no glow on badges, no circles on the closing band.",
         "section": "elevation"
       },
       {
@@ -481,7 +489,7 @@
       "**Don't** invent numbers, customer logos or testimonials (\"Izmišljene številke, logotipi strank in pričevanja\").",
       "**Don't** use names or logos of foreign portals as decoration (\"Imena in logotipi tujih portalov\", D15); portals appear only where the product shows them.",
       "**Don't** make speed or \"unlimited\" claims (D19); the trial wording \"7 dni brezplačno, brez omejitev\" is an owner decision and is the only exception.",
-      "**Don't** put soft circles or coloured glows on anything but the Business + card.",
+      "**Don't** put soft circles or coloured glows on anything but the three blue moments (the \"7 dni\" fact card, the proof band, the Business + card).",
       "**Don't** nest a bordered panel inside a bordered card.",
       "**Don't** move buttons on hover; change their colour.",
       "**Don't** use tracked all-caps labels or an eyebrow chip above the H1.",
