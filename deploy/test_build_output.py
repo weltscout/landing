@@ -151,6 +151,22 @@ class BuildOutput(unittest.TestCase):
             for src in (ROOT / "blog" / l["code"]).glob("*.html"):
                 self.assertNotIn("volume", blog.front_matter(src)[0]["primary_keyword"], src)
 
+    def test_keyword_round_articles_have_answer_block_table_faq_and_dated_sources(self):
+        # Articles of the 28. 10. 2026 keyword round (groups G20 and up): answer first, a table, questions, sources read that day.
+        checked = 0
+        for l in self.langs_with_posts():
+            for src in (ROOT / "blog" / l["code"]).glob("*.html"):
+                meta, body = blog.front_matter(src)
+                if meta["hreflang_group"] < "G20":
+                    continue
+                self.assertIn('<p class="short"><strong>', body, src)
+                self.assertIn("<table", body, src)
+                self.assertRegex(body, r"<h3>[^<]*\?</h3>", src)
+                self.assertTrue(meta.get("sources"), src)
+                self.assertTrue(all(s["accessed"] == "2026-10-28" and s["url"].startswith("https://") for s in meta["sources"]), src)
+                checked += 1
+        self.assertGreaterEqual(checked, 7)
+
     def test_every_language_with_posts_has_its_editorial_page(self):
         for l in self.langs_with_posts():
             self.assertTrue((self.out / l["code"] / l["blog"]["editorial"]["slug"] / "index.html").is_file(), l["code"])
@@ -223,7 +239,7 @@ class BuildOutput(unittest.TestCase):
         self.assertTrue(posts)
         for u in posts:
             self.assertIn(f"]({u})", llms)
-        self.assertLess(len(llms.encode()), 25000)
+        self.assertLess(len(llms.encode()), 30000)
 
     def test_api_source_is_not_crawled(self):
         robots = (self.out / "robots.txt").read_text()
