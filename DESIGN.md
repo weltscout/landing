@@ -127,6 +127,15 @@ components:
     textColor: "{colors.surface}"
     rounded: "{rounded.band}"
     padding: "{spacing.band-y}"
+  proof-receipt:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.night-navy}"
+    rounded: "{rounded.card}"
+    padding: "{spacing.card-p}"
+  proof-bar:
+    backgroundColor: "{colors.plan-blue}"
+    rounded: "{rounded.pill}"
+    height: "8px"
   segmented:
     backgroundColor: "{colors.surface}"
     rounded: "{rounded.pill}"
@@ -161,6 +170,7 @@ It rejects what PRODUCT.md lists as anti-references: a page that looks AI-made (
 - The facts strip is cards again (owner), not the hairline strip from the critique.
 - Trial pills moved to the price line of every plan; the pricing header pill pair was dropped because the H2 already states the trial.
 - One radius scale: pill, 24 card, 16 panel, 12 small, 32 band. The nav, hero frame and mobile menu moved onto it.
+- The proof band became a search receipt (owner: "čist predesigniri tole sekcijo"): one paper card with the query, hits per portal, the total, four hits and an on-demand recording. The evidence chips, the stock photo and the long lead are gone; the band stays blue.
 
 **Key Characteristics:**
 - Product first: app recordings, the WhatsApp phone, the results list with real prices.
@@ -187,7 +197,7 @@ A cool, light palette: navy ink on pale grey, with one blue that acts and one gr
 - **Trial Ink** (#06301A): text on Trial Mint.
 
 ### Tertiary
-- **Night Navy** (#00122E), **Band Steel** (#253650), **Band Cobalt** (#002A82): the band gradient (`--g-hero-noc`, 135deg) for the proof band and the closing band. Night Navy is also the light-theme ink.
+- **Night Navy** (#00122E), **Band Steel** (#253650), **Band Cobalt** (#002A82): the band gradient (`--g-hero-noc`, 135deg) for the closing band (the proof band uses the Blue Moments gradient). Night Navy is also the light-theme ink.
 
 ### Neutral
 - **Page** (#F5F7FA): light page background. **Surface** (#FFFFFF): cards, nav pill, form card. **Surface 2/3** (#EEF2F7, #E6ECF4): hover fills, chips, quiet buttons.
@@ -253,7 +263,7 @@ Tactile and calm: a pill that changes colour, never jumps.
 
 ### Chips and pills
 - **Trial pill:** Trial Mint fill, Trial Ink label, check mark before the text, everywhere (top bar, hero note, plan cards, closing band). On every plan card the trial sits right under the price line as two pills, "7 dni brezplačno, brez omejitev" and "Brez kartice" (14px), followed by the plan's own note in muted text. The long pill may wrap; its radius (1.1em) keeps a single line a full pill and two lines a soft capsule. The closing band uses 15px.
-- **Filter chips** (proof band, contact interests): pill, Surface 2 or translucent white; selected is Night Navy with page-coloured text.
+- **Filter chips** (contact interests): pill, Surface 2; selected is Night Navy with page-coloured text. The proof band writes its filters as one line of text instead.
 - **Segmented control** (billing toggle, "Trije koraki" tabs): a white pill track with a hairline; the selected segment is a Night Navy pill. On phones the tabs become separate wrapping pills.
 
 ### Cards / Containers
@@ -277,19 +287,22 @@ Tactile and calm: a pill that changes colour, never jumps.
 Four fact cards in a row (2×2 on tablets and phones), label in muted 13px, figure in 28 to 36px weight 600 with tabular figures, one line of explanation. The trial card ("7 dni") is a blue moment (`--hl-bg`, Lifted shadow, white text); the other three are plain cards. Owner decision, 28. 10.
 
 ### Proof band (signature)
-The "10 filtrov. 11 držav. 854 zadetkov." section is the large blue moment: a full-width band (radius 32px) in the Plan Blue to Plan Indigo gradient with soft circles (`--hl-band`) and the Lifted shadow, identical in light and dark.
-- **Statement:** white eyebrow, the three numbers as the H2 (clamp(40px, 4.8vw, 64px), weight 600, tracking −0.045em, line-height 1), lead in Blue 100 (#E3EDFF), max 46ch.
-- **Evidence chips:** two labelled groups, "10 filtrov" and "11 držav". The label is 14px weight 600 white on its own line; chips are translucent white pills (12% white, 13.5px weight 500) with a flag for each country.
-- **Recording:** the 27. 10. video is the hero object on the right, radius 16px inside an 8px paper ring (outer radius 24px), with its dated caption in Blue 100 under it.
-- **Result:** the photo and the four listed results share one paper card (radius 24px, 12px inset): the photo fills the left part (radius 16px), the list on the right has a 16px heading, flag, title, meta and source per row, prices in 17px Trial Green Deep with tabular figures, and the per-portal note under a dashed rule. On tablets and phones the photo sits on top.
-- No invented data: thumbnails were considered, but recordings show only two of the four listed cars, so none are used.
+The "10 filtrov. 11 držav. 854 zadetkov." section is the large blue moment: a full-width band (radius 32px) in the Plan Blue to Plan Indigo gradient with soft circles (`--hl-band`) and the Lifted shadow, identical in light and dark. Inside it sits one paper card that reads like the receipt of one real search, so the visitor can check every number himself. Rebuilt on 28. 10. after the owner rejected the chips, photo and recording-as-hero version.
+- **Statement:** white eyebrow and the three numbers as the H2 (clamp(40px, 4.8vw, 64px), weight 600, tracking −0.045em, line-height 1) on the left; on the right, bottom-aligned, one short sentence as the lead (Blue 100, max 40ch) and the recording date with the app's default filter in 13px small print. No other copy.
+- **Receipt card:** paper (white; #ECEEF1 in dark), radius 24px, `--card-p`, the large soft shadow (`--sh-lg`), not the Lifted one. Inside the card `--acc` is Plan Blue and `--panel-bg` is the blue tint on paper, so focus rings and the panel keep their contrast in dark theme too.
+  - **Query:** a 16px-radius tint panel with a search icon, the saved search name ("Audi A4 Avant TDI 2019+", 20px weight 600) and the 10 filters as one line of running text separated by middots (a list, separators are decorative). No chips. The 44px primary button "Poglej posnetek iskanja · 56 s" sits on the right (full width under the filters on phones; under 360px the duration is dropped and the label may wrap).
+  - **Hits per portal:** one row per portal exactly as the app counts them in the final frame of the recording: flag, portal (15px weight 600), country (13px muted), an 8px Plan Blue bar on a blue tint track whose length is the row's share of the total, and the number (16px, tabular). Sorted by count. Portals with 0 hits never get rows: they share one muted line under the list ("Avto.net, Njuškalo, AutoScout24 NL in LU: za ta filter brez zadetkov"), because four rows of 0 read as a fault to the SI and HR buyer.
+  - **Total:** "Skupaj 854" under a 2px ink rule, the number 22px weight 700. The rows must add up to it, and it must equal the H2 and the "4 od 854" heading: whoever changes one number re-adds all of them in all 7 languages.
+  - **Sample:** "4 od 854 zadetkov tega iskanja" with four results (flag, title, year · km · kW, portal and country, price in Trial Green Deep), no photos: the recordings show only two of the four cars.
+  - **Recording:** closed by default. The card button, or any link with `data-play` (the hero's "Poglej, kako deluje"), opens it inline under the query, plays it muted with native controls and moves focus to it; the hero link also scrolls the card into view. The speed-up note sits beside it (under it below 900px). Without JavaScript the recording is simply shown.
+- **Layout:** query on top; below it two columns (hits per portal | sample) split by a hairline from 1101px, one column under that.
 
 ### Product mocks (signature)
 The hero app frame (browser chrome around a real 27. 10. recording; a portrait still from the phone recording on screens ≤ 600px, the results still on larger screens) and the WhatsApp phone with a real listing. They are the strongest proof on the page; keep them sharp and never decorate them.
 
 ### Motion
 - **One page-load moment:** the first H1 sentence rises word by word (opacity and translateY only, 600ms each, stagger ≤ 60ms) and the second lands as one line; everything settles within 1s. Hyphenated compounds keep their break point.
-- **Response motion:** pressed buttons, FAQ open/close, tab progress, the rotating top bar, autoplaying recordings only while visible.
+- **Response motion:** pressed buttons, FAQ open/close, tab progress, the rotating top bar, autoplaying recordings only while visible, and the proof receipt's portal bars, which grow once from the left when the list enters the view (transform only, 0.5s each with a 40ms stagger, all done within 0.8s). Numbers never count up there.
 - **Easing:** `cubic-bezier(.16,1,.3,1)` (ease-out expo). No bounce.
 - **Respect:** `prefers-reduced-motion` and `?still` show the final static state; the "Ustavi gibanje" control pauses every animation and recording, and remembers the choice.
 
