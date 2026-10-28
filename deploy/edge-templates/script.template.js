@@ -59,6 +59,15 @@ BunnySDK.net.http
       },
       { submitContact },
     );
+    if (decision.type === "notfound") {
+      // The built 404 page comes from this pull zone; the visitor gets it with status 404.
+      url.pathname = decision.path;
+      url.search = "";
+      const page = await fetch(url.toString());
+      const headers = new Headers(decision.headers || {});
+      headers.set("Content-Type", "text/html; charset=utf-8");
+      return new Response(await page.text(), { status: 404, headers });
+    }
     if (decision.type === "rewrite") {
       if (decision.path === url.pathname) return ctx.request;
       url.pathname = decision.path;

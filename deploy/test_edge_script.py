@@ -125,12 +125,72 @@ class EdgeScript(unittest.TestCase):
         self.assertEqual([d["path"] for d in out["decisions"]], ["/" + f for f in samples.values()])
         self.assertTrue(all(d["type"] == "rewrite" for d in out["decisions"]))
 
-    def test_unknown_paths_pass_through(self):
-        out = self.run_cases([{"req": {"method": "GET", "path": "/no/such/page", "query": ""}}])
-        got = out["decisions"][0]
-        self.assertEqual(got["type"], "rewrite")
-        self.assertEqual(got["path"], "/no/such/page")
-        self.assertEqual(got["headers"], self.expected_headers("/no/such/page"))
+    # Old URLs that earned clicks or impressions in GSC but had no specific rule (SEO audit
+    # 28. 10., DEMAND.md section 6): each must reach its same-topic page in one 301, and
+    # that page must be a built file.
+    AUDITED_OLD_URLS = {
+        "/hr/post/skriveni-troskovi-pri-kupnji-rabljenog-vozila-na-sto-treba-obratiti-paznju": "/hr/blog/troskovi-kupnje-rabljenog-automobila/",
+        "/en/post/how-to-use-the-weltscout-platform": "/en/blog/how-to-use-weltscout-platform/",
+        "/en/post/hidden-costs-when-buying-a-used-vehicle-what-should-you-pay-attention-to": "/en/blog/hidden-costs-buying-used-car/",
+        "/en/post/news-on-the-weltscout-platform": "/en/blog/what-weltscout-does-today/",
+        "/en/post/news-on-the-wltscout-platform": "/en/blog/what-weltscout-does-today/",
+        "/hr/post/kako-koristiti-platformu-weltscout": "/hr/blog/kako-koristiti-weltscout-platformu/",
+        "/hr/post/novosti-na-platformi-weltscout": "/hr/blog/sto-weltscout-nudi-danas/",
+        "/post/kateri-mesec-najcenejsi-za-nakup-avtomobila": "/sl/blog/kdaj-je-najbolje-kupiti-avto/",
+        "/post/best-car-sourcing-platforms-3": "/sl/blog/avto-iskalnik/",
+        "/fr/blog": "/fr/",
+        "/fr/post/kateri-so-najboljsi-rabljeni-avti": "/fr/",
+        "/legal": "/sl/splosni-pogoji/",
+    }
+
+    def assert_one_hop(self, table):
+        first = self.run_cases([{"req": {"method": "GET", "path": p, "query": ""}} for p in table])
+        for (src, want), d in zip(table.items(), first["decisions"]):
+            self.assertEqual((d["type"], d.get("status"), d.get("location")), ("redirect", 301, want), src)
+        second = self.run_cases([{"req": {"method": "GET", "path": w, "query": ""}} for w in table.values()])
+        for w, d in zip(table.values(), second["decisions"]):
+            self.assertEqual(d["type"], "rewrite", w)
+            self.assertIn(d["path"].lstrip("/"), self.data["files"], w)
+
+    def test_audited_old_urls_reach_their_page_in_one_hop(self):
+        self.assert_one_hop(self.AUDITED_OLD_URLS)
+
+    def test_unknown_old_posts_land_on_their_language_home_in_every_language(self):
+        codes = [l["code"] for l in json.loads((HERE / "langs.json").read_text())["langs"]]
+        self.assert_one_hop({f"/{c}/post/no-such-old-post": f"/{c}/" for c in codes})
+
+    def test_trailing_slash_form_of_every_exact_legacy_url_redirects_the_same_way(self):
+        exact = [r for r in self.rules if is_exact(r["source"]) and "/post" in r["source"] and not r["source"].endswith("/")]
+        self.assertTrue(exact)
+        table = {r["source"] + "/": r["destination"] for r in exact}
+        self.assert_one_hop(table)
+        self.assert_one_hop({"/post/no-such-old-post/": "/sl/", "/en/post/no-such-old-post/": "/en/"})
+
+    def test_every_response_carries_hsts(self):
+        for path in ("/", "/sl/", "/en/blog/", "/img/logo-weltscout.svg", "/no/such/page"):
+            self.assertRegex(self.expected_headers(path).get("Strict-Transport-Security", ""), r"^max-age=\d+$", path)
+
+    def test_unknown_paths_get_the_branded_404_of_their_language(self):
+        # Paths that are no built file used to pass through to the origin, whose default
+        # 404 loads a third-party font; now the edge answers 404 with the built page.
+        table = {"/no/such/page": "/404.html", "/en/no-such-page": "/en/404.html", "/hr/blog/nope/": "/hr/404.html", "/xx/y": "/404.html"}
+        out = self.run_cases([{"req": {"method": "GET", "path": p, "query": ""}} for p in table])
+        for (path, page), got in zip(table.items(), out["decisions"]):
+            self.assertEqual((got["type"], got["status"], got["path"]), ("notfound", 404, page), path)
+            self.assertEqual(got["headers"], self.expected_headers(path))
+            self.assertIn(page.lstrip("/"), self.data["files"])
+
+    def test_api_source_is_not_uploaded_but_the_endpoint_answers(self):
+        self.assertFalse([f for f in self.data["files"] if f.startswith("api/")])
+        out = self.run_cases([{"req": {"method": "GET", "path": "/api/contact.js", "query": ""}}, {"req": {"method": "GET", "path": "/api/contact", "query": ""}}])
+        self.assertEqual(out["decisions"][0]["status"], 404)
+        self.assertEqual(out["decisions"][1]["status"], 405)
+
+    def test_every_built_file_is_served_not_404(self):
+        files = [f for f in self.data["files"] if not f.endswith(".html")][:40]
+        out = self.run_cases([{"req": {"method": "GET", "path": "/" + f, "query": ""}} for f in files])
+        for f, got in zip(files, out["decisions"]):
+            self.assertEqual((got["type"], got["path"]), ("rewrite", "/" + f), f)
 
     # --- /api/contact (deploy/api/contact.js) ---
 
@@ -220,11 +280,12 @@ class EdgeScript(unittest.TestCase):
         # zero-segment or multi-segment edges.
         tables = {
             "/post/:slug*": {
-                "/post": True, "/post/": True, "/post/a": True, "/post/a/b": True,
+                "/post": True, "/post/": True, "/post/a": True, "/post/a/b": True, "/post/a/": True, "/post/a/b/": True,
                 "/posta": False, "/other": False,
             },
-            "/:lang(hr|en|de)/post/:slug*": {
-                "/hr/post": True, "/hr/post/x": True, "/de/post/a/b": True,
+            # the language catch-all covers every language in langs.json (no hand list)
+            "/:lang({})/post/:slug*".format("|".join(l["code"] for l in json.loads((HERE / "langs.json").read_text())["langs"])): {
+                "/hr/post": True, "/hr/post/x": True, "/de/post/a/b": True, "/fr/post/x": True, "/sr/post/x": True, "/en/post/x/": True,
                 "/xx/post": False, "/hr/other": False,
             },
         }
