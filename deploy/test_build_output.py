@@ -234,6 +234,21 @@ class BuildOutput(unittest.TestCase):
         ld = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S).group(1))
         return canon, {n["@type"]: n for n in ld["@graph"]}
 
+    def test_og_image_url_changes_with_the_image_so_caches_cannot_serve_the_old_one(self):
+        # The OG image is re-rendered when titles change; the CDN keeps a URL for days, so the
+        # built name carries a hash of the image's bytes and every page points at that name.
+        import hashlib, re
+        for c in self.langs():
+            src = (ROOT / "img" / "og" / f"{c}.jpg").read_bytes()
+            want = f"/img/og/{c}-{hashlib.sha256(src).hexdigest()[:10]}.jpg"
+            pages = [self.out / c / "index.html"] + [p for p in (self.out / c).glob("*/index.html") if "blog" not in p.parts]
+            for page in pages:
+                html = page.read_text()
+                for url in re.findall(r'<meta (?:property="og:image"|name="twitter:image") content="([^"]+)"', html):
+                    if "/img/og/" in url:
+                        self.assertTrue(url.endswith(want), (page, url))
+            self.assertEqual((self.out / want.lstrip("/")).read_bytes(), src, c)
+
     def test_social_previews_repeat_the_title_and_meta_description(self):
         # One source: og:* and twitter:* are derived from <title> and the meta description,
         # so a copy change cannot leave a stale preview behind.

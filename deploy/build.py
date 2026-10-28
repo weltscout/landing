@@ -1,6 +1,6 @@
 """Build the site: one /<code>/ page per language declared in deploy/langs.json. Generated from langs.json (site, indexable, locale, crawlers): language switcher, hreflang, canonical, robots meta, Open Graph/Twitter tags, JSON-LD URLs and inLanguage, robots.txt, sitemap.xml, llms.txt, vercel.json. Fails loudly when an expected element is missing."""
 
-import html as htmllib, json, os, pathlib, re, shutil, struct, sys
+import hashlib, html as htmllib, json, os, pathlib, re, shutil, struct, sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import blog  # noqa: E402
@@ -209,7 +209,7 @@ def seo(html, page, live):
             page,
             f"{ogimg_file.name}: og image missing or not 1200x630 (run deploy/og.js)",
         )
-    ogimg = f"{site}/img/og/{page}.jpg"
+    ogimg = site + og_image_path(page)
     q = lambda v: htmllib.escape(v, quote=True)
     locs = [loc for l in live for loc in l["locale"]]
     html, n = re.subn(r'<link rel="icon"[^>]*>', lambda _: icon_tags(), html, count=1)
@@ -479,6 +479,13 @@ API_PREFIX = "/api/"
 FONT_EXT = "geist-latin-ext.woff2"
 TERMS_STEM = "terms-and-conditions"
 LEGAL_HUB = "/legal"
+
+
+def og_image_path(code):
+    """The OG image is published under a name that carries a hash of its bytes (copied in at the end of the build),
+    so a re-rendered image gets a new URL and no CDN or social-network cache can keep showing the old one."""
+    src = SRC / "img" / "og" / f"{code}.jpg"
+    return f"/img/og/{code}-{hashlib.sha256(src.read_bytes()).hexdigest()[:10]}.jpg"
 
 
 def legal_slug(code, stem):
@@ -842,7 +849,7 @@ def legal_pages(live, sources):
                 f'<meta name="description" content="{e(desc)}">{robots}<link rel="canonical" href="{canon}">{alts}'
                 f'<meta property="og:type" content="website"><meta property="og:title" content="{e(title)} | WeltScout">'
                 f'<meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canon}">'
-                f'<meta property="og:locale" content="{l["locale"][0]}"><meta property="og:image" content="{site}/img/og/{code}.jpg">'
+                f'<meta property="og:locale" content="{l["locale"][0]}"><meta property="og:image" content="{site}{og_image_path(code)}">'
                 '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
             )
             url = legal_url(code, s)
@@ -1011,6 +1018,8 @@ sitemap = sitemap.replace(
 shutil.copy(SRC / "tokens.css", OUT / "tokens.css")
 for d in ("img", "fonts"):
     shutil.copytree(SRC / d, OUT / d)
+for l in live:
+    shutil.copy(SRC / "img" / "og" / f"{l['code']}.jpg", OUT / og_image_path(l["code"]).lstrip("/"))
 shutil.copytree(SRC / "deploy" / "api", OUT / "api")
 cfg = json.loads((SRC / "deploy" / "vercel.base.json").read_text())
 if CONF["indexable"]:
