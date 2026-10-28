@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-28T18:14:43+00:00",
+  "generatedAt": "2026-10-28T18:30:21+00:00",
   "title": "Design System: WeltScout landing",
   "extensions": {
     "colorMeta": {
@@ -426,6 +426,14 @@
       "description": "The large blue moment: statement numbers, then one paper card read as the receipt of one real search (query line, hits per portal with bars, total, four hits, recording on request).",
       "html": "<section class=\"ds-proof\"><p class=\"ds-eb\">Napredno iskanje po Evropi</p><h2>10 filtrov.<br>11 držav.<br>854 zadetkov.</h2><div class=\"ds-rc\"><p class=\"ds-q\"><b>Audi A4 Avant TDI 2019+</b><br>Audi · A4 · dizel · karavan · …</p><p class=\"ds-r\"><span>mobile.de</span><i style=\"--v:.87\"></i><b>745</b></p><p class=\"ds-r\"><span>willhaben.at</span><i style=\"--v:.06\"></i><b>54</b></p><p class=\"ds-0\">Avto.net, Njuškalo, AutoScout24 NL in LU: za ta filter brez zadetkov</p><p class=\"ds-t\"><span>Skupaj</span><b>854</b></p></div></section>",
       "css": ".ds-proof{padding:40px;border-radius:32px;color:#fff;background:radial-gradient(circle at 94% 0,rgba(255,255,255,.08) 0 220px,transparent 221px),linear-gradient(160deg,#0055DC,#504EC9);font-family:Geist,system-ui,sans-serif} .ds-eb{margin:0 0 14px;font:600 14px/1.3 inherit;color:#fff} .ds-proof h2{margin:0;font-size:56px;font-weight:600;letter-spacing:-.045em;line-height:1} .ds-rc{margin-top:32px;padding:24px;border-radius:24px;background:#fff;color:#00122E} .ds-q{margin:0 0 16px;padding:14px 16px;border-radius:16px;background:#F0F5FD;font-size:15px;line-height:1.5} .ds-r{display:grid;grid-template-columns:120px 1fr 3em;gap:12px;align-items:center;margin:0;padding:10px 0;border-top:1px solid rgba(0,18,46,.1);font-size:15px} .ds-r i{display:block;height:8px;border-radius:999px;background:linear-gradient(90deg,#0055DC calc(var(--v)*100%),#E3EDFF 0)} .ds-r b{text-align:right} .ds-0{margin:0;padding:10px 0;border-top:1px solid rgba(0,18,46,.1);font-size:13px;color:#5B6471} .ds-t{display:flex;justify-content:space-between;margin:0;padding-top:10px;border-top:2px solid #00122E;font-weight:600} .ds-t b{font-size:22px}"
+    },
+    {
+      "name": "Hero zoom",
+      "kind": "custom",
+      "refersTo": "hero-zoom",
+      "description": "Blue expand icon (44px, --blue-600, white glyph, bottom-left of the app frame, always visible) opens the hero visual in a modal: FLIP from the thumbnail in 400ms, back on X, Esc, veil or browser back; phones open only the app frame; a close mid-open reverses; reduced motion fades.",
+      "html": "<div class=\"ds-frame\"><span class=\"ds-zoom\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span></div>",
+      "css": ".ds-frame{position:relative;width:320px;height:200px;border-radius:24px;background:#EEF2F7;box-shadow:0 2px 4px rgba(0,18,46,.04),0 40px 80px -32px rgba(0,30,90,.28)} .ds-zoom{position:absolute;left:12px;bottom:12px;display:grid;place-items:center;width:44px;height:44px;border-radius:999px;background:#0055DC;color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 6px 16px -6px rgba(0,30,90,.55)} .ds-zoom svg{width:20px;height:20px}"
     }
   ],
   "narrative": {
