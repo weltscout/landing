@@ -1024,7 +1024,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
       </div>
       <div class="panel swap" id="p" role="tabpanel"><h3>Geef aan waar u naar zoekt.</h3><p>Merk, model, prijs, kilometerstand. Indien nodig tot 135 uitrustingsopties.</p><ul><li>Bewaar de zoekopdracht onder de naam van de klant</li><li>Filters blijven staan, dus u stelt ze niet opnieuw in</li></ul></div>
     </div>
-    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details.webp" width="1440" height="900" alt="Merk, model, prijs en kilometerstand invoeren voor een nieuwe zoekopdracht"></div>
+    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details-v2.webp" width="1440" height="900" alt="Merk, model, prijs en kilometerstand invoeren voor een nieuwe zoekopdracht"></div>
   </div>
 </section>
 
@@ -1417,9 +1417,9 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 
   /* tabs with auto-advance */
   const steps = [
-    ["Geef aan waar u naar zoekt.", "Merk, model, prijs, kilometerstand. Indien nodig tot 135 uitrustingsopties.", ["Bewaar de zoekopdracht onder de naam van de klant", "Filters blijven staan, dus u stelt ze niet opnieuw in"], "02-car-details", "Merk, model, prijs en kilometerstand invoeren voor een nieuwe zoekopdracht"],
-    ["Kies uw portalen.", "In eigen land, in de buurlanden of in alle 14. Lokale en Europese portalen in dezelfde zoekopdracht.", ["Tot 29 portalen in 14 landen", "Stel een ontbrekend portaal voor en wij voegen het meestal binnen 4–7 werkdagen toe"], "04-platforms", "Portalen kiezen per land, de gekozen portalen zijn aangevinkt"],
-    ["Bekijk resultaten, ontvang nieuwe advertenties.", "Binnen seconden ziet u de eerste resultaten uit advertenties die al online staan. Nieuwe advertenties ontvangt u daarna op WhatsApp of per e-mail, volgens het schema van uw abonnement.", ["Sorteer op prijs, bouwjaar, kilometerstand of vermogen", "Wij controleren één of twee keer per dag op nieuwe advertenties"], "08-results", "Lijst met resultaten met foto, prijs, bouwjaar, kilometerstand, vermogen en portaal"]
+    ["Geef aan waar u naar zoekt.", "Merk, model, prijs, kilometerstand. Indien nodig tot 135 uitrustingsopties.", ["Bewaar de zoekopdracht onder de naam van de klant", "Filters blijven staan, dus u stelt ze niet opnieuw in"], "02-car-details-v2", "Merk, model, prijs en kilometerstand invoeren voor een nieuwe zoekopdracht"],
+    ["Kies uw portalen.", "In eigen land, in de buurlanden of in alle 14. Lokale en Europese portalen in dezelfde zoekopdracht.", ["Tot 29 portalen in 14 landen", "Stel een ontbrekend portaal voor en wij voegen het meestal binnen 4–7 werkdagen toe"], "04-platforms-v2", "Portalen kiezen per land, de gekozen portalen zijn aangevinkt"],
+    ["Bekijk resultaten, ontvang nieuwe advertenties.", "Binnen seconden ziet u de eerste resultaten uit advertenties die al online staan. Nieuwe advertenties ontvangt u daarna op WhatsApp of per e-mail, volgens het schema van uw abonnement.", ["Sorteer op prijs, bouwjaar, kilometerstand of vermogen", "Wij controleren één of twee keer per dag op nieuwe advertenties"], "08-results-v2", "Lijst met resultaten met foto, prijs, bouwjaar, kilometerstand, vermogen en portaal"]
   ];
   const mq = matchMedia("(max-width:600px)");
   const tabs = $$(".tab"), panel = $("#p"), img = $("#pi"), wrap = $("#tabs"), TAB_MS = 6000;

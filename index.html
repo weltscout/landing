@@ -1023,7 +1023,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
       </div>
       <div class="panel swap" id="p" role="tabpanel"><h3>Povej, kaj iščeš.</h3><p>Znamka, model, cena, kilometri. Če je treba, do 135 elementov opreme.</p><ul><li>Iskanje shraniš pod ime stranke</li><li>Filtri ostanejo, ne nastavljaš jih znova</li></ul></div>
     </div>
-    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details.webp" width="1440" height="900" alt="Vnos znamke, modela, cene in kilometrov za novo iskanje"></div>
+    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details-v2.webp" width="1440" height="900" alt="Vnos znamke, modela, cene in kilometrov za novo iskanje"></div>
   </div>
 </section>
 
@@ -1416,9 +1416,9 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 
   /* tabs with auto-advance */
   const steps = [
-    ["Povej, kaj iščeš.", "Znamka, model, cena, kilometri. Če je treba, do 135 elementov opreme.", ["Iskanje shraniš pod ime stranke", "Filtri ostanejo, ne nastavljaš jih znova"], "02-car-details", "Vnos znamke, modela, cene in kilometrov za novo iskanje"],
-    ["Izberi portale.", "Doma, v sosednjih državah ali v vseh 14. Domači in evropski portali v istem iskanju.", ["Do 29 portalov v 14 državah", "Manjkajoči portal predlagaš, običajno ga dodamo v 4–7 delovnih dneh"], "04-platforms", "Izbira portalov po državah, izbrani portali so označeni s kljukico"],
-    ["Poglej in prejemaj.", "Prve obstoječe zadetke vidiš v nekaj sekundah, nove pa prejemaš na WhatsApp ali v e-pošto po urniku paketa.", ["Razvrstiš po ceni, letniku, kilometrih ali moči", "Nove oglase preverjamo 1× ali 2× na dan"], "08-results", "Seznam zadetkov s fotografijo, ceno, letnikom, kilometri, močjo in portalom"]
+    ["Povej, kaj iščeš.", "Znamka, model, cena, kilometri. Če je treba, do 135 elementov opreme.", ["Iskanje shraniš pod ime stranke", "Filtri ostanejo, ne nastavljaš jih znova"], "02-car-details-v2", "Vnos znamke, modela, cene in kilometrov za novo iskanje"],
+    ["Izberi portale.", "Doma, v sosednjih državah ali v vseh 14. Domači in evropski portali v istem iskanju.", ["Do 29 portalov v 14 državah", "Manjkajoči portal predlagaš, običajno ga dodamo v 4–7 delovnih dneh"], "04-platforms-v2", "Izbira portalov po državah, izbrani portali so označeni s kljukico"],
+    ["Poglej in prejemaj.", "Prve obstoječe zadetke vidiš v nekaj sekundah, nove pa prejemaš na WhatsApp ali v e-pošto po urniku paketa.", ["Razvrstiš po ceni, letniku, kilometrih ali moči", "Nove oglase preverjamo 1× ali 2× na dan"], "08-results-v2", "Seznam zadetkov s fotografijo, ceno, letnikom, kilometri, močjo in portalom"]
   ];
   const mq = matchMedia("(max-width:600px)");
   const tabs = $$(".tab"), panel = $("#p"), img = $("#pi"), wrap = $("#tabs"), TAB_MS = 6000;

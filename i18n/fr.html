@@ -1026,7 +1026,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
       </div>
       <div class="panel swap" id="p" role="tabpanel"><h3>Dites-nous ce que vous cherchez.</h3><p>Marque, modèle, prix, kilométrage. Au besoin, jusqu’à 135 équipements.</p><ul><li>Enregistrez la recherche au nom du client</li><li>Les filtres restent en place, vous ne les saisissez pas à nouveau</li></ul></div>
     </div>
-    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details.webp" width="1440" height="900" alt="Saisie de la marque, du modèle, du prix et du kilométrage pour une nouvelle recherche"></div>
+    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details-v2.webp" width="1440" height="900" alt="Saisie de la marque, du modèle, du prix et du kilométrage pour une nouvelle recherche"></div>
   </div>
 </section>
 
@@ -1419,9 +1419,9 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 
   /* tabs with auto-advance */
   const steps = [
-    ["Dites-nous ce que vous cherchez.", "Marque, modèle, prix, kilométrage. Au besoin, jusqu’à 135 équipements.", ["Enregistrez la recherche au nom du client", "Les filtres restent en place, vous ne les saisissez pas à nouveau"], "02-car-details", "Saisie de la marque, du modèle, du prix et du kilométrage pour une nouvelle recherche"],
-    ["Choisissez vos portails.", "Chez vous, dans les pays voisins ou dans les 14 pays. Portails locaux et européens dans la même recherche.", ["Jusqu’à 29 portails dans 14 pays", "Proposez un portail manquant : nous l’ajoutons en général sous 4 à 7 jours ouvrables"], "04-platforms", "Choix des portails par pays, les portails choisis sont cochés"],
-    ["Voyez les résultats, recevez les nouvelles annonces.", "En quelques secondes, vous voyez les premiers résultats parmi les annonces déjà en ligne, puis vous recevez les nouvelles sur WhatsApp ou par e⁠-⁠mail, selon le rythme de votre formule.", ["Tri par prix, année, kilométrage ou puissance", "Nous vérifions les nouvelles annonces une ou deux fois par jour"], "08-results", "Liste de résultats avec photo, prix, année, kilométrage, puissance et portail"]
+    ["Dites-nous ce que vous cherchez.", "Marque, modèle, prix, kilométrage. Au besoin, jusqu’à 135 équipements.", ["Enregistrez la recherche au nom du client", "Les filtres restent en place, vous ne les saisissez pas à nouveau"], "02-car-details-v2", "Saisie de la marque, du modèle, du prix et du kilométrage pour une nouvelle recherche"],
+    ["Choisissez vos portails.", "Chez vous, dans les pays voisins ou dans les 14 pays. Portails locaux et européens dans la même recherche.", ["Jusqu’à 29 portails dans 14 pays", "Proposez un portail manquant : nous l’ajoutons en général sous 4 à 7 jours ouvrables"], "04-platforms-v2", "Choix des portails par pays, les portails choisis sont cochés"],
+    ["Voyez les résultats, recevez les nouvelles annonces.", "En quelques secondes, vous voyez les premiers résultats parmi les annonces déjà en ligne, puis vous recevez les nouvelles sur WhatsApp ou par e⁠-⁠mail, selon le rythme de votre formule.", ["Tri par prix, année, kilométrage ou puissance", "Nous vérifions les nouvelles annonces une ou deux fois par jour"], "08-results-v2", "Liste de résultats avec photo, prix, année, kilométrage, puissance et portail"]
   ];
   const mq = matchMedia("(max-width:600px)");
   const tabs = $$(".tab"), panel = $("#p"), img = $("#pi"), wrap = $("#tabs"), TAB_MS = 6000;

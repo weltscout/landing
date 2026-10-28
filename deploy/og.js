@@ -15,7 +15,7 @@ const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 img.lg{position:absolute;left:64px;top:56px;height:40px}
 h1{position:absolute;left:64px;top:190px;width:500px;font-size:56px;line-height:1.12;font-weight:600;letter-spacing:-.02em}
 .sc{position:absolute;left:620px;top:120px;width:640px;border-radius:18px 0 0 0;border:1px solid rgba(255,255,255,.18);box-shadow:0 30px 80px rgba(0,0,0,.45)}
-</style><img class=lg src="file://${SRC}/img/logo-weltscout-dark.svg"><h1>${esc(t)}</h1><img class=sc src="file://${SRC}/img/08-results.webp">`;
+</style><img class=lg src="file://${SRC}/img/logo-weltscout-dark.svg"><h1>${esc(t)}</h1><img class=sc src="file://${SRC}/img/08-results-v2.webp">`;
     const f = path.join(os.tmpdir(), `og-${l.code}.html`); fs.writeFileSync(f, html);
     await p.goto("file://" + f); await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(200);
     await p.screenshot({ path: path.join(SRC, "img/og", l.code + ".jpg"), type: "jpeg", quality: 86 });

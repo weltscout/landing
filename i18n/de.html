@@ -1024,7 +1024,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
       </div>
       <div class="panel swap" id="p" role="tabpanel"><h3>Sagen Sie, was Sie suchen.</h3><p>Marke, Modell, Preis, Kilometerstand. Bei Bedarf bis zu 135 Ausstattungsmerkmale.</p><ul><li>Die Suche speichern Sie unter dem Namen des Kunden</li><li>Die Filter bleiben erhalten, Sie müssen sie nicht neu einstellen</li></ul></div>
     </div>
-    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details.webp" width="1440" height="900" alt="Eingabe von Marke, Modell, Preis und Kilometerstand für eine neue Suche"></div>
+    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details-v2.webp" width="1440" height="900" alt="Eingabe von Marke, Modell, Preis und Kilometerstand für eine neue Suche"></div>
   </div>
 </section>
 
@@ -1417,9 +1417,9 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 
   /* tabs with auto-advance */
   const steps = [
-    ["Sagen Sie, was Sie suchen.", "Marke, Modell, Preis, Kilometerstand. Bei Bedarf bis zu 135 Ausstattungsmerkmale.", ["Die Suche speichern Sie unter dem Namen des Kunden", "Die Filter bleiben erhalten, Sie müssen sie nicht neu einstellen"], "02-car-details", "Eingabe von Marke, Modell, Preis und Kilometerstand für eine neue Suche"],
-    ["Wählen Sie die Portale.", "Im eigenen Land, in Nachbarländern oder in allen 14 Ländern. Nationale und europäische Portale in derselben Suche.", ["Bis zu 29 Portale in 14 Ländern", "Fehlendes Portal vorschlagen, wir ergänzen es in der Regel innerhalb von 4–7 Werktagen"], "04-platforms", "Auswahl der Portale nach Ländern, die gewählten Portale sind abgehakt"],
-    ["Treffer ansehen, Neues erhalten.", "Erste vorhandene Treffer sehen Sie in wenigen Sekunden, neue erhalten Sie per WhatsApp oder E-Mail nach dem Zeitplan Ihres Pakets.", ["Sortierung nach Preis, Baujahr, Kilometerstand oder Leistung", "Neue Inserate prüfen wir ein- oder zweimal täglich"], "08-results", "Trefferliste mit Foto, Preis, Baujahr, Kilometerstand, Leistung und Portal"]
+    ["Sagen Sie, was Sie suchen.", "Marke, Modell, Preis, Kilometerstand. Bei Bedarf bis zu 135 Ausstattungsmerkmale.", ["Die Suche speichern Sie unter dem Namen des Kunden", "Die Filter bleiben erhalten, Sie müssen sie nicht neu einstellen"], "02-car-details-v2", "Eingabe von Marke, Modell, Preis und Kilometerstand für eine neue Suche"],
+    ["Wählen Sie die Portale.", "Im eigenen Land, in Nachbarländern oder in allen 14 Ländern. Nationale und europäische Portale in derselben Suche.", ["Bis zu 29 Portale in 14 Ländern", "Fehlendes Portal vorschlagen, wir ergänzen es in der Regel innerhalb von 4–7 Werktagen"], "04-platforms-v2", "Auswahl der Portale nach Ländern, die gewählten Portale sind abgehakt"],
+    ["Treffer ansehen, Neues erhalten.", "Erste vorhandene Treffer sehen Sie in wenigen Sekunden, neue erhalten Sie per WhatsApp oder E-Mail nach dem Zeitplan Ihres Pakets.", ["Sortierung nach Preis, Baujahr, Kilometerstand oder Leistung", "Neue Inserate prüfen wir ein- oder zweimal täglich"], "08-results-v2", "Trefferliste mit Foto, Preis, Baujahr, Kilometerstand, Leistung und Portal"]
   ];
   const mq = matchMedia("(max-width:600px)");
   const tabs = $$(".tab"), panel = $("#p"), img = $("#pi"), wrap = $("#tabs"), TAB_MS = 6000;

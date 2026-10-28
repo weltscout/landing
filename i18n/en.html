@@ -1024,7 +1024,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
       </div>
       <div class="panel swap" id="p" role="tabpanel"><h3>Tell us what you’re looking for.</h3><p>Make, model, price, mileage. If needed, up to 135 equipment features.</p><ul><li>Save the search under the customer’s name</li><li>Filters stay put, so you don’t set them again</li></ul></div>
     </div>
-    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details.webp" width="1440" height="900" alt="Entering make, model, price and mileage for a new search"></div>
+    <div class="tabs-r"><img id="pi" class="swap" loading="lazy" decoding="async" src="img/02-car-details-v2.webp" width="1440" height="900" alt="Entering make, model, price and mileage for a new search"></div>
   </div>
 </section>
 
@@ -1417,9 +1417,9 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 
   /* tabs with auto-advance */
   const steps = [
-    ["Tell us what you’re looking for.", "Make, model, price, mileage. If needed, up to 135 equipment features.", ["Save the search under the customer’s name", "Filters stay put, so you don’t set them again"], "02-car-details", "Entering make, model, price and mileage for a new search"],
-    ["Choose your portals.", "At home, in neighbouring countries or in all 14. Local and European portals in the same search.", ["Up to 29 portals in 14 countries", "Suggest a missing portal and we usually add it within 4–7 working days"], "04-platforms", "Choosing portals by country, the selected portals are ticked"],
-    ["See results, get new listings.", "Within seconds you see the first results from listings already online, then receive new ones on WhatsApp or by email on your plan’s schedule.", ["Sort by price, year, mileage or power", "We check for new listings once or twice a day"], "08-results", "List of results showing photo, price, year, mileage, power and portal"]
+    ["Tell us what you’re looking for.", "Make, model, price, mileage. If needed, up to 135 equipment features.", ["Save the search under the customer’s name", "Filters stay put, so you don’t set them again"], "02-car-details-v2", "Entering make, model, price and mileage for a new search"],
+    ["Choose your portals.", "At home, in neighbouring countries or in all 14. Local and European portals in the same search.", ["Up to 29 portals in 14 countries", "Suggest a missing portal and we usually add it within 4–7 working days"], "04-platforms-v2", "Choosing portals by country, the selected portals are ticked"],
+    ["See results, get new listings.", "Within seconds you see the first results from listings already online, then receive new ones on WhatsApp or by email on your plan’s schedule.", ["Sort by price, year, mileage or power", "We check for new listings once or twice a day"], "08-results-v2", "List of results showing photo, price, year, mileage, power and portal"]
   ];
   const mq = matchMedia("(max-width:600px)");
   const tabs = $$(".tab"), panel = $("#p"), img = $("#pi"), wrap = $("#tabs"), TAB_MS = 6000;
