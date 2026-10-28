@@ -126,6 +126,25 @@ class BuildOutput(unittest.TestCase):
             checked += 1
         self.assertGreater(checked, 0)
 
+    # Posts merged into a stronger one (SEO keyword round, 28. 10. 2026): the old page is gone and
+    # its URL, and the old Webflow URL it had inherited, reach the keeper in a single 301.
+    CONSOLIDATED = {
+        "/de/blog/gebrauchtwagen-schneller-finden/": "/de/blog/gebrauchtwagen-suchen-suchmaschine-und-suchagent/",
+        "/de/post/kako-pohitriti-iskanje-avtov-na-portalih": "/de/blog/gebrauchtwagen-suchen-suchmaschine-und-suchagent/",
+        "/en/blog/how-to-find-a-used-car-faster/": "/en/blog/best-place-to-find-a-used-car-online/",
+        "/en/post/how-to-speed-up-the-search-for-cars-on-portals": "/en/blog/best-place-to-find-a-used-car-online/",
+    }
+
+    def test_merged_posts_redirect_once_to_a_page_that_exists_and_does_not_redirect(self):
+        redirects = {r["source"]: r["destination"] for r in json.loads((self.out / "vercel.json").read_text())["redirects"]}
+        for old, keeper in self.CONSOLIDATED.items():
+            for form in (old.rstrip("/"), old.rstrip("/") + "/"):
+                self.assertEqual(redirects.get(form), keeper, form)
+            self.assertTrue(self.built(keeper), keeper)
+            self.assertNotIn(keeper, redirects, f"{keeper} is itself redirected: two hops")
+            if "/blog/" in old:
+                self.assertFalse((self.out / old.strip("/") / "index.html").exists(), f"{old} is still built")
+
     def test_every_language_with_posts_has_its_editorial_page(self):
         for l in self.langs_with_posts():
             self.assertTrue((self.out / l["code"] / l["blog"]["editorial"]["slug"] / "index.html").is_file(), l["code"])
