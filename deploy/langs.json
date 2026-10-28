@@ -98,6 +98,11 @@
         "crumbs": "Drobtinice",
         "table": "Tabela",
         "date": "{d}. {m}. {y}"
+      },
+      "notFound": {
+        "title": "Strani ni mogoče najti",
+        "text": "Naslov je napačen ali pa stran ne obstaja več. Nadaljuj na domači strani.",
+        "home": "Na domačo stran"
       }
     },
     {
@@ -156,6 +161,11 @@
         "crumbs": "Navigacijski put",
         "table": "Tablica",
         "date": "{d}. {m}. {y}."
+      },
+      "notFound": {
+        "title": "Stranica nije pronađena",
+        "text": "Adresa je pogrešna ili stranica više ne postoji. Nastavi na početnoj stranici.",
+        "home": "Na početnu stranicu"
       }
     },
     {
@@ -215,6 +225,11 @@
         "crumbs": "Navigaciona putanja",
         "table": "Tabela",
         "date": "{d}. {m}. {y}."
+      },
+      "notFound": {
+        "title": "Stranica nije pronađena",
+        "text": "Adresa je pogrešna ili stranica više ne postoji. Nastavi na početnoj strani.",
+        "home": "Na početnu stranu"
       }
     },
     {
@@ -287,6 +302,11 @@
           "November",
           "December"
         ]
+      },
+      "notFound": {
+        "title": "Page not found",
+        "text": "The address is wrong or the page no longer exists. Continue on the home page.",
+        "home": "Go to the home page"
       }
     },
     {
@@ -345,6 +365,11 @@
         "crumbs": "Brotkrümelnavigation",
         "table": "Tabelle",
         "date": "{dd}.{mm}.{y}"
+      },
+      "notFound": {
+        "title": "Seite nicht gefunden",
+        "text": "Die Adresse ist falsch oder die Seite existiert nicht mehr. Weiter auf der Startseite.",
+        "home": "Zur Startseite"
       }
     },
     {
@@ -419,6 +444,11 @@
           "november",
           "december"
         ]
+      },
+      "notFound": {
+        "title": "Pagina niet gevonden",
+        "text": "Het adres klopt niet of de pagina bestaat niet meer. Ga verder op de startpagina.",
+        "home": "Naar de startpagina"
       }
     },
     {
@@ -493,6 +523,11 @@
           "novembre",
           "décembre"
         ]
+      },
+      "notFound": {
+        "title": "Page introuvable",
+        "text": "L’adresse est erronée ou la page n’existe plus. Continuez sur la page d’accueil.",
+        "home": "Aller à la page d’accueil"
       }
     }
   ],

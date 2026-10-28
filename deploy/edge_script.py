@@ -146,7 +146,10 @@ def compile_source(src, where):
             groups.append(None)
         else:
             parts.append(re.escape(m.group("lit")))
-    return "^" + "".join(parts) + "$", groups
+    # Pattern sources match like Vercel's non-strict path-to-regexp: one trailing slash
+    # is optional (/post/x/ matches /post/:slug*). Exact sources stay strict; the build
+    # emits their slash form as its own rule.
+    return "^" + "".join(parts) + ("/?" if groups else "") + "$", groups
 
 
 DEST_PARAM = re.compile(r":([A-Za-z_][A-Za-z0-9_]*)")

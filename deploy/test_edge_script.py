@@ -159,12 +159,32 @@ class EdgeScript(unittest.TestCase):
         codes = [l["code"] for l in json.loads((HERE / "langs.json").read_text())["langs"]]
         self.assert_one_hop({f"/{c}/post/no-such-old-post": f"/{c}/" for c in codes})
 
-    def test_unknown_paths_pass_through(self):
-        out = self.run_cases([{"req": {"method": "GET", "path": "/no/such/page", "query": ""}}])
-        got = out["decisions"][0]
-        self.assertEqual(got["type"], "rewrite")
-        self.assertEqual(got["path"], "/no/such/page")
-        self.assertEqual(got["headers"], self.expected_headers("/no/such/page"))
+    def test_trailing_slash_form_of_every_exact_legacy_url_redirects_the_same_way(self):
+        exact = [r for r in self.rules if is_exact(r["source"]) and "/post" in r["source"] and not r["source"].endswith("/")]
+        self.assertTrue(exact)
+        table = {r["source"] + "/": r["destination"] for r in exact}
+        self.assert_one_hop(table)
+        self.assert_one_hop({"/post/no-such-old-post/": "/sl/", "/en/post/no-such-old-post/": "/en/"})
+
+    def test_every_response_carries_hsts(self):
+        for path in ("/", "/sl/", "/en/blog/", "/img/logo-weltscout.svg", "/no/such/page"):
+            self.assertRegex(self.expected_headers(path).get("Strict-Transport-Security", ""), r"^max-age=\d+$", path)
+
+    def test_unknown_paths_get_the_branded_404_of_their_language(self):
+        # Paths that are no built file used to pass through to the origin, whose default
+        # 404 loads a third-party font; now the edge answers 404 with the built page.
+        table = {"/no/such/page": "/404.html", "/en/no-such-page": "/en/404.html", "/hr/blog/nope/": "/hr/404.html", "/xx/y": "/404.html"}
+        out = self.run_cases([{"req": {"method": "GET", "path": p, "query": ""}} for p in table])
+        for (path, page), got in zip(table.items(), out["decisions"]):
+            self.assertEqual((got["type"], got["status"], got["path"]), ("notfound", 404, page), path)
+            self.assertEqual(got["headers"], self.expected_headers(path))
+            self.assertIn(page.lstrip("/"), self.data["files"])
+
+    def test_every_built_file_is_served_not_404(self):
+        files = [f for f in self.data["files"] if not f.endswith(".html")][:40]
+        out = self.run_cases([{"req": {"method": "GET", "path": "/" + f, "query": ""}} for f in files])
+        for f, got in zip(files, out["decisions"]):
+            self.assertEqual((got["type"], got["path"]), ("rewrite", "/" + f), f)
 
     # --- /api/contact (deploy/api/contact.js) ---
 
@@ -254,12 +274,12 @@ class EdgeScript(unittest.TestCase):
         # zero-segment or multi-segment edges.
         tables = {
             "/post/:slug*": {
-                "/post": True, "/post/": True, "/post/a": True, "/post/a/b": True,
+                "/post": True, "/post/": True, "/post/a": True, "/post/a/b": True, "/post/a/": True, "/post/a/b/": True,
                 "/posta": False, "/other": False,
             },
             # the language catch-all covers every language in langs.json (no hand list)
             "/:lang({})/post/:slug*".format("|".join(l["code"] for l in json.loads((HERE / "langs.json").read_text())["langs"])): {
-                "/hr/post": True, "/hr/post/x": True, "/de/post/a/b": True, "/fr/post/x": True, "/sr/post/x": True,
+                "/hr/post": True, "/hr/post/x": True, "/de/post/a/b": True, "/fr/post/x": True, "/sr/post/x": True, "/en/post/x/": True,
                 "/xx/post": False, "/hr/other": False,
             },
         }

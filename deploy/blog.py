@@ -630,7 +630,8 @@ def build(conf, out, live, sources, h):
                     "destination": f"/{code}/blog/{p['slug']}/",
                     "permanent": True,
                 }
-                for old in p.get("legacy", [])
+                for legacy in p.get("legacy", [])
+                for old in dict.fromkeys((legacy, legacy.rstrip("/") + "/"))
             ]
         canon = f"{site}/{code}/blog/"
         langs_with = [c for c in by_code if posts.get(c)]

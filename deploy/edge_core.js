@@ -78,7 +78,18 @@ function cleanResolve(data, path) {
   for (const cand of [base + ".html", base + "/index.html"]) {
     if (data.files.indexOf(cand.replace(/^\//, "")) >= 0) return { type: "rewrite", path: cand };
   }
-  return { type: "rewrite", path };
+  let file = path.replace(/^\//, "");
+  try { file = decodeURIComponent(file); } catch (e) {}
+  if (data.files.indexOf(file) >= 0) return { type: "rewrite", path };
+  return notFound(data, path);
+}
+
+// Anything that is no built file gets the branded 404 of its language (/<lang>/404.html),
+// or the default language's /404.html, with status 404 — never the origin's own 404 page.
+function notFound(data, path) {
+  const lang = path.split("/")[1];
+  const own = "/" + lang + "/404.html";
+  return { type: "notfound", status: 404, path: data.files.indexOf(own.slice(1)) >= 0 ? own : "/404.html" };
 }
 
 // All matching header rules apply, in rule order (Vercel semantics); later

@@ -662,6 +662,28 @@ def doc_page(l, head, main, alt, css="", current=None, js="", cls=""):
     )
 
 
+
+NOT_FOUND_CSS = ".nf-a{display:flex;flex-wrap:wrap;gap:12px;margin:32px 0 0}"
+
+
+def write_not_found(live, posts):
+    """A branded 404 per language (/<lang>/404.html) and the default language's at /404.html: noindex, no canonical,
+    self-hosted assets only. The edge answers unknown paths with it (edge_core.js); Vercel uses /404.html itself."""
+    e = lambda v: htmllib.escape(v, quote=True)
+    for l in live:
+        code, t = l["code"], l["notFound"]
+        links = f'<a class="btn" href="/{code}/">{e(t["home"])}</a>'
+        if posts.get(code):
+            links += f'<a class="btn alt" href="/{code}/blog/">{e(l["blog"]["name"])}</a>'
+        main = f'<header class="doc-h"><h1>{e(t["title"])}</h1><p class="upd">{e(t["text"])}</p><p class="nf-a">{links}</p></header>'
+        head = f'<title>{e(t["title"])} | WeltScout</title><meta name="robots" content="noindex">'
+        page = doc_page(l, head, main, {x["code"]: f"/{x['code']}/" for x in live}, css=NOT_FOUND_CSS, cls="nf")
+        page = absolutize(consent(page, l, legal_url(code, COOKIE_STEM)))
+        (OUT / code / "404.html").write_text(page)
+        if code == CONF["default"]:
+            (OUT / "404.html").write_text(page)
+
+
 LEGAL_CSS = (
     "main{display:block;padding-bottom:24px}"
     "@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}"
@@ -924,6 +946,7 @@ blog_out = blog.build(
     },
 )
 blog_out["redirects"] = legal_redirects(live) + blog_out["redirects"]
+write_not_found(live, blog_out["posts"])
 robots, sitemap, llms = root_files(live, meta)
 HTML_ALT = re.compile(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">')
 sitemap = sitemap.replace(
@@ -951,13 +974,19 @@ if CONF["indexable"]:
         rule["headers"] = [h for h in rule["headers"] if h["key"] != "X-Robots-Tag"]
 cfg["redirects"] = blog_out["redirects"] + [
     {
-        "source": r["from"].replace("{langs}", "|".join(l["code"] for l in live)),
+        "source": src,
         "destination": r["to"].replace("{default}", CONF["default"]),
         "permanent": True,
     }
     for r in CONF.get("legacyRedirects", [])
+    for src in [r["from"].replace("{langs}", "|".join(l["code"] for l in live))]
 ]
 (OUT / "vercel.json").write_text(json.dumps(cfg, indent=2))
+HTML_COMMENT = re.compile(r"<!--(?!\[)[\s\S]*?-->\n?")
+for f in OUT.rglob("*.html"):
+    html = f.read_text()
+    if "<!--" in html:
+        f.write_text(HTML_COMMENT.sub("", html))
 print(
     "built",
     [l["code"] for l in live],

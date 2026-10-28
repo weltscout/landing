@@ -61,5 +61,41 @@ class BuildOutput(unittest.TestCase):
                 self.assertIn(u.find("s:loc", NS).text, alts)
 
 
+    def langs(self):
+        import json
+        return [l["code"] for l in json.loads((ROOT / "deploy" / "langs.json").read_text())["langs"]]
+
+    def test_every_response_carries_hsts_without_preload(self):
+        import json
+        cfg = json.loads((self.out / "vercel.json").read_text())
+        glob = {h["key"]: h["value"] for r in cfg["headers"] if r["source"] == "/(.*)" for h in r["headers"]}
+        hsts = glob.get("Strict-Transport-Security", "")
+        self.assertRegex(hsts, r"^max-age=(\d+)$")
+        self.assertGreaterEqual(int(hsts.split("=")[1]), 31536000)
+
+    def test_branded_404_in_every_language_without_third_party_requests(self):
+        for page in [self.out / "404.html"] + [self.out / c / "404.html" for c in self.langs()]:
+            self.assertTrue(page.is_file(), page)
+            html = page.read_text()
+            self.assertIn('content="noindex', html, page)
+            self.assertNotIn("fonts.bunny.net", html, page)
+            # links to other hosts are fine; nothing may be loaded from one (fonts, styles, scripts, images)
+            self.assertNotRegex(html, r'<(?:link|script|img|iframe|source|video)\b[^>]*\b(?:src|href)="(?:https?:)?//(?!www\.weltscout\.com/)', page)
+            self.assertNotRegex(html, r"url\((?:['\"])?(?:https?:)?//", page)
+            self.assertEqual(html.count("<h1"), 1, page)
+
+    def test_hr_and_sr_home_titles_differ_and_hr_avoids_serbian_vocabulary(self):
+        import re
+        title = lambda c: re.search(r"<title>(.*?)</title>", (self.out / c / "index.html").read_text()).group(1)
+        self.assertNotEqual(title("hr"), title("sr"))
+        hr = (self.out / "hr" / "index.html").read_text()
+        head = hr.split("</head>")[0]
+        self.assertNotRegex(head, r"(?i)polovn")
+
+    def test_no_internal_html_comments_ship(self):
+        import re
+        for page in self.out.rglob("*.html"):
+            self.assertIsNone(re.search(r"<!--(?!\[)", page.read_text()), page)
+
 if __name__ == "__main__":
     unittest.main()
