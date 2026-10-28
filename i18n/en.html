@@ -25,7 +25,7 @@
 <style>
 @font-face{font-family:"Geist";src:url("fonts/geist-latin.woff2") format("woff2");font-weight:400 700;font-style:normal;font-display:swap;unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:"Geist";src:url("fonts/geist-latin-ext.woff2") format("woff2");font-weight:400 700;font-style:normal;font-display:swap;unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
-:root{--ease:cubic-bezier(.25,.46,.45,.94);--ease-out:cubic-bezier(.16,1,.3,1);--maxw:1440px;--r-lg:24px;--r-md:16px}
+:root{--ease:cubic-bezier(.25,.46,.45,.94);--ease-out:cubic-bezier(.16,1,.3,1);--maxw:1440px;--r-lg:24px;--r-md:16px;--ok-hi:#3DDC97;--ok-ink:#06301A}
 :root[data-theme="light"]{
   --pg:#F5F7FA;--pg2:#F8FAFC;--surf:#FFFFFF;--surf2:#EEF2F7;--surf3:#E6ECF4;
   --tx:var(--navy-950);--tx2:var(--slate-600);--tx3:var(--slate-600);
@@ -43,7 +43,7 @@
   --tx:#F4F7FB;--tx2:var(--slate-300);--tx3:var(--slate-400);
   --line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--line3:rgba(255,255,255,.2);
   --btn-bg:#F4F7FB;--btn-tx:var(--navy-950);--btn2-bg:rgba(255,255,255,.08);--btn2-tx:#F4F7FB;
-  --chip:rgba(255,255,255,.06);--acc:var(--blue-300);--ok:#3DDC97;--glow:.4;
+  --chip:rgba(255,255,255,.06);--acc:var(--blue-300);--ok:var(--ok-hi);--glow:.4;
   --sh:0 0 0 1px rgba(255,255,255,.06);
   --sh-lg:0 0 0 1px rgba(255,255,255,.07),0 50px 120px -40px rgba(0,0,0,.65);
   --band:var(--g-hero-noc);--band-tx:#FFFFFF;--band-tx2:var(--slate-300);
@@ -425,7 +425,8 @@ section.band{margin:0 auto;max-width:calc(var(--maxw) - 48px);border-radius:32px
 .plan.hl .trial .k,.plan.hl .trial .s{color:var(--blue-100)}
 .plan .nrow{grid-row:2;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
 .plan .pb{grid-row:3}
-.plan .tag{padding:4px 10px;border-radius:999px;background:var(--blue-500);color:#fff;font-size:12px;font-weight:600;line-height:1.4}
+.plan .tag{display:inline-flex;align-items:center;gap:5px;padding:5px 12px 5px 9px;border-radius:999px;background:var(--ok-hi);color:var(--ok-ink);font-size:13.5px;font-weight:700;line-height:1.3;box-shadow:0 0 0 3px color-mix(in srgb,var(--ok-hi) 24%,transparent)}
+.plan .tag:before{content:"★" / "";width:auto;height:auto;margin:0;border-radius:0;background:none;font-size:12px;line-height:1}
 .plan .n{margin:0;font-weight:600;font-size:20px;letter-spacing:-.02em;line-height:1.2}
 .plan .pitch{margin:6px 0 0;color:var(--tx2);font-size:15px;min-height:3.2em}
 .plan.hl .pitch,.plan.hl .per,.plan.hl ul,.plan.hl .yr{color:var(--hl-tx2)}
@@ -1417,8 +1418,8 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
   /* tabs with auto-advance */
   const steps = [
     ["Tell us what you’re looking for.", "Make, model, price, mileage. If needed, up to 135 equipment features.", ["Save the search under the customer’s name", "Filters stay put, so you don’t set them again"], "02-car-details", "Entering make, model, price and mileage for a new search"],
-    ["Choose your portals.", "At home, in neighbouring countries or in all 14. Local and European portals in the same search.", ["Up to 29 portals in 14 countries", "Suggest a missing portal and we usually add it within 4–7 working days"], "04-platforms", "Choosing portals by country"],
-    ["See results, get new listings.", "Within seconds you see the first results from listings already online, then receive new ones on WhatsApp or by email on your plan’s schedule.", ["Sort by price, year, mileage or power", "We check for new listings once or twice a day"], "08-results", "List of results showing price, year, mileage and power"]
+    ["Choose your portals.", "At home, in neighbouring countries or in all 14. Local and European portals in the same search.", ["Up to 29 portals in 14 countries", "Suggest a missing portal and we usually add it within 4–7 working days"], "04-platforms", "Choosing portals by country, the selected portals are ticked"],
+    ["See results, get new listings.", "Within seconds you see the first results from listings already online, then receive new ones on WhatsApp or by email on your plan’s schedule.", ["Sort by price, year, mileage or power", "We check for new listings once or twice a day"], "08-results", "List of results showing photo, price, year, mileage, power and portal"]
   ];
   const mq = matchMedia("(max-width:600px)");
   const tabs = $$(".tab"), panel = $("#p"), img = $("#pi"), wrap = $("#tabs"), TAB_MS = 6000;
