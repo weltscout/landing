@@ -137,13 +137,6 @@ nav .btn{height:42px;padding:0 18px;font-size:15px;border-radius:12px}
 .wa figure{position:relative;margin:0}
 .wa figure img,.wa figure video{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:46% 50%;border-radius:28px}
 .wa figure small{display:block;font-size:12px;color:var(--tx3);margin-top:10px}
-.wa .bubble{position:absolute;right:-24px;bottom:56px;width:min(300px,78%);background:var(--surf);color:var(--tx);border-radius:6px 18px 18px 18px;padding:12px;box-shadow:var(--sh-lg);font-size:14px;line-height:1.45}
-.wa .bubble.sync{opacity:0;transform:translateY(12px) scale(.96);transition:opacity .45s ease,transform .6s cubic-bezier(.22,1,.36,1)}
-.wa .bubble.sync.on{opacity:1;transform:none}
-.wa .bubble .hd{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx2);margin-bottom:8px}
-.wa .bubble .hd b{width:20px;height:20px;border-radius:50%;background:#25D366;display:grid;place-items:center;color:#06301A;font-size:11px}
-.wa .bubble .pr{color:var(--ok);font-weight:600}
-.wa .bubble .tm{display:block;text-align:right;font-size:11px;color:var(--tx3)}
 .wa h2{margin-bottom:20px}
 .wa .first{font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.3;margin:0 0 14px}
 .wa .ex{margin:22px 0;padding:18px 20px;border-radius:16px;background:var(--surf2);color:var(--tx2)}
@@ -549,7 +542,6 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   .nav-in{padding:0 8px 0 16px;gap:10px;height:58px}
   nav .right .btn{height:42px;font-size:14px;padding:0 14px}
   .wa{grid-template-columns:minmax(0,1fr);gap:40px;padding:0 12px}
-  .wa .bubble{right:12px;bottom:40px}
   .banner{font-size:12px}
   .facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px;padding:64px 24px 72px}
   .facts b{font-size:36px}
@@ -949,7 +941,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
     <div class="rv pv"><video src="img/demo-eu.mp4" poster="img/demo-eu-poster.jpg" width="1440" height="900" controls muted playsinline preload="none" aria-label="Recording of an Audi A4 Avant search in the WeltScout app, 27 October 2026"></video><p class="note">Recorded on 27 October 2026 with a test account. Data entry and portal choice are sped up 2×; the result count runs in real time (stopwatch bottom left). App default filter: undamaged vehicles only.</p></div>
   </div>
   <div class="w proof2">
-    <figure class="rv"><picture><source type="image/avif" srcset="img/foto3-audi-960.avif 960w, img/foto3-audi-1600.avif 1600w" sizes="(max-width:900px) 92vw, 540px"><img src="img/foto3-audi-1600.webp" srcset="img/foto3-audi-960.webp 960w, img/foto3-audi-1600.webp 1600w" sizes="(max-width:900px) 92vw, 540px" width="1600" height="1062" alt="Two buyers look over an older Audi A4 Avant on a used-car dealer’s lot" loading="lazy" decoding="async"></picture><figcaption>Illustration created with AI.</figcaption></figure>
+    <figure class="rv"><picture><source type="image/avif" srcset="img/foto4-audi-960.avif 960w, img/foto4-audi-1600.avif 1600w" sizes="(max-width:900px) 92vw, 540px"><img src="img/foto4-audi-1600.webp" srcset="img/foto4-audi-960.webp 960w, img/foto4-audi-1600.webp 1600w" sizes="(max-width:900px) 92vw, 540px" width="1600" height="1067" alt="Two buyers look over an older Audi A4 Avant on a used-car dealer’s lot" loading="lazy" decoding="async"></picture><figcaption>Illustration created with AI.</figcaption></figure>
     <div class="hits2 rv"><p class="hh">4 of the 854 results from this search</p><ol><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt=""><div><p class="t" lang="de">Audi A4 Avant Advanced 35 TDI S tronic AHK Black Navi</p><p class="m"><span>2023</span> · <span>70,500 km</span> · <span>120 kW</span></p><p class="s">mobile.de, Germany</p></div><p class="p">€24,840</p></li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt=""><div><p class="t" lang="de">Audi A4 Avant 40 TDI advanced Aut LED AHK RADAR NAVI</p><p class="m"><span>2020</span> · <span>92,442 km</span> · <span>150 kW</span></p><p class="s">willhaben.at, Austria</p></div><p class="p">€21,990</p></li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt=""><div><p class="t" lang="it">Audi A4 Avant 2.0 35 TDI S TRONIC</p><p class="m"><span>2021</span> · <span>81,722 km</span> · <span>120 kW</span></p><p class="s">AutoScout24, Italy</p></div><p class="p">€21,900</p></li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt=""><div><p class="t" lang="es">Audi A4 Avant 35 TDI Advanced S tronic 120kW</p><p class="m"><span>2020</span> · <span>91,451 km</span> · <span>120 kW</span></p><p class="s">AutoScout24, Spain</p></div><p class="p">€20,690</p></li></ol><p class="by">Results by portal: mobile.de 745, willhaben.at 54, blocket 20, AutoScout24 in France, Spain, Italy and Belgium 35. Avto.net, Njuškalo and AutoScout24 in the Netherlands and Luxembourg returned no results for this filter.</p></div>
   </div>
 </section>
@@ -968,8 +960,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 <section id="whatsapp">
   <div class="wa">
     <figure class="rv">
-      <video class="wa-vid" src="img/wa-pisarna.mp4" poster="img/wa-pisarna-poster.webp" width="900" height="900" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-      <div class="bubble" aria-hidden="true"><div class="hd"><b>✓</b>WhatsApp · WeltScout</div><b>New match: Passat Variant</b><br>2019 · 142,000 km · in your price range<span class="tm">example</span></div>
+      <video class="wa-vid" src="img/wa-dealer-en.mp4" poster="img/wa-dealer-en-poster.webp" width="900" height="900" muted loop playsinline preload="metadata" aria-hidden="true"></video>
     </figure>
     <div class="rv">
       <h2>New listings arrive on WhatsApp or by email</h2>
@@ -1209,8 +1200,6 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   /* whatsapp loop video: plays only while visible */
   const wv = $(".wa-vid");
   if (wv && !RM && !STILL) {
-    const bub = $(".wa .bubble"); wv.addEventListener("playing", () => bub.classList.add("sync"), { once: true });
-    wv.addEventListener("timeupdate", () => bub.classList.toggle("on", wv.currentTime > 1.6 && wv.currentTime < 6.9));
     let wvVis = false; const wvSync = () => (wvVis && !motionOff) ? wv.play().catch(() => {}) : wv.pause();
     new IntersectionObserver(es => { wvVis = es[0].isIntersecting; wvSync(); }, { threshold: .25 }).observe(wv); document.addEventListener("motionchange", wvSync);
   }
