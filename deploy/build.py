@@ -11,7 +11,9 @@ CONF = json.loads((SRC / "deploy" / "langs.json").read_text())
 if os.environ.get("WS_SITE"):
     CONF["site"] = os.environ["WS_SITE"].rstrip("/")
 if os.environ.get("WS_GA") is not None:
-    CONF.setdefault("analytics", {})["ga4"] = "" if os.environ["WS_GA"].lower() in ("", "0", "off") else os.environ["WS_GA"]
+    CONF.setdefault("analytics", {})["ga4"] = (
+        "" if os.environ["WS_GA"].lower() in ("", "0", "off") else os.environ["WS_GA"]
+    )
 if os.environ.get("WS_INDEXABLE"):
     CONF["indexable"] = os.environ["WS_INDEXABLE"].lower() in ("1", "true", "yes")
 
@@ -63,11 +65,26 @@ def replace_inner(html, pattern, inner, page):
 
 
 SOCIAL_ICONS = {
-    "instagram.com": ("Instagram", '<path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 4.8a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>'),
-    "facebook.com": ("Facebook", '<path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/>'),
-    "linkedin.com": ("LinkedIn", '<path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zm1.8 13.1H3.5V9h3.6v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/>'),
-    "youtube.com": ("YouTube", '<path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>'),
-    "tiktok.com": ("TikTok", '<path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.7a2.9 2.9 0 1 1-2-2.7V9.5a6.3 6.3 0 1 0 5.4 6.2V8.8a8.2 8.2 0 0 0 4.8 1.5V6.9a4.8 4.8 0 0 1-1-.2z"/>'),
+    "instagram.com": (
+        "Instagram",
+        '<path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 4.8a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>',
+    ),
+    "facebook.com": (
+        "Facebook",
+        '<path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/>',
+    ),
+    "linkedin.com": (
+        "LinkedIn",
+        '<path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zm1.8 13.1H3.5V9h3.6v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/>',
+    ),
+    "youtube.com": (
+        "YouTube",
+        '<path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>',
+    ),
+    "tiktok.com": (
+        "TikTok",
+        '<path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.7a2.9 2.9 0 1 1-2-2.7V9.5a6.3 6.3 0 1 0 5.4 6.2V8.8a8.2 8.2 0 0 0 4.8 1.5V6.9a4.8 4.8 0 0 1-1-.2z"/>',
+    ),
 }
 
 
@@ -78,7 +95,10 @@ def social_links(html, page):
     for url in CONF["org"]["sameAs"]:
         host = re.sub(r"^www\.", "", url.split("/")[2])
         if host not in SOCIAL_ICONS:
-            die(page, f"no footer icon for social link {url}; add {host} to SOCIAL_ICONS")
+            die(
+                page,
+                f"no footer icon for social link {url}; add {host} to SOCIAL_ICONS",
+            )
         name, path = SOCIAL_ICONS[host]
         links.append(
             f'<a href="{url}" rel="me noopener" target="_blank" aria-label="{name}">'
@@ -126,7 +146,19 @@ def localize(html, page, live):
     me = next(l for l in live if l["code"] == page)
     html, n = re.subn(
         r'(<button class="lang-b"[^>]*aria-label="[^":]*:\s?)[^"]*(">.*?<span>)[^<]*(</span>)',
-        lambda m: m.group(1) + f'{me["name"]}, {page.upper()}' + re.sub(r"<svg.*?</svg>", lambda _: f'<span class="lf">{flag(me["flag"], 20, 15)}</span>', m.group(2), count=1, flags=re.S) + page.upper() + m.group(3),
+        lambda m: (
+            m.group(1)
+            + f"{me['name']}, {page.upper()}"
+            + re.sub(
+                r"<svg.*?</svg>",
+                lambda _: f'<span class="lf">{flag(me["flag"], 20, 15)}</span>',
+                m.group(2),
+                count=1,
+                flags=re.S,
+            )
+            + page.upper()
+            + m.group(3)
+        ),
         html,
         count=1,
         flags=re.S,
@@ -437,7 +469,9 @@ def legal_url(code, stem):
 
 def check_legal_slugs():
     if COOKIE_STEM not in LEGAL_SLUGS:
-        sys.exit(f"legal/{CONF['legalFallback']}/{COOKIE_STEM}.html missing (consent links to it)")
+        sys.exit(
+            f"legal/{CONF['legalFallback']}/{COOKIE_STEM}.html missing (consent links to it)"
+        )
     for l in CONF["langs"]:
         got = [legal_slug(l["code"], s) for s in LEGAL_SLUGS]
         extra = sorted(set(l.get("legalSlugs", {})) - set(LEGAL_SLUGS))
@@ -452,7 +486,10 @@ def legal_redirects(live):
     out = []
 
     def add(src, dst):
-        out.extend({"source": v, "destination": dst, "permanent": True} for v in (src, src + "/"))
+        out.extend(
+            {"source": v, "destination": dst, "permanent": True}
+            for v in (src, src + "/")
+        )
 
     for l in live:
         for s in LEGAL_SLUGS:
@@ -468,7 +505,16 @@ CHROME_SEL = re.compile(
     r"\.(?:btn|skip|logo|lg-[ld]|nav-in|links|right|login|lang|lang-[bm]|mlangs|burger|mnav|flag|sw|sr|band|final|note))(?![\w-])"
 )
 CHROME_KEYFRAMES = ("langin", "mnavin", "mitem")
-CHROME_MUST = (".nav-in{", ".burger{", ".mnav{", "footer .cols{", ".sw button{", ".lang-m{", ".skip{", ".final .btn{")
+CHROME_MUST = (
+    ".nav-in{",
+    ".burger{",
+    ".mnav{",
+    "footer .cols{",
+    ".sw button{",
+    ".lang-m{",
+    ".skip{",
+    ".final .btn{",
+)
 CHROME_JS = ("theme", "mobile menu", "nav indicator", "language switcher")
 
 
@@ -497,7 +543,9 @@ def chrome_rules(css):
             if head.split()[1] in CHROME_KEYFRAMES:
                 out.append(f"{head}{{{body}}}")
         elif not head.startswith("@"):
-            sel = ",".join(x.strip() for x in head.split(",") if CHROME_SEL.match(x.strip()))
+            sel = ",".join(
+                x.strip() for x in head.split(",") if CHROME_SEL.match(x.strip())
+            )
             if sel:
                 out.append(f"{sel}{{{body.strip()}}}")
     return "".join(out)
@@ -513,12 +561,19 @@ def chrome_parts(code, html, src):
         return m.group(1)
 
     head = html.split("</head>", 1)[0]
-    css = re.sub(r"/\*.*?\*/", "", "".join(re.findall(r"<style[^>]*>(.*?)</style>", head, re.S)), flags=re.S)
+    css = re.sub(
+        r"/\*.*?\*/",
+        "",
+        "".join(re.findall(r"<style[^>]*>(.*?)</style>", head, re.S)),
+        flags=re.S,
+    )
     rules = chrome_rules(css)
     for need in CHROME_MUST:
         if need not in rules:
             sys.exit(f"{code}: chrome CSS rule {need}...}} not found on the homepage")
-    script = one(r"<script>\s*\(\(\) => \{(.*?)\}\)\(\);?\s*</script>\s*</body>", "main script")
+    script = one(
+        r"<script>\s*\(\(\) => \{(.*?)\}\)\(\);?\s*</script>\s*</body>", "main script"
+    )
     js = []
     for name in CHROME_JS:
         m = re.search(rf"/\* {name} \*/(.*?)(?=\n\s*/\* |\Z)", script, re.S)
@@ -529,22 +584,34 @@ def chrome_parts(code, html, src):
     theme = re.search(r'<html lang="[^"]+" data-theme="(\w+)"', html)
     fonts = re.findall(r'<link rel="preload" href="fonts/[^"]+" as="font"[^>]*>', head)
     if not key or not theme or not fonts:
-        sys.exit(f"{code}: theme storage key, default theme or font preloads not found on the homepage")
+        sys.exit(
+            f"{code}: theme storage key, default theme or font preloads not found on the homepage"
+        )
     page = lambda s: re.sub(r'href="#([^"]+)"', rf'href="/{code}/#\1"', s)
-    cta = re.search(r'<section class="final band">.*?(<div class="ctas">.*?</div>)\s*<p class="note"[^>]*>(.*?)</p>', html, re.S)
+    cta = re.search(
+        r'<section class="final band">.*?(<div class="ctas">.*?</div>)\s*<p class="note"[^>]*>(.*?)</p>',
+        html,
+        re.S,
+    )
     if not cta:
         sys.exit(f"{code}: homepage final CTA band (.ctas + .note) not found")
     return {
         "css": "".join(theme_styles(code, src)) + rules,
         "skip": one(r'(<a class="skip" href="#main">[^<]*</a>)', "skip link"),
-        "nav": page(one(r'(<nav aria-label="[^"]*">\s*<div class="nav-in">.*?</nav>)', "top nav")),
+        "nav": page(
+            one(
+                r'(<nav aria-label="[^"]*">\s*<div class="nav-in">.*?</nav>)', "top nav"
+            )
+        ),
         "footer": page(one(r"(<footer>.*?</footer>)", "footer")),
         "ctas": page(cta.group(1)),
         "note": cta.group(2),
         "js": ";".join(js),
         "key": key.group(1),
         "theme": theme.group(1),
-        "themes": json.dumps(sorted(set(re.findall(r':root\[data-theme="(\w+)"\]', css)))),
+        "themes": json.dumps(
+            sorted(set(re.findall(r':root\[data-theme="(\w+)"\]', css)))
+        ),
         "fonts": "".join(fonts),
     }
 
@@ -562,11 +629,17 @@ def chrome_render(code, alt, current=None):
         if n != want:
             sys.exit(f"{code}: expected {want} language links in the chrome, found {n}")
         if current:
-            s = re.sub(rf'(<a href="{re.escape(current)}")(?![^>]*aria-current)', r'\1 aria-current="page"', s)
+            s = re.sub(
+                rf'(<a href="{re.escape(current)}")(?![^>]*aria-current)',
+                r'\1 aria-current="page"',
+                s,
+            )
         return s
 
     if set(alt) != set(CHROME):
-        sys.exit(f"{code}: language switcher targets {sorted(alt)} do not cover {sorted(CHROME)}")
+        sys.exit(
+            f"{code}: language switcher targets {sorted(alt)} do not cover {sorted(CHROME)}"
+        )
     return langs(p["nav"], 2 * n_live), langs(p["footer"], n_live)
 
 
@@ -590,7 +663,7 @@ LEGAL_CSS = (
     "main{display:block;padding-bottom:24px}"
     "@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}"
     ".crumbs{font-size:14px;color:var(--tx3)}.crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center}"
-    ".crumbs li{display:inline-flex;align-items:center;min-width:0;max-width:100%}.crumbs li+li:before{content:\"/\";margin:0 10px;color:var(--tx3)}"
+    '.crumbs li{display:inline-flex;align-items:center;min-width:0;max-width:100%}.crumbs li+li:before{content:"/";margin:0 10px;color:var(--tx3)}'
     ".crumbs a{display:inline-block;padding:4px 0;color:var(--tx2);text-decoration:none}.crumbs a:hover{color:var(--tx);text-decoration:underline}"
     ".crumbs [aria-current]{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:44ch}"
     ".doc-h,.doc{max-width:var(--maxw);margin:0 auto;padding:0 24px;display:grid;font-size:18px;"
@@ -606,7 +679,7 @@ LEGAL_CSS = (
     ".toc a:hover{color:var(--tx)}.toc a[aria-current]{color:var(--tx);border-left-color:var(--acc)}"
     ".toc-m{display:none;margin:0 0 44px;border-radius:16px;background:var(--surf);box-shadow:var(--sh);font-size:16px}"
     ".toc-m summary{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0 20px;font-weight:600;color:var(--tx);cursor:pointer;list-style:none}"
-    ".toc-m summary::-webkit-details-marker{display:none}.toc-m summary:after{content:\"\";width:8px;height:8px;border:solid var(--tx2);border-width:0 2px 2px 0;transform:translateY(-2px) rotate(45deg)}"
+    '.toc-m summary::-webkit-details-marker{display:none}.toc-m summary:after{content:"";width:8px;height:8px;border:solid var(--tx2);border-width:0 2px 2px 0;transform:translateY(-2px) rotate(45deg)}'
     ".toc-m[open] summary:after{transform:translateY(2px) rotate(-135deg)}.toc-m ol{padding:0 8px 10px}"
     ".toc-m a{display:block;padding:10px 12px;border-radius:10px;color:var(--tx2);text-decoration:none;line-height:1.35}.toc-m a:hover{background:var(--surf2);color:var(--tx)}"
     ".prose{grid-column:2;grid-row:1;min-width:0;color:color-mix(in srgb,var(--tx) 82%,var(--pg));line-height:1.7;overflow-wrap:break-word;hyphens:auto}"
@@ -628,7 +701,9 @@ LEGAL_CSS = (
 
 
 def theme_styles(code, src):
-    styles = re.findall(r'(@font-face\{[^}]*\}|:root(?:\[data-theme="(?:light|dark)"\])?\{[^}]*\})', src)
+    styles = re.findall(
+        r'(@font-face\{[^}]*\}|:root(?:\[data-theme="(?:light|dark)"\])?\{[^}]*\})', src
+    )
     if len(styles) < 3:
         sys.exit(f"{code}: theme tokens / font-face not found")
     return styles
@@ -659,21 +734,33 @@ def legal_pages(live, sources):
             h1 = re.search(r"<h1>(.*?)</h1>", body, re.S)
             if not h1:
                 sys.exit(f"{f}: no h1")
-            first = re.search(r"<h2[^>]*>.*?</h2>.*?<p>(.*?)</p>", body, re.S) or re.search(r"<p>(.*?)</p>", body, re.S)
+            first = re.search(
+                r"<h2[^>]*>.*?</h2>.*?<p>(.*?)</p>", body, re.S
+            ) or re.search(r"<p>(.*?)</p>", body, re.S)
             desc = norm(first.group(1)) if first else norm(h1.group(1))
             desc = desc if len(desc) <= 155 else desc[:152].rsplit(" ", 1)[0] + "…"
             canon = f"{site}{legal_url(code if own else CONF['legalFallback'], s)}"
             have = [x for x in live if (LEGAL_DIR / x["code"] / f"{s}.html").exists()]
             alts = "".join(
-                f'<link rel="alternate" hreflang="{h}" href="{site}{legal_url(x["code"], s)}">' for x in have for h in x["hreflang"]
+                f'<link rel="alternate" hreflang="{h}" href="{site}{legal_url(x["code"], s)}">'
+                for x in have
+                for h in x["hreflang"]
             ) + "".join(
-                f'<link rel="alternate" hreflang="x-default" href="{site}{legal_url(x["code"], s)}">' for x in have if x["code"] == CONF["default"]
+                f'<link rel="alternate" hreflang="x-default" href="{site}{legal_url(x["code"], s)}">'
+                for x in have
+                if x["code"] == CONF["default"]
             )
-            robots = "" if CONF["indexable"] else '<meta name="robots" content="noindex, nofollow">'
+            robots = (
+                ""
+                if CONF["indexable"]
+                else '<meta name="robots" content="noindex, nofollow">'
+            )
             for t in LEGAL_SLUGS:
                 body = body.replace(f'href="../{t}/"', f'href="{legal_url(code, t)}"')
             upd = re.search(r'<p class="upd">.*?</p>', body, re.S)
-            body = body.replace(h1.group(0), "", 1).replace(upd.group(0) if upd else "\0", "", 1)
+            body = body.replace(h1.group(0), "", 1).replace(
+                upd.group(0) if upd else "\0", "", 1
+            )
             body, heads = blog.heading_ids(body)
             body = blog.wrap_tables(body, ui["table"])
             title = norm(h1.group(1))
@@ -691,10 +778,20 @@ def legal_pages(live, sources):
                 '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
             )
             url = legal_url(code, s)
-            page = doc_page(l, head, main, {x["code"]: legal_url(x["code"], s) for x in live}, current=url, js=blog.TOC_JS, cls="lg")
+            page = doc_page(
+                l,
+                head,
+                main,
+                {x["code"]: legal_url(x["code"], s) for x in live},
+                current=url,
+                js=blog.TOC_JS,
+                cls="lg",
+            )
             d = OUT / code / legal_slug(code, s)
             d.mkdir(parents=True, exist_ok=True)
-            (d / "index.html").write_text(absolutize(consent(page, l, legal_url(code, COOKIE_STEM))))
+            (d / "index.html").write_text(
+                absolutize(consent(page, l, legal_url(code, COOKIE_STEM)))
+            )
             written.append(f"{code}/{legal_slug(code, s)}")
     return written, fallback
 
@@ -727,7 +824,9 @@ def consent(html, l, legal_href):
         f'<button type="button" data-ck="denied">{e(t["reject"])}</button></div></div>'
     )
     js = (
-        "<script>(()=>{const K='ws-consent',ID='" + ga + "',b=document.getElementById('ck');"
+        "<script>(()=>{const K='ws-consent',ID='"
+        + ga
+        + "',b=document.getElementById('ck');"
         "let v=null;try{v=localStorage.getItem(K)}catch(e){}"
         "const load=()=>{if(window.__ga)return;window.__ga=1;window.dataLayer=window.dataLayer||[];"
         "window.gtag=function(){dataLayer.push(arguments)};gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'granted'});"
@@ -741,9 +840,16 @@ def consent(html, l, legal_href):
         "if(v==='granted')load();else if(v!=='denied')b.hidden=false})()</script>"
     )
     opener = f'<button type="button" class="ck-open">{e(t["settings"])}</button>'
-    html, n = re.subn(r'(<a href="' + re.escape(legal_href) + r'"[^>]*>[^<]*</a>)', lambda m: m.group(1) + opener, html, count=1)
+    html, n = re.subn(
+        r'(<a href="' + re.escape(legal_href) + r'"[^>]*>[^<]*</a>)',
+        lambda m: m.group(1) + opener,
+        html,
+        count=1,
+    )
     if n != 1:
-        sys.exit(f"{l['code']}: footer cookie-policy link {legal_href} not found for the consent opener")
+        sys.exit(
+            f"{l['code']}: footer cookie-policy link {legal_href} not found for the consent opener"
+        )
     html = html.replace("</head>", f"<style>{CONSENT_CSS}</style></head>", 1)
     return html.replace("</body>", banner + js + "</body>", 1)
 
@@ -757,7 +863,13 @@ def link_legal(html, page):
 
 
 def absolutize(html):
-    html = re.sub(r'srcset="([^"]*)"', lambda m: 'srcset="' + re.sub(r"(^|,\s*)((?:img|fonts)/)", r"\1/\2", m.group(1)) + '"', html)
+    html = re.sub(
+        r'srcset="([^"]*)"',
+        lambda m: (
+            'srcset="' + re.sub(r"(^|,\s*)((?:img|fonts)/)", r"\1/\2", m.group(1)) + '"'
+        ),
+        html,
+    )
     html = re.sub(r'((?:src|href|poster|srcset)=")((?:img|fonts)/)', r"\1/\2", html)
     html = re.sub(r'url\((["\']?)((?:img|fonts)/)', r"url(\1/\2", html)
     return html.replace('href="tokens.css"', 'href="/tokens.css"')
@@ -776,7 +888,9 @@ meta, sources = {}, {}
 for l in live:
     (OUT / l["code"]).mkdir()
     sources[l["code"]] = social_links((SRC / l["file"]).read_text(), l["code"])
-    page, meta[l["code"]] = seo(localize(sources[l["code"]], l["code"], live), l["code"], live)
+    page, meta[l["code"]] = seo(
+        localize(sources[l["code"]], l["code"], live), l["code"], live
+    )
     if BLOG_POSTS.get(l["code"]):
         page = blog.nav_link(page, l["code"], l["blog"]["name"])
     page = link_legal(page, l["code"])
@@ -788,17 +902,35 @@ for l in live:
         (OUT / "index.html").write_text(page)
 legal_written, legal_fallback = legal_pages(live, sources)
 blog_out = blog.build(
-    CONF, OUT, live, sources,
-    {"src": SRC, "styles": lambda c: theme_styles(c, sources[c]), "legal_css": LEGAL_CSS, "icon_tags": icon_tags,
-     "consent": consent, "absolutize": absolutize, "legal_slugs": LEGAL_SLUGS,
-     "legal_names": lambda c: legal_names(c, sources[c]), "page": doc_page, "chrome": CHROME, "cookie_url": lambda c: legal_url(c, COOKIE_STEM)},
+    CONF,
+    OUT,
+    live,
+    sources,
+    {
+        "src": SRC,
+        "styles": lambda c: theme_styles(c, sources[c]),
+        "legal_css": LEGAL_CSS,
+        "icon_tags": icon_tags,
+        "consent": consent,
+        "absolutize": absolutize,
+        "legal_slugs": LEGAL_SLUGS,
+        "legal_names": lambda c: legal_names(c, sources[c]),
+        "page": doc_page,
+        "chrome": CHROME,
+        "cookie_url": lambda c: legal_url(c, COOKIE_STEM),
+    },
 )
 blog_out["redirects"] = legal_redirects(live) + blog_out["redirects"]
 robots, sitemap, llms = root_files(live, meta)
+HTML_ALT = re.compile(r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">')
 sitemap = sitemap.replace(
     "</urlset>\n",
     "".join(
-        f"<url><loc>{u}</loc><lastmod>{d}</lastmod>{re.sub(r'<link rel=\"alternate\" hreflang=\"([^\"]+)\" href=\"([^\"]+)\">', r'<xhtml:link rel=\"alternate\" hreflang=\"\\1\" href=\"\\2\"/>', a)}</url>\n"
+        "<url><loc>{}</loc><lastmod>{}</lastmod>{}</url>\n".format(
+            u,
+            d,
+            HTML_ALT.sub(r'<xhtml:link rel="alternate" hreflang="\1" href="\2"/>', a),
+        )
         for u, d, a in blog_out["sitemap"]
     )
     + "</urlset>\n",
@@ -815,7 +947,11 @@ if CONF["indexable"]:
     for rule in cfg["headers"]:
         rule["headers"] = [h for h in rule["headers"] if h["key"] != "X-Robots-Tag"]
 cfg["redirects"] = blog_out["redirects"] + [
-    {"source": r["from"], "destination": r["to"].replace("{default}", CONF["default"]), "permanent": True}
+    {
+        "source": r["from"],
+        "destination": r["to"].replace("{default}", CONF["default"]),
+        "permanent": True,
+    }
     for r in CONF.get("legacyRedirects", [])
 ]
 (OUT / "vercel.json").write_text(json.dumps(cfg, indent=2))
@@ -827,5 +963,17 @@ print(
     "| indexable:",
     CONF["indexable"],
 )
-print("blog posts:", {c: len(p) for c, p in blog_out["posts"].items() if p}, "| legacy redirects:", len(blog_out["redirects"]), "| not indexed (status):", len(blog_out["held"]))
-print("legal pages:", len(legal_written), "| %s text used for:" % CONF["legalFallback"], legal_fallback or "none")
+print(
+    "blog posts:",
+    {c: len(p) for c, p in blog_out["posts"].items() if p},
+    "| legacy redirects:",
+    len(blog_out["redirects"]),
+    "| not indexed (status):",
+    len(blog_out["held"]),
+)
+print(
+    "legal pages:",
+    len(legal_written),
+    "| %s text used for:" % CONF["legalFallback"],
+    legal_fallback or "none",
+)
