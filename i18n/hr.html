@@ -507,6 +507,9 @@ footer .cols{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:40px}
 footer .brand p{max-width:32ch;margin:18px 0 22px}
 footer .logo img{height:22px}
 footer .contact a{display:inline-flex;align-items:center;gap:8px;margin:0 0 8px;color:var(--tx);font-weight:500}
+footer .social{display:flex;gap:8px;margin-top:14px}
+footer .brand .social a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:0;border-radius:12px;background:var(--surf2);color:var(--tx2);transition:color .2s,background .2s}
+footer .brand .social a:hover,footer .brand .social a:focus-visible{color:var(--tx)}
 footer .trust{display:inline-flex;align-items:center;gap:10px;margin-top:10px;padding:8px 14px;border-radius:999px;background:var(--surf2);font-size:14px;color:var(--tx)}
 footer .trust .st{color:#B45309;letter-spacing:1px}
 [data-theme="dark"] footer .trust .st{color:#FBBF24}
@@ -1115,6 +1118,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
     <div class="brand"><a class="logo" href="/hr/"><img class="lg-l" src="img/logo-weltscout.svg" width="120" height="20" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-dark.svg" width="143" height="24" alt="WeltScout"></a>
       <p>Pretraga polovnih vozila na domaćim i europskim portalima, za trgovce i posrednike.</p>
       <div class="contact"><a href="mailto:info@weltscout.com">info@weltscout.com</a></div>
+      {{SOCIAL}}
       <div class="trust"><span class="st" aria-hidden="true">★★★★★</span>4,9 · više od 120 tvrtki</div>
     </div>
     <div><h4>Proizvod</h4><a href="#kako">Kako radi</a><a href="#stranke">Za trgovce</a><a href="#cenik">Cjenik</a><a href="#kontakt">Business MAX</a><a href="{{APP}}">Prijava</a></div>
