@@ -138,7 +138,7 @@ class EdgeScript(unittest.TestCase):
         "/hr/post/novosti-na-platformi-weltscout": "/hr/blog/sto-weltscout-nudi-danas/",
         "/post/kateri-mesec-najcenejsi-za-nakup-avtomobila": "/sl/blog/kdaj-je-najbolje-kupiti-avto/",
         "/post/best-car-sourcing-platforms-3": "/sl/blog/avto-iskalnik/",
-        "/fr/blog": "/fr/",
+        "/fr/blog": "/fr/blog/",
         "/fr/post/kateri-so-najboljsi-rabljeni-avti": "/fr/",
         "/legal": "/sl/splosni-pogoji/",
     }
