@@ -1204,6 +1204,21 @@ nav .btn,nav .right .btn,.ask-card .btn{--h:44px;height:var(--h);padding:0 calc(
 .hero .lb-x{position:absolute;top:16px;right:16px;z-index:2;display:grid;place-items:center;width:48px;height:48px;margin:0;padding:0;border:0;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;cursor:pointer}
 .hero .lb-x:hover{background:rgba(255,255,255,.26)}
 .hero .lb-x:focus-visible{outline:2px solid #fff;outline-offset:3px}
+/* footer v2 (28. 10.): the page ends on the brand. The claim reads as a statement, the link columns share one top line,
+   language and theme sit in one utility row above the legal line, and the wordmark closes the page, cut by the footer's
+   bottom edge (decorative, aria-hidden, in the panel tint). Column titles are h2: they follow the page's h2 sections */
+footer{overflow:hidden}
+footer .in{container-type:inline-size;padding:clamp(56px,4vw + 40px,104px) 24px 0}
+footer .cols{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) minmax(0,1fr);gap:40px clamp(32px,4vw,80px)}
+footer .brand p{max-width:28ch;margin:20px 0 24px;font-size:clamp(18px,.6vw + 15px,22px);line-height:1.4;letter-spacing:-.015em;color:var(--tx)}
+footer .fh{max-width:none;margin:2px 0 12px;font-size:14px;font-weight:600;line-height:1.3;letter-spacing:0;color:var(--tx3)}
+footer .cols>div:not(.brand) a{display:flex;align-items:center;min-height:40px;margin:0;font-size:16px;color:var(--tx2)}
+footer .bot{margin-top:clamp(48px,3vw + 36px,80px);padding-top:24px}
+footer .bot .langs{order:1}
+footer .bot .sw{order:2}
+footer .bot>span{order:3;flex-basis:100%;padding-top:20px;border-top:1px solid var(--line);color:var(--tx3)}
+footer .wm{margin:clamp(24px,3vw,48px) 0 -.13em;font-size:calc(100cqi / 4.45);font-weight:600;letter-spacing:-.07em;line-height:.8;white-space:nowrap;color:var(--panel-bg);user-select:none;pointer-events:none}
+@media (max-width:600px){footer .cols>div:nth-child(3){display:block}footer .in{padding:56px 16px 0}footer .bot{margin-top:40px}}
 </style>
 </head>
 <body>
@@ -1450,9 +1465,9 @@ nav .btn,nav .right .btn,.ask-card .btn{--h:44px;height:var(--h);padding:0 calc(
       {{SOCIAL}}
       <div class="trust"><span class="st" aria-hidden="true">★★★★★</span>4,9 · više od 120 tvrtki</div>
     </div>
-    <div><h4>Proizvod</h4><a href="#kako">Kako radi</a><a href="#stranke">Za trgovce</a><a href="#cenik">Cjenik</a><a href="#kontakt">Business MAX</a><a href="{{APP}}">Prijava</a></div>
+    <div><h2 class="fh">Proizvod</h2><a href="#kako">Kako radi</a><a href="#stranke">Za trgovce</a><a href="#cenik">Cjenik</a><a href="#kontakt">Business MAX</a><a href="{{APP}}">Prijava</a></div>
     
-    <div><h4>Tvrtka</h4><a href="#kontakt">Kontakt</a><a href="/terms-and-conditions">Uvjeti poslovanja</a><a href="/privacy-policy">Privatnost</a><a href="/cookie-policy">Kolačići</a></div>
+    <div><h2 class="fh">Tvrtka</h2><a href="#kontakt">Kontakt</a><a href="/terms-and-conditions">Uvjeti poslovanja</a><a href="/privacy-policy">Privatnost</a><a href="/cookie-policy">Kolačići</a></div>
   </div>
   <div class="bot">
     <span>© 2026 WeltScout d.o.o. · Luče 42b, 1290 Grosuplje · PDV ID SI25936344</span>
@@ -1462,6 +1477,7 @@ nav .btn,nav .right .btn,.ask-card .btn{--h:44px;height:var(--h);padding:0 calc(
     <nav class="langs" aria-label="Jezik"><a href="/sl/" hreflang="sl" lang="sl">SL</a><a href="/hr/" hreflang="hr" lang="hr" aria-current="page">HR</a><a href="/en/" hreflang="en" lang="en">EN</a><a href="/de/" hreflang="de" lang="de">DE</a></nav>
     
   </div>
+  <p class="wm" aria-hidden="true">WeltScout</p>
   </div>
 </footer>
 
