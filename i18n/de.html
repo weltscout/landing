@@ -1219,6 +1219,7 @@ footer .bot .langs{order:1}
 footer .bot .sw{order:2}
 footer .bot>span{order:3;flex-basis:100%;padding-top:20px;border-top:1px solid var(--line);color:var(--tx3)}
 footer .wm{margin:clamp(24px,3vw,48px) 0 -.13em;font-size:calc(100cqi / 4.45);font-weight:600;letter-spacing:-.07em;line-height:.8;white-space:nowrap;color:var(--panel-bg);user-select:none;pointer-events:none}
+footer .wm:before{content:"WeltScout"}
 @media (max-width:600px){footer .cols>div:nth-child(3){display:block}footer .in{padding:56px 16px 0}footer .bot{margin-top:40px}}
 </style>
 </head>
@@ -1478,7 +1479,7 @@ footer .wm{margin:clamp(24px,3vw,48px) 0 -.13em;font-size:calc(100cqi / 4.45);fo
     <nav class="langs" aria-label="Sprache"><a href="/sl/" hreflang="sl" lang="sl">SL</a><a href="/hr/" hreflang="hr" lang="hr">HR</a><a href="/en/" hreflang="en" lang="en">EN</a><a href="/de/" hreflang="de" lang="de" aria-current="page">DE</a></nav>
     
   </div>
-  <p class="wm" aria-hidden="true">WeltScout</p>
+  <div class="wm" aria-hidden="true"></div>
   </div>
 </footer>
 

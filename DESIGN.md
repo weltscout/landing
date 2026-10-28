@@ -305,7 +305,7 @@ The page ends on the brand, on Surface (Dark Surface in dark), with no gradient:
 - **Brand column:** logo, the one-sentence claim as a statement (clamp(18px, 0.6vw + 15px, 22px), ink, max 28ch), e-mail, the social icons from `{{SOCIAL}}` (build.py) and the ★ 4,9 line.
 - **Link columns:** "Izdelek" and "Podjetje", titles 14px weight 600 in muted ink as `h2` (they follow the page's h2 sections, so heading order holds), links 16px with 40px rows; the cookie-settings control looks like a link. Both columns stay visible on phones, side by side.
 - **Utility row:** languages with flags (the current one framed) on the left, the theme switch on the right; then the legal line on its own under a hairline.
-- **Wordmark:** "WeltScout" as the closing graphic, Geist 600, tracking −0.07em, sized to the footer's content width with container units (`100cqi / 4.45`), in the panel tint (`--panel-bg`), cut by the footer's bottom edge. Decorative and `aria-hidden`; no new token.
+- **Wordmark:** "WeltScout" as the closing graphic, Geist 600, tracking −0.07em, sized to the footer's content width with container units (`100cqi / 4.45`), in the panel tint (`--panel-bg`), cut by the footer's bottom edge. It is drawn as CSS generated content on an empty `aria-hidden` element: a logotype used as decoration, so it carries no contrast requirement and is not text for assistive technology. No new token.
 
 ### Motion
 - **One page-load moment:** the first H1 sentence rises word by word (opacity and translateY only, 600ms each, stagger ≤ 60ms) and the second lands as one line; everything settles within 1s. Hyphenated compounds keep their break point.
