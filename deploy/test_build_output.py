@@ -73,7 +73,7 @@ class BuildOutput(unittest.TestCase):
 
     # A post with an author shows that author and is edited by the team; only a post without one is signed by the team.
     def langs_with_posts(self):
-        return [l for l in CONF["langs"] if (ROOT / "blog" / l["code"]).is_dir()]
+        return [l for l in CONF["langs"] if any((ROOT / "blog" / l["code"]).glob("*.html"))]
 
     def built_posts(self):
         for l in self.langs_with_posts():
@@ -166,6 +166,16 @@ class BuildOutput(unittest.TestCase):
                 self.assertTrue(all(s["accessed"] == "2026-10-28" and s["url"].startswith("https://") for s in meta["sources"]), src)
                 checked += 1
         self.assertGreaterEqual(checked, 7)
+
+    def test_blog_url_without_slash_goes_to_the_hub_when_the_language_has_posts_else_to_the_home(self):
+        redirects = {r["source"]: r["destination"] for r in json.loads((self.out / "vercel.json").read_text())["redirects"]}
+        have = {l["code"] for l in self.langs_with_posts()}
+        for l in CONF["langs"]:
+            want = f"/{l['code']}/blog/" if l["code"] in have else f"/{l['code']}/"
+            self.assertEqual(redirects[f"/{l['code']}/blog"], want, l["code"])
+            if l["code"] in have:
+                self.assertTrue(self.built(want), want)
+                self.assertIn(f'href="{want}"', (self.out / l["code"] / "index.html").read_text(), l["code"])
 
     def test_every_language_with_posts_has_its_editorial_page(self):
         for l in self.langs_with_posts():

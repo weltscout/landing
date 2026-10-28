@@ -218,6 +218,11 @@
         "how": "Kako je nastao članak",
         "changes": "Ažuriranja",
         "editor": "Odgovorni urednik",
+        "editorial": {
+          "name": "Redakcija WeltScout",
+          "slug": "o-nama",
+          "label": "Uređuje"
+        },
         "short": "Ukratko",
         "audience": {
           "b2b": "Za trgovce",
@@ -433,6 +438,11 @@
         "how": "Zo is dit artikel tot stand gekomen",
         "changes": "Updates",
         "editor": "Verantwoordelijke redactie",
+        "editorial": {
+          "name": "Redactie WeltScout",
+          "slug": "over-ons",
+          "label": "Eindredactie"
+        },
         "short": "In het kort",
         "audience": {
           "b2b": "Voor handelaren",
@@ -512,6 +522,11 @@
         "how": "Comment cet article a été rédigé",
         "changes": "Mises à jour",
         "editor": "Responsable éditorial",
+        "editorial": {
+          "name": "Rédaction WeltScout",
+          "slug": "a-propos",
+          "label": "Édité par"
+        },
         "short": "En bref",
         "audience": {
           "b2b": "Pour les négociants",
