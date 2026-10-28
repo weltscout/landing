@@ -1219,6 +1219,10 @@ footer .bot>span{order:3;flex-basis:100%;padding-top:20px;border-top:1px solid v
 footer .wm{margin:clamp(24px,3vw,48px) 0 -.13em;font-size:calc(100cqi / 4.45);font-weight:600;letter-spacing:-.07em;line-height:.8;white-space:nowrap;color:var(--panel-bg);user-select:none;pointer-events:none}
 footer .wm:before{content:"WeltScout"}
 @media (max-width:600px){footer .cols>div:nth-child(3){display:block}footer .in{padding:56px 16px 0}footer .bot{margin-top:40px}}
+/* hero H1 fit (28. 10.): both H1 lines keep their breakpoint size unless the keyword line would need a third row;
+   then both shrink so it fits two. --fit (em width the keyword line needs) is measured by deploy/h1_fit.py, stored on h1 */
+.hero h1{container-type:inline-size}
+.hero h1 .b1,.hero h1 .b2{font-size:min(1em,calc(100cqi / var(--fit,.01)))}
 </style>
 </head>
 <body>
@@ -1238,7 +1242,7 @@ footer .wm:before{content:"WeltScout"}
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="hero-in">
     <div class="copy">
-      <h1><span class="b1">Occasions uit Duitsland en Europa.</span> <span class="b2">Nieuwe advertenties direct op uw WhatsApp.</span></h1>
+      <h1 style="--fit:9.02"><span class="b1">Occasions uit Duitsland en Europa.</span> <span class="b2">Nieuwe advertenties direct op uw WhatsApp.</span></h1>
       <p class="lead">U geeft aan welke auto u zoekt. Wij doorzoeken, afhankelijk van uw pakket, één of twee keer per dag tot 29 portalen (mobile.de, AutoScout24, avto.net …) en sturen u de nieuwe advertenties van tweedehands auto’s uit Duitsland en Europa via WhatsApp of e-mail.</p>
       <div class="ctas"><a class="btn" href="{{APP}}">Maak een gratis zoekopdracht</a><a class="btn alt" href="#dokaz" data-play>Zie hoe het werkt (56 s)</a></div>
       <p class="note offer"><span class="nocard">Geen creditcard nodig</span> 7 dagen gratis met volledige toegang zodra u bij de registratie uw bedrijf en een meldingskanaal opgeeft. <span class="from">Daarna vanaf € 129,90 per maand.</span></p>
