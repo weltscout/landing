@@ -8,7 +8,7 @@ with a JSON front matter comment holding the standard's §6.1 fields:
     {"title": "...", "meta_description": "...", "hreflang_group": "...", "audience": "b2b|b2c|both",
      "content_type": "guide", "primary_keyword": {"term": "...", "market": "SI", "volume": null,
      "source": "...", "measured_on": "YYYY-MM-DD"}, "secondary_keywords": [],
-     "author": {"name": "...", "url": "https://..."}, "reviewer": {"name": "...", "role": "..."},
+     "reviewer": {"name": "...", "role": "..."},
      "editor_responsible": "...", "ai_assistance": "none|research|drafting|translation",
      "ai_disclosure_text": "...", "published": "YYYY-MM-DD", "updated": "YYYY-MM-DD",
      "last_fact_check": "YYYY-MM-DD", "status": "draft|review|published",
@@ -17,9 +17,20 @@ with a JSON front matter comment holding the standard's §6.1 fields:
      "changelog": [{"date": "YYYY-MM-DD", "change": "..."}], "legacy": ["/post/old-slug"]}
     -->
 
+Authorship: a post without "author" is signed by the editorial team defined once per language in
+langs.json (blog.editorial: name, slug). It links to the page about/<code>.html built at
+/<code>/<slug>/, and the JSON-LD author is that team (Organization, sameAs from langs.json org.sameAs).
+A post may still set "author": {"name": "...", "type": "Person|Organization", "url": "https://..."}.
+
 Posts sharing hreflang_group are translations of each other. "legacy" lists old URLs that
 301 to the post. Only statuses listed in langs.json "blogIndexStatuses" are indexable (M40:
 an unreviewed AI translation is built with noindex and left out of the sitemap).
+
+"24/7", "real-time", "instant" and "non-stop" are refused in every post. Portal names (mobile.de,
+AutoScout24, ...) are refused too, except in content_type "data-study" (a dated search with numbers).
+
+about/<code>.html is the editorial team page of a language that has posts: front matter
+{"title", "meta_description", "published", "updated"}, one <h1>, a <p class="short">, H2 sections.
 """
 
 import datetime, html as htmllib, json, math, re, sys, unicodedata
@@ -33,7 +44,6 @@ REQUIRED = (
     "audience",
     "content_type",
     "primary_keyword",
-    "author",
     "editor_responsible",
     "ai_assistance",
     "published",
@@ -43,10 +53,9 @@ REQUIRED = (
 )
 SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 DATE = "%Y-%m-%d"
-BANNED = re.compile(
-    r"\b(24/7|real[- ]time|instant|non[- ]stop|mobile\.de|autoscout24|avto\.net|njuskalo|willhaben|kleinanzeigen)\b",
-    re.I,
-)
+BANNED_WORDING = re.compile(r"\b(24/7|real[- ]time|instant|non[- ]stop)\b", re.I)
+BANNED_PORTALS = re.compile(r"\b(mobile\.de|autoscout24|avto\.net|njuskalo|willhaben|kleinanzeigen)\b", re.I)
+PORTAL_NAMES_OK = ("data-study",)
 
 WPM = 200
 UI_KEYS = ("toc", "crumbs", "table", "date")
@@ -148,16 +157,19 @@ def iso(day):
     return d.isoformat()
 
 
-def parse(path, src):
+def front_matter(path):
     raw = path.read_text()
     m = re.match(r"\s*<!--meta\s*(\{.*?\})\s*-->\s*", raw, re.S)
     if not m:
         fail(path, "missing <!--meta {...} --> front matter")
     try:
-        meta = json.loads(m.group(1))
+        return json.loads(m.group(1)), raw[m.end() :]
     except json.JSONDecodeError as e:
         fail(path, f"front matter is not JSON: {e}")
-    body = raw[m.end() :]
+
+
+def parse(path, src):
+    meta, body = front_matter(path)
     for k in REQUIRED:
         if not meta.get(k):
             fail(path, f"front matter field '{k}' missing")
@@ -194,7 +206,10 @@ def parse(path, src):
             'body needs the "Na kratko" paragraph <p class="short"> under the h1 (M04)',
         )
     text = re.sub(r"<[^>]+>", " ", body)
-    hit = BANNED.search(text + " " + meta["title"] + " " + meta["meta_description"])
+    scanned = text + " " + meta["title"] + " " + meta["meta_description"]
+    hit = BANNED_WORDING.search(scanned) or (
+        None if meta["content_type"] in PORTAL_NAMES_OK else BANNED_PORTALS.search(scanned)
+    )
     if hit:
         fail(path, f"banned term {hit.group(0)!r} (D15 portal names / D19 wording)")
     for s in meta.get("sources", []):
@@ -214,6 +229,35 @@ def parse(path, src):
         ):
             fail(path, f"body image {s.group(1)} missing on disk")
     meta["slug"], meta["body"] = path.stem, body
+    return meta
+
+
+ABOUT_REQUIRED = ("title", "meta_description", "published", "updated")
+
+
+def editorial(l):
+    """The editorial team of a language (langs.json blog.editorial: name, slug) that signs every post without its own author."""
+    t = l.get("blog", {}).get("editorial") or {}
+    if not t.get("name") or not SLUG.fullmatch(t.get("slug", "")):
+        sys.exit(f"{l['code']}: langs.json blog.editorial needs a name and a lowercase ascii slug")
+    return t
+
+
+def parse_about(path):
+    meta, body = front_matter(path)
+    for k in ABOUT_REQUIRED:
+        if not meta.get(k):
+            fail(path, f"front matter field '{k}' missing")
+    for k in ("published", "updated"):
+        datetime.datetime.strptime(meta[k], DATE)
+    if len(re.findall(r"<h1[ >]", body)) != 1 or not re.search(r'<p class="short">', body):
+        fail(path, 'body needs exactly one <h1> and the <p class="short"> paragraph')
+    if len(meta["meta_description"]) > 170 or len(meta["title"]) > 60:
+        fail(path, "title over 60 or meta_description over 170 characters")
+    hit = BANNED_WORDING.search(re.sub(r"<[^>]+>", " ", body) + meta["title"] + meta["meta_description"])
+    if hit:
+        fail(path, f"banned term {hit.group(0)!r}")
+    meta["body"] = body
     return meta
 
 
@@ -392,8 +436,27 @@ def build(conf, out, live, sources, h):
     ok_status = set(conf.get("blogIndexStatuses", ["published"]))
     indexable = lambda p: conf["indexable"] and p["status"] in ok_status
     org_id = f"{site}/#organization"
+    ed_id = f"{site}/#editorial"
     written, sitemap, redirects, held = [], [], [], []
     by_code = {l["code"]: l for l in live}
+    abouts = {}
+    for l in live:
+        if posts.get(l["code"]):
+            f = h["src"] / "about" / f"{l['code']}.html"
+            if not f.exists():
+                sys.exit(f"{l['code']}: has posts, so about/{l['code']}.html (the editorial team page) is required")
+            abouts[l["code"]] = parse_about(f)
+    about_path = lambda c: f"/{c}/{editorial(by_code[c])['slug']}/"
+
+    def editorial_node(c):
+        return {
+            "@type": "Organization",
+            "@id": ed_id,
+            "name": editorial(by_code[c])["name"],
+            "url": site + about_path(c),
+            "parentOrganization": {"@id": org_id},
+            "sameAs": conf["org"]["sameAs"],
+        }
 
     def head(l, title, desc, canon, alts, ld, index, og_img=None):
         robots = "" if index else '<meta name="robots" content="noindex, nofollow">'
@@ -443,6 +506,7 @@ def build(conf, out, live, sources, h):
         u = ui(l)
         if not ps:
             continue
+        ed = editorial(l)
         for p in ps:
             members = {
                 c: q
@@ -502,9 +566,10 @@ def build(conf, out, live, sources, h):
                 count=1,
                 flags=re.S,
             )
-            author = e(p["author"]["name"])
-            if p["author"].get("url"):
-                author = f'<a href="{e(p["author"]["url"])}" rel="author">{author}</a>'
+            by = p.get("author") or {"name": ed["name"], "type": "Organization", "url": about_path(code), "team": True}
+            author = e(by["name"])
+            if by.get("url"):
+                author = f'<a href="{e(by["url"])}" rel="author">{author}</a>'
             byline = (
                 f'<dl class="by"><div><dt>{e(t["author"])}</dt><dd>{author}</dd></div>'
                 + (f'<div><dt>{e(t["reviewer"])}</dt><dd>{e(rv["name"])}{f" ({e(rv['role'])})" if rv.get("role") else ""}</dd></div>' if rv.get("name") else "")
@@ -549,6 +614,7 @@ def build(conf, out, live, sources, h):
                 "@context": "https://schema.org",
                 "@graph": [
                     page_node,
+                    *([editorial_node(code)] if by.get("team") else []),
                     {
                         "@type": "BlogPosting",
                         "@id": canon + "#post",
@@ -559,16 +625,12 @@ def build(conf, out, live, sources, h):
                         "datePublished": iso(p["published"]),
                         "dateModified": iso(p["updated"]),
                         "author": [
-                            {
-                                "@type": "Organization"
-                                if p["author"].get("type") == "Organization"
-                                else "Person",
-                                "name": p["author"]["name"],
-                                **(
-                                    {"url": p["author"]["url"]}
-                                    if p["author"].get("url")
-                                    else {}
-                                ),
+                            {"@id": ed_id}
+                            if by.get("team")
+                            else {
+                                "@type": "Organization" if by.get("type") == "Organization" else "Person",
+                                "name": by["name"],
+                                **({"url": by["url"]} if by.get("url") else {}),
                             }
                         ],
                         "publisher": {"@id": org_id},
@@ -670,6 +732,69 @@ def build(conf, out, live, sources, h):
         write(l, "blog", page)
         if index_ok:
             sitemap.append((canon, max(p["updated"] for p in ps if indexable(p)), alts))
+    for code, a in abouts.items():
+        l, ed = by_code[code], editorial(by_code[code])
+        t, u, canon = l["blog"], ui(l), site + about_path(code)
+        alts = hreflangs(list(abouts), lambda c: site + about_path(c))
+        hm = re.search(r"<h1[^>]*>(.*?)</h1>", a["body"], re.S)
+        h1 = re.sub(r"<[^>]+>", "", hm.group(1)).strip()
+        body, heads = heading_ids(a["body"].replace(hm.group(0), "", 1))
+        links = ", ".join(
+            f'<a href="{e(s)}" rel="me noopener">{e(re.sub(r"^https?://(www[.])?|/$", "", s))}</a>' for s in conf["org"]["sameAs"]
+        )
+        body = wrap_tables(body.replace("{{SAMEAS}}", links), u["table"])
+        body = re.sub(
+            r'<p class="short">(.*?)</p>',
+            lambda m: f'<div class="short"><p class="short-k">{e(t["short"])}</p><p>{m.group(1)}</p></div>{toc(heads, u, mobile=True)}',
+            body,
+            count=1,
+            flags=re.S,
+        )
+        ld = {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "AboutPage",
+                    "@id": canon + "#page",
+                    "url": canon,
+                    "name": h1,
+                    "inLanguage": l.get("inLanguage", code),
+                    "isPartOf": {"@id": f"{site}/#website"},
+                    "breadcrumb": {"@id": canon + "#crumbs"},
+                    "mainEntity": {"@id": ed_id},
+                    "datePublished": iso(a["published"]),
+                    "dateModified": iso(a["updated"]),
+                },
+                editorial_node(code),
+                {
+                    "@type": "BreadcrumbList",
+                    "@id": canon + "#crumbs",
+                    "itemListElement": [
+                        {"@type": "ListItem", "position": 1, "name": "WeltScout", "item": f"{site}/{code}/"},
+                        {"@type": "ListItem", "position": 2, "name": h1},
+                    ],
+                },
+            ],
+        }
+        main = (
+            f'<header class="doc-h">{crumbs([(f"/{code}/", t["home"])], h1, u)}<h1>{hm.group(1)}</h1>'
+            f'<p class="upd">{e(t["updated"])}: {time_tag(a["updated"], u)}</p></header>'
+            f'<div class="doc">{toc(heads, u)}<article class="prose">{body}</article></div>' + final(l, t)
+        )
+        page = h["page"](
+            l,
+            head(l, a["title"], a["meta_description"], canon, alts, ld, conf["indexable"]),
+            main,
+            {c: about_path(c) if c in abouts else f"/{c}/" for c in by_code},
+            BLOG_CSS,
+            current=about_path(code),
+            js=TOC_JS,
+            cls="post",
+        )
+        write(l, ed["slug"], page)
+        written.append(f"{code}/{ed['slug']}")
+        if conf["indexable"]:
+            sitemap.append((canon, a["updated"], alts))
     index_redirects = [
         {"source": src, "destination": f"/{c}/blog/", "permanent": True}
         for c in by_code

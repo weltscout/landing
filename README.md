@@ -9,6 +9,7 @@ Static HTML, no framework. Preview: https://welt-scout-web-preview.vercel.app/
 |---|---|
 | `index.html` | Slovenian page, the source every translation follows |
 | `i18n/<code>.html` | Translations (hr, sr, en, de, nl, fr), same markup |
+| `about/<code>.html` | Editorial team page of a language with a blog (company details, how articles are written and checked); built at `/<code>/<blog.editorial.slug>/` |
 | `legal/<code>/<slug>.html` | Legal page bodies (privacy policy, terms and conditions, cookie policy); a missing language falls back to `en` |
 | `deploy/langs.json` | Single source for languages, site URL, indexing switch, company data, icons |
 | `deploy/build.py` | Builds `/<code>/` per language: language switcher, hreflang, canonical, Open Graph, JSON-LD, robots.txt, sitemap.xml, llms.txt, legal pages, root page |
@@ -57,7 +58,7 @@ Deploys run on merge to `main` via `.github/workflows/deploy.yaml`: build (previ
 
 ## Blog
 
-`blog/<code>/<slug>.html` are the posts (18 topics in sl, hr, en, de). Each file starts with a JSON front matter comment; the format and the checks are in `deploy/blog.py`. The build makes `/<code>/blog/` and `/<code>/blog/<slug>/`, hreflang between translations (same `hreflang_group`), BlogPosting/Breadcrumb JSON-LD, sitemap entries with `lastmod`, a Blog link in the nav, and a 301 from every old Webflow post URL listed in the post's `legacy` field. It fails on a missing field, a second `<h1>`, a portal name, "24/7"/"real-time"/"instant", or a missing image. Which statuses are indexed: `blogIndexStatuses` in `langs.json`.
+`blog/<code>/<slug>.html` are the posts (18 topics in sl, hr, en, de). Each file starts with a JSON front matter comment; the format and the checks are in `deploy/blog.py`. The build makes `/<code>/blog/` and `/<code>/blog/<slug>/`, hreflang between translations (same `hreflang_group`), BlogPosting/Breadcrumb JSON-LD, sitemap entries with `lastmod`, a Blog link in the nav, and a 301 from every old Webflow post URL listed in the post's `legacy` field. A post without `author` is signed by the editorial team of its language (`blog.editorial` name and slug in `langs.json`, page in `about/<code>.html`; the JSON-LD author is that team with `sameAs` from `org.sameAs`); a post can still set its own `author`. It fails on a missing field, a second `<h1>`, "24/7"/"real-time"/"instant", a portal name (allowed only when `content_type` is `data-study`), or a missing image. Which statuses are indexed: `blogIndexStatuses` in `langs.json`.
 
 ## Adding a language
 

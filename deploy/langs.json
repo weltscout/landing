@@ -79,6 +79,10 @@
         "how": "Kako je nastal članek",
         "changes": "Posodobitve",
         "editor": "Odgovorni urednik",
+        "editorial": {
+          "name": "Uredništvo WeltScout",
+          "slug": "o-nas"
+        },
         "short": "Na kratko",
         "audience": {
           "b2b": "Za trgovce",
@@ -137,6 +141,10 @@
         "how": "Kako je nastao članak",
         "changes": "Ažuriranja",
         "editor": "Odgovorni urednik",
+        "editorial": {
+          "name": "Uredništvo WeltScout",
+          "slug": "o-nama"
+        },
         "short": "Ukratko",
         "audience": {
           "b2b": "Za trgovce",
@@ -254,6 +262,10 @@
         "how": "How this article was made",
         "changes": "Updates",
         "editor": "Responsible editor",
+        "editorial": {
+          "name": "WeltScout editorial team",
+          "slug": "about"
+        },
         "short": "In short",
         "audience": {
           "b2b": "For dealers",
@@ -326,6 +338,10 @@
         "how": "So ist dieser Artikel entstanden",
         "changes": "Aktualisierungen",
         "editor": "Verantwortliche Redaktion",
+        "editorial": {
+          "name": "Redaktion WeltScout",
+          "slug": "ueber-uns"
+        },
         "short": "Kurz gesagt",
         "audience": {
           "b2b": "Für Händler",
