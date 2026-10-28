@@ -1614,9 +1614,9 @@ nav .btn,nav .right .btn,.ask-card .btn{--h:44px;height:var(--h);padding:0 calc(
       zc = zduo.cloneNode(true); zc.querySelector(".zoom").remove(); zc.querySelectorAll("[id]").forEach(e => e.removeAttribute("id"));
       zm.style.width = zduo.offsetWidth + "px"; zm.replaceChildren(zc);
       const cv = zc.querySelector("video");
-      if (cv && ov) { cv.muted = true; if (ov.readyState) cv.currentTime = ov.currentTime; if (!ov.paused) cv.play().catch(() => {}); }
+      if (cv && ov) { cv.muted = true; cv.tabIndex = -1; if (ov.readyState) cv.currentTime = ov.currentTime; if (!ov.paused) cv.play().catch(() => {}); }
       const sbw = innerWidth - root.clientWidth; zpad = root.style.paddingRight; root.style.overflow = "hidden"; if (sbw) root.style.paddingRight = sbw + "px";
-      zdlg.showModal(); zduo.style.visibility = "hidden"; zm.style.transform = zto(b);
+      zdlg.showModal(); zdlg.querySelector(".lb-x").focus(); zduo.style.visibility = "hidden"; zm.style.transform = zto(b);
       const done = () => { zbusy = false; };
       if (calm()) { zdlg.animate({ opacity: [0, 1] }, { duration: 200 }).onfinish = done; return; }
       zbg.animate({ opacity: [0, 1] }, { duration: ZMS, easing: "ease-out" });
