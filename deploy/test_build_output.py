@@ -71,27 +71,64 @@ class BuildOutput(unittest.TestCase):
                 self.assertIn(u.find("s:loc", NS).text, alts)
 
 
-    # Every post without its own author is signed by the language's editorial team, defined once in langs.json.
+    # A post with an author shows that author and is edited by the team; only a post without one is signed by the team.
     def langs_with_posts(self):
         return [l for l in CONF["langs"] if (ROOT / "blog" / l["code"]).is_dir()]
 
-    def test_every_post_links_to_the_editorial_page_and_its_json_ld(self):
-        checked = 0
+    def built_posts(self):
         for l in self.langs_with_posts():
-            code, ed = l["code"], l["blog"]["editorial"]
-            team_url = f"/{code}/{ed['slug']}/"
-            self.assertTrue((self.out / code / ed["slug"] / "index.html").is_file(), team_url)
-            for post in sorted((self.out / code / "blog").glob("*/index.html")):
-                html = post.read_text()
-                self.assertIn(f'<a href="{team_url}" rel="author">{ed["name"]}</a>', html, post)
-                graph = json_ld(html)
-                posting = next(n for n in graph if n["@type"] == "BlogPosting")
-                self.assertEqual(posting["author"], [{"@id": f"{CONF['site']}/#editorial"}], post)
-                node = next(n for n in graph if n.get("@id") == f"{CONF['site']}/#editorial")
-                self.assertEqual(node["sameAs"], CONF["org"]["sameAs"], post)
-                self.assertEqual(node["name"], ed["name"], post)
-                checked += 1
+            for src in sorted((ROOT / "blog" / l["code"]).glob("*.html")):
+                meta, _ = blog.front_matter(src)
+                html = (self.out / l["code"] / "blog" / src.stem / "index.html").read_text()
+                yield l, meta, html, src
+
+    def team(self, l):
+        ed = l["blog"]["editorial"]
+        return ed, f"/{l['code']}/{ed['slug']}/", f"{CONF['site']}/#editorial"
+
+    def check_team_node(self, graph, l, where):
+        ed, _, ed_id = self.team(l)
+        node = next(n for n in graph if n.get("@id") == ed_id)
+        self.assertEqual(node["name"], ed["name"], where)
+        self.assertEqual(node["sameAs"], CONF["org"]["sameAs"], where)
+        self.assertEqual(node["parentOrganization"], {"@id": f"{CONF['site']}/#organization"}, where)
+
+    def test_post_with_an_author_shows_the_author_and_the_team_as_editor(self):
+        checked = 0
+        for l, meta, html, src in self.built_posts():
+            if "author" not in meta:
+                continue
+            ed, team_url, ed_id = self.team(l)
+            self.assertIn(f"<dd>{meta['author']['name']}</dd>", html, src)
+            self.assertIn(f'<dt>{ed["label"]}</dt><dd><a href="{team_url}">{ed["name"]}</a></dd>', html, src)
+            self.assertNotIn('rel="author"', html, src)
+            graph = json_ld(html)
+            posting = next(n for n in graph if n["@type"] == "BlogPosting")
+            self.assertEqual(posting["author"], [{"@type": meta["author"].get("type", "Person"), "name": meta["author"]["name"]}], src)
+            self.assertEqual(posting["editor"], {"@id": ed_id}, src)
+            self.check_team_node(graph, l, src)
+            checked += 1
         self.assertGreater(checked, 0)
+
+    def test_post_without_an_author_is_signed_by_the_team(self):
+        checked = 0
+        for l, meta, html, src in self.built_posts():
+            if "author" in meta:
+                continue
+            ed, team_url, ed_id = self.team(l)
+            self.assertIn(f'<a href="{team_url}" rel="author">{ed["name"]}</a>', html, src)
+            self.assertNotIn(f'<dt>{ed["label"]}</dt>', html, src)
+            graph = json_ld(html)
+            posting = next(n for n in graph if n["@type"] == "BlogPosting")
+            self.assertEqual(posting["author"], [{"@id": ed_id}], src)
+            self.assertNotIn("editor", posting, src)
+            self.check_team_node(graph, l, src)
+            checked += 1
+        self.assertGreater(checked, 0)
+
+    def test_every_language_with_posts_has_its_editorial_page(self):
+        for l in self.langs_with_posts():
+            self.assertTrue((self.out / l["code"] / l["blog"]["editorial"]["slug"] / "index.html").is_file(), l["code"])
 
     def test_editorial_page_is_in_the_sitemap_with_all_language_alternates(self):
         urls = {u.find("s:loc", NS).text: u for u in ET.parse(self.out / "sitemap.xml").getroot().findall("s:url", NS)}

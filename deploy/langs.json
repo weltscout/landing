@@ -81,7 +81,8 @@
         "editor": "Odgovorni urednik",
         "editorial": {
           "name": "Uredništvo WeltScout",
-          "slug": "o-nas"
+          "slug": "o-nas",
+          "label": "Uredil"
         },
         "short": "Na kratko",
         "audience": {
@@ -143,7 +144,8 @@
         "editor": "Odgovorni urednik",
         "editorial": {
           "name": "Uredništvo WeltScout",
-          "slug": "o-nama"
+          "slug": "o-nama",
+          "label": "Uredio"
         },
         "short": "Ukratko",
         "audience": {
@@ -264,7 +266,8 @@
         "editor": "Responsible editor",
         "editorial": {
           "name": "WeltScout editorial team",
-          "slug": "about"
+          "slug": "about",
+          "label": "Edited by"
         },
         "short": "In short",
         "audience": {
@@ -340,7 +343,8 @@
         "editor": "Verantwortliche Redaktion",
         "editorial": {
           "name": "Redaktion WeltScout",
-          "slug": "ueber-uns"
+          "slug": "ueber-uns",
+          "label": "Redaktion"
         },
         "short": "Kurz gesagt",
         "audience": {

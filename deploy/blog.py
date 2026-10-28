@@ -17,10 +17,12 @@ with a JSON front matter comment holding the standard's §6.1 fields:
      "changelog": [{"date": "YYYY-MM-DD", "change": "..."}], "legacy": ["/post/old-slug"]}
     -->
 
-Authorship: a post without "author" is signed by the editorial team defined once per language in
-langs.json (blog.editorial: name, slug). It links to the page about/<code>.html built at
-/<code>/<slug>/, and the JSON-LD author is that team (Organization, sameAs from langs.json org.sameAs).
-A post may still set "author": {"name": "...", "type": "Person|Organization", "url": "https://..."}.
+Authorship: a post with "author": {"name": "...", "type": "Person|Organization", "url": "https://..."}
+shows that author (JSON-LD author, Person by default). The editorial team, defined once per language in
+langs.json (blog.editorial: name, slug, label), is the editor of every post: the byline line
+"<label>: <name>" links to about/<code>.html (built at /<code>/<slug>/) and the JSON-LD "editor" is the
+team (Organization, parentOrganization the company, sameAs from langs.json org.sameAs). Only a post
+without "author" is signed by the team as its author.
 
 Posts sharing hreflang_group are translations of each other. "legacy" lists old URLs that
 301 to the post. Only statuses listed in langs.json "blogIndexStatuses" are indexable (M40:
@@ -236,10 +238,10 @@ ABOUT_REQUIRED = ("title", "meta_description", "published", "updated")
 
 
 def editorial(l):
-    """The editorial team of a language (langs.json blog.editorial: name, slug) that signs every post without its own author."""
+    """The editorial team of a language (langs.json blog.editorial: name, slug, label): editor of every post, author of a post without its own."""
     t = l.get("blog", {}).get("editorial") or {}
-    if not t.get("name") or not SLUG.fullmatch(t.get("slug", "")):
-        sys.exit(f"{l['code']}: langs.json blog.editorial needs a name and a lowercase ascii slug")
+    if not t.get("name") or not t.get("label") or not SLUG.fullmatch(t.get("slug", "")):
+        sys.exit(f"{l['code']}: langs.json blog.editorial needs a name, a label and a lowercase ascii slug")
     return t
 
 
@@ -570,8 +572,14 @@ def build(conf, out, live, sources, h):
             author = e(by["name"])
             if by.get("url"):
                 author = f'<a href="{e(by["url"])}" rel="author">{author}</a>'
+            edited = (
+                ""
+                if by.get("team")
+                else f'<div><dt>{e(ed["label"])}</dt><dd><a href="{about_path(code)}">{e(ed["name"])}</a></dd></div>'
+            )
             byline = (
                 f'<dl class="by"><div><dt>{e(t["author"])}</dt><dd>{author}</dd></div>'
+                + edited
                 + (f'<div><dt>{e(t["reviewer"])}</dt><dd>{e(rv["name"])}{f" ({e(rv['role'])})" if rv.get("role") else ""}</dd></div>' if rv.get("name") else "")
                 + f'<div><dt>{e(t["published"])}</dt><dd>{time_tag(p["published"], u)}</dd></div>'
                 + (f'<div><dt>{e(t["updated"])}</dt><dd>{time_tag(p["updated"], u)}</dd></div>' if p["updated"] != p["published"] else "")
@@ -614,7 +622,7 @@ def build(conf, out, live, sources, h):
                 "@context": "https://schema.org",
                 "@graph": [
                     page_node,
-                    *([editorial_node(code)] if by.get("team") else []),
+                    editorial_node(code),
                     {
                         "@type": "BlogPosting",
                         "@id": canon + "#post",
@@ -633,6 +641,7 @@ def build(conf, out, live, sources, h):
                                 **({"url": by["url"]} if by.get("url") else {}),
                             }
                         ],
+                        **({} if by.get("team") else {"editor": {"@id": ed_id}}),
                         "publisher": {"@id": org_id},
                         "mainEntityOfPage": {"@id": canon + "#page"},
                         **(
