@@ -125,7 +125,7 @@ def localize(html, page, live):
     me = next(l for l in live if l["code"] == page)
     html, n = re.subn(
         r'(<button class="lang-b"[^>]*aria-label="[^":]*:\s?)[^"]*(">.*?<span>)[^<]*(</span>)',
-        lambda m: m.group(1) + me["name"] + m.group(2) + page.upper() + m.group(3),
+        lambda m: m.group(1) + f'{me["name"]}, {page.upper()}' + m.group(2) + page.upper() + m.group(3),
         html,
         count=1,
         flags=re.S,
