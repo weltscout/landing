@@ -1014,7 +1014,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 @keyframes h1w{from{opacity:0;transform:translateY(.42em)}}
 .hero h1.is-words .b1{animation:none}
 .hero h1 .b2{animation:h1in .6s var(--ease-out) var(--d2,.3s) both}
-.hero h1 .sheen{--g1:var(--ok);--g2:color-mix(in srgb,var(--ok) 70%,var(--ok-hi));--gs:color-mix(in srgb,var(--ok) 50%,var(--ok-hi))}
+.hero h1 .sheen{--g1:color-mix(in srgb,var(--ok) 80%,var(--ok-hi));--g2:color-mix(in srgb,var(--ok) 60%,var(--ok-hi));--gs:color-mix(in srgb,var(--ok) 50%,var(--ok-hi))}
 [data-theme="dark"] .hero h1 .sheen{--g1:var(--ok-hi);--g2:color-mix(in srgb,var(--ok-hi) 62%,#fff);--gs:#fff}
 @supports ((background-clip:text) or (-webkit-background-clip:text)) and (background-image:linear-gradient(in oklch,red,blue)){
   .hero h1 .sheen{background-image:linear-gradient(100deg,transparent 38%,var(--gs) 50%,transparent 62%),linear-gradient(90deg in oklch,var(--g1),var(--g2));background-size:250% 100%,100% 100%;background-position:0 0,0 0;background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:h1sheen 7s cubic-bezier(.45,0,.25,1) calc(var(--d2,.3s) + .5s) infinite}
@@ -1128,6 +1128,14 @@ section.band{background-image:radial-gradient(circle at 96% 0,rgba(255,255,255,.
 .c-points li:before{top:6px;width:12px;height:12px;background:var(--panel-bg);box-shadow:inset 0 0 0 3px var(--acc)}
 
 section.final{background-image:radial-gradient(circle at 92% 0,rgba(255,255,255,.08) 0 200px,transparent 201px),radial-gradient(circle at 8% 110%,rgba(255,255,255,.05) 0 240px,transparent 241px),var(--band)}
+
+/* critique fixes (28. 10.): the example panel and the "Na kratko" label join the card and eyebrow systems, the current
+   language keeps its colours on hover, the closing band repeats both trial facts */
+.wa .ex{border-radius:var(--r-md);background:var(--panel-bg);box-shadow:var(--panel-bd)}
+.def .k{font-size:14px;letter-spacing:0;text-transform:none;color:var(--acc)}
+.mnav .mlangs a[aria-current]:hover{background:var(--tx);color:var(--pg)}
+.final .note{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.final .note .nocard{padding:6px 14px 6px 11px;font-size:15px;font-weight:700;background:var(--ok-hi);color:var(--ok-ink)}
 </style>
 </head>
 <body>
@@ -1271,7 +1279,7 @@ section.final{background-image:radial-gradient(circle at 92% 0,rgba(255,255,255,
     <div class="plan rv"><div class="nrow"><h3 class="n">Business</h3></div><div class="pb"><p class="pitch">Pour un négociant indépendant qui suit plusieurs clients à la fois.</p>
       <div class="pr num"><span class="v" data-m="129,90 €" data-y="107,82 €">129,90 €</span></div><div class="per">par utilisateur et par mois, hors TVA</div><div class="yr" data-y="1 293,80 € par an, payés d’avance · vous économisez 17 %"></div>
       <p class="trial"><span class="k">Essai</span><b><span class="l">7 jours gratuits<span class="sr">,</span></span> <span class="l">sans limites</span></b><span class="s"><span class="nocard">Sans carte bancaire</span>Accès complet.</span></p>
-      <a class="btn alt" href="{{APP}}">Essayer gratuitement</a>
+      <a class="btn" href="{{APP}}">Essayer gratuitement</a>
       <p class="inc">Inclus</p><ul><li>Jusqu’à 10 recherches automatiques</li><li>Nouvelles annonces vérifiées une fois par jour</li><li>Notifications sur WhatsApp et par e⁠-⁠mail</li><li>Une recherche couvre jusqu’à 29 portails dans 14 pays</li></ul></div></div>
     <div class="plan hl rv"><div class="nrow"><h3 class="n">Business +</h3><span class="tag">Notre recommandation</span></div><div class="pb"><p class="pitch">Pour un négociant qui cherche pour plusieurs clients et pour son propre stock.</p>
       <div class="pr num"><span class="v" data-m="199,90 €" data-y="165,92 €">199,90 €</span></div><div class="per">par utilisateur et par mois, hors TVA</div><div class="yr" data-y="1 991,00 € par an, payés d’avance · vous économisez 17 %"></div>
@@ -1361,7 +1369,7 @@ section.final{background-image:radial-gradient(circle at 92% 0,rgba(255,255,255,
 <section class="final band">
   <h2 class="rv">Votre prochain client cherche déjà. Ayez une liste prête à lui montrer, pas un « Je regarde ».</h2>
   <div class="ctas"><a class="btn" href="{{APP}}">Essayer gratuitement</a><a class="btn alt" href="#cenik">Voir les tarifs</a></div>
-  <p class="note" style="margin-top:14px"><span class="nocard">Sans carte bancaire</span></p>
+  <p class="note" style="margin-top:14px"><span class="nocard">7 jours gratuits</span><span class="nocard">Sans carte bancaire</span></p>
 </section>
 </main>
 
