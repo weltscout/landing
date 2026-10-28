@@ -65,6 +65,7 @@ def replace_inner(html, pattern, inner, page):
 
 
 SOCIAL_ICONS = {
+    "wikidata.org": None,
     "instagram.com": (
         "Instagram",
         '<path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 4.8a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>',
@@ -99,6 +100,8 @@ def social_links(html, page):
                 page,
                 f"no footer icon for social link {url}; add {host} to SOCIAL_ICONS",
             )
+        if SOCIAL_ICONS[host] is None:
+            continue
         name, path = SOCIAL_ICONS[host]
         links.append(
             f'<a href="{url}" rel="me noopener" target="_blank" aria-label="{name}">'

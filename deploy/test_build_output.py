@@ -146,5 +146,16 @@ class BuildOutput(unittest.TestCase):
             preloaded = bool(re.search(r'<link rel="preload" href="[^"]*geist-latin-ext\.woff2"', html))
             self.assertEqual(preloaded, needs, c)
 
+    def test_every_same_as_is_in_json_ld_and_only_social_profiles_get_a_footer_icon(self):
+        import json, re
+        same = json.loads((ROOT / "deploy" / "langs.json").read_text())["org"]["sameAs"]
+        html = (self.out / "sl" / "index.html").read_text()
+        for url in same:
+            self.assertIn(json.dumps(url), html.replace("\\/", "/"), url)
+        footer = html[html.rindex("<footer"):]
+        icons = re.findall(r'<div class="social">(.*?)</div>', footer, re.S)[0]
+        self.assertIn("instagram.com", icons)
+        self.assertNotIn("wikidata.org", icons)
+
 if __name__ == "__main__":
     unittest.main()
