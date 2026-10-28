@@ -61,6 +61,31 @@ def replace_inner(html, pattern, inner, page):
     return html[: m.start()] + m.group(1) + inner + m.group(2) + html[m.end() :]
 
 
+SOCIAL_ICONS = {
+    "instagram.com": ("Instagram", '<path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 4.8a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>'),
+    "facebook.com": ("Facebook", '<path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/>'),
+    "linkedin.com": ("LinkedIn", '<path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zm1.8 13.1H3.5V9h3.6v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/>'),
+    "youtube.com": ("YouTube", '<path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>'),
+    "tiktok.com": ("TikTok", '<path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.7a2.9 2.9 0 1 1-2-2.7V9.5a6.3 6.3 0 1 0 5.4 6.2V8.8a8.2 8.2 0 0 0 4.8 1.5V6.9a4.8 4.8 0 0 1-1-.2z"/>'),
+}
+
+
+def social_links(html, page):
+    if "{{SOCIAL}}" not in html:
+        return html
+    links = []
+    for url in CONF["org"]["sameAs"]:
+        host = re.sub(r"^www\.", "", url.split("/")[2])
+        if host not in SOCIAL_ICONS:
+            die(page, f"no footer icon for social link {url}; add {host} to SOCIAL_ICONS")
+        name, path = SOCIAL_ICONS[host]
+        links.append(
+            f'<a href="{url}" rel="me noopener" target="_blank" aria-label="{name}">'
+            f'<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">{path}</svg></a>'
+        )
+    return html.replace("{{SOCIAL}}", f'<div class="social">{"".join(links)}</div>')
+
+
 def localize(html, page, live):
     site = CONF["site"]
     links = "".join(
@@ -749,7 +774,7 @@ missing = [l["code"] for l in CONF["langs"] if l not in live]
 meta, sources = {}, {}
 for l in live:
     (OUT / l["code"]).mkdir()
-    sources[l["code"]] = (SRC / l["file"]).read_text()
+    sources[l["code"]] = social_links((SRC / l["file"]).read_text(), l["code"])
     page, meta[l["code"]] = seo(localize(sources[l["code"]], l["code"], live), l["code"], live)
     if BLOG_POSTS.get(l["code"]):
         page = blog.nav_link(page, l["code"], l["blog"]["name"])

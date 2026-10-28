@@ -25,7 +25,7 @@
 <style>
 @font-face{font-family:"Geist";src:url("fonts/geist-latin.woff2") format("woff2");font-weight:400 700;font-style:normal;font-display:swap;unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:"Geist";src:url("fonts/geist-latin-ext.woff2") format("woff2");font-weight:400 700;font-style:normal;font-display:swap;unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
-:root{--ease:cubic-bezier(.25,.46,.45,.94);--ease-out:cubic-bezier(.16,1,.3,1);--maxw:1180px;--r-lg:24px;--r-md:16px}
+:root{--ease:cubic-bezier(.25,.46,.45,.94);--ease-out:cubic-bezier(.16,1,.3,1);--maxw:1320px;--r-lg:24px;--r-md:16px}
 :root[data-theme="light"]{
   --pg:#F5F7FA;--pg2:#F8FAFC;--surf:#FFFFFF;--surf2:#EEF2F7;--surf3:#E6ECF4;
   --tx:var(--navy-950);--tx2:var(--slate-600);--tx3:var(--slate-600);
@@ -137,13 +137,6 @@ nav .btn{height:42px;padding:0 18px;font-size:15px;border-radius:12px}
 .wa figure{position:relative;margin:0}
 .wa figure img,.wa figure video{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:46% 50%;border-radius:28px}
 .wa figure small{display:block;font-size:12px;color:var(--tx3);margin-top:10px}
-.wa .bubble{position:absolute;right:-24px;bottom:56px;width:min(300px,78%);background:var(--surf);color:var(--tx);border-radius:6px 18px 18px 18px;padding:12px;box-shadow:var(--sh-lg);font-size:14px;line-height:1.45}
-.wa .bubble.sync{opacity:0;transform:translateY(12px) scale(.96);transition:opacity .45s ease,transform .6s cubic-bezier(.22,1,.36,1)}
-.wa .bubble.sync.on{opacity:1;transform:none}
-.wa .bubble .hd{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx2);margin-bottom:8px}
-.wa .bubble .hd b{width:20px;height:20px;border-radius:50%;background:#25D366;display:grid;place-items:center;color:#06301A;font-size:11px}
-.wa .bubble .pr{color:var(--ok);font-weight:600}
-.wa .bubble .tm{display:block;text-align:right;font-size:11px;color:var(--tx3)}
 .wa h2{margin-bottom:20px}
 .wa .first{font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.3;margin:0 0 14px}
 .wa .ex{margin:22px 0;padding:18px 20px;border-radius:16px;background:var(--surf2);color:var(--tx2)}
@@ -334,6 +327,7 @@ section>*{max-width:var(--maxw);margin-left:auto;margin-right:auto}
 .split .lead{margin-top:18px}
 .split img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:var(--r-lg)}
 .split small{display:block;font-size:12px;color:var(--tx3);margin-top:10px}
+.split figcaption{font-size:12px;color:var(--tx3);margin-top:10px}
 
 /* proof */
 section.band{margin:0 auto;max-width:calc(var(--maxw) - 48px);border-radius:32px;background:var(--band);color:var(--band-tx);padding:96px 0}
@@ -513,6 +507,9 @@ footer .cols{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:40px}
 footer .brand p{max-width:32ch;margin:18px 0 22px}
 footer .logo img{height:22px}
 footer .contact a{display:inline-flex;align-items:center;gap:8px;margin:0 0 8px;color:var(--tx);font-weight:500}
+footer .social{display:flex;gap:8px;margin-top:14px}
+footer .brand .social a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:0;border-radius:12px;background:var(--surf2);color:var(--tx2);transition:color .2s,background .2s}
+footer .brand .social a:hover,footer .brand .social a:focus-visible{color:var(--tx)}
 footer .trust{display:inline-flex;align-items:center;gap:10px;margin-top:10px;padding:8px 14px;border-radius:999px;background:var(--surf2);font-size:14px;color:var(--tx)}
 footer .trust .st{color:#B45309;letter-spacing:1px}
 [data-theme="dark"] footer .trust .st{color:#FBBF24}
@@ -549,7 +546,6 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   .nav-in{padding:0 8px 0 16px;gap:10px;height:58px}
   nav .right .btn{height:42px;font-size:14px;padding:0 14px}
   .wa{grid-template-columns:minmax(0,1fr);gap:40px;padding:0 12px}
-  .wa .bubble{right:12px;bottom:40px}
   .banner{font-size:12px}
   .facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px;padding:64px 24px 72px}
   .facts b{font-size:36px}
@@ -878,6 +874,10 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 .hits2 .p{font-size:16px;font-weight:700;color:var(--paper-ok);white-space:nowrap;font-variant-numeric:tabular-nums}
 .hits2 .by{margin-top:6px;padding-top:12px;border-top:1px solid var(--paper-line);font-size:13px;line-height:1.5;color:var(--paper-muted)}
 @media (max-width:900px){.proof2{grid-template-columns:minmax(0,1fr);gap:24px;margin-top:36px;padding:0 24px!important}}
+.addon{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:center;max-width:calc(var(--maxw) - 48px);margin:28px auto 0;padding:22px 24px;border:1px solid var(--line2);border-radius:var(--r,14px)}
+.addon .tag{display:inline-block;padding:4px 10px;line-height:1.4;border-radius:999px;background:var(--blue-500);color:#fff;font-size:12px;font-weight:600}.addon .pr{font-size:18px;font-weight:700}
+.addon .n{font-size:20px;font-weight:700;margin:6px 0 4px}.addon p{margin:0;max-width:62ch}.addon .ac{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+@media (max-width:700px){.addon{grid-template-columns:minmax(0,1fr);margin:24px 16px 0;padding:18px}}
 .nots2 .fast{display:table;margin-top:10px;color:var(--acc);font-weight:600;text-underline-offset:3px}
 @media (max-width:600px){.proof .pmeta{gap:6px}.proof .pmeta span{padding:5px 9px;font-size:13px}.hits2{padding:16px 16px 14px}.hits2 li>div{display:contents}.hits2 li .fl{grid-row:1}.hits2 .t,.hits2 .m{grid-column:2/4}.hits2 .s{grid-column:2}.hits2 li .p{grid-column:3;grid-row:3;align-self:end}}
 @media (max-width:360px){.waph{width:150px;bottom:-104px}.hero .mock-note{margin-top:112px}}
@@ -945,7 +945,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
     <div class="rv pv"><video src="img/demo-eu.mp4" poster="img/demo-eu-poster.jpg" width="1440" height="900" controls muted playsinline preload="none" aria-label="Opname van een zoekopdracht naar een Audi A4 Avant in de WeltScout-app, 27 oktober 2026"></video><p class="note">Opgenomen op 27 oktober 2026 met een testaccount. Invoer en portaalkeuze zijn 2× versneld, het tellen van resultaten loopt in echte tijd (stopwatch linksonder). Standaardfilter van de app: alleen onbeschadigde voertuigen.</p></div>
   </div>
   <div class="w proof2">
-    <figure class="rv"><picture><source type="image/avif" srcset="img/foto3-audi-960.avif 960w, img/foto3-audi-1600.avif 1600w" sizes="(max-width:900px) 92vw, 540px"><img src="img/foto3-audi-1600.webp" srcset="img/foto3-audi-960.webp 960w, img/foto3-audi-1600.webp 1600w" sizes="(max-width:900px) 92vw, 540px" width="1600" height="1062" alt="Twee kopers bekijken een oudere Audi A4 Avant op het terrein van een occasionhandelaar" loading="lazy" decoding="async"></picture><figcaption>Illustratie, gemaakt met AI.</figcaption></figure>
+    <figure class="rv"><picture><source type="image/avif" srcset="img/foto4-audi-960.avif 960w, img/foto4-audi-1600.avif 1600w" sizes="(max-width:900px) 92vw, 540px"><img src="img/foto4-audi-1600.webp" srcset="img/foto4-audi-960.webp 960w, img/foto4-audi-1600.webp 1600w" sizes="(max-width:900px) 92vw, 540px" width="1600" height="1067" alt="Twee kopers bekijken een oudere Audi A4 Avant op het terrein van een occasionhandelaar" loading="lazy" decoding="async"></picture><figcaption>Illustratie, gemaakt met AI.</figcaption></figure>
     <div class="hits2 rv"><p class="hh">4 van de 854 resultaten van deze zoekopdracht</p><ol><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt=""><div><p class="t" lang="de">Audi A4 Avant Advanced 35 TDI S tronic AHK Black Navi</p><p class="m"><span>2023</span> · <span>70.500 km</span> · <span>120 kW</span></p><p class="s">mobile.de, Duitsland</p></div><p class="p">€ 24.840</p></li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt=""><div><p class="t" lang="de">Audi A4 Avant 40 TDI advanced Aut LED AHK RADAR NAVI</p><p class="m"><span>2020</span> · <span>92.442 km</span> · <span>150 kW</span></p><p class="s">willhaben.at, Oostenrijk</p></div><p class="p">€ 21.990</p></li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt=""><div><p class="t" lang="it">Audi A4 Avant 2.0 35 TDI S TRONIC</p><p class="m"><span>2021</span> · <span>81.722 km</span> · <span>120 kW</span></p><p class="s">AutoScout24, Italië</p></div><p class="p">€ 21.900</p></li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt=""><div><p class="t" lang="es">Audi A4 Avant 35 TDI Advanced S tronic 120kW</p><p class="m"><span>2020</span> · <span>91.451 km</span> · <span>120 kW</span></p><p class="s">AutoScout24, Spanje</p></div><p class="p">€ 20.690</p></li></ol><p class="by">Resultaten per portaal: mobile.de 745, willhaben.at 54, blocket 20, AutoScout24 in Frankrijk, Spanje, Italië en België 35. Avto.net, Njuškalo en AutoScout24 in Nederland en Luxemburg gaven voor dit filter geen resultaten.</p></div>
   </div>
 </section>
@@ -964,14 +964,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 <section id="whatsapp">
   <div class="wa">
     <figure class="rv">
-      <video class="wa-vid" src="img/wa-pisarna.mp4" poster="img/wa-pisarna-poster.webp" width="900" height="900" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-      <div class="bubble" aria-hidden="true"><div class="hd"><b>✓</b>WhatsApp · WeltScout</div><b>Nieuwe treffer: Passat Variant</b><br>2019 · 142.000 km · binnen uw prijsklasse<span class="tm">voorbeeld</span></div>
+      <video class="wa-vid" src="img/wa-dealer-nl.mp4" poster="img/wa-dealer-nl-poster.webp" width="900" height="900" muted loop playsinline preload="metadata" aria-hidden="true"></video>
     </figure>
     <div class="rv">
       <h2>Nieuwe advertenties komen binnen via WhatsApp of e-mail</h2>
       <p class="first">U zorgt voor de klant. De volgende treffer komt naar uw telefoon.</p>
       <p class="lead">U stelt de zoekopdracht één keer in. Vindt WeltScout een nieuwe advertentie, dan krijgt u de foto’s en gegevens op WhatsApp, waar u toch al de hele dag bent. U beslist of een telefoontje de moeite waard is.</p>
-      <p class="ex"><i>Voorbeeld:</i> u gaat even zitten voor een kop koffie. Uw telefoon trilt. Passat, 2019, 142.000 km, binnen uw prijsklasse. U stuurt het door naar de klant voordat uw koffie koud is.</p>
+      <p class="ex"><i>Voorbeeld:</i> u gaat even zitten voor een kop koffie. Uw telefoon trilt. Audi A4 Avant 40 TDI, 2020, 92.442 km, € 21.990 op willhaben.at. U stuurt het door naar de klant voordat uw koffie koud is.</p>
       <p class="note">Wij controleren op nieuwe advertenties volgens het schema van uw abonnement: één of twee keer per dag, vaker in overleg. Liever e-mail? Dat kan ook.</p>
       <a class="btn" href="{{APP}}">Maak uw eerste zoekopdracht</a>
     </div>
@@ -994,7 +993,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 </section>
 
 <section style="padding-top:0">
-  <div class="split rv" id="stranke"><div><p class="eyebrow">Voor handelaren en tussenpersonen</p><h2>Elke klant krijgt een eigen zoekopdracht, u houdt één overzicht</h2><p class="lead">Vraagt een klant ‘wat hebt u staan?’, dan zegt u niet ‘ik zoek het even uit en bel u terug’. U opent de zoekopdracht van die klant en laat het meteen zien.</p><p class="lead" style="margin-top:14px">In de module Klanten bewaart u van elke klant de naam, het telefoonnummer en het e-mailadres, en koppelt u er zoekopdrachten aan. Al uw klanten en hun zoekopdrachten ziet u op één scherm.</p><a class="btn" href="{{APP}}" style="margin-top:26px">Probeer het met één klant</a></div><figure style="margin:0"><img src="img/foto2-handover.webp" width="2000" height="1333" alt="Een handelaar overhandigt de sleutels van een tweedehands stationwagen aan een klant" loading="lazy"></figure></div>
+  <div class="split rv" id="stranke"><div><p class="eyebrow">Voor handelaren en tussenpersonen</p><h2>Elke klant krijgt een eigen zoekopdracht, u houdt één overzicht</h2><p class="lead">Vraagt een klant ‘wat hebt u staan?’, dan zegt u niet ‘ik zoek het even uit en bel u terug’. U opent de zoekopdracht van die klant en laat het meteen zien.</p><p class="lead" style="margin-top:14px">In de module Klanten bewaart u van elke klant de naam, het telefoonnummer en het e-mailadres, en koppelt u er zoekopdrachten aan. Al uw klanten en hun zoekopdrachten ziet u op één scherm.</p><a class="btn" href="{{APP}}" style="margin-top:26px">Probeer het met één klant</a></div><figure style="margin:0"><picture><source type="image/avif" srcset="img/foto5-stranka-960.avif 960w, img/foto5-stranka-1600.avif 1600w" sizes="(max-width:900px) 92vw, 663px"><img src="img/foto5-stranka-1600.webp" srcset="img/foto5-stranka-960.webp 960w, img/foto5-stranka-1600.webp 1600w" sizes="(max-width:900px) 92vw, 663px" width="1600" height="1067" alt="Een handelaar laat een klant in de showroom haar zoekopdracht zien op een tablet" loading="lazy" decoding="async"></picture><figcaption>Illustratie, gemaakt met AI.</figcaption></figure></div>
   <div class="bento" tabindex="0" role="region" aria-label="Wat u verder krijgt">
     <div class="bx">
       <div class="viz"><div class="cust" id="cust">
@@ -1036,12 +1035,13 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   </div>
   <p class="assure1 rv"><span>7 dagen volledige toegang, geen creditcard nodig</span><span>WhatsApp in elk abonnement</span><span>Nieuwe portalen meestal binnen 4–7 werkdagen</span><span>Uw account en zoekopdrachten blijven na de proefperiode bewaard</span></p>
   <p class="note after-plans">De zoekopdracht loopt automatisch en meldt u nieuwe advertenties. Meer dan één verkoper? Iedereen heeft een eigen licentie nodig, of kies Business MAX. Het jaarabonnement wordt vooruit betaald en bij tussentijdse opzegging niet terugbetaald.</p>
+  <div class="addon rv" id="fast"><div><span class="tag">Optioneel</span><div class="n">FAST</div><p>Vaker controleren op nieuwe advertenties, voor zoekopdrachten waarbij elk uur telt. Toe te voegen aan Business of Business +; frequentie en prijs spreken we af op basis van je zoekopdrachten.</p></div><div class="ac"><div class="pr txt">In overleg</div><a class="btn alt" href="#kontakt" data-prefill="Ik heb interesse in het extra pakket FAST: hoe vaak het op nieuwe advertenties controleert, wat het kost en bij welk pakket ik het kan toevoegen.">Vraag naar FAST</a></div></div>
 </section>
 
 <section class="honest" style="padding-top:0">
   <div class="sec-h rv"><h2>Wij zeggen ook wat wij niet doen.</h2><p class="lead">Zodat u weet wat u koopt.</p></div>
   <ol class="nots2">
-    <li class="rv"><span class="x"><span class="sr">In Business en Business + doen wij niet: </span><span class="xs">Realtime meldingen</span></span><p><b>Voor snellere meldingen is er het extra pakket FAST.</b>Business controleert één keer per dag op nieuwe advertenties, Business + twee keer per dag. Het extra pakket FAST controleert vaker dan beide. Voorwaarden en prijs op aanvraag. <a class="fast" href="#kontakt" data-prefill="Ik heb interesse in het extra pakket FAST: hoe vaak het op nieuwe advertenties controleert, wat het kost en bij welk pakket ik het kan toevoegen.">Vraag naar FAST</a></p></li>
+    <li class="rv"><span class="x"><span class="sr">In Business en Business + doen wij niet: </span><span class="xs">Realtime meldingen</span></span><p><b>Vaker? Voeg FAST toe.</b>Business controleert één keer per dag op nieuwe advertenties, Business + twee keer per dag. Vaker controleren kan met het optionele extra pakket FAST onder de pakketten. <a class="fast" href="#fast">Meer over FAST</a></p></li>
     <li class="rv"><span class="x"><span class="sr">Dit doen wij niet: </span><span class="xs">Auto’s verkopen</span></span><p><b>Wij vinden, wij verkopen niet.</b>De deal sluit u met de verkoper.</p></li>
     <li class="rv"><span class="x"><span class="sr">Dit doen wij niet: </span><span class="xs">Prijstaxatie</span></span><p><b>U beslist.</b>Wij vinden de advertentie, u beoordeelt de prijs.</p></li>
   </ol>
@@ -1118,6 +1118,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
     <div class="brand"><a class="logo" href="/en/"><img class="lg-l" src="img/logo-weltscout.svg" width="120" height="20" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-dark.svg" width="143" height="24" alt="WeltScout"></a>
       <p>Tweedehandsauto’s zoeken op lokale en Europese portalen, voor handelaren en tussenpersonen.</p>
       <div class="contact"><a href="mailto:info@weltscout.com">info@weltscout.com</a></div>
+      {{SOCIAL}}
       <div class="trust"><span class="st" aria-hidden="true">★★★★★</span>4,9 · meer dan 120 bedrijven</div>
     </div>
     <div><h4>Product</h4><a href="#kako">Zo werkt het</a><a href="#stranke">Voor handelaren</a><a href="#cenik">Prijzen</a><a href="#kontakt">Business MAX</a><a href="{{APP}}">Inloggen</a></div>
@@ -1204,8 +1205,6 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   /* whatsapp loop video: plays only while visible */
   const wv = $(".wa-vid");
   if (wv && !RM && !STILL) {
-    const bub = $(".wa .bubble"); wv.addEventListener("playing", () => bub.classList.add("sync"), { once: true });
-    wv.addEventListener("timeupdate", () => bub.classList.toggle("on", wv.currentTime > 1.6 && wv.currentTime < 6.9));
     let wvVis = false; const wvSync = () => (wvVis && !motionOff) ? wv.play().catch(() => {}) : wv.pause();
     new IntersectionObserver(es => { wvVis = es[0].isIntersecting; wvSync(); }, { threshold: .25 }).observe(wv); document.addEventListener("motionchange", wvSync);
   }
