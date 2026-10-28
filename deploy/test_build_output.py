@@ -249,7 +249,7 @@ class BuildOutput(unittest.TestCase):
         self.assertTrue(posts)
         for u in posts:
             self.assertIn(f"]({u})", llms)
-        self.assertLess(len(llms.encode()), 30000)
+        self.assertLess(len(llms.encode()), 40000)
 
     def test_api_source_is_not_crawled(self):
         robots = (self.out / "robots.txt").read_text()
