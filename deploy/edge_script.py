@@ -101,7 +101,7 @@ def site_files(dist):
         if not p.is_file():
             continue
         rel = p.relative_to(dist).as_posix()
-        if rel in NOT_UPLOADED or rel.startswith("aws/"):
+        if rel in NOT_UPLOADED or rel.startswith(("aws/", "api/")):
             continue
         out.append(rel)
     return out

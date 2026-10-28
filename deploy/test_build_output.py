@@ -97,5 +97,54 @@ class BuildOutput(unittest.TestCase):
         for page in self.out.rglob("*.html"):
             self.assertIsNone(re.search(r"<!--(?!\[)", page.read_text()), page)
 
+    def home_ld(self, code):
+        import json, re
+        html = (self.out / code / "index.html").read_text()
+        canon = re.search(r'<link rel="canonical" href="([^"]+)"', html).group(1)
+        ld = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S).group(1))
+        return canon, {n["@type"]: n for n in ld["@graph"]}
+
+    def test_json_ld_entity_urls_point_at_the_language_page(self):
+        for c in self.langs():
+            canon, nodes = self.home_ld(c)
+            for t in ("Organization", "WebSite", "WebApplication", "WebPage"):
+                self.assertEqual(nodes[t]["url"], canon, (c, t))
+            for offer in nodes["WebApplication"]["offers"]:
+                self.assertEqual(offer["url"], canon + "#cenik", c)
+
+    def test_llms_txt_lists_every_indexed_article_per_language(self):
+        llms = (self.out / "llms.txt").read_text()
+        posts = [u.find("s:loc", NS).text for u in ET.parse(self.out / "sitemap.xml").getroot().findall("s:url", NS)]
+        posts = [u for u in posts if "/blog/" in u and not u.endswith("/blog/")]
+        self.assertTrue(posts)
+        for u in posts:
+            self.assertIn(f"]({u})", llms)
+        self.assertLess(len(llms.encode()), 25000)
+
+    def test_api_source_is_not_crawled(self):
+        robots = (self.out / "robots.txt").read_text()
+        groups = [g for g in robots.split("\n\n") if "User-agent:" in g]
+        self.assertTrue(groups)
+        for g in groups:
+            self.assertIn("Disallow: /api/", g, g)
+
+    def test_latin_ext_font_is_preloaded_only_where_the_first_screen_needs_it(self):
+        import re
+        for c in self.langs():
+            html = (self.out / c / "index.html").read_text()
+            rng = re.search(r'geist-latin-ext\.woff2"\)[^}]*unicode-range:([^;}]+)', html).group(1)
+            spans = []
+            for part in rng.split(","):
+                lo, _, hi = part.strip()[2:].partition("-")
+                spans.append((int(lo, 16), int(hi or lo, 16)))
+            # the first screen is the hero; the nav's hidden language menu does not render glyphs
+            hero = re.search(r'<header class="hero">.*?</header>', html, re.S).group(0)
+            copy = " ".join(re.findall(r'<h1.*?</h1>|<p class="lead".*?</p>|<div class="ctas">.*?</div>|<p class="note offer">.*?</p>', hero, re.S))
+            import html as h
+            first = h.unescape(re.sub(r"<[^>]+>", " ", copy))
+            needs = any(lo <= ord(ch) <= hi for ch in first for lo, hi in spans)
+            preloaded = bool(re.search(r'<link rel="preload" href="[^"]*geist-latin-ext\.woff2"', html))
+            self.assertEqual(preloaded, needs, c)
+
 if __name__ == "__main__":
     unittest.main()

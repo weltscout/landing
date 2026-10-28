@@ -180,6 +180,12 @@ class EdgeScript(unittest.TestCase):
             self.assertEqual(got["headers"], self.expected_headers(path))
             self.assertIn(page.lstrip("/"), self.data["files"])
 
+    def test_api_source_is_not_uploaded_but_the_endpoint_answers(self):
+        self.assertFalse([f for f in self.data["files"] if f.startswith("api/")])
+        out = self.run_cases([{"req": {"method": "GET", "path": "/api/contact.js", "query": ""}}, {"req": {"method": "GET", "path": "/api/contact", "query": ""}}])
+        self.assertEqual(out["decisions"][0]["status"], 404)
+        self.assertEqual(out["decisions"][1]["status"], 405)
+
     def test_every_built_file_is_served_not_404(self):
         files = [f for f in self.data["files"] if not f.endswith(".html")][:40]
         out = self.run_cases([{"req": {"method": "GET", "path": "/" + f, "query": ""}} for f in files])
