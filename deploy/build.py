@@ -4,7 +4,6 @@ import html as htmllib, json, os, pathlib, re, shutil, struct, sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import blog  # noqa: E402
-import hero  # noqa: E402
 
 SRC = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path(sys.argv[1])
@@ -776,7 +775,7 @@ missing = [l["code"] for l in CONF["langs"] if l not in live]
 meta, sources = {}, {}
 for l in live:
     (OUT / l["code"]).mkdir()
-    sources[l["code"]] = social_links(hero.render((SRC / l["file"]).read_text(), l["code"]), l["code"])
+    sources[l["code"]] = social_links((SRC / l["file"]).read_text(), l["code"])
     page, meta[l["code"]] = seo(localize(sources[l["code"]], l["code"], live), l["code"], live)
     if BLOG_POSTS.get(l["code"]):
         page = blog.nav_link(page, l["code"], l["blog"]["name"])
