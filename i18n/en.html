@@ -62,8 +62,10 @@ h3{letter-spacing:-.02em;line-height:1.2}
 .note{font-size:13px;color:var(--tx3)}
 .num{font-variant-numeric:tabular-nums}
 .w{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-.btn{white-space:nowrap;display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:12px;font-weight:600;font-size:16px;text-decoration:none;background:var(--btn-bg);color:var(--btn-tx);border:0;cursor:pointer;box-shadow:0 1px 2px rgba(0,18,46,.12);transition:transform .2s var(--ease),opacity .2s}
+.btn{white-space:nowrap;display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:12px;font-weight:600;font-size:16px;text-decoration:none;background:var(--btn-bg);color:var(--btn-tx);border:0;cursor:pointer;box-shadow:0 1px 2px rgba(0,18,46,.12);transition:transform .15s var(--ease-out),background-color .15s,box-shadow .15s,opacity .2s}
 .btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0) scale(.98);transition-duration:.08s}
+.btn.alt:hover{box-shadow:inset 0 0 0 1px var(--line3)}
 .btn.alt{background:var(--btn2-bg);color:var(--btn2-tx);box-shadow:inset 0 0 0 1px var(--line2)}
 :focus-visible{outline:2px solid var(--blue-600);outline-offset:3px}
 [data-theme="dark"] :focus-visible{outline-color:var(--blue-300)}
@@ -71,15 +73,23 @@ h3{letter-spacing:-.02em;line-height:1.2}
 .skip:focus{top:12px}
 .todo{display:inline-block;font-size:11px;padding:1px 6px;border-radius:4px;background:color-mix(in srgb,var(--azure-400) 22%,transparent);color:var(--tx);vertical-align:2px;font-weight:500;letter-spacing:0}
 
-.banner{background:var(--blue-600);color:#fff}
-.banner a{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:2px 16px;max-width:var(--maxw);min-height:46px;margin:0 auto;padding:11px 24px;color:inherit;text-decoration:none;font-size:15px;line-height:1.5;text-align:center}
+.banner{display:flex;align-items:center;background:var(--blue-600);color:#fff}
+.banner a{flex:1;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 16px;max-width:var(--maxw);min-height:46px;margin:0 auto;padding:9px 24px;color:inherit;text-decoration:none;font-size:15px;line-height:1.5;text-align:center}
 .banner b{font-size:16px;font-weight:600;letter-spacing:-.01em}
-.banner .nc{color:var(--blue-100)}
+.banner .annc{display:inline-grid;justify-items:center}
+.banner .annc b{grid-area:1/1;transition:opacity .45s var(--ease-out),transform .45s var(--ease-out)}
+.banner .annc b:not(.on){opacity:0;transform:translateY(70%)}.banner .annc b.out{transform:translateY(-70%)}
 .banner .go{font-weight:600;white-space:nowrap;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
 .banner .go span{display:inline-block;margin-left:.35em;transition:transform .2s var(--ease-out)}
 .banner a:hover .go{text-decoration-thickness:2px}.banner a:hover .go span{transform:translateX(3px)}
 .banner a:focus-visible{outline:2px solid #fff;outline-offset:-6px;border-radius:10px}
-@media (max-width:600px){.banner a{gap:2px 12px;padding:10px 16px;font-size:14px}.banner b{flex-basis:100%;font-size:15px}}
+.banner .bp{flex:none;display:grid;place-items:center;width:32px;height:32px;margin-right:12px;padding:0;border:0;border-radius:8px;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;transition:background-color .15s}
+.banner .bp[hidden]{display:none}.banner .bp:hover{background:rgba(255,255,255,.22)}.banner .bp:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.banner .bp svg{width:14px;height:14px;fill:currentColor}.banner .bp[aria-pressed="true"] .ip,.banner .bp[aria-pressed="false"] .iy{display:none}
+@media (max-width:600px){.banner a{gap:4px 12px;padding:9px 12px 9px 16px;font-size:14px}.banner .annc{flex-basis:100%}.banner b{font-size:15px}.banner .bp{margin-right:8px}}
+.nocard,.final .nocard{display:inline-flex;align-items:center;gap:6px;padding:1px 10px 1px 8px;border-radius:999px;font-size:13px;font-weight:600;line-height:1.6;letter-spacing:0;white-space:nowrap;vertical-align:1px;color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.nocard:before,.final .nocard:before{content:"✓" / "";font-weight:700}
+.banner .nocard,.plan.hl .trial .nocard,.final .nocard{color:#fff;background:rgba(255,255,255,.12)}
 body>nav{position:sticky;top:10px;z-index:30;padding:0 16px;margin-top:6px}
 .nav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:24px;height:62px;padding:0 10px 0 22px;border-radius:18px;background:color-mix(in srgb,var(--surf) 88%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);box-shadow:var(--sh)}
 .logo{display:flex;align-items:center;text-decoration:none;flex:none}
@@ -169,8 +179,8 @@ nav .btn{height:42px;padding:0 18px;font-size:15px;border-radius:12px}
 .hero h1 .wr{display:inline-block;opacity:0;transform:translateY(.35em);filter:blur(6px);animation:rise .9s cubic-bezier(.16,1,.3,1) forwards;animation-delay:calc(var(--i) * 55ms + 120ms)}
 @keyframes rise{to{opacity:1;transform:none;filter:none}}
 .still .hero h1 .wr{animation:none;opacity:1;transform:none;filter:none}
-.bx,.paper{transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out)}
-.bx:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.paper{transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out)}
+.bx:hover{border-color:var(--line3)}
 
 /* live app mock */
 .flag{display:inline-block;flex:none;border-radius:2px;box-shadow:0 0 0 1px var(--line);object-fit:cover}
@@ -362,10 +372,10 @@ section.band{margin:0 auto;max-width:calc(var(--maxw) - 48px);border-radius:32px
 
 /* bento */
 .bento{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(0,1fr);gap:20px;padding:0 24px}
-.bx{background:var(--surf);border-radius:var(--r-lg);box-shadow:var(--sh);display:flex;flex-direction:column;overflow:hidden}
-.viz{height:260px;position:relative;overflow:hidden;display:grid;place-items:center;padding:24px;margin:10px 10px 0;border-radius:var(--r-md);background:var(--surf2)}
+.bx{background:var(--surf);border:1px solid var(--line2);border-radius:var(--r-lg);box-shadow:var(--sh);display:flex;flex-direction:column;overflow:hidden}
+.viz{height:260px;position:relative;overflow:hidden;display:grid;place-items:center;padding:24px;background:var(--surf2);border-bottom:1px solid var(--line)}
 .bx .tx{padding:24px 28px 30px}
-.bx h3{font-size:22px}
+.bx h3{font-size:24px;letter-spacing:-.025em}
 .bx p{color:var(--tx2);font-size:16px;margin:10px 0 0}
 .cust{width:100%;display:flex;flex-direction:column;gap:8px}
 .cu{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--surf);box-shadow:var(--sh);font-size:13px}
@@ -398,17 +408,21 @@ section.band{margin:0 auto;max-width:calc(var(--maxw) - 48px);border-radius:32px
 .bill em{font-style:normal;font-size:12px;font-weight:600;padding:2px 7px;border-radius:999px;background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
 .bill button[aria-pressed="true"] em{background:rgba(255,255,255,.18);color:inherit}
 .plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;padding:0 24px;align-items:stretch}
-.plan{--py:34px;--px:30px;--pb:30px;position:relative;display:grid;align-content:start;padding:var(--py) var(--px) var(--pb);border-radius:28px;background:var(--surf);box-shadow:var(--sh)}
-@media (min-width:901px){.plan{grid-row:span 3;grid-template-rows:subgrid;row-gap:0}}
+.plan{--py:34px;--px:30px;--pb:30px;position:relative;display:grid;align-content:start;padding:var(--py) var(--px) var(--pb);border-radius:28px;background:var(--surf);box-shadow:inset 0 0 0 1px var(--line2),var(--sh)}
+.plan:has(.btn:hover){box-shadow:inset 0 0 0 1px var(--line3),var(--sh)}
+@media (min-width:901px){.plan{grid-row:span 3;grid-template-rows:subgrid;row-gap:0}.plan.hl{--lift:14px;--py:calc(34px + var(--lift));--pb:calc(30px + var(--lift));margin:calc(-1 * var(--lift)) 0}.plan.hl .trial{padding-top:calc(16px + var(--lift))}}
 .plan.hl{background:var(--hl);color:var(--hl-tx);box-shadow:0 0 0 2px var(--blue-500),var(--sh-lg)}
+.plan.hl:has(.btn:hover){box-shadow:0 0 0 2px var(--blue-400),var(--sh-lg)}
 .plan.max{background:transparent;box-shadow:inset 0 0 0 1px var(--line3)}
+.plan.max:has(.btn:hover,.also:hover){box-shadow:inset 0 0 0 1px var(--tx3)}
 .plan .trial{grid-row:1;margin:calc(-1 * var(--py)) calc(-1 * var(--px)) 22px;padding:16px var(--px) 18px;border-radius:inherit;border-bottom-left-radius:0;border-bottom-right-radius:0;background:color-mix(in oklch,var(--blue-500) 14%,var(--surf));color:var(--tx);line-height:1.3}
 .plan.max .trial{background:color-mix(in oklch,var(--blue-500) 14%,var(--pg))}
 .plan.hl .trial{background:var(--blue-600);color:#fff}
 .plan .trial .k{display:block;margin-bottom:6px;font-size:13px;font-weight:600;color:var(--acc)}
 .plan .trial b{display:block;font-size:24px;font-weight:600;letter-spacing:-.02em;line-height:1.15;text-wrap:balance}
 .plan .trial .l{display:block}
-.plan .trial .s{display:block;margin-top:8px;font-size:15px;color:var(--tx2)}
+.plan .trial .s{display:block;margin-top:10px;font-size:15px;color:var(--tx2)}
+.plan .trial .nocard{margin-right:8px}
 .plan.hl .trial .k,.plan.hl .trial .s{color:var(--blue-100)}
 .plan .nrow{grid-row:2;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
 .plan .pb{grid-row:3}
@@ -542,13 +556,13 @@ footer .cols a:hover{color:var(--tx)}
 footer .bot{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px 24px;flex-wrap:wrap;font-size:13px}
 footer .langs{display:flex;gap:4px}
 footer .langs a{padding:6px 10px;border-radius:8px;text-decoration:none;font-weight:500}
-footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
+footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weight:600;box-shadow:inset 0 0 0 1px var(--line3)}
 .trustbar{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 10px;text-align:center;margin-top:22px;font-size:14px;color:var(--tx2)}
 .trustbar .st{color:#B45309;letter-spacing:1px}
 [data-theme="dark"] .trustbar .st{color:#FBBF24}
 .trustbar b{color:var(--tx);font-weight:600}
 
-.js .rv{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.js .rv{opacity:0;transform:translateY(12px);transition:opacity .6s var(--ease-out),transform .6s var(--ease-out),box-shadow .15s,border-color .15s}
 .js .rv.in{opacity:1;transform:none}
 
 @media (max-width:370px){nav .right .btn{display:none}}
@@ -908,7 +922,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<aside class="banner" aria-label="Trial"><a href="{{APP}}"><b>7 days free, no limits</b><span class="sr">. </span><span class="nc">No card needed</span><span class="sr">. </span><span class="go">Start now<span aria-hidden="true">→</span></span></a></aside>
+<aside class="banner" aria-label="Trial"><a href="{{APP}}"><span class="sr">7 days free, no limits. WhatsApp in every plan. Up to 29 portals in 14 countries. </span><span class="annc" aria-hidden="true"><b class="on">7 days free, no limits</b><b>WhatsApp in every plan</b><b>Up to 29 portals in 14 countries</b></span><span class="nocard">No card needed</span><span class="go">Start now<span aria-hidden="true">→</span></span></a><button class="bp" type="button" aria-pressed="false" aria-label="Pause motion" hidden><svg class="ip" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z"/></svg><svg class="iy" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5 13 8l-8 5.5z"/></svg></button></aside>
 <nav aria-label="Main">
   <div class="nav-in">
     <a class="logo" href="/en/"><img class="lg-l" src="img/logo-weltscout.svg" width="120" height="20" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-dark.svg" width="143" height="24" alt="WeltScout"></a>
@@ -927,7 +941,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
       <h1><span class="b1">Autonomous car search.</span> <span class="b2">Up to 29 portals in 14 countries.</span></h1>
       <p class="lead">A web app for used-car dealers. Set up a search once; WeltScout repeats it once or twice a day (depending on your plan) and sends new listings to your WhatsApp or email.</p>
       <div class="ctas"><a class="btn" href="{{APP}}">Set up your first search free</a><a class="btn alt" href="#dokaz">See how it works (56 s)</a></div>
-      <p class="note offer">No card needed. 7 days free with full access once you add your company and an alert channel at sign-up. Then from €129.90 a month.</p>
+      <p class="note offer"><span class="nocard">No card needed</span> 7 days free with full access once you add your company and an alert channel at sign-up. Then from €129.90 a month.</p>
     </div>
     <div class="stage">
       <div class="duo"><div class="frame"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>app.weltscout.com</span></div><video class="hero-vid" muted loop playsinline preload="metadata" poster="img/hero-eu-poster.jpg" aria-label="Recording of the WeltScout app, 27 October 2026: setting up a search with 10 filters, choosing 11 portals, counting 854 results and the results list with portals"><source media="(max-width:600px)" src="img/hero-eu-tall.mp4" type="video/mp4"><source src="img/hero-eu-wide.mp4" type="video/mp4"></video></div><div class="waph" role="group" aria-label="Example WhatsApp alert"><div class="waph-top" aria-hidden="true"><span class="waph-av">W</span><b>WeltScout</b></div><div class="waph-chat"><p class="waph-pill">Example alert</p><div class="waph-msg"><p class="waph-h">New listing for your search “Audi A4 Avant TDI 2019+”</p><p class="waph-t" lang="de">Audi A4 Avant 40 TDI advanced Aut LED AHK RADAR NAVI</p><p class="waph-m"><span>2020</span> · <span>92,442 km</span> · <span>150 kW</span></p><p class="waph-p">€21,990</p><p class="waph-s"><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">willhaben.at, Austria</p><span class="waph-tm" aria-hidden="true">08:05</span></div></div></div></div>
@@ -1018,7 +1032,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 <section style="padding-top:0">
   <div class="split rv" id="stranke"><div><p class="eyebrow">For dealers and brokers</p><h2>Every customer gets their own search, you get one overview</h2><p class="lead">When a customer asks ‘what have you got?’, you don’t say ‘I’ll have a look and get back to you’. You open their search and show them.</p><p class="lead" style="margin-top:14px">In the Clients module you save each customer’s name, phone number and email, and link searches to them. You see all your customers and their searches on one screen.</p><a class="btn" href="{{APP}}" style="margin-top:26px">Try it with one customer</a></div><figure style="margin:0"><picture><source type="image/avif" srcset="img/foto5-stranka-960.avif 960w, img/foto5-stranka-1600.avif 1600w" sizes="(max-width:900px) 92vw, 663px"><img src="img/foto5-stranka-1600.webp" srcset="img/foto5-stranka-960.webp 960w, img/foto5-stranka-1600.webp 1600w" sizes="(max-width:900px) 92vw, 663px" width="1600" height="1067" alt="A dealer in the showroom shows a customer her search on a tablet" loading="lazy" decoding="async"></picture><figcaption>Illustration created with AI.</figcaption></figure></div>
   <div class="bento" tabindex="0" role="region" aria-label="What else you get">
-    <div class="bx">
+    <div class="bx rv">
       <div class="viz"><div class="cust" id="cust">
         <div class="cu"><i>A</i>Customer A<span>Octavia Combi</span><em>new match</em></div>
         <div class="cu"><i>B</i>Customer B<span>Golf 8</span><em>new match</em></div>
@@ -1026,11 +1040,11 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
       </div></div>
       <div class="tx"><h3>See where something new has come in</h3><p>Each customer shows whether a new match has arrived. Click to send it to them.</p></div>
     </div>
-    <div class="bx">
+    <div class="bx rv">
       <div class="viz"><div class="flags" id="flags"></div></div>
       <div class="tx"><h3>Used vehicles at home and abroad in one list</h3><p><i>Example:</i> a customer wants a Golf. In the same search you compare offers from Slovenia, Croatia and Germany. Is a portal missing? Suggest it and we usually add it within 4–7 working days.</p></div>
     </div>
-    <div class="bx">
+    <div class="bx rv">
       <div class="viz"><div class="stack" id="stack"></div></div>
       <div class="tx"><h3>Search for your own stock too</h3><p>A search doesn’t have to be linked to a customer. Set one up for the cars you like to buy in for stock, and new listings reach you just as they do for customers.</p></div>
     </div>
@@ -1044,15 +1058,15 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   </div>
   <p class="sr" id="bill-live" aria-live="polite" data-m="Showing monthly prices." data-y="Showing yearly prices, paid upfront."></p>
   <div class="plans">
-    <div class="plan rv"><div class="nrow"><h3 class="n">Business</h3></div><p class="trial"><span class="k">Trial</span><b><span class="l">7 days free<span class="sr">,</span></span> <span class="l">no limits</span></b><span class="s">Full access, no card needed.</span></p><div class="pb"><p class="pitch">For an independent dealer with a few customers at once.</p>
+    <div class="plan rv"><div class="nrow"><h3 class="n">Business</h3></div><p class="trial"><span class="k">Trial</span><b><span class="l">7 days free<span class="sr">,</span></span> <span class="l">no limits</span></b><span class="s"><span class="nocard">No card needed</span>Full access.</span></p><div class="pb"><p class="pitch">For an independent dealer with a few customers at once.</p>
       <div class="pr num"><span class="v" data-m="€129.90" data-y="€107.82">€129.90</span></div><div class="per">per user per month, excluding VAT</div><div class="yr" data-y="€1,293.80 a year, paid upfront · you save 17%"></div>
       <a class="btn alt" href="{{APP}}">Try it free</a>
       <p class="inc">Included</p><ul><li>Up to 10 searches running automatically</li><li>New listings checked once a day</li><li>Notifications on WhatsApp and by email</li><li>One search covers up to 29 portals in 14 countries</li></ul></div></div>
-    <div class="plan hl rv"><div class="nrow"><h3 class="n">Business +</h3><span class="tag">Recommended</span></div><p class="trial"><span class="k">Trial</span><b><span class="l">7 days free<span class="sr">,</span></span> <span class="l">no limits</span></b><span class="s">Full access, no card needed.</span></p><div class="pb"><p class="pitch">For a dealer who searches for several customers and for their own stock.</p>
+    <div class="plan hl rv"><div class="nrow"><h3 class="n">Business +</h3><span class="tag">Recommended</span></div><p class="trial"><span class="k">Trial</span><b><span class="l">7 days free<span class="sr">,</span></span> <span class="l">no limits</span></b><span class="s"><span class="nocard">No card needed</span>Full access.</span></p><div class="pb"><p class="pitch">For a dealer who searches for several customers and for their own stock.</p>
       <div class="pr num"><span class="v" data-m="€199.90" data-y="€165.92">€199.90</span></div><div class="per">per user per month, excluding VAT</div><div class="yr" data-y="€1,991.00 a year, paid upfront · you save 17%"></div>
       <a class="btn" href="{{APP}}">Try it free</a>
       <p class="inc">Included</p><ul><li>Up to 20 searches, twice as many as Business</li><li>New listings checked twice a day</li><li>Notifications on WhatsApp and by email</li><li>One search covers up to 29 portals in 14 countries</li></ul></div></div>
-    <div class="plan max rv"><div class="nrow"><h3 class="n">Business MAX</h3></div><p class="trial"><span class="k">Trial</span><b><span class="l">7 days free<span class="sr">,</span></span> <span class="l">no limits</span></b><span class="s">Full access, no card needed. We agree a tailored plan after the trial.</span></p><div class="pb"><p class="pitch">For teams with several salespeople and special requirements.</p>
+    <div class="plan max rv"><div class="nrow"><h3 class="n">Business MAX</h3></div><p class="trial"><span class="k">Trial</span><b><span class="l">7 days free<span class="sr">,</span></span> <span class="l">no limits</span></b><span class="s"><span class="nocard">No card needed</span>Full access. We agree a tailored plan after the trial.</span></p><div class="pb"><p class="pitch">For teams with several salespeople and special requirements.</p>
       <div class="pr txt">On request</div><div class="per">tailored to your usage</div><div class="yr"></div>
       <a class="btn alt" href="#kontakt">Let’s talk</a>
       <a class="also" href="{{APP}}">Try it free first <span aria-hidden="true">→</span></a>
@@ -1134,7 +1148,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
 <section class="final band">
   <h2 class="rv">Your next customer is already looking. Have a list ready for them, not ‘I’ll have a look’.</h2>
   <div class="ctas"><a class="btn" href="{{APP}}">Try it free</a><a class="btn alt" href="#cenik">See pricing</a></div>
-  <p class="note" style="margin-top:14px">No card needed. Your account is active straight away.</p>
+  <p class="note" style="margin-top:14px"><span class="nocard">No card needed</span></p>
 </section>
 </main>
 
@@ -1227,6 +1241,24 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   mbtn.addEventListener("click", () => setMotion(!motionOff));
   if (RM || STILL) mbtn.hidden = true;
   else { let mo = ""; try { mo = localStorage.getItem("ws-motion-off") || ""; } catch (e) {} if (mo) setMotion(true); }
+
+  /* announcement bar: rotates the facts every 4 s; hover, focus, hidden tab and the motion control pause it */
+  const annc = $(".banner .annc"), anncBtn = $(".banner .bp");
+  if (annc && anncBtn && !RM && !STILL) {
+    const ms = [...annc.children]; let bi = 0, hold = false;
+    const bpSync = () => { anncBtn.setAttribute("aria-pressed", String(motionOff)); anncBtn.setAttribute("aria-label", mbtn.textContent); };
+    anncBtn.hidden = false; bpSync(); document.addEventListener("motionchange", bpSync);
+    anncBtn.addEventListener("click", () => setMotion(!motionOff));
+    const bar = annc.closest(".banner");
+    bar.addEventListener("mouseenter", () => { hold = true; }); bar.addEventListener("mouseleave", () => { hold = false; });
+    bar.addEventListener("focusin", () => { hold = true; }); bar.addEventListener("focusout", () => { hold = false; });
+    setInterval(() => {
+      if (motionOff || hold || document.hidden) return;
+      const cur = ms[bi]; bi = (bi + 1) % ms.length; const nx = ms[bi];
+      cur.classList.replace("on", "out");
+      nx.style.transition = "none"; nx.classList.remove("out"); void nx.offsetWidth; nx.style.transition = ""; nx.classList.add("on");
+    }, 4000);
+  }
 
   /* whatsapp loop video: plays only while visible */
   const wv = $(".wa-vid");
@@ -1380,9 +1412,9 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx)}
   document.addEventListener("motionchange", () => { if (RM || STILL || !heroSeen) return; motionOff ? heroStop() : heroPlay(); });
 
   /* intersection reveals */
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); if (e.target.id === "app") { heroSeen = true; if (!motionOff) heroPlay(); } io.unobserve(e.target); } }), { threshold: .2 });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); setTimeout(() => { e.target.style.transitionDelay = ""; }, 900); if (e.target.id === "app") { heroSeen = true; if (!motionOff) heroPlay(); } io.unobserve(e.target); } }), { threshold: .2 });
   if (RM || STILL) { finalState(); $$(".rv,[data-anim]").forEach(e => e.classList.add("in")); }
-  else { if (!motionOff) reset(); $$(".rv,.blur").forEach((e, i) => { e.style.transitionDelay = e.classList.contains("blur") ? ([...e.parentElement.children].indexOf(e) * 120) + "ms" : "0ms"; io.observe(e); }); io.observe($("#app")); }
+  else { if (!motionOff) reset(); $$(".rv,.blur").forEach((e, i) => { e.style.transitionDelay = e.classList.contains("blur") ? ([...e.parentElement.children].indexOf(e) * 120) + "ms" : Math.min([...e.parentElement.children].filter(x => x.classList.contains("rv")).indexOf(e), 3) * 70 + "ms"; io.observe(e); }); io.observe($("#app")); }
 
   /* tabs with auto-advance */
   const steps = [
