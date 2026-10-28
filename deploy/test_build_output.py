@@ -234,6 +234,22 @@ class BuildOutput(unittest.TestCase):
         ld = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S).group(1))
         return canon, {n["@type"]: n for n in ld["@graph"]}
 
+    def test_social_previews_repeat_the_title_and_meta_description(self):
+        # One source: og:* and twitter:* are derived from <title> and the meta description,
+        # so a copy change cannot leave a stale preview behind.
+        import re, html as h
+        for c in self.langs():
+            page = (self.out / c / "index.html").read_text()
+            get = lambda pat: h.unescape(re.search(pat, page).group(1))
+            title = get(r"<title>(.*?)</title>")
+            desc = get(r'<meta name="description" content="([^"]*)"')
+            self.assertEqual(get(r'<meta property="og:title" content="([^"]*)"'), title, c)
+            self.assertEqual(get(r'<meta name="twitter:title" content="([^"]*)"'), title, c)
+            self.assertEqual(get(r'<meta property="og:description" content="([^"]*)"'), desc, c)
+            self.assertEqual(get(r'<meta name="twitter:description" content="([^"]*)"'), desc, c)
+            self.assertEqual(len(re.findall(r'<meta property="og:title"', page)), 1, c)
+            self.assertEqual(len(re.findall(r'<meta property="og:description"', page)), 1, c)
+
     def test_json_ld_entity_urls_point_at_the_language_page(self):
         for c in self.langs():
             canon, nodes = self.home_ld(c)

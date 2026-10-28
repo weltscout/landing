@@ -1,4 +1,4 @@
-// Renders img/og/<code>.jpg (1200x630) from each language page's og:title. Run: NODE_PATH=<dir with playwright>/node_modules node deploy/og.js
+// Renders img/og/<code>.jpg (1200x630) from each language page's <title> (build.py derives og:title from it). Run: NODE_PATH=<dir with playwright>/node_modules node deploy/og.js
 const { chromium } = require("playwright");
 const fs = require("fs"), os = require("os"), path = require("path");
 const SRC = path.resolve(__dirname, ".."), CONF = JSON.parse(fs.readFileSync(path.join(__dirname, "langs.json")));
@@ -7,7 +7,7 @@ const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
   const b = await chromium.launch(), p = await b.newPage({ viewport: { width: 1200, height: 630 } });
   for (const l of CONF.langs) {
     const h = fs.readFileSync(path.join(SRC, l.file), "utf8");
-    const t = h.match(/<meta property="og:title" content="([^"]+)"/)[1].replace(/&amp;/g, "&").replace(/^WeltScout[\s ]*:\s*/, "").replace(/^./, c => c.toLocaleUpperCase());
+    const t = h.match(/<title>([^<]+)<\/title>/)[1].replace(/&amp;/g, "&").replace(/^WeltScout[\s ]*:\s*/, "").replace(/\s*\|\s*WeltScout$/, "").replace(/^./, c => c.toLocaleUpperCase());
     const html = `<!doctype html><meta charset=utf-8><style>
 @font-face{font-family:Geist;src:url(file://${SRC}/fonts/geist-latin.woff2);font-weight:400 700;unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
 @font-face{font-family:Geist;src:url(file://${SRC}/fonts/geist-latin-ext.woff2);font-weight:400 700;unicode-range:U+0100-02FF,U+1E00-1EFF}

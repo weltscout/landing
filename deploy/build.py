@@ -195,8 +195,9 @@ def seo(html, page, live):
 
     title = need(r"<title>(.*?)</title>", "title")
     desc = need(r'<meta name="description" content="([^"]*)"', "meta description")
-    ogt = need(r'<meta property="og:title" content="([^"]*)"', "og:title")
-    ogd = need(r'<meta property="og:description" content="([^"]*)"', "og:description")
+    # Social previews repeat the title and the meta description (one source per language page).
+    ogt, ogd = title, desc
+    html = re.sub(r'<meta property="og:(?:title|description)" content="[^"]*">\n?', "", html)
     need(r'<meta (name="twitter:card") content="summary_large_image"', "twitter:card")
     if len(re.findall(r"<h1[ >]", html)) != 1:
         die(page, "expected exactly one h1")
@@ -218,6 +219,8 @@ def seo(html, page, live):
     if not indexable:
         tags.append('<meta name="robots" content="noindex, nofollow">')
     tags += [
+        f'<meta property="og:title" content="{q(ogt)}">',
+        f'<meta property="og:description" content="{q(ogd)}">',
         f'<meta property="og:url" content="{url}">',
         f'<meta property="og:locale" content="{me["locale"][0]}">',
     ]
