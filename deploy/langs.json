@@ -24,7 +24,7 @@
       "to": "/{default}/"
     },
     {
-      "from": "/:lang(hr|en|de)/post/:slug*",
+      "from": "/:lang({langs})/post/:slug*",
       "to": "/:lang/"
     }
   ],

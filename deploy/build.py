@@ -453,6 +453,8 @@ LEGAL_SLUGS = (
     else []
 )
 COOKIE_STEM = "cookie-policy"
+TERMS_STEM = "terms-and-conditions"
+LEGAL_HUB = "/legal"
 
 
 def legal_slug(code, stem):
@@ -497,6 +499,7 @@ def legal_redirects(live):
                 add(f"/{l['code']}/{s}", legal_url(l["code"], s))
     for s in LEGAL_SLUGS:
         add(f"/{s}", legal_url(CONF["default"], s))
+    add(LEGAL_HUB, legal_url(CONF["default"], TERMS_STEM))
     return out
 
 
@@ -948,7 +951,7 @@ if CONF["indexable"]:
         rule["headers"] = [h for h in rule["headers"] if h["key"] != "X-Robots-Tag"]
 cfg["redirects"] = blog_out["redirects"] + [
     {
-        "source": r["from"],
+        "source": r["from"].replace("{langs}", "|".join(l["code"] for l in live)),
         "destination": r["to"].replace("{default}", CONF["default"]),
         "permanent": True,
     }

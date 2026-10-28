@@ -675,6 +675,11 @@ def build(conf, out, live, sources, h):
         for c in by_code
         if posts.get(c)
         for src in ([f"/{c}/blog"] + (["/blog", "/blog/"] if c == default else []))
+    ] + [
+        {"source": src, "destination": f"/{c}/", "permanent": True}
+        for c in by_code
+        if not posts.get(c)
+        for src in (f"/{c}/blog", f"/{c}/blog/")
     ]
     return {
         "posts": posts,

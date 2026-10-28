@@ -125,6 +125,40 @@ class EdgeScript(unittest.TestCase):
         self.assertEqual([d["path"] for d in out["decisions"]], ["/" + f for f in samples.values()])
         self.assertTrue(all(d["type"] == "rewrite" for d in out["decisions"]))
 
+    # Old URLs that earned clicks or impressions in GSC but had no specific rule (SEO audit
+    # 28. 10., DEMAND.md section 6): each must reach its same-topic page in one 301, and
+    # that page must be a built file.
+    AUDITED_OLD_URLS = {
+        "/hr/post/skriveni-troskovi-pri-kupnji-rabljenog-vozila-na-sto-treba-obratiti-paznju": "/hr/blog/troskovi-kupnje-rabljenog-automobila/",
+        "/en/post/how-to-use-the-weltscout-platform": "/en/blog/how-to-use-weltscout-platform/",
+        "/en/post/hidden-costs-when-buying-a-used-vehicle-what-should-you-pay-attention-to": "/en/blog/hidden-costs-buying-used-car/",
+        "/en/post/news-on-the-weltscout-platform": "/en/blog/what-weltscout-does-today/",
+        "/en/post/news-on-the-wltscout-platform": "/en/blog/what-weltscout-does-today/",
+        "/hr/post/kako-koristiti-platformu-weltscout": "/hr/blog/kako-koristiti-weltscout-platformu/",
+        "/hr/post/novosti-na-platformi-weltscout": "/hr/blog/sto-weltscout-nudi-danas/",
+        "/post/kateri-mesec-najcenejsi-za-nakup-avtomobila": "/sl/blog/kdaj-je-najbolje-kupiti-avto/",
+        "/post/best-car-sourcing-platforms-3": "/sl/blog/avto-iskalnik/",
+        "/fr/blog": "/fr/",
+        "/fr/post/kateri-so-najboljsi-rabljeni-avti": "/fr/",
+        "/legal": "/sl/splosni-pogoji/",
+    }
+
+    def assert_one_hop(self, table):
+        first = self.run_cases([{"req": {"method": "GET", "path": p, "query": ""}} for p in table])
+        for (src, want), d in zip(table.items(), first["decisions"]):
+            self.assertEqual((d["type"], d.get("status"), d.get("location")), ("redirect", 301, want), src)
+        second = self.run_cases([{"req": {"method": "GET", "path": w, "query": ""}} for w in table.values()])
+        for w, d in zip(table.values(), second["decisions"]):
+            self.assertEqual(d["type"], "rewrite", w)
+            self.assertIn(d["path"].lstrip("/"), self.data["files"], w)
+
+    def test_audited_old_urls_reach_their_page_in_one_hop(self):
+        self.assert_one_hop(self.AUDITED_OLD_URLS)
+
+    def test_unknown_old_posts_land_on_their_language_home_in_every_language(self):
+        codes = [l["code"] for l in json.loads((HERE / "langs.json").read_text())["langs"]]
+        self.assert_one_hop({f"/{c}/post/no-such-old-post": f"/{c}/" for c in codes})
+
     def test_unknown_paths_pass_through(self):
         out = self.run_cases([{"req": {"method": "GET", "path": "/no/such/page", "query": ""}}])
         got = out["decisions"][0]
@@ -223,8 +257,9 @@ class EdgeScript(unittest.TestCase):
                 "/post": True, "/post/": True, "/post/a": True, "/post/a/b": True,
                 "/posta": False, "/other": False,
             },
-            "/:lang(hr|en|de)/post/:slug*": {
-                "/hr/post": True, "/hr/post/x": True, "/de/post/a/b": True,
+            # the language catch-all covers every language in langs.json (no hand list)
+            "/:lang({})/post/:slug*".format("|".join(l["code"] for l in json.loads((HERE / "langs.json").read_text())["langs"])): {
+                "/hr/post": True, "/hr/post/x": True, "/de/post/a/b": True, "/fr/post/x": True, "/sr/post/x": True,
                 "/xx/post": False, "/hr/other": False,
             },
         }
