@@ -6,8 +6,8 @@ with a JSON front matter comment holding the standard's §6.1 fields:
 
     <!--meta
     {"title": "...", "meta_description": "...", "hreflang_group": "...", "audience": "b2b|b2c|both",
-     "content_type": "guide", "primary_keyword": {"term": "...", "market": "SI", "volume": null,
-     "source": "...", "measured_on": "YYYY-MM-DD"}, "secondary_keywords": [],
+     "content_type": "guide", "primary_keyword": {"term": "...", "market": "SI",
+     "source": "where the term was seen, e.g. Google autocomplete", "measured_on": "YYYY-MM-DD"}, "secondary_keywords": [],
      "reviewer": {"name": "...", "role": "..."},
      "editor_responsible": "...", "ai_assistance": "none|research|drafting|translation",
      "ai_disclosure_text": "...", "published": "YYYY-MM-DD", "updated": "YYYY-MM-DD",

@@ -145,6 +145,12 @@ class BuildOutput(unittest.TestCase):
             if "/blog/" in old:
                 self.assertFalse((self.out / old.strip("/") / "index.html").exists(), f"{old} is still built")
 
+    def test_no_post_states_a_search_volume(self):
+        # No source of absolute search volume exists (KEYWORDS.md section 1), so the front matter must not carry one.
+        for l in self.langs_with_posts():
+            for src in (ROOT / "blog" / l["code"]).glob("*.html"):
+                self.assertNotIn("volume", blog.front_matter(src)[0]["primary_keyword"], src)
+
     def test_every_language_with_posts_has_its_editorial_page(self):
         for l in self.langs_with_posts():
             self.assertTrue((self.out / l["code"] / l["blog"]["editorial"]["slug"] / "index.html").is_file(), l["code"])
@@ -266,7 +272,7 @@ class WordingRules(unittest.TestCase):
             "hreflang_group": "T01",
             "audience": "both",
             "content_type": content_type,
-            "primary_keyword": {"term": "t", "market": "SI", "volume": None, "source": "t", "measured_on": "2026-10-28"},
+            "primary_keyword": {"term": "t", "market": "SI", "source": "t", "measured_on": "2026-10-28"},
             "editor_responsible": "WeltScout d.o.o.",
             "ai_assistance": "drafting",
             "published": "2026-10-28",
