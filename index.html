@@ -1326,6 +1326,11 @@ footer .wm:before{content:"WeltScout"}
 .hero .offer-pts .nocard{font-size:14px;padding:2px 11px 2px 9px}
 .hero .offer-pts .from{font-weight:600;color:var(--tx)}
 .hero .offer-if{margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--tx3);max-width:52ch}
+/* light-theme green line (30. 10.): Trial Mint as a highlighter under every row (box-decoration-break: clone) with the
+   text in Trial Ink, so the line wears the trial colour at 4.5:1 or more; background only, the line box and the wrapping
+   (and so --fit) stay as they are. The dark theme keeps mint text */
+html:not([data-theme="dark"]) .hero h1 .b2{color:var(--ok-ink)}
+html:not([data-theme="dark"]) .hero h1 .b2 .mark-ok{padding:0 .05em;margin:0 -.05em;background:linear-gradient(transparent 54%,var(--ok-hi) 54%,var(--ok-hi) 92%,transparent 92%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
 </style>
 </head>
 <body>
@@ -1345,7 +1350,7 @@ footer .wm:before{content:"WeltScout"}
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="hero-in">
     <div class="copy">
-      <h1 style="--fit:9.71"><span class="b1">Rabljeni avtomobili iz Evrope.</span> <span class="b2">Novi oglasi naravnost na tvoj WhatsApp.</span></h1>
+      <h1 style="--fit:9.71"><span class="b1">Rabljeni avtomobili iz Evrope.</span> <span class="b2"><span class="mark-ok">Novi oglasi naravnost na tvoj WhatsApp.</span></span></h1>
       <p class="lead">Vpišeš, kateri avto iščeš. Mi enkrat ali dvakrat na dan, odvisno od paketa, pregledamo do 29 portalov (mobile.de, AutoScout24, avto.net …) in ti pošljemo nove oglase rabljenih vozil iz Nemčije in Evrope: na WhatsApp ali po e-pošti.</p>
       <p class="hook">Brez ročnega pregledovanja portalov: iskanje nastaviš v eni minuti, nove oglase ti pošljemo mi.</p>
       <div class="ctas"><a class="btn" href="{{APP}}">Nastavi prvo iskanje brezplačno</a><a class="btn alt" href="#dokaz" data-play><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4.5 2.8v10.4L13 8z" fill="currentColor"/></svg>Kako deluje <span class="dur">56 s</span></a></div>
