@@ -1241,6 +1241,22 @@ footer .wm:before{content:"WeltScout"}
   .banner .bp{position:relative}
   .banner .bp:after{content:"";position:absolute;inset:-6px}
 }
+/* CTA motion (29. 10.): the primary buttons (hero, nav, plans, closing band) catch the eye when they come into view: a
+   soft sheen crosses the button (background-position) and a blue halo pulses once (opacity), twice more 6 s apart, then
+   never again. Hover and focus: the halo stays and the arrow moves 4 px; pressed: scale .98. No positional lift (buttons
+   do not jump, see Buttons). Reduced motion, ?still and the motion switch: no sweep or pulse, the hover state stays */
+:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)){--sheen:rgba(255,255,255,.07);position:relative;isolation:isolate;background-image:linear-gradient(110deg,transparent 42%,var(--sheen) 50%,transparent 58%),linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 62%);background-size:300% 100%,100% 100%;background-position:120% 0,0 0;background-repeat:no-repeat}
+.plan.hl .btn,.final .btn:not(.alt){--sheen:rgba(0,64,177,.10)}
+:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt))::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;box-shadow:0 0 0 4px color-mix(in srgb,var(--blue-500) 26%,transparent),0 12px 30px -8px color-mix(in srgb,var(--blue-500) 70%,transparent);opacity:0;transition:opacity .2s;pointer-events:none}
+:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt))::after{content:"→" / "";display:inline-block;transition:transform .2s var(--ease-out)}
+:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):hover::before,:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):focus-visible::before{opacity:1}
+:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):hover::after,:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):focus-visible::after{transform:translateX(4px)}
+:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):active{transform:scale(.98)}
+:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go{animation:ctaSheen .9s var(--ease-out) both}
+:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before{animation:ctaGlow .9s ease-out both}
+@keyframes ctaSheen{from{background-position:120% 0,0 0}to{background-position:-20% 0,0 0}}
+@keyframes ctaGlow{0%,100%{opacity:0}40%{opacity:1}}
+.still :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go,.motion-off :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go,.still :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before,.motion-off :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before{animation:none}
 </style>
 </head>
 <body>
@@ -1682,6 +1698,22 @@ footer .wm:before{content:"WeltScout"}
     zbg.addEventListener("click", () => zclose());
     zdlg.addEventListener("cancel", e => { e.preventDefault(); zclose(); });
     addEventListener("popstate", () => { if (zst === "opening" || zst === "open") zclose(true); });
+  }
+
+  /* CTA motion (29. 10.): a sheen and a halo when a primary button comes into view, twice more 6 s apart, then never
+     again (WCAG 2.2.2); the motion switch stops it, reduced motion and ?still skip it */
+  const ctas = $$(".hero .ctas .btn:not(.alt), nav .btn, .plan .btn:not(.alt), .final .btn:not(.alt)");
+  if (ctas.length && !RM && !STILL) {
+    const CTA_RUNS = 3, CTA_GAP = 6000;
+    const ctaPlay = el => { if (motionOff) return; el.classList.remove("go"); void el.offsetWidth; el.classList.add("go"); };
+    const ctaIo = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      ctaIo.unobserve(e.target);
+      let n = 0;
+      const tick = () => { ctaPlay(e.target); if (++n < CTA_RUNS) setTimeout(tick, CTA_GAP); };
+      tick();
+    }), { threshold: .6 });
+    ctas.forEach(el => ctaIo.observe(el));
   }
 
   /* faq: one open at a time, height + content eased */
