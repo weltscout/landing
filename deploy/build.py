@@ -709,7 +709,7 @@ def doc_page(l, head, main, alt, css="", current=None, js="", cls=""):
         f'<!doctype html><html lang="{code}" data-theme="{p["theme"]}"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
         f'{head}{icon_tags()}{p["fonts"]}<link rel="stylesheet" href="tokens.css">'
-        f'<script>try{{const t=localStorage.getItem("{p["key"]}");if({p["themes"]}.includes(t))document.documentElement.dataset.theme=t}}catch(e){{}}</script>'
+        f'<script>(d=>{{const th={p["themes"]};let t=null;try{{t=localStorage.getItem("{p["key"]}")}}catch(e){{}}if(!th.includes(t)){{const s=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";t=th.includes(s)?s:d.dataset.theme}}d.dataset.theme=t}})(document.documentElement)</script>'
         f"<style>{p['css']}{LEGAL_CSS}{css}</style></head><body>{p['skip']}{nav}"
         f'<main id="main"{f" class={chr(34)}{cls}{chr(34)}" if cls else ""}>{main}</main>{foot}'
         f"<script>(()=>{{const root=document.documentElement,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];{p['js']}}})()</script>"

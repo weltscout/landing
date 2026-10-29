@@ -205,6 +205,7 @@ A cool, light palette: navy ink on pale grey, with one blue that acts and one gr
 - **Ink Muted** (#5B6471): secondary text and small print (`--tx2`, `--tx3` in light).
 - Hairlines: `rgba(0,18,46,.08 / .13 / .2)` (`--line`, `--line2`, `--line3`); white at .07/.12/.2 in dark.
 - **Dark Page / Dark Surface / Dark Ink** (#080B10, #10151C, #F4F7FB): the dark theme; **Dark Accent** (#99BFFF) for accent text there.
+- **Which theme (owner decision, 29. 10. 2026):** the page follows the system setting (`prefers-color-scheme`) and changes with it live. The footer switch (Temna / Svetla) is a manual choice that is saved (`localStorage` key `ws-theme`, in try/catch) and then wins over the system. The `<head>` script sets `data-theme` before the first paint, on the home pages and on blog, legal and 404, so the wrong theme never flashes. `?theme=light|dark` pins it for tests. The old key `ws-proto-theme` is ignored, because the earlier script wrote it on every visit, so it never meant a choice. Without JS the page stays dark.
 
 ### Named Rules
 **The Two Roles Rule.** Blue means "do this" (buttons, plan emphasis, links). Green means "this is safe" (trial, no card, WhatsApp, success). Never swap them, and never add a third accent.
