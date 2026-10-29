@@ -90,6 +90,8 @@ HOME_CSS = (
     ".hb-l{list-style:none;max-width:var(--maxw);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}"
     "@media (max-width:900px){.hb-l{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.hb-l li:nth-child(3){display:none}}"
     "@media (max-width:600px){.hb-l{grid-template-columns:minmax(0,1fr);gap:28px;padding:0 16px}.hb-l li:nth-child(3){display:block}}"
+    "#blog .hb-all-m{display:none}"
+    "@media (max-width:600px){#blog .hb-h>.hb-all{display:none}#blog .hb-all-m{display:flex;width:max-content;margin:20px var(--gut,16px) 0}}"
 )
 
 BLOG_CSS = CARD_CSS + (
@@ -845,7 +847,8 @@ def home_section(html, l, posts):
     sec = (
         f'<section id="blog" class="hb" aria-labelledby="hb-h"><div class="sec-h hb-h rv"><div><p class="eyebrow">{_e(t["name"])}</p>'
         f'<h2 id="hb-h">{_e(t["latest"])}</h2></div><a class="hb-all" href="/{code}/blog/">{_e(t["all"])}<span aria-hidden="true">→</span></a></div>'
-        f'<ul class="hb-l">{"".join(card(p, t, u, None, 1, "h3") for p in posts[:HOME_N])}</ul></section>\n\n'
+        f'<ul class="hb-l">{"".join(card(p, t, u, None, 1, "h3") for p in posts[:HOME_N])}</ul>'
+        f'<a class="hb-all hb-all-m" href="/{code}/blog/">{_e(t["all"])}<span aria-hidden="true">→</span></a></section>\n\n'
     )
     anchor = '<section id="vprasanja"'
     if html.count(anchor) != 1 or html.count("</head>") != 1:
