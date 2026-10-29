@@ -27,9 +27,7 @@ KEYWORD, GREEN = "b1", "b2"
 
 MEASURE = """([cls, px, maxLines]) => {
   const h1 = document.querySelector('.hero h1'), el = h1.querySelector('.' + cls);
-  const lines = () => { const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), tops = new Set(); let n;
-    while ((n = w.nextNode())) { const r = document.createRange(); r.selectNodeContents(n); [...r.getClientRects()].forEach(q => tops.add(Math.round(q.top))); }
-    return tops.size; };
+  const lines = () => { const r = document.createRange(); r.selectNodeContents(el); return new Set([...r.getClientRects()].map(q => Math.round(q.top))).size; };
   let lo = px, hi = px * 40;
   while (hi - lo > 1) { const mid = (lo + hi) / 2; h1.style.width = mid + 'px'; if (lines() <= maxLines) hi = mid; else lo = mid; }
   return hi / px;
