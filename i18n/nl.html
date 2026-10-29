@@ -1255,13 +1255,14 @@ footer .wm:before{content:"WeltScout"}
    comes into view, then every 3.5 s while it stays in view, never after the first hover or focus. The sheen is capped
    so the label keeps 4.5:1 at every frame. Reduced motion, ?still and the motion switch: none */
 .hero .ctas .btn:not(.alt){background-image:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.07) 50%,transparent 58%),linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 62%);background-size:300% 100%,100% 100%;background-position:120% 0,0 0;background-repeat:no-repeat}
-.hero .ctas .btn.blink{animation:ctaSheen .9s var(--ease-out),ctaBump .7s cubic-bezier(.3,0,.3,1)}
-.hero .ctas .btn.blink::before{animation:ctaRing 1.2s cubic-bezier(.2,.6,.35,1)}
+.plan.hl .btn:not(.alt){--ring:#fff;background-image:linear-gradient(110deg,transparent 42%,rgba(0,64,177,.10) 50%,transparent 58%);background-size:300% 100%;background-position:120% 0;background-repeat:no-repeat}
+.btn.blink{animation:ctaSheen .9s var(--ease-out),ctaBump .7s cubic-bezier(.3,0,.3,1)}
+.btn.blink::before{animation:ctaRing 1.2s cubic-bezier(.2,.6,.35,1)}
 @keyframes ctaSheen{from{background-position:120% 0,0 0}to{background-position:-20% 0,0 0}}
 @keyframes ctaBump{0%,100%{transform:none}40%{transform:scale(1.04)}}
-@keyframes ctaRing{from{opacity:1;box-shadow:0 0 0 0 color-mix(in srgb,var(--blue-500) 60%,transparent)}to{opacity:1;box-shadow:0 0 0 16px color-mix(in srgb,var(--blue-500) 0%,transparent)}}
-.still .hero .ctas .btn.blink,.motion-off .hero .ctas .btn.blink,.still .hero .ctas .btn.blink::before,.motion-off .hero .ctas .btn.blink::before{animation:none}
-@media (prefers-reduced-motion:reduce){.hero .ctas .btn.blink,.hero .ctas .btn.blink::before{animation:none}}
+@keyframes ctaRing{from{opacity:1;box-shadow:0 0 0 0 color-mix(in srgb,var(--ring,var(--blue-500)) 60%,transparent)}to{opacity:1;box-shadow:0 0 0 16px color-mix(in srgb,var(--ring,var(--blue-500)) 0%,transparent)}}
+.still .btn.blink,.motion-off .btn.blink,.still .btn.blink::before,.motion-off .btn.blink::before{animation:none}
+@media (prefers-reduced-motion:reduce){.btn.blink,.btn.blink::before{animation:none}}
 /* owner round (29. 10.): a hook line next to the hero button (what WeltScout replaces, how long the setup takes) and
    FAST as its own card in the pricing language: plan-size name, the offer line in price type, a primary button */
 .hero .hook{margin:var(--lead-gap) 0 0;max-width:46ch;font-size:17px;font-weight:600;line-height:1.45;color:var(--tx);text-wrap:pretty;animation:h1in 1s cubic-bezier(.16,1,.3,1) .25s both}
@@ -1781,24 +1782,34 @@ html:not([data-theme="dark"]) .hero h1 .b2 .mark-ok{padding:.07em .32em .03em;ma
     addEventListener("popstate", () => { if (zst === "opening" || zst === "open") zclose(true); });
   }
 
-  /* hero CTA pulse (29. 10.): 0.8 s after the button comes into view, then every 3.5 s while it stays in view; it stops
-     when the button leaves the view or the motion switch is pressed, and for good after the first hover or focus
-     (WCAG 2.2.2). Reduced motion and ?still: none. The other primary buttons only answer hover and press */
-  const hcta = $(".hero .ctas .btn:not(.alt)");
-  if (hcta && !RM && !STILL) {
-    const BLINK_FIRST = 800, BLINK_GAP = 3500;
-    let inView = false, seen = false, bt = 0;
-    const blink = () => { hcta.classList.remove("blink"); void hcta.offsetWidth; hcta.classList.add("blink"); bt = setTimeout(blink, BLINK_GAP); };
-    const blinkSync = () => {
-      if (inView && !seen && !motionOff) { if (!bt) bt = setTimeout(blink, BLINK_FIRST); return; }
-      clearTimeout(bt); bt = 0;
-      if (motionOff) hcta.classList.remove("blink");
+  /* CTA pulse (30. 10.): the hero button and the recommended plan's button share one loop, 0.8 s after a button comes
+     into view and then every 3.5 s; only the one highest in the view pulses. It stops when no pulsing button is in view
+     or the motion switch is pressed, and for a button for good after its first hover or focus (WCAG 2.2.2). Reduced
+     motion and ?still: none. The other primary buttons only answer hover and press */
+  const pulsers = $$(".hero .ctas .btn:not(.alt), .plan.hl .btn:not(.alt)");
+  if (pulsers.length && !RM && !STILL) {
+    const BLINK_FIRST = 800, BLINK_GAP = 3500, seen = new Set(), inView = new Set();
+    let bt = 0, due = null;
+    const pick = () => [...inView].filter(el => !seen.has(el)).sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0];
+    const blink = () => {
+      const el = pick(); bt = 0; if (!el || motionOff) return;
+      pulsers.forEach(o => o !== el && o.classList.remove("blink"));
+      el.classList.remove("blink"); void el.offsetWidth; el.classList.add("blink"); due = el; bt = setTimeout(blink, BLINK_GAP);
     };
-    const blinkSeen = () => { seen = true; blinkSync(); };
-    hcta.addEventListener("pointerenter", blinkSeen, { once: true });
-    hcta.addEventListener("focus", blinkSeen, { once: true });
-    hcta.addEventListener("animationend", e => { if (e.animationName === "ctaRing") hcta.classList.remove("blink"); });
-    new IntersectionObserver(es => { inView = es[0].isIntersecting; blinkSync(); }, { threshold: .6 }).observe(hcta);
+    const blinkSync = () => {
+      const el = pick();
+      if (el && !motionOff) { if (!bt || el !== due) { clearTimeout(bt); due = el; bt = setTimeout(blink, BLINK_FIRST); } return; }
+      clearTimeout(bt); bt = 0; due = null;
+      if (motionOff) pulsers.forEach(el => el.classList.remove("blink"));
+    };
+    pulsers.forEach(el => {
+      const done = () => { seen.add(el); blinkSync(); };
+      el.addEventListener("pointerenter", done, { once: true });
+      el.addEventListener("focus", done, { once: true });
+      el.addEventListener("animationend", e => { if (e.animationName === "ctaRing") el.classList.remove("blink"); });
+    });
+    const pio = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? inView.add(e.target) : inView.delete(e.target)); blinkSync(); }, { threshold: .6 });
+    pulsers.forEach(el => pio.observe(el));
     document.addEventListener("motionchange", blinkSync);
   }
 
