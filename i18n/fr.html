@@ -1225,6 +1225,22 @@ footer .wm:before{content:"WeltScout"}
    then both shrink so it fits two. --fit (em width the keyword line needs) is measured by deploy/h1_fit.py, stored on h1 */
 .hero h1{container-type:inline-size}
 .hero h1 .b1,.hero h1 .b2{font-size:min(1em,calc(100cqi / var(--fit,.01)))}
+/* mobile polish (29. 10.): one rhythm and 44 px targets on phones. A section lead sits --lead-gap under its heading
+   everywhere; on phones the nav logo, burger, tabs, standalone text links and every footer control reach 44 px */
+.split .lead,.contact-wrap .lead{margin-top:var(--lead-gap)}
+@media (max-width:600px){
+  nav .logo{display:inline-flex;align-items:center;min-height:44px}
+  .burger{width:44px;height:44px}
+  .tab{min-height:44px}
+  .also,.nots2 .fast,.after-plans a,#blog .hb-all{min-height:44px}
+  footer .contact a{min-height:44px;margin:0}
+  footer .cols>div:not(.brand) a,footer .cols>div:not(.brand) .ck-open{min-height:44px}
+  footer .langs a{display:inline-flex;align-items:center;min-height:44px}
+  .sw button{min-height:44px}
+  .plan .also{display:flex;align-items:center;width:max-content;max-width:100%;min-height:44px;margin-top:4px}
+  .assure1 a{display:flex;align-items:center;min-height:44px}
+  footer .logo{display:inline-flex;align-items:center;min-height:44px}
+}
 </style>
 </head>
 <body>
