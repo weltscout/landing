@@ -167,7 +167,7 @@ class EdgeScript(unittest.TestCase):
         self.assert_one_hop({"/post/no-such-old-post/": "/sl/", "/en/post/no-such-old-post/": "/en/"})
 
     def test_every_response_carries_hsts(self):
-        for path in ("/", "/sl/", "/en/blog/", "/img/logo-weltscout.svg", "/no/such/page"):
+        for path in ("/", "/sl/", "/en/blog/", "/img/logo-weltscout-c1.svg", "/no/such/page"):
             self.assertRegex(self.expected_headers(path).get("Strict-Transport-Security", ""), r"^max-age=\d+$", path)
 
     def test_unknown_paths_get_the_branded_404_of_their_language(self):

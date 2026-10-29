@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="WeltScout">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="img/favicon.png" type="image/png">
+<link rel="icon" href="img/favicon-c1.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/geist-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="img/hero-eu-poster.jpg" as="image" media="(min-width:601px)" fetchpriority="high">
@@ -1350,6 +1350,11 @@ footer .wm:before{content:"WeltScout"}
 .waph-ph{flex:none;display:grid;place-items:center;width:64px;height:51px;border-radius:5px;background:rgba(11,20,26,.07);color:var(--wa-muted)}
 .waph-ph svg{width:36px;height:18px;fill:currentColor}
 .still .waph-mv,.motion-off .waph-mv{transition:none}
+/* logo C emblem v1.0 (30. 10.): shield + wordmark from brand/c-emblem/final (the transparent horizontal files, viewBox
+   trimmed to the mark); 24px in the nav and footer, 22px under 900px, so the shield stays legible */
+.logo img{height:24px;width:auto}
+footer .logo img{height:26px}
+@media (max-width:900px){.logo img{height:22px}footer .logo img{height:24px}}
 </style>
 </head>
 <body>
@@ -1357,7 +1362,7 @@ footer .wm:before{content:"WeltScout"}
 <aside class="banner" aria-label="Test"><a href="{{APP}}"><span class="sr">7 Tage kostenlos, ohne Einschränkungen. WhatsApp in jedem Paket. Bis zu 29 Portale in 14 Ländern. </span><span class="annc" aria-hidden="true"><b class="on">7 Tage kostenlos, ohne Einschränkungen</b><b>WhatsApp in jedem Paket</b><b>Bis zu 29 Portale in 14 Ländern</b></span><span class="nocard">Ohne Kreditkarte</span><span class="go">Jetzt starten<span aria-hidden="true">→</span></span></a><button class="bp" type="button" aria-pressed="false" aria-label="Bewegung anhalten" hidden><svg class="ip" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z"/></svg><svg class="iy" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5 13 8l-8 5.5z"/></svg></button></aside>
 <nav aria-label="Hauptnavigation">
   <div class="nav-in">
-    <a class="logo" href="/de/"><img class="lg-l" src="img/logo-weltscout.svg" width="120" height="20" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-dark.svg" width="143" height="24" alt="WeltScout"></a>
+    <a class="logo" href="/de/"><img class="lg-l" src="img/logo-weltscout-c1.svg" width="121" height="24" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-c1-dark.svg" width="121" height="24" alt="WeltScout"></a>
     <div class="links"><a href="#kako">So funktioniert’s</a><a href="#stranke">Für Händler</a><a href="#cenik">Preise</a></div>
     <div class="right"><div class="lang"><button class="lang-b" type="button" aria-expanded="false" aria-controls="langm" aria-label="Sprache: Deutsch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg><span>DE</span><svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><ul class="lang-m" id="langm" hidden><li><a href="/sl/" hreflang="sl" lang="sl"><b>SL</b>Slovenščina</a></li><li><a href="/hr/" hreflang="hr" lang="hr"><b>HR</b>Hrvatski</a></li><li><a href="/en/" hreflang="en" lang="en"><b>EN</b>English</a></li><li><a href="/de/" hreflang="de" lang="de" aria-current="page"><b>DE</b>Deutsch</a></li></ul></div><a class="login" href="{{APP}}">Anmelden</a><a class="btn" href="{{APP}}">Kostenlos testen</a><button class="burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Menü öffnen"><span></span><span></span></button></div>
   </div>
@@ -1592,7 +1597,7 @@ footer .wm:before{content:"WeltScout"}
 <footer>
   <div class="in">
   <div class="cols">
-    <div class="brand"><a class="logo" href="/de/"><img class="lg-l" src="img/logo-weltscout.svg" width="120" height="20" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-dark.svg" width="143" height="24" alt="WeltScout"></a>
+    <div class="brand"><a class="logo" href="/de/"><img class="lg-l" src="img/logo-weltscout-c1.svg" width="121" height="24" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-c1-dark.svg" width="121" height="24" alt="WeltScout"></a>
       <p>Gebrauchtwagensuche auf nationalen und europäischen Portalen, für Händler und Vermittler.</p>
       <div class="contact"><a href="mailto:info@weltscout.com">info@weltscout.com</a></div>
       {{SOCIAL}}
