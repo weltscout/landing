@@ -1502,6 +1502,9 @@ details.fold>summary::-webkit-details-marker{display:none}
 /* below 357 px the trial card's "brezplačno" (sl, 24 px) no longer fits half the width, so the facts stack */
 @media (max-width:356px){.facts.spec{grid-template-columns:minmax(0,1fr)}}
 @media (prefers-reduced-motion:reduce){.facts.spec>div::after{transition:none}}
+
+/* "Za trgovce" on phones (owner, 29. 10.): the text, CTA and bento cards carry the section; the photo is for wider screens */
+@media (max-width:600px){.split>figure{display:none}}
 </style>
 </head>
 <body>
