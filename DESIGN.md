@@ -279,6 +279,7 @@ Tactile and calm: a pill that changes colour, never jumps.
 
 ### Cards / Containers
 - **Folds on phones:** `<details class="fold">`, closed in the HTML. On phones it is an accordion row (44 px, chevron); from 601 px its content shows through `::details-content` and the script marks it open, so desktop looks the same and nothing moves on load. Used for the "česa ne delamo" explanations (the answer stays visible as the summary), the country list (its own label and count) and the notes under the plans.
+- **Shorter lists on phones:** the proof shows 2 of its 4 results and a "Pokaži vse (4)" button (44 px, `aria-expanded`, "Pokaži manj" when open), present in the HTML from the start and hidden from 601 px and without JS. The blog teaser shows 2 cards; "Vsi članki" is under its heading.
 - **Carousels on phones:** the bento cards and blog guides are swipe carousels (82% cards, snap to centre) with the next card peeking. `.car-dots` under them (decorative, `aria-hidden`) show the count and the card in view; the region itself stays focusable and scrollable.
 - **Corner Style:** one scale. Full pill for buttons, chips and the segmented control; 24px for every standalone card, the nav bar, the hero app frame and the mobile menu; 16px for nested panels and media inside cards; 12px for small things (fields, screenshots inside panels, flag tiles, the skip link); 32px for full-width bands (24px under 900 px).
 - **Background:** Surface on the light page, Dark Surface in dark theme.
