@@ -227,6 +227,7 @@ A cool, light palette: navy ink on pale grey, with one blue that acts and one gr
 - **Title** (600, 20 to 30px, 1.2, −0.02em): card titles, plan names (20px), tab panel heading (30px).
 - **Lead** (400, 19px, 1.6, max 58ch, pretty wrap; the hero lead is 17px on phones): the line under a heading.
 - **Body** (400, 17px, 1.6): running text; keep lines under 75ch.
+- **Phones (up to 600 px):** notes are 14 px in the secondary ink (`--tx2`), no label is under 13 px, and the hero lede is 16 px / 1.5, so that both hero buttons end above the cookie bar on a 664 px iPhone viewport.
 - **Label** (600, 13 to 14px, sentence case): eyebrows in accent blue, card labels in muted ink. Small print is 13px muted ink.
 - **Fallback while Geist loads:** every stack is `Geist, 'Geist Fallback', …`. "Geist Fallback" is local Arial (weights up to 500) and Arial Bold (550 and up), with `size-adjust` and ascent/descent overrides computed from Geist's metrics, so a late font barely moves the layout. With the font held back 1.2 s, the layout shift over 7 languages at 390 and 1440 px fell from 0.0215 to 0.0041 in total (largest single case 0.0033). Android has no Arial and keeps the system font. Only `font-display: optional` would make this exactly 0, and that would keep the fallback for the whole first visit on a slow connection.
 

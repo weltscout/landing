@@ -1398,6 +1398,22 @@ nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
   .car-dots i{width:7px;height:7px;border-radius:50%;background:var(--line3);transition:background-color .25s,transform .25s var(--ease-out)}
   .car-dots i.on{background:var(--acc);transform:scale(1.3)}
 }
+
+/* phone text floor (29. 10.): on phones notes are 14 px in the secondary ink (not 13 px in the muted one), and
+   no label is under 13 px */
+@media (max-width:600px){
+  p.note,.note{font-size:14px;line-height:1.55;color:var(--tx2)}
+  .hero .stage .motion{font-size:14px}
+  #vprasanja .st,.plan em,.bill em{font-size:13px}
+}
+
+/* first screen on phones (29. 10.): both hero buttons end above the cookie bar on a 664 px iPhone viewport, so no
+   button is hidden under it before consent: the lede is 16 px, the buttons sit closer, the secondary one is 48 px */
+@media (max-width:600px){
+  .hero .lead{font-size:16px;line-height:1.5}
+  .hero .ctas{margin-top:16px;gap:8px}
+  .hero .ctas .btn.alt{--h:48px}
+}
 </style>
 </head>
 <body>
