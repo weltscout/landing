@@ -1584,6 +1584,13 @@ details.fold>summary::-webkit-details-marker{display:none}
   footer .brand p{margin-top:0}
   footer .wm{margin-top:12px}
 }
+/* no scroll reveal on phones (30. 10.): the fade waited for 20 % of a block to be on screen, so a tall block (the
+   886 px contact form) stayed blank for up to its first 177 px, and the facts stagger kept the last card faded for up to
+   0.86 s while the visitor was reading it. The motion that carries meaning stays: the hero demo, the tabs, the
+   strike-through in "česa ne delamo" (it still keys on .in) */
+@media (max-width:600px){
+  .js .rv,.js [data-anim].blur{opacity:1;transform:none;filter:none}
+}
 </style>
 </head>
 <body>
