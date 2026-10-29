@@ -1286,6 +1286,8 @@ footer .wm:before{content:"WeltScout"}
    below 1200 the hero is one column and the row fits from 601 px. The demo button reads play icon, label, duration */
 .hero .ctas .btn.alt svg{flex:none}
 .hero .ctas .btn.alt .dur{font-weight:500;color:var(--tx2)}
+/* the hidden fields leave the flow with visibility + position, not display:none: WebKit re-lays a flex fieldset 22px taller
+   after display:none, so "Uredi sporočilo" would grow the form (30. 10.) */
 /* contact form (29. 10.): sending shows a spinner in the disabled button; success replaces the fields with a confirmation
    in the same card, held at the card's height, so nothing below moves: a green check draws itself (circle 0.45 s, tick
    0.3 s) with one soft ring, the heading takes focus and a live region reads the reply line. Failure (30. 10.): the same
@@ -1298,7 +1300,7 @@ footer .wm:before{content:"WeltScout"}
 .cform .btn:disabled{cursor:progress;opacity:1}
 @keyframes cfSpin{to{transform:rotate(360deg)}}
 .cform:is(.is-sent,.is-failed){justify-content:center}
-.cform.is-sent>:not(.done):not(#cf-live),.cform.is-failed>:not(.fail):not(#cf-live){display:none}
+.cform.is-sent>:not(.done):not(#cf-live),.cform.is-failed>:not(.fail):not(#cf-live){position:absolute;visibility:hidden;pointer-events:none}
 .cform :is(.done,.fail){display:flex;flex-direction:column;align-items:center;gap:0;padding:12px 0;background:none;border-radius:0;text-align:center;animation:cfIn .4s var(--ease-out) both}
 .cform .done .ok-ic{position:relative;display:grid;place-items:center;width:88px;height:88px;border-radius:50%;background:color-mix(in srgb,var(--ok) 12%,transparent)}
 .cform .done .ok-ic::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 40%,transparent);animation:cfRing 1s ease-out .55s both}
