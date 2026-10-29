@@ -186,7 +186,7 @@ A cool, light palette: navy ink on pale grey, with one blue that acts and one gr
 
 ### Primary
 - **Plan Blue** (#0055DC): every primary button, accent text (eyebrows, links, plan names), the Business + card gradient start, the top announcement bar. In dark theme accent text switches to Dark Accent; buttons stay Plan Blue.
-- **Bright Blue** (#0066FF): hover state of primary buttons only. Colour lifts on hover; position never does.
+- **Bright Blue** (#0066FF): hover state of primary buttons only. Colour lifts on hover; position never does. The one other place it appears is inside the logo artwork ("Welt" and the favicon square), which is the mark's own colour, not a page colour.
 - **Deep Blue** (#0040B1): pressed primary buttons, and text on white buttons placed on coloured surfaces.
 - **Plan Indigo** (#504EC9): end of the Business + gradient (160deg from Plan Blue). Used nowhere else.
 
@@ -289,6 +289,12 @@ Tactile and calm: a pill that changes colour, never jumps.
 - **Sending:** the submit button is disabled with a 16px spinner and "Pošiljam …"; one request at a time (a second submit is ignored).
 - **Sent:** the fields give way to a confirmation in the same card, held at the card's height so nothing below moves: a green check in a 12% Trial Green disc draws itself (circle 0.45 s, tick 0.3 s) with one soft ring, the heading "Sporočilo je poslano." (clamp(26px, 2.4vw, 34px)) takes focus, the reply line names the channel and the address the visitor typed (no reply time: no page promises one), then "Medtem preizkusi brezplačno" (primary) and "Pošlji novo sporočilo" (secondary, resets the form and returns focus to the first field). A live region reads the reply line. Reduced motion, `?still` and the motion switch show the check already drawn.
 - **Send failed:** the same card in red at the same held height, so nothing below moves on failure either: an alert icon in a 10% red disc, the heading "Sporočila ni bilo mogoče poslati." takes focus (`role="alert"`), the text says the message is still in the form and offers info@weltscout.com, then "Poskusi znova" (primary, sends the same values again with the spinner) and "Uredi sporočilo" (secondary, brings back the filled fields and focuses the message). The e-mail field carries the server's own pattern, so an address the server would refuse is caught in the field first. Red is `--fail` on the form (#B42318 light, #FDA29B dark, the inline error colours).
+
+### Logo
+- **Wordmark only** (D56): "WeltScout" with "Welt" in Bright Blue and "Scout" in black (white in dark theme). There is no emblem; the shield C is retired. Files: `logo-weltscout-t2.svg` and `logo-weltscout-t2-dark.svg`, `alt="WeltScout"`.
+- **Sharp edge:** one filled path per colour, with a hairline stroke in the same colour, no masks, coordinates to two decimals, `shape-rendering="geometricPrecision"`. The viewBox is 120 × 20, and the logo is only ever shown at whole-pixel sizes in that 6:1 ratio: 20 px high in the nav, 18 px under 900 px, 24 px in the footer. Never use `transform: scale` or a fractional height on the logo; that is what made the old export's edge look jagged.
+- **Icons:** `favicon-t2.svg` is the wordmark's own W in white on a Bright Blue square (radius 7 of 32), with a 48 px PNG fallback. The apple-touch icon and the JSON-LD logo keep the earlier WS monogram (`apple-touch-icon-t2.png`, `logo-square-t2-512.png`).
+- **File names:** every change to the logo gets new file names, because the CDN caches images under their names.
 
 ### Navigation
 - **Top bar:** full-width Plan Blue band with the trial offer, a mint "Brez kartice" pill and an underlined "Začni zdaj →" link; rotates messages and has a pause control.

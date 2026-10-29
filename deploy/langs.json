@@ -5,7 +5,7 @@
   "org": {
     "legalName": "WeltScout d.o.o.",
     "companyRegistrationNo": "9450670000",
-    "logo": "/img/logo-square-512.png",
+    "logo": "/img/logo-square-t2-512.png",
     "sameAs": [
       "https://www.instagram.com/weltscout/",
       "https://www.facebook.com/profile.php?id=61569940130408",
@@ -14,8 +14,9 @@
     ]
   },
   "icons": {
-    "icon": "/img/favicon-48.png",
-    "appleTouch": "/img/apple-touch-icon.png"
+    "svg": "/img/favicon-t2.svg",
+    "icon": "/img/favicon-t2-48.png",
+    "appleTouch": "/img/apple-touch-icon-t2.png"
   },
   "analytics": {
     "ga4": "G-CDWDYSCQN4"
