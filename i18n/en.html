@@ -1340,6 +1340,16 @@ footer .wm:before{content:"WeltScout"}
 /* the card's two soft circles sit at the bottom here, so the mint word has the plain gradient behind it */
 .facts.spec>div.hl:nth-child(n){background:radial-gradient(circle at 92% 96%,rgba(255,255,255,.1) 0 70px,transparent 71px),radial-gradient(circle at 74% 100%,rgba(255,255,255,.05) 0 110px,transparent 111px),linear-gradient(160deg,var(--blue-600),var(--indigo-600))}
 @media (max-width:340px){.facts.spec{grid-template-columns:minmax(0,1fr)}}
+/* hero WhatsApp loop (30. 10.): new alerts sit absolutely in the clipped chat and move by transform only, so the phone
+   and the hero never change size; the "Primer obvestila" pill stays on top of the bubbles moving under it */
+.waph-chat{position:relative;overflow:hidden}
+.waph-chat .waph-pill{position:relative;z-index:2}
+.waph-grp{position:absolute;left:8px;right:8px;bottom:12px}
+.waph-grp .waph-msg,.waph-grp .waph-btn{animation:none}
+.waph-mv{transition:transform .42s var(--ease-out),opacity .42s var(--ease-out)}
+.waph-ph{flex:none;display:grid;place-items:center;width:64px;height:51px;border-radius:5px;background:rgba(11,20,26,.07);color:var(--wa-muted)}
+.waph-ph svg{width:36px;height:18px;fill:currentColor}
+.still .waph-mv,.motion-off .waph-mv{transition:none}
 </style>
 </head>
 <body>
@@ -1366,7 +1376,7 @@ footer .wm:before{content:"WeltScout"}
       <div class="offer"><ul class="offer-pts" role="list"><li class="nocard">7 days free</li><li class="nocard">No card needed</li><li class="from">Then from €129.90 a month.</li></ul><p class="offer-if">Full access once you add your company and an alert channel at sign-up.</p></div>
     </div>
     <div class="stage">
-      <div class="duo"><button class="zoom" type="button" aria-haspopup="dialog" aria-label="Enlarge the app recording and the WhatsApp alert"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="frame"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>app.weltscout.com</span></div><video class="hero-vid" muted loop playsinline preload="none" aria-label="Recording of the WeltScout app, 27 October 2026: setting up a search with 10 filters, choosing 11 portals, counting 854 results and the results list with portals"><source media="(max-width:600px)" src="img/hero-eu-tall.mp4" type="video/mp4"><source src="img/hero-eu-wide.mp4" type="video/mp4"></video></div><div class="waph" role="group" aria-label="Example WhatsApp alert"><div class="waph-scr"><div class="waph-sb" aria-hidden="true"><span>08:05</span><i class="waph-island"></i><span class="waph-ic"><svg viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg viewBox="0 0 15 11"><path d="M7.5 2.2c2.3 0 4.4.9 6 2.4l1.2-1.3A10.4 10.4 0 0 0 .3 3.3l1.2 1.3a8.6 8.6 0 0 1 6-2.4zm0 3.4c1.4 0 2.6.5 3.6 1.4l1.2-1.3a7 7 0 0 0-9.6 0L3.9 7c1-.9 2.2-1.4 3.6-1.4zM7.5 9 9.6 6.9a3 3 0 0 0-4.2 0z"/></svg><svg viewBox="0 0 25 11"><rect x=".5" y=".5" width="21" height="10" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="15" height="7" rx="1.6"/><path d="M23 3.6v3.8c.8-.3 1.3-1 1.3-1.9s-.5-1.6-1.3-1.9z" opacity=".45"/></svg></span></div><div class="waph-top" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span class="waph-av">W</span><b>WeltScout</b><span class="waph-icons"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="12" height="10" rx="2"/><path d="M15 11l6-3v8l-6-3"/></svg><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2"/></svg></span></div><div class="waph-chat"><p class="waph-pill">Example alert</p><div class="waph-msg"><p class="waph-h">New listing for your search “Audi A4 Avant TDI 2019+”</p><div class="waph-card"><img src="img/wa-listing-a4.webp" width="64" height="51" alt="" decoding="async"><div class="waph-cd"><p class="waph-t" lang="de">Audi A4 Avant Advanced 35 TDI S tronic AHK Black Navi</p><p class="waph-dom">mobile.de</p></div></div><p class="waph-m"><span>2023</span> · <span>70,500 km</span> · <span>120 kW</span></p><p class="waph-p">€24,840</p><p class="waph-s"><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">mobile.de, Germany</p><span class="waph-tm" aria-hidden="true">08:05</span></div><p class="waph-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Open listing</p></div></div></div></div>
+      <div class="duo"><button class="zoom" type="button" aria-haspopup="dialog" aria-label="Enlarge the app recording"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="frame"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>app.weltscout.com</span></div><video class="hero-vid" muted loop playsinline preload="none" aria-label="Recording of the WeltScout app, 27 October 2026: setting up a search with 10 filters, choosing 11 portals, counting 854 results and the results list with portals"><source media="(max-width:600px)" src="img/hero-eu-tall.mp4" type="video/mp4"><source src="img/hero-eu-wide.mp4" type="video/mp4"></video></div><div class="waph" role="group" aria-label="Example WhatsApp alert"><div class="waph-scr"><div class="waph-sb" aria-hidden="true"><span>08:05</span><i class="waph-island"></i><span class="waph-ic"><svg viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg viewBox="0 0 15 11"><path d="M7.5 2.2c2.3 0 4.4.9 6 2.4l1.2-1.3A10.4 10.4 0 0 0 .3 3.3l1.2 1.3a8.6 8.6 0 0 1 6-2.4zm0 3.4c1.4 0 2.6.5 3.6 1.4l1.2-1.3a7 7 0 0 0-9.6 0L3.9 7c1-.9 2.2-1.4 3.6-1.4zM7.5 9 9.6 6.9a3 3 0 0 0-4.2 0z"/></svg><svg viewBox="0 0 25 11"><rect x=".5" y=".5" width="21" height="10" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="15" height="7" rx="1.6"/><path d="M23 3.6v3.8c.8-.3 1.3-1 1.3-1.9s-.5-1.6-1.3-1.9z" opacity=".45"/></svg></span></div><div class="waph-top" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span class="waph-av">W</span><b>WeltScout</b><span class="waph-icons"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="12" height="10" rx="2"/><path d="M15 11l6-3v8l-6-3"/></svg><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2"/></svg></span></div><div class="waph-chat"><p class="waph-pill">Example alert</p><div class="waph-msg"><p class="waph-h">New listing for your search “Audi A4 Avant TDI 2019+”</p><div class="waph-card"><img src="img/wa-listing-a4.webp" width="64" height="51" alt="" decoding="async"><div class="waph-cd"><p class="waph-t" lang="de">Audi A4 Avant Advanced 35 TDI S tronic AHK Black Navi</p><p class="waph-dom">mobile.de</p></div></div><p class="waph-m"><span>2023</span> · <span>70,500 km</span> · <span>120 kW</span></p><p class="waph-p">€24,840</p><p class="waph-s"><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">mobile.de, Germany</p><span class="waph-tm" aria-hidden="true">08:05</span></div><p class="waph-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Open listing</p></div></div></div></div>
       <div class="sheet" id="app" role="img" aria-label="The WeltScout app as recorded on 17 October 2026: a recurring search for an Octavia Combi up to €20,000 and 150,000 km, across a Croatian, a German and an Austrian portal. 2,126 results in 20 seconds; the Croatian portal has finished, while the German and Austrian ones are still searching. An example WhatsApp notification about new listings." data-secs="20">
         <span class="sh-proof">Recorded 17 Oct 2026<i class="sep"></i><b id="wtime">20 s</b></span>
         <div class="sh-head"><p class="sh-title">Octavia Combi do 20.000 €</p><p class="sh-meta"><span class="mc"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a5 5 0 0 1 8.6-3.4L13 5M13 2v3h-3M13 9a5 5 0 0 1-8.6 3.4L3 11M3 14v-3h3"/></svg>Recurring</span><span class="mc for">Business inventory</span><span class="ms"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.4"/></svg>Checks for new listings on your plan’s schedule</span></p></div>
@@ -1376,7 +1386,7 @@ footer .wm:before{content:"WeltScout"}
         <div class="sh-list"><div class="tabs"><span class="tb on">All <b>999+</b></span><span class="tb">Unread <b>0</b></span></div><div class="hits"><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi 2.0 TDI DSG Clever Navi AHK</div><div class="m">2023 · 92,413 km · 110 HP</div></div><div class="p">€18,499<small>now</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style 2.0 TDI LED/APP/AHK</div><div class="m">2023 · 150,000 km · 150 HP</div></div><div class="p">€15,990<small>now</small></div></div><div class="hit"><em class="cc"><img class="flag" src="img/flags/de.webp" alt="" width="16" height="12">DE</em><div style="min-width:0"><div class="t" lang="de">Skoda Octavia Combi Style</div><div class="m">2023 · 134,924 km · 110 HP</div></div><div class="p">€17,499<small>now</small></div></div></div></div>
         <div class="ping" id="wa"><div class="ping-h"><b>✓</b>WhatsApp · WeltScout<span class="tm">example</span></div><p><b>New listings for your search ‘Octavia Combi do 20.000 €’</b><br>Škoda Octavia Combi 2.0 TDI DSG, 2023, 92,413 km<br><span class="pr">€18,499</span></p></div>
       </div>
-      <dialog class="lb" aria-modal="true" aria-label="Enlarged app recording and WhatsApp alert"><div class="lb-bg"></div><div class="lb-m"></div><button class="lb-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></dialog>
+      <dialog class="lb" aria-modal="true" aria-label="Enlarged app recording"><div class="lb-bg"></div><div class="lb-m"></div><button class="lb-x" type="button" aria-label="Close"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></dialog>
       <p class="note mock-note">Real app recording, 27 October 2026, in excerpts: data entry is sped up, the result count is not. The WhatsApp message is an example using one of the results.</p>
       <button class="motion" type="button" aria-pressed="false">Pause motion</button>
     </div>
@@ -1731,13 +1741,14 @@ footer .wm:before{content:"WeltScout"}
     }
   }
 
-  /* hero zoom (28. 10.): a copy of the hero visual (on phones only the app frame) opens in a modal dialog, growing from its
-     own box to the centre and shrinking back on close (X, Esc, the veil, the browser's back button); a close during the
-     opening reverses from wherever it is; reduced motion, ?still and the motion switch only fade */
+  /* hero zoom (28. 10., 30. 10.): a copy of the app frame only (the WhatsApp phone stays in the page) opens in a modal
+     dialog, growing from the frame to the centre in 600 ms and shrinking back into it in 450 ms on close (X, Esc, the veil,
+     the browser's back button); the recording carries on from the same moment both ways; a close during the opening
+     reverses from wherever it is; reduced motion, ?still and the motion switch only fade */
   const zduo = $(".hero .duo"), zdlg = $(".hero .lb");
   if (zduo && zdlg && zdlg.showModal) {
     const zbtn = zduo.querySelector(".zoom"), zm = zdlg.querySelector(".lb-m"), zbg = zdlg.querySelector(".lb-bg"), zx = zdlg.querySelector(".lb-x");
-    const ZMS = 400, ZEASE = "cubic-bezier(.16,1,.3,1)", calm = () => RM || STILL || motionOff, small = () => innerWidth <= 600 || innerHeight <= 600;
+    const ZOPEN = 600, ZCLOSE = 450, ZEASE = "cubic-bezier(.16,1,.3,1)", calm = () => RM || STILL || motionOff, small = () => innerWidth <= 600 || innerHeight <= 600;
     let zc = null, zsrc = null, zst = "closed", zpad = "", zpushed = false;
     const zbox = el => { const d = el.getBoundingClientRect(), rs = [d, ...[...el.children].filter(e => e !== zbtn).map(e => e.getBoundingClientRect())];
       const l = Math.min(...rs.map(r => r.left)), t = Math.min(...rs.map(r => r.top));
@@ -1750,19 +1761,21 @@ footer .wm:before{content:"WeltScout"}
     const stopAll = () => [zm, zbg, zdlg].forEach(e => e.getAnimations().forEach(a => a.cancel()));
     const zopen = () => {
       if (zst !== "closed") return; zst = "opening";
-      zsrc = small() ? zduo.querySelector(".frame") : zduo;
+      zsrc = zduo.querySelector(".frame");
       const b = zbox(zsrc), ov = zduo.querySelector("video");
       zc = zsrc.cloneNode(true); const zb = zc.querySelector(".zoom"); if (zb) zb.remove(); zc.querySelectorAll("[id]").forEach(e => e.removeAttribute("id"));
       zm.style.width = zsrc.offsetWidth + "px"; zm.replaceChildren(zc);
       const cv = zc.querySelector("video");
-      if (cv && ov) { cv.muted = true; cv.tabIndex = -1; if (ov.readyState) cv.currentTime = ov.currentTime; if (!ov.paused) cv.play().catch(() => {}); }
+      const zplay = !!(cv && ov && !ov.paused);
+      if (cv && ov) { const t0 = ov.currentTime; cv.muted = true; cv.tabIndex = -1; cv.preload = "auto";
+        cv.addEventListener("loadedmetadata", () => { cv.currentTime = t0; }, { once: true }); cv.load(); }
       const sbw = innerWidth - root.clientWidth; zpad = root.style.paddingRight; root.style.overflow = "hidden"; if (sbw) root.style.paddingRight = sbw + "px";
-      zdlg.showModal(); zx.focus(); zsrc.style.visibility = "hidden"; zm.style.transform = zto(b);
+      zdlg.showModal(); zx.focus(); zsrc.style.visibility = "hidden"; if (zplay) cv.play().catch(() => {}); zm.style.transform = zto(b);
       if (!(history.state && history.state.wsZoom)) { history.pushState({ wsZoom: 1 }, ""); zpushed = true; }
       const done = () => { if (zst === "opening") zst = "open"; };
       if (calm()) { zdlg.animate({ opacity: [0, 1] }, { duration: 200 }).onfinish = done; return; }
-      zbg.animate({ opacity: [0, 1] }, { duration: ZMS, easing: "ease-out" });
-      zm.animate({ transform: [zfrom(b), zto(b)] }, { duration: ZMS, easing: ZEASE }).onfinish = done;
+      zbg.animate({ opacity: [0, 1] }, { duration: ZOPEN, easing: "ease-out" });
+      zm.animate({ transform: [zfrom(b), zto(b)] }, { duration: ZOPEN, easing: ZEASE }).onfinish = done;
     };
     const zclose = fromPop => {
       if (zst === "closed" || zst === "closing") return;
@@ -1775,14 +1788,54 @@ footer .wm:before{content:"WeltScout"}
       const fin = () => { stopAll(); zdlg.close(); zsrc.style.visibility = ""; root.style.overflow = ""; root.style.paddingRight = zpad; zm.replaceChildren(); zm.style.transform = ""; zc = null; zst = "closed"; zbtn.focus({ preventScroll: true }); };
       if (calm()) { zdlg.animate({ opacity: [dlo, 0] }, { duration: 200, fill: "forwards" }).onfinish = fin; return; }
       const b = zbox(zsrc);
-      zbg.animate({ opacity: [bgo, 0] }, { duration: ZMS, easing: "ease-in", fill: "forwards" });
-      zm.animate({ transform: [cur, zfrom(b)] }, { duration: ZMS, easing: ZEASE, fill: "forwards" }).onfinish = fin;
+      zbg.animate({ opacity: [bgo, 0] }, { duration: ZCLOSE, easing: "ease-in", fill: "forwards" });
+      zm.animate({ transform: [cur, zfrom(b)] }, { duration: ZCLOSE, easing: ZEASE, fill: "forwards" }).onfinish = fin;
     };
     zduo.addEventListener("click", () => zopen());
     zx.addEventListener("click", () => zclose());
     zbg.addEventListener("click", () => zclose());
     zdlg.addEventListener("cancel", e => { e.preventDefault(); zclose(); });
     addEventListener("popstate", () => { if (zst === "opening" || zst === "open") zclose(true); });
+  }
+
+  /* WhatsApp loop (30. 10.): every 3.8 s the next of the proof receipt's four real hits arrives in the hero phone as a
+     new alert; the older bubbles move up (transform only) and leave at the top of the clipped chat, at most three stay.
+     The data is read from the receipt (one source); only the mobile.de car has a real photo, the others show a neutral
+     car mark. The copies are aria-hidden. Stops with the motion switch and while the phone is out of view; reduced motion
+     and ?still keep the first alert */
+  const wchat = $(".hero .waph-chat"), whits = $$("#dokaz .hits2 li");
+  if (wchat && whits.length > 1 && !RM && !STILL) {
+    const WGAP = 3800, WSTEP = 8, WKEEP = 3;
+    const tmsg = wchat.querySelector(".waph-msg"), tbtn = wchat.querySelector(".waph-btn"), tt = tmsg.querySelector(".waph-t").textContent.trim();
+    const tm0 = tmsg.cloneNode(true), tb0 = tbtn.cloneNode(true);
+    const CAR = '<svg viewBox="0 0 48 24" aria-hidden="true"><path d="M5 17v-3.4l3.6-6.2A4 4 0 0 1 12 5.5h18.2a4 4 0 0 1 3 1.4l4.6 5.1 5 1.2A3 3 0 0 1 45 16v1h-3.1a4.5 4.5 0 0 0-8.8 0H15.9a4.5 4.5 0 0 0-8.8 0z"/><circle cx="11.5" cy="18" r="3.3"/><circle cx="37.5" cy="18" r="3.3"/></svg>';
+    const groups = [{ els: [tmsg, tbtn], off: 0 }];
+    let wi = Math.max(0, [...whits].findIndex(li => li.querySelector(".t").textContent.trim() === tt)), wt = 0, wvis = false;
+    const bubble = li => {
+      const g = document.createElement("div"), m = tm0.cloneNode(true), bt = tb0.cloneNode(true), t = li.querySelector(".t"), src = li.querySelector(".s").textContent.trim();
+      g.className = "waph-grp"; g.setAttribute("aria-hidden", "true");
+      const mt = m.querySelector(".waph-t"); mt.textContent = t.textContent; if (t.lang) mt.lang = t.lang;
+      m.querySelector(".waph-dom").textContent = src.split(",")[0];
+      m.querySelector(".waph-m").innerHTML = li.querySelector(".m").innerHTML;
+      m.querySelector(".waph-p").textContent = li.querySelector(".p").textContent;
+      m.querySelector(".waph-s").replaceChildren(li.querySelector("img.fl").cloneNode(), document.createTextNode(src));
+      if (t.textContent.trim() !== tt) { const ph = document.createElement("span"); ph.className = "waph-ph"; ph.innerHTML = CAR; m.querySelector(".waph-card img").replaceWith(ph); }
+      g.append(m, bt); return g;
+    };
+    const step = () => {
+      wt = 0; if (motionOff || !wvis) return;
+      wi = (wi + 1) % whits.length;
+      const g = bubble(whits[wi]); g.style.opacity = "0"; g.style.transform = "translateY(18px)"; wchat.append(g);
+      const h = g.offsetHeight + WSTEP;
+      groups.forEach(o => { o.off += h; o.els.forEach(e => { e.classList.add("waph-mv"); e.style.transform = `translateY(${-o.off}px)`; }); });
+      requestAnimationFrame(() => { g.classList.add("waph-mv"); g.style.opacity = ""; g.style.transform = ""; });
+      groups.push({ els: [g], off: 0 });
+      while (groups.length > WKEEP) { const o = groups.shift(); if (o.els[0] !== tmsg) setTimeout(() => o.els.forEach(e => e.remove()), 500); }
+      wt = setTimeout(step, WGAP);
+    };
+    const wsync = () => { if (wvis && !motionOff) { if (!wt) wt = setTimeout(step, WGAP); } else { clearTimeout(wt); wt = 0; } };
+    new IntersectionObserver(es => { wvis = es[0].isIntersecting; wsync(); }, { threshold: .25 }).observe(wchat);
+    document.addEventListener("motionchange", wsync);
   }
 
   /* CTA pulse (30. 10.): the hero button and the recommended plan's button share one loop, 0.8 s after a button comes
