@@ -1285,37 +1285,37 @@ footer .wm:before{content:"WeltScout"}
 .hero .ctas .btn.alt .dur{font-weight:500;color:var(--tx2)}
 /* contact form (29. 10.): sending shows a spinner in the disabled button; success replaces the fields with a confirmation
    in the same card, held at the card's height, so nothing below moves: a green check draws itself (circle 0.45 s, tick
-   0.3 s) with one soft ring, the heading takes focus and a live region reads the reply line. Failure keeps every field,
-   shows a red-tinted notice with an alert icon above the button, which now says "Poskusi znova". Reduced motion, ?still and the motion
-   switch: the check is drawn from the start, no ring, no spin */
+   0.3 s) with one soft ring, the heading takes focus and a live region reads the reply line. Failure (30. 10.): the same
+   card in red at the same held height, so nothing below moves either: alert icon, heading (focus), the text stays in the
+   form, "Poskusi znova" sends the same values again, "Uredi sporočilo" brings the filled fields back. Reduced motion,
+   ?still and the motion switch: the check is drawn from the start, no ring, no spin */
 .cform{--fail:#B42318}
 [data-theme="dark"] .cform{--fail:#FDA29B}
 .cform .btn.busy::before{content:"";flex:none;width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:cfSpin .7s linear infinite}
 .cform .btn:disabled{cursor:progress;opacity:1}
 @keyframes cfSpin{to{transform:rotate(360deg)}}
-.cform.is-sent{justify-content:center}
-.cform.is-sent>:not(.done):not(#cf-live){display:none}
-.cform .done{display:flex;flex-direction:column;align-items:center;gap:0;padding:12px 0;background:none;border-radius:0;text-align:center;animation:cfIn .4s var(--ease-out) both}
+.cform:is(.is-sent,.is-failed){justify-content:center}
+.cform.is-sent>:not(.done):not(#cf-live),.cform.is-failed>:not(.fail):not(#cf-live){display:none}
+.cform :is(.done,.fail){display:flex;flex-direction:column;align-items:center;gap:0;padding:12px 0;background:none;border-radius:0;text-align:center;animation:cfIn .4s var(--ease-out) both}
 .cform .done .ok-ic{position:relative;display:grid;place-items:center;width:88px;height:88px;border-radius:50%;background:color-mix(in srgb,var(--ok) 12%,transparent)}
 .cform .done .ok-ic::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 40%,transparent);animation:cfRing 1s ease-out .55s both}
 .cform .done svg{overflow:visible;fill:none;stroke:var(--ok);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
 .cform .done circle{stroke-width:2.5;stroke-dasharray:151;animation:cfDraw .45s var(--ease-out) both}
 .cform .done path{stroke-dasharray:32;animation:cfTick .3s var(--ease-out) .4s both}
-.cform .done h3{margin:24px 0 0;font-size:clamp(26px,2.4vw,34px);letter-spacing:-.035em;line-height:1.1;scroll-margin-top:120px}
-.cform .done p{margin:var(--lead-gap) 0 0;max-width:42ch;font-size:17px;line-height:1.55;color:var(--tx2);text-wrap:pretty}
+.cform :is(.done,.fail) h3{margin:24px 0 0;font-size:clamp(26px,2.4vw,34px);letter-spacing:-.035em;line-height:1.1;scroll-margin-top:120px}
+.cform :is(.done,.fail) p{margin:var(--lead-gap) 0 0;max-width:42ch;font-size:17px;line-height:1.55;color:var(--tx2);text-wrap:pretty}
 .cform .done p b{display:block;margin-top:2px;color:var(--tx);font-weight:600;overflow-wrap:anywhere}
-.cform .done .acts{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:28px}
-.cform .done .acts .btn{align-self:auto}
+.cform :is(.done,.fail) .acts{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:28px}
+.cform :is(.done,.fail) .acts .btn{align-self:auto}
 @keyframes cfIn{from{opacity:0;transform:translateY(8px)}}
 @keyframes cfDraw{from{stroke-dashoffset:151}}
 @keyframes cfTick{from{stroke-dashoffset:32}}
 @keyframes cfRing{to{box-shadow:0 0 0 18px color-mix(in srgb,var(--ok) 0%,transparent)}}
-.cform .fail{flex-direction:row;align-items:flex-start;gap:14px;background:color-mix(in srgb,var(--fail) 10%,transparent)}
-.cform .fail .ic{flex:none;margin-top:1px;color:var(--fail)}
-.cform .fail h3{font-size:17px;letter-spacing:-.01em;line-height:1.35;scroll-margin-top:120px}
-.cform .fail p{margin:4px 0 0;font-size:15px;line-height:1.5;color:var(--tx2)}
-.still .cform :is(.done,.done *,.done .ok-ic::after,.btn.busy::before),.motion-off .cform :is(.done,.done *,.done .ok-ic::after,.btn.busy::before){animation:none}
-@media (prefers-reduced-motion:reduce){.cform :is(.done,.done *,.done .ok-ic::after,.btn.busy::before){animation:none}}
+.cform .fail .no-ic{display:grid;place-items:center;width:88px;height:88px;border-radius:50%;background:color-mix(in srgb,var(--fail) 10%,transparent)}
+.cform .fail svg{fill:none;stroke:var(--fail);stroke-width:2.5;stroke-linecap:round}
+.cform .fail svg path{stroke-width:4}
+.still .cform :is(.done,.fail,.done *,.done .ok-ic::after,.btn.busy::before),.motion-off .cform :is(.done,.fail,.done *,.done .ok-ic::after,.btn.busy::before){animation:none}
+@media (prefers-reduced-motion:reduce){.cform :is(.done,.fail,.done *,.done .ok-ic::after,.btn.busy::before){animation:none}}
 </style>
 </head>
 <body>
@@ -1531,7 +1531,7 @@ footer .wm:before{content:"WeltScout"}
         <div class="f"><label for="cf-co">Unternehmen <span class="opt">(optional)</span></label><input id="cf-co" name="company" autocomplete="organization"></div>
       </div>
       <div class="row2">
-        <div class="f"><label for="cf-mail">E-Mail</label><input id="cf-mail" name="email" type="email" autocomplete="email" inputmode="email" required></div>
+        <div class="f"><label for="cf-mail">E-Mail</label><input id="cf-mail" name="email" type="email" autocomplete="email" inputmode="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" required></div>
         <div class="f"><label for="cf-tel">Telefon <span class="opt">(optional)</span></label><input id="cf-tel" name="tel" type="tel" autocomplete="tel" inputmode="tel"></div>
       </div>
       <fieldset class="f"><legend>Ich interessiere mich für</legend>
@@ -1540,8 +1540,8 @@ footer .wm:before{content:"WeltScout"}
       <div class="f"><label for="cf-msg">Nachricht</label><textarea id="cf-msg" name="msg" rows="4" required placeholder="Z. B.: Wir haben drei Verkäufer und suchen vor allem in Deutschland und Österreich."></textarea></div>
       <label class="consent"><input type="checkbox" id="cf-ok" name="consent" required><span>Ich bin einverstanden, dass WeltScout meine Daten zur Beantwortung dieser Nachricht verwendet. <a href="/privacy-policy">Datenschutz</a></span></label>
       <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <div class="fail" role="alert" hidden><svg class="ic" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v6.5M12 16.8v.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><div><h3 tabindex="-1">Die Nachricht konnte nicht gesendet werden.</h3><p>Ihr Text ist im Formular geblieben. Bitte versuchen Sie es erneut oder schreiben Sie uns an <a href="mailto:info@weltscout.com">info@weltscout.com</a>.</p></div></div>
-      <button class="btn" type="submit" data-label="Nachricht senden" data-sending="Wird gesendet …" data-retry="Erneut versuchen">Nachricht senden</button>
+      <button class="btn" type="submit" data-label="Nachricht senden" data-sending="Wird gesendet …">Nachricht senden</button>
+      <div class="fail" role="alert" hidden><span class="no-ic" aria-hidden="true"><svg viewBox="0 0 52 52" width="72" height="72"><circle cx="26" cy="26" r="24"/><path d="M26 14.5v14"/><path d="M26 36.5v.5"/></svg></span><h3 tabindex="-1">Die Nachricht konnte nicht gesendet werden.</h3><p>Ihr Text ist im Formular geblieben. Bitte versuchen Sie es erneut oder schreiben Sie uns an <a href="mailto:info@weltscout.com">info@weltscout.com</a>.</p><div class="acts"><button class="btn" type="button" data-retry data-label="Erneut versuchen">Erneut versuchen</button><button class="btn alt" type="button" data-edit>Nachricht bearbeiten</button></div></div>
       <div class="done" hidden><span class="ok-ic" aria-hidden="true"><svg viewBox="0 0 52 52" width="72" height="72"><circle cx="26" cy="26" r="24" transform="rotate(-90 26 26)"/><path d="M15.5 26.5l7 7 14-15"/></svg></span><h3 tabindex="-1">Ihre Nachricht wurde gesendet.</h3><p>Wir antworten Ihnen persönlich an die E-Mail-Adresse, die Sie angegeben haben: <b class="to"></b></p><div class="acts"><a class="btn" href="{{APP}}">Inzwischen kostenlos testen</a><button class="btn alt" type="button" data-new>Neue Nachricht senden</button></div></div>
       <p class="sr" id="cf-live" role="status"></p>
     </form>
@@ -1822,9 +1822,10 @@ footer .wm:before{content:"WeltScout"}
 
   /* contact form: validate on blur and on submit, then POST /api/contact; one request at a time, the fields stay on failure */
   const form = $("#cform");
-  const btn = form.querySelector("button[type=submit]"), dn = form.querySelector(".done"), fe = form.querySelector(".fail"), cfLive = $("#cf-live");
+  const btn = form.querySelector("button[type=submit]"), dn = form.querySelector(".done"), fe = form.querySelector(".fail"), cfLive = $("#cf-live"), retry = fe.querySelector("[data-retry]");
   let sending = false;
-  const setBusy = on => { sending = on; btn.disabled = on; btn.classList.toggle("busy", on); form.setAttribute("aria-busy", String(on)); if (on) btn.textContent = btn.dataset.sending; };
+  const setBusy = on => { sending = on; form.setAttribute("aria-busy", String(on)); [btn, retry].forEach(b => { b.disabled = on; b.classList.toggle("busy", on); b.textContent = on ? btn.dataset.sending : b.dataset.label; }); };
+  const holdHeight = () => { if (!form.style.minHeight) form.style.minHeight = form.offsetHeight + "px"; };
   /* FAST add-on link: prefills the message, never over text the visitor already typed */
   $$("a[data-prefill]").forEach(l => l.addEventListener("click", () => { const m = $("#cf-msg"); if (m.value.trim()) return; m.value = l.dataset.prefill; const o = form.querySelector('input[name="topic"][value="drugo"]'); if (o) o.checked = true; }));
   const formMsgs = { "cf-name": "Bitte geben Sie Ihren Vor- und Nachnamen ein.", "cf-mail": "Bitte geben Sie eine gültige E-Mail-Adresse ein, z. B. name@firma.de.", "cf-msg": "Schreiben Sie uns kurz, was Sie brauchen.", "cf-ok": "Für eine Antwort benötigen wir Ihre Einwilligung." };
@@ -1843,27 +1844,29 @@ footer .wm:before{content:"WeltScout"}
     const bad = Object.keys(formMsgs).map(id => $("#" + id)).filter(el => !check(el));
     if (bad.length) { bad[0].focus(); return; }
     const data = Object.fromEntries(new FormData(form)); data.consent = $("#cf-ok").checked; data.lang = document.documentElement.lang;
-    setBusy(true); fe.hidden = true;
+    setBusy(true);
     fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
       .then(r => r.json().then(j => r.ok && j.ok === true, () => false))
       .catch(() => false)
       .then(ok => {
-        setBusy(false);
+        setBusy(false); holdHeight();
         if (ok) {
-          form.style.minHeight = form.offsetHeight + "px";
+          form.classList.remove("is-failed"); fe.hidden = true;
           dn.querySelector(".to").textContent = data.email;
           form.classList.add("is-sent"); dn.hidden = false;
           cfLive.textContent = dn.querySelector("p").textContent;
           dn.querySelector("h3").focus();
         } else {
-          btn.textContent = btn.dataset.retry; fe.hidden = false; fe.querySelector("h3").focus();
+          form.classList.add("is-failed"); fe.hidden = false; fe.querySelector("h3").focus();
         }
       });
   });
   dn.querySelector("[data-new]").addEventListener("click", () => {
     form.reset(); form.classList.remove("is-sent"); form.style.minHeight = ""; dn.hidden = true; cfLive.textContent = "";
-    btn.textContent = btn.dataset.label; $("#cf-name").focus();
+    $("#cf-name").focus();
   });
+  retry.addEventListener("click", () => form.requestSubmit());
+  fe.querySelector("[data-edit]").addEventListener("click", () => { form.classList.remove("is-failed"); form.style.minHeight = ""; fe.hidden = true; $("#cf-msg").focus(); });
 
   /* language switcher */
   const lb = $(".lang-b"), lm = $("#langm");
