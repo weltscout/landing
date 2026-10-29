@@ -1382,13 +1382,16 @@ nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
   .banner .bp{width:28px;height:28px;margin-right:6px}
 }
 
-/* mobile hero (29. 10.): on phones the hero shows one picture, the WhatsApp phone with the alert, centred; the app
-   recording and its zoom control are for wider screens, where they have room */
+/* mobile hero (30. 10., owner): on phones the app recording comes first, at the full width of the frame, and the
+   WhatsApp phone sits under it at the right, overlapping only the frame's bottom edge, so neither covers the other's
+   content; above 472 px the pair stops growing at 440 px, so the tall recording never outgrows a screen. The zoom
+   icon sits in the free space under the frame's left corner, not on the recording */
 @media (max-width:600px){
-  .hero .duo .frame,.hero .duo .zoom{display:none}
   .hero .stage{padding-top:0}
-  .hero .duo{display:flex;justify-content:center}
-  .waph{position:relative;right:auto;bottom:auto;width:208px}
+  .hero .duo{display:grid;grid-template-columns:minmax(0,1fr);max-width:440px;margin:0 auto}
+  .hero .duo>.frame,.hero .duo>.zoom{grid-area:1/1/2/2}
+  .waph{grid-area:2/1/3/2;justify-self:end;position:relative;right:auto;bottom:auto;width:188px;margin:-40px 12px 0 0}
+  .hero .zoom svg{left:0;bottom:auto;top:calc(100% + 16px)}
   .hero .mock-note{display:none}
   .hero .stage .motion{position:relative;top:auto;right:auto;left:auto;display:flex;align-items:center;min-height:44px;width:max-content;margin:14px auto 0}
 }
