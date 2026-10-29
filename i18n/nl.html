@@ -1455,6 +1455,13 @@ details.fold>summary::-webkit-details-marker{display:none}
   .js [data-more]:not(.all)>ol>li:nth-child(n+3){display:none}
   #blog .hb-l>li:nth-child(n+3){display:none}
 }
+
+/* pricing on phones (29. 10.): the heading already says "first 7 days free, no limits", so the plans do not repeat
+   the trial row; each plan's "Vključeno" list is a fold (the label is the summary, desktop shows the list as before) */
+@media (max-width:600px){
+  .plan .trial,.plan.max .trial,.plan.hl .trial{display:none}
+  .plan .fold-inc>summary{margin-top:18px}
+}
 </style>
 </head>
 <body>
@@ -1600,18 +1607,18 @@ details.fold>summary::-webkit-details-marker{display:none}
       <div class="pr num"><span class="v" data-m="€ 129,90" data-y="€ 107,82">€ 129,90</span></div><div class="per">per gebruiker per maand, excl. btw</div><div class="yr" data-y="€ 1.293,80 per jaar, vooruit betaald · u bespaart 17%"></div>
       <p class="trial"><span class="k">Proefperiode</span><b><span class="l">7 dagen gratis<span class="sr">,</span></span> <span class="l">zonder beperkingen</span></b><span class="s"><span class="nocard">Geen creditcard nodig</span>Volledige toegang.</span></p>
       <a class="btn" href="{{APP}}">Gratis proberen</a>
-      <p class="inc">Inbegrepen</p><ul><li>Tot 10 automatisch lopende zoekopdrachten</li><li>Nieuwe advertenties één keer per dag gecontroleerd</li><li>Meldingen via WhatsApp en e⁠-⁠mail</li><li>Eén zoekopdracht doorzoekt tot 29 portalen in 14 landen</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Inbegrepen</summary><ul><li>Tot 10 automatisch lopende zoekopdrachten</li><li>Nieuwe advertenties één keer per dag gecontroleerd</li><li>Meldingen via WhatsApp en e⁠-⁠mail</li><li>Eén zoekopdracht doorzoekt tot 29 portalen in 14 landen</li></ul></details></div></div>
     <div class="plan hl rv"><div class="nrow"><h3 class="n">Business +</h3><span class="tag">Aanbevolen</span></div><div class="pb"><p class="pitch">Voor een handelaar die zoekt voor meerdere klanten en voor de eigen voorraad.</p>
       <div class="pr num"><span class="v" data-m="€ 199,90" data-y="€ 165,92">€ 199,90</span></div><div class="per">per gebruiker per maand, excl. btw</div><div class="yr" data-y="€ 1.991,00 per jaar, vooruit betaald · u bespaart 17%"></div>
       <p class="trial"><span class="k">Proefperiode</span><b><span class="l">7 dagen gratis<span class="sr">,</span></span> <span class="l">zonder beperkingen</span></b><span class="s"><span class="nocard">Geen creditcard nodig</span>Volledige toegang.</span></p>
       <a class="btn" href="{{APP}}">Gratis proberen</a>
-      <p class="inc">Inbegrepen</p><ul><li>Tot 20 zoekopdrachten, twee keer zoveel als bij Business</li><li>Nieuwe advertenties twee keer per dag gecontroleerd</li><li>Meldingen via WhatsApp en e⁠-⁠mail</li><li>Eén zoekopdracht doorzoekt tot 29 portalen in 14 landen</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Inbegrepen</summary><ul><li>Tot 20 zoekopdrachten, twee keer zoveel als bij Business</li><li>Nieuwe advertenties twee keer per dag gecontroleerd</li><li>Meldingen via WhatsApp en e⁠-⁠mail</li><li>Eén zoekopdracht doorzoekt tot 29 portalen in 14 landen</li></ul></details></div></div>
     <div class="plan max rv"><div class="nrow"><h3 class="n">Business MAX</h3></div><div class="pb"><p class="pitch">Voor teams met meerdere verkopers en bijzondere wensen.</p>
       <div class="pr txt">Op aanvraag</div><div class="per">op maat van uw gebruik</div><div class="yr"></div>
       <p class="trial"><span class="k">Proefperiode</span><b><span class="l">7 dagen gratis<span class="sr">,</span></span> <span class="l">zonder beperkingen</span></b><span class="s"><span class="nocard">Geen creditcard nodig</span>Volledige toegang. Een abonnement op maat spreken we na de proefperiode af.</span></p>
       <a class="btn alt" href="#kontakt">Neem contact op</a>
       <a class="also" href="{{APP}}">Eerst gratis proberen <span aria-hidden="true">→</span></a>
-      <p class="inc">Op maat</p><ul><li>Meer gebruikers in uw team</li><li>Aantal zoekopdrachten en controlefrequentie in overleg</li><li>Koppeling via API</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Op maat</summary><ul><li>Meer gebruikers in uw team</li><li>Aantal zoekopdrachten en controlefrequentie in overleg</li><li>Koppeling via API</li></ul></details></div></div>
   </div>
   <p class="assure1 rv"><span>WhatsApp in elk abonnement</span><span>Uw account en zoekopdrachten blijven na de proefperiode bewaard</span><span>Nieuwe portalen meestal binnen 4–7 werkdagen</span><a href="#kontakt">Weet u niet welk abonnement past? Schrijf ons</a></p>
   <details class="fold fold-terms"><summary>Details over de proefperiode en het zoeken</summary><p class="terms"><span>De proefperiode duurt 7 dagen en is gratis, zonder limiet op het aantal zoekopdrachten of de controlefrequentie. Volledige toegang krijgt u zodra u bij het registreren uw bedrijf invult en een meldingskanaal (WhatsApp of e-mail) kiest. Na de proefperiode gelden de limieten van het gekozen abonnement.</span></p>

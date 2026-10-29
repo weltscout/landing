@@ -1454,6 +1454,13 @@ details.fold>summary::-webkit-details-marker{display:none}
   .js [data-more]:not(.all)>ol>li:nth-child(n+3){display:none}
   #blog .hb-l>li:nth-child(n+3){display:none}
 }
+
+/* pricing on phones (29. 10.): the heading already says "first 7 days free, no limits", so the plans do not repeat
+   the trial row; each plan's "Vključeno" list is a fold (the label is the summary, desktop shows the list as before) */
+@media (max-width:600px){
+  .plan .trial,.plan.max .trial,.plan.hl .trial{display:none}
+  .plan .fold-inc>summary{margin-top:18px}
+}
 </style>
 </head>
 <body>
@@ -1599,18 +1606,18 @@ details.fold>summary::-webkit-details-marker{display:none}
       <div class="pr num"><span class="v" data-m="129,90" data-y="107,82">129,90</span> €</div><div class="per">na uporabnika na mesec, brez DDV</div><div class="yr" data-y="1.293,80 € letno, plačilo vnaprej · prihraniš 17 %"></div>
       <p class="trial"><span class="k">Preizkus</span><b><span class="l">7 dni brezplačno<span class="sr">,</span></span> <span class="l">brez omejitev</span></b><span class="s"><span class="nocard">Brez kartice</span>Poln dostop.</span></p>
       <a class="btn" href="{{APP}}">Preizkusi brezplačno</a>
-      <p class="inc">Vključeno</p><ul><li>Do 10 iskanj, ki tečejo samodejno</li><li>Preverjanje novih oglasov 1× na dan</li><li>Obvestila na WhatsApp in v e⁠-⁠pošto</li><li>Eno iskanje pregleda do 29 portalov v 14 državah</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Vključeno</summary><ul><li>Do 10 iskanj, ki tečejo samodejno</li><li>Preverjanje novih oglasov 1× na dan</li><li>Obvestila na WhatsApp in v e⁠-⁠pošto</li><li>Eno iskanje pregleda do 29 portalov v 14 državah</li></ul></details></div></div>
     <div class="plan hl rv"><div class="nrow"><h3 class="n">Business +</h3><span class="tag">Priporočamo</span></div><div class="pb"><p class="pitch">Za trgovca, ki išče za več strank in za lastno zalogo.</p>
       <div class="pr num"><span class="v" data-m="199,90" data-y="165,92">199,90</span> €</div><div class="per">na uporabnika na mesec, brez DDV</div><div class="yr" data-y="1.991,00 € letno, plačilo vnaprej · prihraniš 17 %"></div>
       <p class="trial"><span class="k">Preizkus</span><b><span class="l">7 dni brezplačno<span class="sr">,</span></span> <span class="l">brez omejitev</span></b><span class="s"><span class="nocard">Brez kartice</span>Poln dostop.</span></p>
       <a class="btn" href="{{APP}}">Preizkusi brezplačno</a>
-      <p class="inc">Vključeno</p><ul><li>Do 20 iskanj, dvakrat več kot v paketu Business</li><li>Preverjanje novih oglasov 2× na dan</li><li>Obvestila na WhatsApp in v e⁠-⁠pošto</li><li>Eno iskanje pregleda do 29 portalov v 14 državah</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Vključeno</summary><ul><li>Do 20 iskanj, dvakrat več kot v paketu Business</li><li>Preverjanje novih oglasov 2× na dan</li><li>Obvestila na WhatsApp in v e⁠-⁠pošto</li><li>Eno iskanje pregleda do 29 portalov v 14 državah</li></ul></details></div></div>
     <div class="plan max rv"><div class="nrow"><h3 class="n">Business MAX</h3></div><div class="pb"><p class="pitch">Za ekipe z več prodajalci in posebnimi potrebami.</p>
       <div class="pr txt">Po dogovoru</div><div class="per">prilagodimo glede na porabo</div><div class="yr"></div>
       <p class="trial"><span class="k">Preizkus</span><b><span class="l">7 dni brezplačno<span class="sr">,</span></span> <span class="l">brez omejitev</span></b><span class="s"><span class="nocard">Brez kartice</span>Poln dostop. Paket po meri dogovorimo po preizkusu.</span></p>
       <a class="btn alt" href="#kontakt">Pogovorimo se</a>
       <a class="also" href="{{APP}}">Najprej preizkusi brezplačno <span aria-hidden="true">→</span></a>
-      <p class="inc">Po dogovoru</p><ul><li>Več uporabnikov v ekipi</li><li>Število iskanj in pogostost preverjanja po dogovoru</li><li>Povezava prek API-ja</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Po dogovoru</summary><ul><li>Več uporabnikov v ekipi</li><li>Število iskanj in pogostost preverjanja po dogovoru</li><li>Povezava prek API-ja</li></ul></details></div></div>
   </div>
   <p class="assure1 rv"><span>WhatsApp v vseh paketih</span><span>Po preizkusu ostanejo račun in iskanja</span><span>Nov portal običajno v 4–7 delovnih dneh</span><a href="#kontakt">Ne veš, kateri paket? Piši nam</a></p>
   <details class="fold fold-terms"><summary>Podrobnosti o preizkusu in iskanju</summary><p class="terms"><span>Preizkus traja 7 dni in je brezplačen, brez omejitve števila iskanj in pogostosti preverjanja. Poln dostop dobiš, ko ob registraciji vpišeš podjetje in izbereš kanal za obvestila (WhatsApp ali e-pošta). Po preizkusu veljajo omejitve izbranega paketa.</span></p>

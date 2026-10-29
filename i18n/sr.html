@@ -1455,6 +1455,13 @@ details.fold>summary::-webkit-details-marker{display:none}
   .js [data-more]:not(.all)>ol>li:nth-child(n+3){display:none}
   #blog .hb-l>li:nth-child(n+3){display:none}
 }
+
+/* pricing on phones (29. 10.): the heading already says "first 7 days free, no limits", so the plans do not repeat
+   the trial row; each plan's "Vključeno" list is a fold (the label is the summary, desktop shows the list as before) */
+@media (max-width:600px){
+  .plan .trial,.plan.max .trial,.plan.hl .trial{display:none}
+  .plan .fold-inc>summary{margin-top:18px}
+}
 </style>
 </head>
 <body>
@@ -1600,18 +1607,18 @@ details.fold>summary::-webkit-details-marker{display:none}
       <div class="pr num"><span class="v" data-m="129,90" data-y="107,82">129,90</span> €</div><div class="per">po korisniku mesečno, bez PDV-a</div><div class="yr" data-y="1.293,80 € godišnje, plaćanje unapred · uštediš 17 %"></div>
       <p class="trial"><span class="k">Probni period</span><b><span class="l">7 dana besplatno<span class="sr">,</span></span> <span class="l">bez ograničenja</span></b><span class="s"><span class="nocard">Bez kartice</span>Pun pristup.</span></p>
       <a class="btn" href="{{APP}}">Isprobaj besplatno</a>
-      <p class="inc">Uključeno</p><ul><li>Do 10 pretraga koje se izvršavaju automatski</li><li>Provera novih oglasa 1× dnevno</li><li>Obaveštenja na WhatsApp i e⁠-⁠poštu</li><li>Jedna pretraga pregleda do 29 portala u 14 zemalja</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Uključeno</summary><ul><li>Do 10 pretraga koje se izvršavaju automatski</li><li>Provera novih oglasa 1× dnevno</li><li>Obaveštenja na WhatsApp i e⁠-⁠poštu</li><li>Jedna pretraga pregleda do 29 portala u 14 zemalja</li></ul></details></div></div>
     <div class="plan hl rv"><div class="nrow"><h3 class="n">Business +</h3><span class="tag">Preporučujemo</span></div><div class="pb"><p class="pitch">Za trgovca koji traži za više kupaca i za sopstvenu zalihu.</p>
       <div class="pr num"><span class="v" data-m="199,90" data-y="165,92">199,90</span> €</div><div class="per">po korisniku mesečno, bez PDV-a</div><div class="yr" data-y="1.991,00 € godišnje, plaćanje unapred · uštediš 17 %"></div>
       <p class="trial"><span class="k">Probni period</span><b><span class="l">7 dana besplatno<span class="sr">,</span></span> <span class="l">bez ograničenja</span></b><span class="s"><span class="nocard">Bez kartice</span>Pun pristup.</span></p>
       <a class="btn" href="{{APP}}">Isprobaj besplatno</a>
-      <p class="inc">Uključeno</p><ul><li>Do 20 pretraga, duplo više nego u paketu Business</li><li>Provera novih oglasa 2× dnevno</li><li>Obaveštenja na WhatsApp i e⁠-⁠poštu</li><li>Jedna pretraga pregleda do 29 portala u 14 zemalja</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Uključeno</summary><ul><li>Do 20 pretraga, duplo više nego u paketu Business</li><li>Provera novih oglasa 2× dnevno</li><li>Obaveštenja na WhatsApp i e⁠-⁠poštu</li><li>Jedna pretraga pregleda do 29 portala u 14 zemalja</li></ul></details></div></div>
     <div class="plan max rv"><div class="nrow"><h3 class="n">Business MAX</h3></div><div class="pb"><p class="pitch">Za timove sa više prodavaca i posebnim potrebama.</p>
       <div class="pr txt">Po dogovoru</div><div class="per">prilagođavamo prema potrošnji</div><div class="yr"></div>
       <p class="trial"><span class="k">Probni period</span><b><span class="l">7 dana besplatno<span class="sr">,</span></span> <span class="l">bez ograničenja</span></b><span class="s"><span class="nocard">Bez kartice</span>Pun pristup. Paket po meri dogovaramo posle probnog perioda.</span></p>
       <a class="btn alt" href="#kontakt">Razgovarajmo</a>
       <a class="also" href="{{APP}}">Prvo isprobaj besplatno <span aria-hidden="true">→</span></a>
-      <p class="inc">Po dogovoru</p><ul><li>Više korisnika u timu</li><li>Broj pretraga i učestalost provere po dogovoru</li><li>Povezivanje preko API-ja</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Po dogovoru</summary><ul><li>Više korisnika u timu</li><li>Broj pretraga i učestalost provere po dogovoru</li><li>Povezivanje preko API-ja</li></ul></details></div></div>
   </div>
   <p class="assure1 rv"><span>WhatsApp u svim paketima</span><span>Posle probnog perioda ostaju nalog i pretrage</span><span>Novi portal obično za 4–7 radnih dana</span><a href="#kontakt">Ne znaš koji paket? Piši nam</a></p>
   <details class="fold fold-terms"><summary>Detalji o probnom periodu i pretrazi</summary><p class="terms"><span>Probni period traje 7 dana i besplatan je, bez ograničenja broja pretraga i učestalosti provere. Pun pristup dobijaš kad pri registraciji upišeš firmu i izabereš kanal za obaveštenja (WhatsApp ili e-pošta). Posle probnog perioda važe ograničenja izabranog paketa.</span></p>

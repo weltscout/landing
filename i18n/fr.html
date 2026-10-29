@@ -1457,6 +1457,13 @@ details.fold>summary::-webkit-details-marker{display:none}
   .js [data-more]:not(.all)>ol>li:nth-child(n+3){display:none}
   #blog .hb-l>li:nth-child(n+3){display:none}
 }
+
+/* pricing on phones (29. 10.): the heading already says "first 7 days free, no limits", so the plans do not repeat
+   the trial row; each plan's "Vključeno" list is a fold (the label is the summary, desktop shows the list as before) */
+@media (max-width:600px){
+  .plan .trial,.plan.max .trial,.plan.hl .trial{display:none}
+  .plan .fold-inc>summary{margin-top:18px}
+}
 </style>
 </head>
 <body>
@@ -1602,18 +1609,18 @@ details.fold>summary::-webkit-details-marker{display:none}
       <div class="pr num"><span class="v" data-m="129,90 €" data-y="107,82 €">129,90 €</span></div><div class="per">par utilisateur et par mois, hors TVA</div><div class="yr" data-y="1 293,80 € par an, payés d’avance · vous économisez 17 %"></div>
       <p class="trial"><span class="k">Essai</span><b><span class="l">7 jours gratuits<span class="sr">,</span></span> <span class="l">sans limites</span></b><span class="s"><span class="nocard">Sans carte bancaire</span>Accès complet.</span></p>
       <a class="btn" href="{{APP}}">Essayer gratuitement</a>
-      <p class="inc">Inclus</p><ul><li>Jusqu’à 10 recherches automatiques</li><li>Nouvelles annonces vérifiées une fois par jour</li><li>Notifications sur WhatsApp et par e⁠-⁠mail</li><li>Une recherche couvre jusqu’à 29 portails dans 14 pays</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Inclus</summary><ul><li>Jusqu’à 10 recherches automatiques</li><li>Nouvelles annonces vérifiées une fois par jour</li><li>Notifications sur WhatsApp et par e⁠-⁠mail</li><li>Une recherche couvre jusqu’à 29 portails dans 14 pays</li></ul></details></div></div>
     <div class="plan hl rv"><div class="nrow"><h3 class="n">Business +</h3><span class="tag">Notre recommandation</span></div><div class="pb"><p class="pitch">Pour un négociant qui cherche pour plusieurs clients et pour son propre stock.</p>
       <div class="pr num"><span class="v" data-m="199,90 €" data-y="165,92 €">199,90 €</span></div><div class="per">par utilisateur et par mois, hors TVA</div><div class="yr" data-y="1 991,00 € par an, payés d’avance · vous économisez 17 %"></div>
       <p class="trial"><span class="k">Essai</span><b><span class="l">7 jours gratuits<span class="sr">,</span></span> <span class="l">sans limites</span></b><span class="s"><span class="nocard">Sans carte bancaire</span>Accès complet.</span></p>
       <a class="btn" href="{{APP}}">Essayer gratuitement</a>
-      <p class="inc">Inclus</p><ul><li>Jusqu’à 20 recherches, deux fois plus qu’avec Business</li><li>Nouvelles annonces vérifiées deux fois par jour</li><li>Notifications sur WhatsApp et par e⁠-⁠mail</li><li>Une recherche couvre jusqu’à 29 portails dans 14 pays</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Inclus</summary><ul><li>Jusqu’à 20 recherches, deux fois plus qu’avec Business</li><li>Nouvelles annonces vérifiées deux fois par jour</li><li>Notifications sur WhatsApp et par e⁠-⁠mail</li><li>Une recherche couvre jusqu’à 29 portails dans 14 pays</li></ul></details></div></div>
     <div class="plan max rv"><div class="nrow"><h3 class="n">Business MAX</h3></div><div class="pb"><p class="pitch">Pour les équipes de plusieurs vendeurs et aux besoins particuliers.</p>
       <div class="pr txt">Sur demande</div><div class="per">adapté à votre usage</div><div class="yr"></div>
       <p class="trial"><span class="k">Essai</span><b><span class="l">7 jours gratuits<span class="sr">,</span></span> <span class="l">sans limites</span></b><span class="s"><span class="nocard">Sans carte bancaire</span>Accès complet. Nous convenons de la formule sur mesure après l’essai.</span></p>
       <a class="btn alt" href="#kontakt">Parlons-en</a>
       <a class="also" href="{{APP}}">Commencer par l’essai gratuit <span aria-hidden="true">→</span></a>
-      <p class="inc">Sur mesure</p><ul><li>Plus d’utilisateurs dans l’équipe</li><li>Nombre de recherches et fréquence de vérification sur mesure</li><li>Connexion par API</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Sur mesure</summary><ul><li>Plus d’utilisateurs dans l’équipe</li><li>Nombre de recherches et fréquence de vérification sur mesure</li><li>Connexion par API</li></ul></details></div></div>
   </div>
   <p class="assure1 rv"><span>WhatsApp dans toutes les formules</span><span>Compte et recherches conservés après l’essai</span><span>Nouveaux portails en général sous 4 à 7 jours ouvrables</span><a href="#kontakt">Un doute sur la formule ? Écrivez-nous</a></p>
   <details class="fold fold-terms"><summary>Détails sur l’essai et la recherche</summary><p class="terms"><span>L’essai dure 7 jours et il est gratuit, sans limite du nombre de recherches ni de la fréquence de vérification. Vous obtenez l’accès complet dès que vous indiquez votre entreprise et choisissez un canal de notification (WhatsApp ou e-mail) à l’inscription. Après l’essai, les limites de la formule choisie s’appliquent.</span></p>

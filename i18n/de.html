@@ -1455,6 +1455,13 @@ details.fold>summary::-webkit-details-marker{display:none}
   .js [data-more]:not(.all)>ol>li:nth-child(n+3){display:none}
   #blog .hb-l>li:nth-child(n+3){display:none}
 }
+
+/* pricing on phones (29. 10.): the heading already says "first 7 days free, no limits", so the plans do not repeat
+   the trial row; each plan's "Vključeno" list is a fold (the label is the summary, desktop shows the list as before) */
+@media (max-width:600px){
+  .plan .trial,.plan.max .trial,.plan.hl .trial{display:none}
+  .plan .fold-inc>summary{margin-top:18px}
+}
 </style>
 </head>
 <body>
@@ -1600,18 +1607,18 @@ details.fold>summary::-webkit-details-marker{display:none}
       <div class="pr num"><span class="v" data-m="129,90" data-y="107,82">129,90</span> €</div><div class="per">pro Nutzer und Monat, zzgl. MwSt.</div><div class="yr" data-y="1.293,80 € pro Jahr, Vorauszahlung · Sie sparen 17 %"></div>
       <p class="trial"><span class="k">Test</span><b><span class="l">7 Tage kostenlos<span class="sr">,</span></span> <span class="l">ohne Einschränkungen</span></b><span class="s"><span class="nocard">Ohne Kreditkarte</span>Voller Zugriff.</span></p>
       <a class="btn" href="{{APP}}">Kostenlos testen</a>
-      <p class="inc">Enthalten</p><ul><li>Bis zu 10 automatisch laufende Suchen</li><li>Prüfung neuer Inserate 1× täglich</li><li>Benachrichtigungen per WhatsApp und E⁠-⁠Mail</li><li>Eine Suche prüft bis zu 29 Portale in 14 Ländern</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Enthalten</summary><ul><li>Bis zu 10 automatisch laufende Suchen</li><li>Prüfung neuer Inserate 1× täglich</li><li>Benachrichtigungen per WhatsApp und E⁠-⁠Mail</li><li>Eine Suche prüft bis zu 29 Portale in 14 Ländern</li></ul></details></div></div>
     <div class="plan hl rv"><div class="nrow"><h3 class="n">Business +</h3><span class="tag">Unsere Empfehlung</span></div><div class="pb"><p class="pitch">Für Händler, die für mehrere Kunden und den eigenen Bestand suchen.</p>
       <div class="pr num"><span class="v" data-m="199,90" data-y="165,92">199,90</span> €</div><div class="per">pro Nutzer und Monat, zzgl. MwSt.</div><div class="yr" data-y="1.991,00 € pro Jahr, Vorauszahlung · Sie sparen 17 %"></div>
       <p class="trial"><span class="k">Test</span><b><span class="l">7 Tage kostenlos<span class="sr">,</span></span> <span class="l">ohne Einschränkungen</span></b><span class="s"><span class="nocard">Ohne Kreditkarte</span>Voller Zugriff.</span></p>
       <a class="btn" href="{{APP}}">Kostenlos testen</a>
-      <p class="inc">Enthalten</p><ul><li>Bis zu 20 Suchen, doppelt so viele wie in Business</li><li>Prüfung neuer Inserate 2× täglich</li><li>Benachrichtigungen per WhatsApp und E⁠-⁠Mail</li><li>Eine Suche prüft bis zu 29 Portale in 14 Ländern</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Enthalten</summary><ul><li>Bis zu 20 Suchen, doppelt so viele wie in Business</li><li>Prüfung neuer Inserate 2× täglich</li><li>Benachrichtigungen per WhatsApp und E⁠-⁠Mail</li><li>Eine Suche prüft bis zu 29 Portale in 14 Ländern</li></ul></details></div></div>
     <div class="plan max rv"><div class="nrow"><h3 class="n">Business MAX</h3></div><div class="pb"><p class="pitch">Für Teams mit mehreren Verkäufern und besonderen Anforderungen.</p>
       <div class="pr txt">Auf Anfrage</div><div class="per">passend zu Ihrer Nutzung</div><div class="yr"></div>
       <p class="trial"><span class="k">Test</span><b><span class="l">7 Tage kostenlos<span class="sr">,</span></span> <span class="l">ohne Einschränkungen</span></b><span class="s"><span class="nocard">Ohne Kreditkarte</span>Voller Zugriff. Das maßgeschneiderte Paket vereinbaren wir nach dem Test.</span></p>
       <a class="btn alt" href="#kontakt">Sprechen wir darüber</a>
       <a class="also" href="{{APP}}">Erst kostenlos testen <span aria-hidden="true">→</span></a>
-      <p class="inc">Maßgeschneidert</p><ul><li>Mehr Nutzer im Team</li><li>Anzahl der Suchen und Prüfhäufigkeit nach Vereinbarung</li><li>Anbindung per API</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Maßgeschneidert</summary><ul><li>Mehr Nutzer im Team</li><li>Anzahl der Suchen und Prüfhäufigkeit nach Vereinbarung</li><li>Anbindung per API</li></ul></details></div></div>
   </div>
   <p class="assure1 rv"><span>WhatsApp in jedem Paket</span><span>Konto und Suchen bleiben nach dem Test erhalten</span><span>Neue Portale meist in 4–7 Werktagen</span><a href="#kontakt">Unsicher, welches Paket? Schreiben Sie uns</a></p>
   <details class="fold fold-terms"><summary>Details zum Test und zur Suche</summary><p class="terms"><span>Der Test dauert 7 Tage und ist kostenlos, ohne Begrenzung der Anzahl der Suchen und der Prüfhäufigkeit. Vollen Zugriff erhalten Sie, sobald Sie bei der Registrierung Ihr Unternehmen angeben und einen Benachrichtigungskanal (WhatsApp oder E-Mail) wählen. Nach dem Test gelten die Grenzen des gewählten Pakets.</span></p>

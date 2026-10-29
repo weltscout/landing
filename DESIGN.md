@@ -279,6 +279,7 @@ Tactile and calm: a pill that changes colour, never jumps.
 - **Segmented control** (billing toggle, "Trije koraki" tabs): a white pill track with a hairline; the selected segment is a Night Navy pill. On phones the tabs become separate wrapping pills.
 
 ### Cards / Containers
+- **Pricing on phones:** the plans do not repeat the trial row (the heading says "Prvih 7 dni brezplačno, brez omejitev"; the hero and the closing band keep the pills), and each plan's "Vključeno" list is a fold with that label as the summary.
 - **Folds on phones:** `<details class="fold">`, closed in the HTML. On phones it is an accordion row (44 px, chevron); from 601 px its content shows through `::details-content` and the script marks it open, so desktop looks the same and nothing moves on load. Used for the "česa ne delamo" explanations (the answer stays visible as the summary), the country list (its own label and count) and the notes under the plans.
 - **Shorter lists on phones:** the proof shows 2 of its 4 results and a "Pokaži vse (4)" button (44 px, `aria-expanded`, "Pokaži manj" when open), present in the HTML from the start and hidden from 601 px and without JS. The blog teaser shows 2 cards; "Vsi članki" is under its heading.
 - **Carousels on phones:** the bento cards and blog guides are swipe carousels (82% cards, snap to centre) with the next card peeking. `.car-dots` under them (decorative, `aria-hidden`) show the count and the card in view; the region itself stays focusable and scrollable.

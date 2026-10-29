@@ -1455,6 +1455,13 @@ details.fold>summary::-webkit-details-marker{display:none}
   .js [data-more]:not(.all)>ol>li:nth-child(n+3){display:none}
   #blog .hb-l>li:nth-child(n+3){display:none}
 }
+
+/* pricing on phones (29. 10.): the heading already says "first 7 days free, no limits", so the plans do not repeat
+   the trial row; each plan's "Vključeno" list is a fold (the label is the summary, desktop shows the list as before) */
+@media (max-width:600px){
+  .plan .trial,.plan.max .trial,.plan.hl .trial{display:none}
+  .plan .fold-inc>summary{margin-top:18px}
+}
 </style>
 </head>
 <body>
@@ -1600,18 +1607,18 @@ details.fold>summary::-webkit-details-marker{display:none}
       <div class="pr num"><span class="v" data-m="€129.90" data-y="€107.82">€129.90</span></div><div class="per">per user per month, excluding VAT</div><div class="yr" data-y="€1,293.80 a year, paid upfront · you save 17%"></div>
       <p class="trial"><span class="k">Trial</span><b><span class="l">7 days free<span class="sr">,</span></span> <span class="l">no limits</span></b><span class="s"><span class="nocard">No card needed</span>Full access.</span></p>
       <a class="btn" href="{{APP}}">Try it free</a>
-      <p class="inc">Included</p><ul><li>Up to 10 searches running automatically</li><li>New listings checked once a day</li><li>Notifications on WhatsApp and by email</li><li>One search covers up to 29 portals in 14 countries</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Included</summary><ul><li>Up to 10 searches running automatically</li><li>New listings checked once a day</li><li>Notifications on WhatsApp and by email</li><li>One search covers up to 29 portals in 14 countries</li></ul></details></div></div>
     <div class="plan hl rv"><div class="nrow"><h3 class="n">Business +</h3><span class="tag">Recommended</span></div><div class="pb"><p class="pitch">For a dealer who searches for several customers and for their own stock.</p>
       <div class="pr num"><span class="v" data-m="€199.90" data-y="€165.92">€199.90</span></div><div class="per">per user per month, excluding VAT</div><div class="yr" data-y="€1,991.00 a year, paid upfront · you save 17%"></div>
       <p class="trial"><span class="k">Trial</span><b><span class="l">7 days free<span class="sr">,</span></span> <span class="l">no limits</span></b><span class="s"><span class="nocard">No card needed</span>Full access.</span></p>
       <a class="btn" href="{{APP}}">Try it free</a>
-      <p class="inc">Included</p><ul><li>Up to 20 searches, twice as many as Business</li><li>New listings checked twice a day</li><li>Notifications on WhatsApp and by email</li><li>One search covers up to 29 portals in 14 countries</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Included</summary><ul><li>Up to 20 searches, twice as many as Business</li><li>New listings checked twice a day</li><li>Notifications on WhatsApp and by email</li><li>One search covers up to 29 portals in 14 countries</li></ul></details></div></div>
     <div class="plan max rv"><div class="nrow"><h3 class="n">Business MAX</h3></div><div class="pb"><p class="pitch">For teams with several salespeople and special requirements.</p>
       <div class="pr txt">On request</div><div class="per">tailored to your usage</div><div class="yr"></div>
       <p class="trial"><span class="k">Trial</span><b><span class="l">7 days free<span class="sr">,</span></span> <span class="l">no limits</span></b><span class="s"><span class="nocard">No card needed</span>Full access. We agree a tailored plan after the trial.</span></p>
       <a class="btn alt" href="#kontakt">Let’s talk</a>
       <a class="also" href="{{APP}}">Try it free first <span aria-hidden="true">→</span></a>
-      <p class="inc">Tailored</p><ul><li>More users on your team</li><li>Number of searches and check frequency by arrangement</li><li>API connection</li></ul></div></div>
+      <details class="fold fold-inc"><summary class="inc">Tailored</summary><ul><li>More users on your team</li><li>Number of searches and check frequency by arrangement</li><li>API connection</li></ul></details></div></div>
   </div>
   <p class="assure1 rv"><span>WhatsApp in every plan</span><span>Your account and searches are kept after the trial</span><span>New portals usually in 4–7 working days</span><a href="#kontakt">Not sure which plan? Write to us</a></p>
   <details class="fold fold-terms"><summary>Trial and search details</summary><p class="terms"><span>The trial lasts 7 days and is free, with no limit on the number of searches or how often they are checked. You get full access once you enter your company and choose a notification channel (WhatsApp or email) when you register. After the trial, the limits of the plan you choose apply.</span></p>
