@@ -634,7 +634,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
   .viz{height:200px}
   .split{margin-bottom:28px}
   .split img{aspect-ratio:16/10}
-  .tabs-r img{max-height:380px!important}
+  .tabs-r{--shot-h:380px}.tabs-r img{max-height:var(--shot-h)!important}
   .tabs-l{padding:20px!important}
   footer .cols>div:nth-child(3){display:none}
   .assure{grid-template-columns:minmax(0,1fr)!important}
@@ -1590,6 +1590,13 @@ details.fold>summary::-webkit-details-marker{display:none}
    strike-through in "česa ne delamo" (it still keys on .in) */
 @media (max-width:600px){
   .js .rv,.js [data-anim].blur{opacity:1;transform:none;filter:none}
+}
+/* tab screenshot on phones (30. 10.): the script swaps in the tall m-*.webp shots (1170 x 1626), but the img still
+   carried the wide shot's 1440 x 900 ratio until the tall one arrived, so a late shot pushed everything under the
+   tabs down by up to 380 px (Chromium: layout shift 0.23). The box takes the tall shot's ratio and its final width
+   before the shot loads (Chromium gives a not yet loaded image with an auto width no size at all) */
+@media (max-width:600px){
+  .js #pi{aspect-ratio:1170/1626;width:min(100%, var(--shot-h) * 1170 / 1626)}
 }
 </style>
 </head>

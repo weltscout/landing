@@ -336,6 +336,27 @@ class BuildOutput(unittest.TestCase):
                     )
         self.assertTrue(seen)
 
+    def test_phone_tab_shots_have_the_ratio_the_page_reserves_for_them(self):
+        def webp_size(path):
+            b = path.read_bytes()
+            self.assertEqual((b[:4], b[8:12]), (b"RIFF", b"WEBP"), path.name)
+            kind = b[12:16]
+            if kind == b"VP8X":
+                return 1 + int.from_bytes(b[24:27], "little"), 1 + int.from_bytes(b[27:30], "little")
+            if kind == b"VP8L":
+                v = int.from_bytes(b[21:25], "little")
+                return 1 + (v & 0x3FFF), 1 + ((v >> 14) & 0x3FFF)
+            return int.from_bytes(b[26:28], "little") & 0x3FFF, int.from_bytes(b[28:30], "little") & 0x3FFF
+
+        for src in ["index.html"] + [f"i18n/{c}.html" for c in ("hr", "sr", "en", "de", "nl", "fr")]:
+            html = (ROOT / src).read_text(encoding="utf-8")
+            w, h = map(int, re.search(r"\.js #pi\{aspect-ratio:(\d+)/(\d+)", html).groups())
+            stems = re.findall(r'"(\d\d-[a-z0-9-]+)", "[^"]*"\]', html.split("const steps = [", 1)[1].split("];", 1)[0])
+            self.assertEqual(len(stems), 3, src)
+            for stem in stems:
+                sw, sh = webp_size(ROOT / "img" / f"m-{stem}.webp")
+                self.assertAlmostEqual(sw / sh, w / h, places=3, msg=f"{src}: m-{stem}.webp is {sw}x{sh}, the page reserves {w}/{h}")
+
     def test_no_internal_html_comments_ship(self):
         import re
 

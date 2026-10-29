@@ -284,7 +284,7 @@ Tactile and calm: a pill that changes colour, never jumps.
 ### Chips and pills
 - **Trial pill:** Trial Mint fill, Trial Ink label, check mark before the text, everywhere (top bar, hero note, plan cards, closing band). On every plan card the trial sits right under the price line as two pills, "7 dni brezplačno, brez omejitev" and "Brez kartice" (14px), followed by the plan's own note in muted text. The long pill may wrap; its radius (1.1em) keeps a single line a full pill and two lines a soft capsule. The closing band uses 15px.
 - **Filter chips** (contact interests): pill, Surface 2; selected is Night Navy with page-coloured text. The proof band writes its filters as one line of text instead.
-- **Segmented control** (billing toggle, "Trije koraki" tabs): a white pill track with a hairline; the selected segment is a Night Navy pill. On phones the tabs become separate wrapping pills.
+- **Segmented control** (billing toggle, "Trije koraki" tabs): a white pill track with a hairline; the selected segment is a Night Navy pill. On phones the tabs become separate wrapping pills. Under them the phone shows the tall app shot (`m-*.webp`, 1170 × 1626, at most 380 px high); its box has that ratio and width before the shot loads, so a late shot moves nothing (a test checks the files against the ratio in the CSS).
 
 ### Cards / Containers
 - **FAST on phones:** the add-on is a fold. Its heading "Dodatni paket FAST" is the summary, under the "Opcijsko" label; the description and the price panel with the button show when it opens (the panel follows the fold through `:has`). Desktop is unchanged.
