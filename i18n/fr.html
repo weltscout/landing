@@ -2337,13 +2337,15 @@ details.fold>summary::-webkit-details-marker{display:none}
   let cur = 0, timer = null, userTook = false;
   tabs.forEach((t, k) => { t.id = "tab-" + (k + 1); ["pointerdown", "keydown"].forEach(ev => t.addEventListener(ev, () => { userTook = true; clearTimeout(timer); wrap.classList.add("paused"); })); });
   panel.tabIndex = 0;
+  /* a step is written as new nodes, so no old node moves when the text changes (30. 10.) */
+  const fill = i => { const [a, b, li] = steps[i], h = document.createElement("h3"), q = document.createElement("p"), u = document.createElement("ul");
+    h.textContent = a; q.textContent = b; u.innerHTML = li.map(x => `<li>${x}</li>`).join(""); panel.replaceChildren(h, q, u); };
   const show = async (i, anim = true) => {
     cur = i;
     tabs.forEach((t, k) => { t.setAttribute("aria-selected", String(k === i)); t.tabIndex = k === i ? 0 : -1; const pr = t.querySelector(".pr"); pr.style.animation = "none"; void pr.offsetWidth; pr.style.animation = ""; });
     if (anim && !RM) { panel.classList.add("out"); img.classList.add("out"); await sleep(250); }
-    const [a, b, li, f, alt] = steps[i];
-    panel.querySelector("h3").textContent = a; panel.querySelector("p").textContent = b;
-    panel.querySelector("ul").innerHTML = li.map(x => `<li>${x}</li>`).join("");
+    const [, , , f, alt] = steps[i];
+    fill(i);
     img.src = img.getAttribute("src").replace(/[^/]*$/, "") + (mq.matches ? "m-" : "") + f + ".webp"; img.alt = alt;
     panel.classList.remove("out"); img.classList.remove("out");
     panel.setAttribute("aria-labelledby", "tab-" + (i + 1));
@@ -2359,7 +2361,6 @@ details.fold>summary::-webkit-details-marker{display:none}
   show(0, false);
   /* phones (30. 10.): the panel sits over the shot, so it keeps the height of its tallest step; the rotation then never
      moves the shot or the page under it (it did: layout shift up to 0.03 per turn on Pixel 7) */
-  const fill = i => { const [a, b, li] = steps[i]; panel.querySelector("h3").textContent = a; panel.querySelector("p").textContent = b; panel.querySelector("ul").innerHTML = li.map(x => `<li>${x}</li>`).join(""); };
   const fitPanel = () => { panel.style.minHeight = ""; if (!mq.matches) return; let h = 0; steps.forEach((_, i) => { fill(i); h = Math.max(h, panel.offsetHeight); }); fill(cur); panel.style.minHeight = h + "px"; };
   let fitW = innerWidth; fitPanel(); document.fonts.ready.then(fitPanel); mq.addEventListener("change", fitPanel);
   addEventListener("resize", () => { if (innerWidth !== fitW) { fitW = innerWidth; fitPanel(); } });
