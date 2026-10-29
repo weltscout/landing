@@ -1,0 +1,13 @@
+{
+  "name": "weltscout-landing",
+  "why": "verify.py reported on this machine while running nothing for the WeltScout landing, so a broken build or redirect map read the same as a green one. The deploy suite builds the whole site and checks the sitemap, hreflang, redirects (edge script in node), headers, 404 pages, inline-script syntax and the contact function contract in about 30 s.",
+  "checks": [
+    {
+      "label": "landing:deploy-tests",
+      "dir": ".",
+      "cmd": "python3 -m unittest discover -s deploy -p 'test_*.py'",
+      "timeoutSec": 300,
+      "ci": false
+    }
+  ]
+}
