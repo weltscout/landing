@@ -277,6 +277,7 @@ Tactile and calm: a pill that changes colour, never jumps.
 - **Segmented control** (billing toggle, "Trije koraki" tabs): a white pill track with a hairline; the selected segment is a Night Navy pill. On phones the tabs become separate wrapping pills.
 
 ### Cards / Containers
+- **Carousels on phones:** the bento cards and blog guides are swipe carousels (82% cards, snap to centre) with the next card peeking. `.car-dots` under them (decorative, `aria-hidden`) show the count and the card in view; the region itself stays focusable and scrollable.
 - **Corner Style:** one scale. Full pill for buttons, chips and the segmented control; 24px for every standalone card, the nav bar, the hero app frame and the mobile menu; 16px for nested panels and media inside cards; 12px for small things (fields, screenshots inside panels, flag tiles, the skip link); 32px for full-width bands (24px under 900 px).
 - **Background:** Surface on the light page, Dark Surface in dark theme.
 - **Shadow Strategy:** the Card shadow (see Elevation); the Lifted one only on the three blue moments.
