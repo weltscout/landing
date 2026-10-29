@@ -2357,6 +2357,12 @@ details.fold>summary::-webkit-details-marker{display:none}
   wrap.addEventListener("mouseenter", () => pause(true)); wrap.addEventListener("mouseleave", () => pause(false));
   wrap.addEventListener("focusin", () => pause(true)); wrap.addEventListener("focusout", () => pause(false));
   show(0, false);
+  /* phones (30. 10.): the panel sits over the shot, so it keeps the height of its tallest step; the rotation then never
+     moves the shot or the page under it (it did: layout shift up to 0.03 per turn on Pixel 7) */
+  const fill = i => { const [a, b, li] = steps[i]; panel.querySelector("h3").textContent = a; panel.querySelector("p").textContent = b; panel.querySelector("ul").innerHTML = li.map(x => `<li>${x}</li>`).join(""); };
+  const fitPanel = () => { panel.style.minHeight = ""; if (!mq.matches) return; let h = 0; steps.forEach((_, i) => { fill(i); h = Math.max(h, panel.offsetHeight); }); fill(cur); panel.style.minHeight = h + "px"; };
+  let fitW = innerWidth; fitPanel(); document.fonts.ready.then(fitPanel); mq.addEventListener("change", fitPanel);
+  addEventListener("resize", () => { if (innerWidth !== fitW) { fitW = innerWidth; fitPanel(); } });
 
   /* statement: word reveal + data-flow canvas (NET-BRIEF.md) */
   const say = $("#say");
