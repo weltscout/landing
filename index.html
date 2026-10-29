@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="WeltScout">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="img/favicon-t2.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-t3.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/geist-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="img/hero-eu-poster.jpg" as="image" media="(min-width:601px)" fetchpriority="high">
@@ -1218,7 +1218,7 @@ footer .bot .langs{order:1}
 footer .bot .sw{order:2}
 footer .bot>span{order:3;flex-basis:100%;padding-top:20px;border-top:1px solid var(--line);color:var(--tx3)}
 footer .wm{margin:calc(clamp(24px,3vw,48px) + .6cqi) 0 -2.4cqi;color:var(--panel-bg);pointer-events:none}
-footer .wm:before{content:"";display:block;aspect-ratio:6;background:currentColor;-webkit-mask:url("img/logo-weltscout-t2.svg") 0 0/100% 100% no-repeat;mask:url("img/logo-weltscout-t2.svg") 0 0/100% 100% no-repeat}
+footer .wm:before{content:"";display:block;aspect-ratio:6;background:currentColor;-webkit-mask:url("img/logo-weltscout-t3.svg") 0 0/100% 100% no-repeat;mask:url("img/logo-weltscout-t3.svg") 0 0/100% 100% no-repeat}
 @media (max-width:600px){footer .cols>div:nth-child(3){display:block}footer .in{padding:56px 16px 0}footer .bot{margin-top:40px}}
 /* hero H1 fit (28. 10.): both H1 lines keep their breakpoint size unless the keyword line would need a third row;
    then both shrink so it fits two. --fit (em width the keyword line needs) is measured by deploy/h1_fit.py, stored on h1 */
@@ -1353,9 +1353,12 @@ footer .wm:before{content:"";display:block;aspect-ratio:6;background:currentColo
 .still .waph-mv,.motion-off .waph-mv{transition:none}
 /* wordmark (30. 10.): clean outlines (no masks), shown at whole pixel sizes in its 6:1 ratio, 120x20 in the nav,
    108x18 under 900px, 144x24 in the footer */
-.logo img{height:20px;width:auto}
+.logo img{height:24px;width:auto}
 footer .logo img{height:24px}
-@media (max-width:900px){.logo img{height:18px}footer .logo img{height:24px}}
+@media (max-width:900px){.logo img{height:22px}footer .logo img{height:24px}}
+nav{--logo-ratio:6;--nav-rest-m:267px;--nav-rest-d:770px}
+@media (min-width:371px) and (max-width:398px){nav .logo img{height:17px;height:round(down,(100vw - var(--nav-rest-m)) / var(--logo-ratio),1px)}}
+@media (min-width:901px) and (max-width:913px){nav .logo img{height:21px;height:round(down,(100vw - var(--nav-rest-d)) / var(--logo-ratio),1px)}}
 </style>
 </head>
 <body>
@@ -1363,7 +1366,7 @@ footer .logo img{height:24px}
 <aside class="banner" aria-label="Preizkus"><a href="{{APP}}"><span class="sr">7 dni brezplačno, brez omejitev. WhatsApp v vseh paketih. Do 29 portalov v 14 državah. </span><span class="annc" aria-hidden="true"><b class="on">7 dni brezplačno, brez omejitev</b><b>WhatsApp v vseh paketih</b><b>Do 29 portalov v 14 državah</b></span><span class="nocard">Brez kartice</span><span class="go">Začni zdaj<span aria-hidden="true">→</span></span></a><button class="bp" type="button" aria-pressed="false" aria-label="Ustavi gibanje"><svg class="ip" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z"/></svg><svg class="iy" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5 13 8l-8 5.5z"/></svg></button></aside>
 <nav aria-label="Glavna">
   <div class="nav-in">
-    <a class="logo" href="/sl/"><img class="lg-l" src="img/logo-weltscout-t2.svg" width="120" height="20" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-t2-dark.svg" width="120" height="20" alt="WeltScout"></a>
+    <a class="logo" href="/sl/"><img class="lg-l" src="img/logo-weltscout-t3.svg" width="120" height="20" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-t3-dark.svg" width="120" height="20" alt="WeltScout"></a>
     <div class="links"><a href="#kako">Kako deluje</a><a href="#stranke">Za trgovce</a><a href="#cenik">Cenik</a></div>
     <div class="right"><div class="lang"><button class="lang-b" type="button" aria-expanded="false" aria-controls="langm" aria-label="Jezik: slovenščina"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg><span>SL</span><svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><ul class="lang-m" id="langm" hidden><li><a href="/sl/" hreflang="sl" lang="sl" aria-current="page"><b>SL</b>Slovenščina</a></li><li><a href="/hr/" hreflang="hr" lang="hr"><b>HR</b>Hrvatski</a></li><li><a href="/en/" hreflang="en" lang="en"><b>EN</b>English</a></li><li><a href="/de/" hreflang="de" lang="de"><b>DE</b>Deutsch</a></li></ul></div><a class="login" href="{{APP}}">Prijava</a><a class="btn" href="{{APP}}">Preizkusi brezplačno</a><button class="burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Odpri meni"><span></span><span></span></button></div>
   </div>
@@ -1598,7 +1601,7 @@ footer .logo img{height:24px}
 <footer>
   <div class="in">
   <div class="cols">
-    <div class="brand"><a class="logo" href="/sl/"><img class="lg-l" src="img/logo-weltscout-t2.svg" width="120" height="20" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-t2-dark.svg" width="120" height="20" alt="WeltScout"></a>
+    <div class="brand"><a class="logo" href="/sl/"><img class="lg-l" src="img/logo-weltscout-t3.svg" width="120" height="20" alt="WeltScout"><img class="lg-d" src="img/logo-weltscout-t3-dark.svg" width="120" height="20" alt="WeltScout"></a>
       <p>Iskanje rabljenih vozil na domačih in evropskih portalih, za trgovce in posrednike.</p>
       <div class="contact"><a href="mailto:info@weltscout.com">info@weltscout.com</a></div>
       {{SOCIAL}}
