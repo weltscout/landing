@@ -331,6 +331,19 @@ class BuildOutput(unittest.TestCase):
         self.assertIn("instagram.com", icons)
         self.assertNotIn("wikidata.org", icons)
 
+    def test_contact_form_has_sending_sent_and_failed_states_in_every_language(self):
+        app = CONF["app"]
+        for code in self.langs():
+            html = (self.out / code / "index.html").read_text()
+            form = re.search(r'<form class="cform[^"]*" id="cform".*?</form>', html, re.S).group(0)
+            self.assertRegex(form, r'<button class="btn" type="submit" data-label="[^"]+" data-sending="[^"]+" data-retry="[^"]+">', code)
+            self.assertRegex(form, r'<div class="fail" role="alert" hidden>.*?<h3 tabindex="-1">[^<]+</h3>.*?mailto:info@weltscout\.com', code)
+            self.assertRegex(form, r'<div class="done" hidden>.*?<h3 tabindex="-1">[^<]+</h3><p>[^<]+ <b class="to"></b></p>', code)
+            self.assertIn(f'<a class="btn" href="{app}">', form, code)
+            self.assertIn('<button class="btn alt" type="button" data-new>', form, code)
+            self.assertIn('<p class="sr" id="cf-live" role="status"></p>', form, code)
+            self.assertLess(form.index('class="fail"'), form.index('type="submit"'), code)
+
     def test_site_credit_ends_the_footer_legal_line_on_every_page_in_the_page_language(self):
         credit = CONF["credit"]
         labels = {l["code"]: l["ui"]["credit"] for l in CONF["langs"]}

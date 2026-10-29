@@ -283,6 +283,9 @@ Tactile and calm: a pill that changes colour, never jumps.
 - **Style:** page-coloured fill, 1px slate-500 stroke, radius 12px, 16px text (no zoom on iOS), padding 13px 14px, labels above in 14px weight 600.
 - **Focus:** border Bright Blue plus a 4px blue ring at 18% opacity.
 - **Error:** border `#C2410C`, inline message checked on blur in plain language; a failed send keeps every value and offers the e-mail address.
+- **Sending:** the submit button is disabled with a 16px spinner and "Pošiljam …"; one request at a time (a second submit is ignored).
+- **Sent:** the fields give way to a confirmation in the same card, held at the card's height so nothing below moves: a green check in a 12% Trial Green disc draws itself (circle 0.45 s, tick 0.3 s) with one soft ring, the heading "Sporočilo je poslano." (clamp(26px, 2.4vw, 34px)) takes focus, the reply line names the channel and the address the visitor typed (no reply time: no page promises one), then "Medtem preizkusi brezplačno" (primary) and "Pošlji novo sporočilo" (secondary, resets the form and returns focus to the first field). A live region reads the reply line. Reduced motion, `?still` and the motion switch show the check already drawn.
+- **Send failed:** every value stays; a notice with a red alert icon on a 10% red tint (no border, the Tint-Not-Border Rule) sits above the button, its heading takes focus (`role="alert"`), the text says the message is still in the form and offers info@weltscout.com, and the button reads "Poskusi znova". Red is `--fail` on the form (#B42318 light, #FDA29B dark, the inline error colours).
 
 ### Navigation
 - **Top bar:** full-width Plan Blue band with the trial offer, a mint "Brez kartice" pill and an underlined "Začni zdaj →" link; rotates messages and has a pause control.
