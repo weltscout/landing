@@ -1604,6 +1604,16 @@ details.fold>summary::-webkit-details-marker{display:none}
 @media (max-width:600px){
   .js #pi{aspect-ratio:1170/1626;width:min(100%, var(--shot-h) * 1170 / 1626)}
 }
+/* kako deluje on phones (30. 10., owner): the tabs, then the shot of the step, then its text in its natural height.
+   The shot's box is fixed (ratio and width are set before it loads), and on phones a step changes only on a tap (no
+   automatic turn, so no progress bar), so nothing moves the page by itself */
+@media (max-width:600px){
+  .tabs-l{display:contents}
+  .tablist{order:1;margin:0;padding:20px 20px 16px}
+  .tabs-r{order:2}
+  .panel{order:3;padding:24px 20px 20px}
+  .tab .pr{display:none}
+}
 </style>
 </head>
 <body>
@@ -2335,6 +2345,9 @@ details.fold>summary::-webkit-details-marker{display:none}
   const tabs = $$(".tab"), panel = $("#p"), img = $("#pi"), wrap = $("#tabs"), TAB_MS = 6000;
   root.style.setProperty("--tabms", TAB_MS + "ms");
   let cur = 0, timer = null, userTook = false;
+  /* phones (30. 10., owner): the shot sits above the step text, so only a tap changes the step; an automatic turn would
+     change the text's height and move the page under it */
+  const rotates = () => !RM && !STILL && !motionOff && !mq.matches;
   tabs.forEach((t, k) => { t.id = "tab-" + (k + 1); ["pointerdown", "keydown"].forEach(ev => t.addEventListener(ev, () => { userTook = true; clearTimeout(timer); wrap.classList.add("paused"); })); });
   panel.tabIndex = 0;
   /* a step is written as new nodes, so no old node moves when the text changes (30. 10.) */
@@ -2349,21 +2362,17 @@ details.fold>summary::-webkit-details-marker{display:none}
     img.src = img.getAttribute("src").replace(/[^/]*$/, "") + (mq.matches ? "m-" : "") + f + ".webp"; img.alt = alt;
     panel.classList.remove("out"); img.classList.remove("out");
     panel.setAttribute("aria-labelledby", "tab-" + (i + 1));
-    clearTimeout(timer); if (!RM && !STILL && !userTook && !motionOff && !wrap.classList.contains("paused")) timer = setTimeout(() => show((cur + 1) % steps.length), TAB_MS);
+    clearTimeout(timer); if (rotates() && !userTook && !wrap.classList.contains("paused")) timer = setTimeout(() => show((cur + 1) % steps.length), TAB_MS);
   };
   tabs.forEach((t, i) => {
     t.addEventListener("click", () => show(i));
     t.addEventListener("keydown", e => { const n = e.key === "ArrowRight" ? (i + 1) % tabs.length : e.key === "ArrowLeft" ? (i + tabs.length - 1) % tabs.length : e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : -1; if (n < 0) return; e.preventDefault(); show(n); tabs[n].focus(); });
   });
-  const pause = on => { if (userTook) return; wrap.classList.toggle("paused", on); clearTimeout(timer); if (!on && !RM && !STILL && !motionOff) timer = setTimeout(() => show((cur + 1) % steps.length), TAB_MS); };
+  const pause = on => { if (userTook) return; wrap.classList.toggle("paused", on); clearTimeout(timer); if (!on && rotates()) timer = setTimeout(() => show((cur + 1) % steps.length), TAB_MS); };
   wrap.addEventListener("mouseenter", () => pause(true)); wrap.addEventListener("mouseleave", () => pause(false));
   wrap.addEventListener("focusin", () => pause(true)); wrap.addEventListener("focusout", () => pause(false));
   show(0, false);
-  /* phones (30. 10.): the panel sits over the shot, so it keeps the height of its tallest step; the rotation then never
-     moves the shot or the page under it (it did: layout shift up to 0.03 per turn on Pixel 7) */
-  const fitPanel = () => { panel.style.minHeight = ""; if (!mq.matches) return; let h = 0; steps.forEach((_, i) => { fill(i); h = Math.max(h, panel.offsetHeight); }); fill(cur); panel.style.minHeight = h + "px"; };
-  let fitW = innerWidth; fitPanel(); document.fonts.ready.then(fitPanel); mq.addEventListener("change", fitPanel);
-  addEventListener("resize", () => { if (innerWidth !== fitW) { fitW = innerWidth; fitPanel(); } });
+  mq.addEventListener("change", () => show(cur, false));
 
   /* statement: word reveal + data-flow canvas (NET-BRIEF.md) */
   const say = $("#say");
