@@ -1257,6 +1257,22 @@ footer .wm:before{content:"WeltScout"}
 @keyframes ctaSheen{from{background-position:120% 0,0 0}to{background-position:-20% 0,0 0}}
 @keyframes ctaGlow{0%,100%{opacity:0}40%{opacity:1}}
 .still :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go,.motion-off :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go,.still :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before,.motion-off :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before{animation:none}
+/* owner round (29. 10.): a hook line next to the hero button (what WeltScout replaces, how long the setup takes) and
+   FAST as its own card in the pricing language: plan-size name, the offer line in price type, a primary button */
+.hero .hook{margin:var(--lead-gap) 0 0;max-width:46ch;font-size:17px;font-weight:600;line-height:1.45;color:var(--tx);text-wrap:pretty;animation:h1in 1s cubic-bezier(.16,1,.3,1) .25s both}
+.still .hero .hook{animation:none}
+.addon{align-items:stretch}
+.addon>div:first-child{align-self:center;padding:var(--card-p)}
+.addon .n{margin:8px 0 12px;font-size:clamp(28px,2.6vw,40px);letter-spacing:-.035em;line-height:1.05}
+.addon>div:first-child p{font-size:17px;line-height:1.55}
+.addon .ac{gap:8px;padding:var(--card-p)}
+.addon .pr{font-size:clamp(28px,2.6vw,36px);letter-spacing:-.03em;line-height:1.1}
+.addon .ac p{font-size:15px}
+.addon .ac .btn{margin-top:12px}
+/* the compact nav button on phones has no room for the arrow */
+@media (max-width:600px){nav :is(.hero .ctas .btn:not(.alt),.btn)::after{display:none}}
+/* at 360 px and below the longest labels need the arrow's room */
+@media (max-width:360px){body :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt))::after{display:none}}
 </style>
 </head>
 <body>
@@ -1278,6 +1294,7 @@ footer .wm:before{content:"WeltScout"}
     <div class="copy">
       <h1 style="--fit:9.0"><span class="b1">Polovni automobili iz Nemačke i Evrope.</span> <span class="b2">Novi oglasi direktno na tvoj WhatsApp.</span></h1>
       <p class="lead">Upišeš koji auto tražiš. Mi jednom ili dvaput dnevno, zavisno od paketa, proveravamo do 29 portala (mobile.de, AutoScout24, avto.net …) i šaljemo ti nove oglase polovnih vozila na WhatsApp ili e-poštu.</p>
+      <p class="hook">Bez ručnog pregledanja portala: pretragu podesiš za jedan minut, nove oglase šaljemo mi.</p>
       <div class="ctas"><a class="btn" href="{{APP}}">Podesi prvu pretragu besplatno</a><a class="btn alt" href="#dokaz" data-play>Pogledaj kako radi (56 s)</a></div>
       <p class="note offer"><span class="nocard">Bez kartice</span> 7 dana besplatno sa punim pristupom kad pri registraciji upišeš firmu i kanal za obaveštenja. <span class="from">Zatim od 129,90 € mesečno.</span></p>
     </div>
@@ -1417,7 +1434,7 @@ footer .wm:before{content:"WeltScout"}
   <p class="assure1 rv"><span>WhatsApp u svim paketima</span><span>Posle probnog perioda ostaju nalog i pretrage</span><span>Novi portal obično za 4–7 radnih dana</span><a href="#kontakt">Ne znaš koji paket? Piši nam</a></p>
   <p class="terms"><span>Probni period traje 7 dana i besplatan je, bez ograničenja broja pretraga i učestalosti provere. Pun pristup dobijaš kad pri registraciji upišeš firmu i izabereš kanal za obaveštenja (WhatsApp ili e-pošta). Posle probnog perioda važe ograničenja izabranog paketa.</span></p>
   <p class="note after-plans">Pretraga se izvršava automatski i obaveštava te o novim oglasima. Više prodavaca? Svaki treba svoju licencu ili izaberi Business MAX. Godišnji paket se plaća unapred i pri prevremenom otkazivanju se ne vraća.</p>
-  <div class="addon rv" id="fast"><div><p class="k">Opciono</p><h3 class="n">Dodatni paket FAST</h3><p>Češća provera novih oglasa za pretrage u kojima se računa svaki sat, kao dodatak paketu Business ili Business +.</p></div><div class="ac"><div class="pr txt">Po dogovoru</div><p>Učestalost i cenu dogovaramo prema tvojim pretragama.</p><a class="btn alt" href="#kontakt" data-prefill="Zanima me dodatni paket FAST: koliko često proverava nove oglase, koliko košta i uz koji paket može da se doda.">Pitaj za paket FAST</a></div></div>
+  <div class="addon rv" id="fast"><div><p class="k">Opciono</p><h3 class="n">Dodatni paket FAST</h3><p>Češća provera novih oglasa za pretrage u kojima se računa svaki sat, kao dodatak paketu Business ili Business +.</p></div><div class="ac"><div class="pr txt">Po dogovoru</div><p>Učestalost i cenu dogovaramo prema tvojim pretragama.</p><a class="btn" href="#kontakt" data-prefill="Zanima me dodatni paket FAST: koliko često proverava nove oglase, koliko košta i uz koji paket može da se doda.">Pitaj za paket FAST</a></div></div>
 </section>
 
 <section class="honest">
@@ -1431,7 +1448,7 @@ footer .wm:before{content:"WeltScout"}
 
 
 <section id="vprasanja">
-  <div class="def"><p class="k">Ukratko</p><p><b>WeltScout</b> je veb-aplikacija kompanije WeltScout d.o.o. iz Grosuplja za trgovce i posrednike polovnim vozilima. Pretražuje do 29 portala iz 14 evropskih zemalja, nove oglase proverava 1× ili 2× dnevno, zavisno od paketa, i šalje ih na WhatsApp ili e-poštu. Obaveštenja ne stižu u realnom vremenu. Ne prodaje automobile i ne procenjuje njihove cene. Od 129,90 € po korisniku mesečno, bez PDV-a.</p><ul class="cl" aria-label="Zemlje u pretrazi"><li><img class="fl" src="img/flags/si.webp" width="18" height="13" alt="">Slovenija</li><li><img class="fl" src="img/flags/hr.webp" width="18" height="13" alt="">Hrvatska</li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">Austrija</li><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">Nemačka</li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt="">Italija</li><li><img class="fl" src="img/flags/fr.webp" width="18" height="13" alt="">Francuska</li><li><img class="fl" src="img/flags/nl.webp" width="18" height="13" alt="">Holandija</li><li><img class="fl" src="img/flags/be.webp" width="18" height="13" alt="">Belgija</li><li><img class="fl" src="img/flags/lu.webp" width="18" height="13" alt="">Luksemburg</li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt="">Španija</li><li><img class="fl" src="img/flags/pt.webp" width="18" height="13" alt="">Portugalija</li><li><img class="fl" src="img/flags/pl.webp" width="18" height="13" alt="">Poljska</li><li><img class="fl" src="img/flags/ro.webp" width="18" height="13" alt="">Rumunija</li><li><img class="fl" src="img/flags/se.webp" width="18" height="13" alt="">Švedska</li></ul><p class="st">Stanje: oktobar 2026.</p></div>
+  <div class="def"><p class="k">Ukratko</p><p><b>WeltScout</b> je veb-aplikacija slovenačke kompanije WeltScout d.o.o. za trgovce i posrednike polovnim vozilima. Pretražuje do 29 portala iz 14 evropskih zemalja, nove oglase proverava 1× ili 2× dnevno, zavisno od paketa, i šalje ih na WhatsApp ili e-poštu. Obaveštenja ne stižu u realnom vremenu. Ne prodaje automobile i ne procenjuje njihove cene. Od 129,90 € po korisniku mesečno, bez PDV-a.</p><ul class="cl" aria-label="Zemlje u pretrazi"><li><img class="fl" src="img/flags/si.webp" width="18" height="13" alt="">Slovenija</li><li><img class="fl" src="img/flags/hr.webp" width="18" height="13" alt="">Hrvatska</li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">Austrija</li><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">Nemačka</li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt="">Italija</li><li><img class="fl" src="img/flags/fr.webp" width="18" height="13" alt="">Francuska</li><li><img class="fl" src="img/flags/nl.webp" width="18" height="13" alt="">Holandija</li><li><img class="fl" src="img/flags/be.webp" width="18" height="13" alt="">Belgija</li><li><img class="fl" src="img/flags/lu.webp" width="18" height="13" alt="">Luksemburg</li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt="">Španija</li><li><img class="fl" src="img/flags/pt.webp" width="18" height="13" alt="">Portugalija</li><li><img class="fl" src="img/flags/pl.webp" width="18" height="13" alt="">Poljska</li><li><img class="fl" src="img/flags/ro.webp" width="18" height="13" alt="">Rumunija</li><li><img class="fl" src="img/flags/se.webp" width="18" height="13" alt="">Švedska</li></ul><p class="st">Stanje: oktobar 2026.</p></div>
   <div class="faq-wrap">
     <div class="side-h rv">
       <p class="eyebrow">Pitanja</p>

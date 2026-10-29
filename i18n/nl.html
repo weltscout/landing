@@ -1257,6 +1257,22 @@ footer .wm:before{content:"WeltScout"}
 @keyframes ctaSheen{from{background-position:120% 0,0 0}to{background-position:-20% 0,0 0}}
 @keyframes ctaGlow{0%,100%{opacity:0}40%{opacity:1}}
 .still :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go,.motion-off :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go,.still :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before,.motion-off :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before{animation:none}
+/* owner round (29. 10.): a hook line next to the hero button (what WeltScout replaces, how long the setup takes) and
+   FAST as its own card in the pricing language: plan-size name, the offer line in price type, a primary button */
+.hero .hook{margin:var(--lead-gap) 0 0;max-width:46ch;font-size:17px;font-weight:600;line-height:1.45;color:var(--tx);text-wrap:pretty;animation:h1in 1s cubic-bezier(.16,1,.3,1) .25s both}
+.still .hero .hook{animation:none}
+.addon{align-items:stretch}
+.addon>div:first-child{align-self:center;padding:var(--card-p)}
+.addon .n{margin:8px 0 12px;font-size:clamp(28px,2.6vw,40px);letter-spacing:-.035em;line-height:1.05}
+.addon>div:first-child p{font-size:17px;line-height:1.55}
+.addon .ac{gap:8px;padding:var(--card-p)}
+.addon .pr{font-size:clamp(28px,2.6vw,36px);letter-spacing:-.03em;line-height:1.1}
+.addon .ac p{font-size:15px}
+.addon .ac .btn{margin-top:12px}
+/* the compact nav button on phones has no room for the arrow */
+@media (max-width:600px){nav :is(.hero .ctas .btn:not(.alt),.btn)::after{display:none}}
+/* at 360 px and below the longest labels need the arrow's room */
+@media (max-width:360px){body :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt))::after{display:none}}
 </style>
 </head>
 <body>
@@ -1278,6 +1294,7 @@ footer .wm:before{content:"WeltScout"}
     <div class="copy">
       <h1 style="--fit:9.02"><span class="b1">Occasions uit Duitsland en Europa.</span> <span class="b2">Nieuwe advertenties direct op uw WhatsApp.</span></h1>
       <p class="lead">U geeft aan welke auto u zoekt. Wij doorzoeken, afhankelijk van uw pakket, één of twee keer per dag tot 29 portalen (mobile.de, AutoScout24, avto.net …) en sturen u de nieuwe advertenties van tweedehands auto’s uit Duitsland en Europa via WhatsApp of e-mail.</p>
+      <p class="hook">Geen portalen meer handmatig doorzoeken: zoekopdracht in een minuut ingesteld, nieuwe advertenties sturen wij u.</p>
       <div class="ctas"><a class="btn" href="{{APP}}">Maak een gratis zoekopdracht</a><a class="btn alt" href="#dokaz" data-play>Zie hoe het werkt (56 s)</a></div>
       <p class="note offer"><span class="nocard">Geen creditcard nodig</span> 7 dagen gratis met volledige toegang zodra u bij de registratie uw bedrijf en een meldingskanaal opgeeft. <span class="from">Daarna vanaf € 129,90 per maand.</span></p>
     </div>
@@ -1417,7 +1434,7 @@ footer .wm:before{content:"WeltScout"}
   <p class="assure1 rv"><span>WhatsApp in elk abonnement</span><span>Uw account en zoekopdrachten blijven na de proefperiode bewaard</span><span>Nieuwe portalen meestal binnen 4–7 werkdagen</span><a href="#kontakt">Weet u niet welk abonnement past? Schrijf ons</a></p>
   <p class="terms"><span>De proefperiode duurt 7 dagen en is gratis, zonder limiet op het aantal zoekopdrachten of de controlefrequentie. Volledige toegang krijgt u zodra u bij het registreren uw bedrijf invult en een meldingskanaal (WhatsApp of e-mail) kiest. Na de proefperiode gelden de limieten van het gekozen abonnement.</span></p>
   <p class="note after-plans">De zoekopdracht loopt automatisch en meldt u nieuwe advertenties. Meer dan één verkoper? Iedereen heeft een eigen licentie nodig, of kies Business MAX. Het jaarabonnement wordt vooruit betaald en bij tussentijdse opzegging niet terugbetaald.</p>
-  <div class="addon rv" id="fast"><div><p class="k">Optioneel</p><h3 class="n">Extra pakket FAST</h3><p>Vaker controleren op nieuwe advertenties, voor zoekopdrachten waarbij elk uur telt, als aanvulling op Business of Business +.</p></div><div class="ac"><div class="pr txt">In overleg</div><p>Frequentie en prijs spreken we af op basis van uw zoekopdrachten.</p><a class="btn alt" href="#kontakt" data-prefill="Ik heb interesse in het extra pakket FAST: hoe vaak het op nieuwe advertenties controleert, wat het kost en bij welk pakket ik het kan toevoegen.">Vraag naar FAST</a></div></div>
+  <div class="addon rv" id="fast"><div><p class="k">Optioneel</p><h3 class="n">Extra pakket FAST</h3><p>Vaker controleren op nieuwe advertenties, voor zoekopdrachten waarbij elk uur telt, als aanvulling op Business of Business +.</p></div><div class="ac"><div class="pr txt">In overleg</div><p>Frequentie en prijs spreken we af op basis van uw zoekopdrachten.</p><a class="btn" href="#kontakt" data-prefill="Ik heb interesse in het extra pakket FAST: hoe vaak het op nieuwe advertenties controleert, wat het kost en bij welk pakket ik het kan toevoegen.">Vraag naar FAST</a></div></div>
 </section>
 
 <section class="honest">
@@ -1431,7 +1448,7 @@ footer .wm:before{content:"WeltScout"}
 
 
 <section id="vprasanja">
-  <div class="def"><p class="k">Kort samengevat</p><p><b>WeltScout</b> is een webapp van WeltScout d.o.o. uit Grosuplje voor handelaren en tussenpersonen in tweedehandsauto’s. De app zoekt op maximaal 29 lokale en Europese portalen in 14 landen, controleert afhankelijk van het pakket één of twee keer per dag op nieuwe advertenties en stuurt die naar WhatsApp of e-mail. Meldingen komen niet realtime binnen. WeltScout verkoopt geen auto’s en taxeert de prijzen niet. Vanaf € 129,90 per gebruiker per maand, excl. btw.</p><ul class="cl" aria-label="Doorzochte landen"><li><img class="fl" src="img/flags/si.webp" width="18" height="13" alt="">Slovenië</li><li><img class="fl" src="img/flags/hr.webp" width="18" height="13" alt="">Kroatië</li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">Oostenrijk</li><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">Duitsland</li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt="">Italië</li><li><img class="fl" src="img/flags/fr.webp" width="18" height="13" alt="">Frankrijk</li><li><img class="fl" src="img/flags/nl.webp" width="18" height="13" alt="">Nederland</li><li><img class="fl" src="img/flags/be.webp" width="18" height="13" alt="">België</li><li><img class="fl" src="img/flags/lu.webp" width="18" height="13" alt="">Luxemburg</li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt="">Spanje</li><li><img class="fl" src="img/flags/pt.webp" width="18" height="13" alt="">Portugal</li><li><img class="fl" src="img/flags/pl.webp" width="18" height="13" alt="">Polen</li><li><img class="fl" src="img/flags/ro.webp" width="18" height="13" alt="">Roemenië</li><li><img class="fl" src="img/flags/se.webp" width="18" height="13" alt="">Zweden</li></ul><p class="st">Stand oktober 2026</p></div>
+  <div class="def"><p class="k">Kort samengevat</p><p><b>WeltScout</b> is een webapp van het Sloveense bedrijf WeltScout d.o.o. voor handelaren en tussenpersonen in tweedehandsauto’s. De app zoekt op maximaal 29 lokale en Europese portalen in 14 landen, controleert afhankelijk van het pakket één of twee keer per dag op nieuwe advertenties en stuurt die naar WhatsApp of e-mail. Meldingen komen niet realtime binnen. WeltScout verkoopt geen auto’s en taxeert de prijzen niet. Vanaf € 129,90 per gebruiker per maand, excl. btw.</p><ul class="cl" aria-label="Doorzochte landen"><li><img class="fl" src="img/flags/si.webp" width="18" height="13" alt="">Slovenië</li><li><img class="fl" src="img/flags/hr.webp" width="18" height="13" alt="">Kroatië</li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">Oostenrijk</li><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">Duitsland</li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt="">Italië</li><li><img class="fl" src="img/flags/fr.webp" width="18" height="13" alt="">Frankrijk</li><li><img class="fl" src="img/flags/nl.webp" width="18" height="13" alt="">Nederland</li><li><img class="fl" src="img/flags/be.webp" width="18" height="13" alt="">België</li><li><img class="fl" src="img/flags/lu.webp" width="18" height="13" alt="">Luxemburg</li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt="">Spanje</li><li><img class="fl" src="img/flags/pt.webp" width="18" height="13" alt="">Portugal</li><li><img class="fl" src="img/flags/pl.webp" width="18" height="13" alt="">Polen</li><li><img class="fl" src="img/flags/ro.webp" width="18" height="13" alt="">Roemenië</li><li><img class="fl" src="img/flags/se.webp" width="18" height="13" alt="">Zweden</li></ul><p class="st">Stand oktober 2026</p></div>
   <div class="faq-wrap">
     <div class="side-h rv">
       <p class="eyebrow">Vragen</p>
