@@ -938,6 +938,9 @@ CONSENT_CSS = (
     "border:1px solid var(--line3);background:transparent;color:var(--tx)}.ck button:focus-visible,.ck-open:focus-visible{outline:2px solid var(--acc);outline-offset:2px}"
     ".ck-open{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer}"
     "@media (min-width:900px){.ck{left:auto;right:24px;bottom:24px;max-width:400px;margin:0}}"
+    "@media (max-width:600px){.ck{left:0;right:0;bottom:0;max-width:none;padding:10px 16px calc(10px + env(safe-area-inset-bottom));"
+    "border-radius:16px 16px 0 0;border-width:1px 0 0;font-size:13px;line-height:1.38}.ck p{margin:0 0 8px}"
+    ".ck .b{flex-wrap:nowrap}.ck button{flex:1 1 0;min-width:0}}"
 )
 
 

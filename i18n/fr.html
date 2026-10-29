@@ -1318,6 +1318,10 @@ footer .wm:before{content:"WeltScout"}
 .cform .fail svg path{stroke-width:4}
 .still .cform :is(.done,.fail,.done *,.done .ok-ic::after,.btn.busy::before),.motion-off .cform :is(.done,.fail,.done *,.done .ok-ic::after,.btn.busy::before){animation:none}
 @media (prefers-reduced-motion:reduce){.cform :is(.done,.fail,.done *,.done .ok-ic::after,.btn.busy::before){animation:none}}
+/* hero stage entrance (30. 10.): the stage rises without fading, so its caption and the motion switch never pass through
+   a low-contrast frame (axe without ?still: 0 at any moment of the load); the copy column keeps its fade */
+.hero .stage{animation-name:stageIn}
+@keyframes stageIn{from{transform:translateY(14px)}}
 </style>
 </head>
 <body>
@@ -1913,7 +1917,12 @@ footer .wm:before{content:"WeltScout"}
     hits.forEach(h => h.classList.remove("in")); ping.classList.remove("in");
   };
   let gen = 0, heroVis = true, heroSeen = false;
-  new IntersectionObserver(es => { heroVis = es[0].isIntersecting; $(".hero").classList.toggle("off", !heroVis); }).observe($(".hero"));
+  /* offscreen pause (30. 10.): it is for the loops; the one-shot entrance (every finite animation in the hero at load) always
+     finishes first, so leaving the hero early never freezes the stage half faded */
+  const heroBox = $(".hero"); let heroIn = false;
+  const heroPause = () => heroBox.classList.toggle("off", !heroVis && heroIn);
+  new IntersectionObserver(es => { heroVis = es[0].isIntersecting; heroPause(); }).observe(heroBox);
+  Promise.allSettled(heroBox.getAnimations({ subtree: true }).filter(a => a.effect && a.effect.getComputedTiming().iterations !== Infinity).map(a => a.finished)).then(() => { heroIn = true; heroPause(); });
   const HALT = {}, wait = (ms, g) => new Promise((res, rej) => setTimeout(() => g === gen ? res() : rej(HALT), ms));
   const tween = (ms, g, fn) => new Promise((res, rej) => { const t0 = performance.now(); const step = now => { if (g !== gen) return rej(HALT); const k = Math.min(1, (now - t0) / ms); fn(k); k < 1 ? requestAnimationFrame(step) : res(); }; requestAnimationFrame(step); });
   const run = async g => {
