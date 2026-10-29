@@ -56,7 +56,7 @@
       "flag": "si",
       "name": "Slovenščina",
       "consent": {
-        "text": "Uporabljamo piškotke za analitiko (Google Analytics), da vidimo, kaj na strani deluje. Nastavimo jih samo, če se strinjaš.",
+        "text": "Analitične piškotke (Google Analytics) nastavimo le, če se strinjaš.",
         "accept": "Sprejmem",
         "reject": "Zavrnem",
         "settings": "Nastavitve piškotkov",
@@ -125,7 +125,7 @@
       "flag": "hr",
       "name": "Hrvatski",
       "consent": {
-        "text": "Koristimo kolačiće za analitiku (Google Analytics) da vidimo što na stranici funkcionira. Postavljamo ih samo ako se slažeš.",
+        "text": "Analitičke kolačiće (Google Analytics) postavljamo samo uz tvoj pristanak.",
         "accept": "Prihvaćam",
         "reject": "Odbijam",
         "settings": "Postavke kolačića",
@@ -195,7 +195,7 @@
       "flag": "rs",
       "name": "Srpski",
       "consent": {
-        "text": "Koristimo kolačiće za analitiku (Google Analytics) da vidimo šta na sajtu funkcioniše. Postavljamo ih samo ako se slažeš.",
+        "text": "Analitičke kolačiće (Google Analytics) postavljamo samo uz tvoju saglasnost.",
         "accept": "Prihvatam",
         "reject": "Odbijam",
         "settings": "Podešavanja kolačića",
@@ -264,7 +264,7 @@
       "flag": "gb",
       "name": "English",
       "consent": {
-        "text": "We use cookies for analytics (Google Analytics) to see what works on this site. We only set them if you agree.",
+        "text": "We set analytics cookies (Google Analytics) only with your consent.",
         "accept": "Accept",
         "reject": "Decline",
         "settings": "Cookie settings",
@@ -347,7 +347,7 @@
       "flag": "de",
       "name": "Deutsch",
       "consent": {
-        "text": "Wir verwenden Cookies für Analysen (Google Analytics), um zu sehen, was auf dieser Website funktioniert. Wir setzen sie nur mit Ihrer Zustimmung.",
+        "text": "Analyse-Cookies (Google Analytics) setzen wir nur mit Ihrer Zustimmung.",
         "accept": "Akzeptieren",
         "reject": "Ablehnen",
         "settings": "Cookie-Einstellungen",
@@ -418,7 +418,7 @@
       "flag": "nl",
       "name": "Nederlands",
       "consent": {
-        "text": "Wij gebruiken cookies voor analyse (Google Analytics) om te zien wat op deze website werkt. Wij plaatsen ze alleen met uw toestemming.",
+        "text": "Analytische cookies (Google Analytics) plaatsen wij alleen met uw toestemming.",
         "accept": "Accepteren",
         "reject": "Weigeren",
         "settings": "Cookie-instellingen",
@@ -503,7 +503,7 @@
       "flag": "fr",
       "name": "Français",
       "consent": {
-        "text": "Nous utilisons des cookies d’analyse (Google Analytics) pour voir ce qui fonctionne sur ce site. Nous ne les déposons qu’avec votre accord.",
+        "text": "Cookies d’analyse (Google Analytics) seulement avec votre accord.",
         "accept": "Accepter",
         "reject": "Refuser",
         "settings": "Paramètres des cookies",
