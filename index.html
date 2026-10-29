@@ -1534,6 +1534,10 @@ details.fold>summary::-webkit-details-marker{display:none}
 
 /* the note under the plans (owner, 29. 10.): a centred block of at most 60ch, centred text, on every width */
 #cenik .note.after-plans{max-width:60ch;margin-left:auto;margin-right:auto;text-align:center}
+
+/* FAQ on phones (owner, 29. 10.): the first five questions show, "Pokaži vsa vprašanja (9)" shows the rest; all nine
+   stay in the HTML (and in the FAQPage JSON-LD built from it) */
+@media (max-width:600px){.js .faq[data-more]:not(.all)>details:nth-of-type(n+6){display:none!important}}
 </style>
 </head>
 <body>
@@ -1717,7 +1721,7 @@ details.fold>summary::-webkit-details-marker{display:none}
       <p class="lead">Kar nas trgovci najpogosteje vprašajo, preden začnejo.</p>
       <div class="ask-card"><b>Ne najdeš odgovora?</b><p>Piši nam v svojem jeziku, odgovorimo v vseh jezikih te strani.</p><a class="btn alt" href="#kontakt">Piši nam</a></div>
     </div>
-    <div class="faq rv">
+    <div class="faq rv" id="faq-l" data-more>
       <details><summary>Koliko stane WeltScout za trgovca?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Business stane 129,90 €, Business + 199,90 € na uporabnika na mesec, brez DDV. Business MAX za ekipe je po dogovoru. Pri letnem plačilu prihraniš 17 %.</p></div></details>
       <details><summary>Katere države in koliko portalov WeltScout pregleda?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Do 29 domačih in evropskih portalov v 14 državah: Slovenija, Hrvaška, Avstrija, Nemčija, Italija, Francija, Nizozemska, Belgija, Luksemburg, Španija, Portugalska, Poljska, Romunija in Švedska. Manjkajoči portal običajno dodamo v 4–7 delovnih dneh.</p></div></details>
       <details><summary>Kako pogosto WeltScout preverja nove oglase?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Business enkrat na dan, Business + dvakrat na dan, Business MAX po dogovoru pogosteje. Prve obstoječe zadetke vidiš ob vsakem iskanju v nekaj sekundah.</p></div></details>
@@ -1727,7 +1731,7 @@ details.fold>summary::-webkit-details-marker{display:none}
       <details><summary>Koliko ljudi lahko uporablja en račun?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Cena velja na uporabnika, zato vsak prodajalec rabi svojo licenco. Za ekipe je pogosto ugodnejši Business MAX, ki ga prilagodimo glede na porabo.</p></div></details>
       <details><summary>Kaj dobim v preizkusu in kaj se zgodi po njem?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Preizkus traja 7 dni, je brezplačen in brez kartice, brez omejitve števila iskanj in pogostosti preverjanja. Poln dostop dobiš, ko ob registraciji vpišeš podjetje in izbereš kanal za obvestila (WhatsApp ali e-pošta). Po izteku račun in iskanja ostanejo; ko izbereš paket, nadaljuješ tam, kjer si končal.</p></div></details>
       <details><summary>V katerem jeziku je aplikacija?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Aplikacija je zaenkrat v angleščini. Podpora ti odgovori v tvojem jeziku.</p></div></details>
-    </div>
+    <button class="more-btn" type="button" aria-expanded="false" aria-controls="faq-l" data-less="Pokaži manj vprašanj">Pokaži vsa vprašanja (9)</button></div>
   </div>
 </section>
 

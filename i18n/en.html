@@ -1535,6 +1535,10 @@ details.fold>summary::-webkit-details-marker{display:none}
 
 /* the note under the plans (owner, 29. 10.): a centred block of at most 60ch, centred text, on every width */
 #cenik .note.after-plans{max-width:60ch;margin-left:auto;margin-right:auto;text-align:center}
+
+/* FAQ on phones (owner, 29. 10.): the first five questions show, "Pokaži vsa vprašanja (9)" shows the rest; all nine
+   stay in the HTML (and in the FAQPage JSON-LD built from it) */
+@media (max-width:600px){.js .faq[data-more]:not(.all)>details:nth-of-type(n+6){display:none!important}}
 </style>
 </head>
 <body>
@@ -1718,7 +1722,7 @@ details.fold>summary::-webkit-details-marker{display:none}
       <p class="lead">What dealers most often ask us before they start.</p>
       <div class="ask-card"><b>Can’t find your answer?</b><p>Write to us in your language. We reply in every language on this site.</p><a class="btn alt" href="#kontakt">Write to us</a></div>
     </div>
-    <div class="faq rv">
+    <div class="faq rv" id="faq-l" data-more>
       <details><summary>How much does WeltScout cost for a dealer?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Business costs €129.90 and Business + €199.90 per user per month, excluding VAT. Business MAX for teams is on request. Paying yearly saves you 17%.</p></div></details>
       <details><summary>Which countries and how many portals does WeltScout search?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Up to 29 local and European portals in 14 countries: Slovenia, Croatia, Austria, Germany, Italy, France, the Netherlands, Belgium, Luxembourg, Spain, Portugal, Poland, Romania and Sweden. We usually add a missing portal within 4–7 working days.</p></div></details>
       <details><summary>How often does WeltScout check for new listings?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Business once a day, Business + twice a day, Business MAX more often by arrangement. Within seconds of every search you see the first results from listings already online.</p></div></details>
@@ -1728,7 +1732,7 @@ details.fold>summary::-webkit-details-marker{display:none}
       <details><summary>How many people can use one account?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>The price is per user, so each salesperson needs their own licence. For teams, Business MAX is often better value, and we tailor it to your usage.</p></div></details>
       <details><summary>What do I get in the trial and what happens afterwards?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>The trial lasts 7 days, is free and needs no card, with no limit on the number of searches or how often they are checked. You get full access once you add your company and choose an alert channel (WhatsApp or email) at sign-up. When it ends, your account and searches are kept; once you choose a plan, you carry on where you left off.</p></div></details>
       <details><summary>Which language is the app in?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>The app is in English for now. Our support replies in your language.</p></div></details>
-    </div>
+    <button class="more-btn" type="button" aria-expanded="false" aria-controls="faq-l" data-less="Show fewer questions">Show all questions (9)</button></div>
   </div>
 </section>
 

@@ -1535,6 +1535,10 @@ details.fold>summary::-webkit-details-marker{display:none}
 
 /* the note under the plans (owner, 29. 10.): a centred block of at most 60ch, centred text, on every width */
 #cenik .note.after-plans{max-width:60ch;margin-left:auto;margin-right:auto;text-align:center}
+
+/* FAQ on phones (owner, 29. 10.): the first five questions show, "Pokaži vsa vprašanja (9)" shows the rest; all nine
+   stay in the HTML (and in the FAQPage JSON-LD built from it) */
+@media (max-width:600px){.js .faq[data-more]:not(.all)>details:nth-of-type(n+6){display:none!important}}
 </style>
 </head>
 <body>
@@ -1718,7 +1722,7 @@ details.fold>summary::-webkit-details-marker{display:none}
       <p class="lead">Was Händler uns am häufigsten fragen, bevor sie loslegen.</p>
       <div class="ask-card"><b>Keine Antwort gefunden?</b><p>Schreiben Sie uns in Ihrer Sprache, wir antworten in allen Sprachen dieser Website.</p><a class="btn alt" href="#kontakt">Schreiben Sie uns</a></div>
     </div>
-    <div class="faq rv">
+    <div class="faq rv" id="faq-l" data-more>
       <details><summary>Was kostet WeltScout für Händler?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Business kostet 129,90 €, Business + 199,90 € pro Nutzer und Monat, zzgl. MwSt. Business MAX für Teams gibt es auf Anfrage. Bei jährlicher Zahlung sparen Sie 17 %.</p></div></details>
       <details><summary>Welche Länder und wie viele Portale durchsucht WeltScout?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Bis zu 29 nationale und europäische Portale in 14 Ländern: Slowenien, Kroatien, Österreich, Deutschland, Italien, Frankreich, Niederlande, Belgien, Luxemburg, Spanien, Portugal, Polen, Rumänien und Schweden. Ein fehlendes Portal ergänzen wir in der Regel innerhalb von 4–7 Werktagen.</p></div></details>
       <details><summary>Wie oft prüft WeltScout neue Inserate?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Business einmal täglich, Business + zweimal täglich, Business MAX nach Absprache häufiger. Erste vorhandene Treffer sehen Sie bei jeder Suche in wenigen Sekunden.</p></div></details>
@@ -1728,7 +1732,7 @@ details.fold>summary::-webkit-details-marker{display:none}
       <details><summary>Wie viele Personen können ein Konto nutzen?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Der Preis gilt pro Nutzer, daher braucht jeder Verkäufer eine eigene Lizenz. Für Teams ist häufig Business MAX günstiger, das wir an Ihre Nutzung anpassen.</p></div></details>
       <details><summary>Was bekomme ich im Test und was passiert danach?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Der Test dauert 7 Tage, ist kostenlos und läuft ohne Kreditkarte, ohne Begrenzung der Anzahl der Suchen und der Prüfhäufigkeit. Vollen Zugang haben Sie, sobald Sie bei der Registrierung Ihre Firma angeben und einen Benachrichtigungskanal wählen (WhatsApp oder E-Mail). Nach Ablauf bleiben Konto und Suchen erhalten; sobald Sie ein Paket wählen, machen Sie dort weiter, wo Sie aufgehört haben.</p></div></details>
       <details><summary>In welcher Sprache ist die App?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Die App ist derzeit auf Englisch. Unser Support antwortet Ihnen in Ihrer Sprache.</p></div></details>
-    </div>
+    <button class="more-btn" type="button" aria-expanded="false" aria-controls="faq-l" data-less="Weniger Fragen anzeigen">Alle Fragen anzeigen (9)</button></div>
   </div>
 </section>
 

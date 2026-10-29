@@ -1535,6 +1535,10 @@ details.fold>summary::-webkit-details-marker{display:none}
 
 /* the note under the plans (owner, 29. 10.): a centred block of at most 60ch, centred text, on every width */
 #cenik .note.after-plans{max-width:60ch;margin-left:auto;margin-right:auto;text-align:center}
+
+/* FAQ on phones (owner, 29. 10.): the first five questions show, "Pokaži vsa vprašanja (9)" shows the rest; all nine
+   stay in the HTML (and in the FAQPage JSON-LD built from it) */
+@media (max-width:600px){.js .faq[data-more]:not(.all)>details:nth-of-type(n+6){display:none!important}}
 </style>
 </head>
 <body>
@@ -1718,7 +1722,7 @@ details.fold>summary::-webkit-details-marker{display:none}
       <p class="lead">Wat handelaren ons het vaakst vragen voordat ze beginnen.</p>
       <div class="ask-card"><b>Antwoord niet gevonden?</b><p>Schrijf ons in uw eigen taal. Wij antwoorden in alle talen van deze website.</p><a class="btn alt" href="#kontakt">Schrijf ons</a></div>
     </div>
-    <div class="faq rv">
+    <div class="faq rv" id="faq-l" data-more>
       <details><summary>Wat kost WeltScout voor een handelaar?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Business kost € 129,90 en Business + € 199,90 per gebruiker per maand, excl. btw. Business MAX voor teams is op aanvraag. Jaarlijks betalen bespaart u 17%.</p></div></details>
       <details><summary>In welke landen en op hoeveel portalen zoekt WeltScout?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Op maximaal 29 lokale en Europese portalen in 14 landen: Slovenië, Kroatië, Oostenrijk, Duitsland, Italië, Frankrijk, Nederland, België, Luxemburg, Spanje, Portugal, Polen, Roemenië en Zweden. Een ontbrekend portaal voegen wij meestal binnen 4–7 werkdagen toe.</p></div></details>
       <details><summary>Hoe vaak controleert WeltScout op nieuwe advertenties?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>Business één keer per dag, Business + twee keer per dag, Business MAX vaker in overleg. Binnen seconden na elke zoekopdracht ziet u de eerste resultaten uit advertenties die al online staan.</p></div></details>
@@ -1728,7 +1732,7 @@ details.fold>summary::-webkit-details-marker{display:none}
       <details><summary>Hoeveel mensen kunnen één account gebruiken?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>De prijs geldt per gebruiker, dus elke verkoper heeft een eigen licentie nodig. Voor teams is Business MAX vaak voordeliger, en wij stemmen het af op uw gebruik.</p></div></details>
       <details><summary>Wat krijg ik in de proefperiode en wat gebeurt er daarna?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>De proefperiode duurt 7 dagen, is gratis en vraagt geen creditcard, zonder limiet op het aantal zoekopdrachten of de controlefrequentie. Volledige toegang krijgt u zodra u bij de registratie uw bedrijf opgeeft en een meldingskanaal kiest (WhatsApp of e-mail). Na afloop blijven uw account en zoekopdrachten bewaard; zodra u een abonnement kiest, gaat u verder waar u gebleven was.</p></div></details>
       <details><summary>In welke taal is de app?<span class="ic" aria-hidden="true"></span></summary><div class="ans"><p>De app is voorlopig in het Engels. Onze support antwoordt u in uw eigen taal.</p></div></details>
-    </div>
+    <button class="more-btn" type="button" aria-expanded="false" aria-controls="faq-l" data-less="Minder vragen tonen">Alle vragen tonen (9)</button></div>
   </div>
 </section>
 
