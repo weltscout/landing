@@ -1328,11 +1328,6 @@ footer .wm:before{content:"WeltScout"}
 .hero .offer-pts .nocard{font-size:14px;padding:2px 11px 2px 9px}
 .hero .offer-pts .from{font-weight:600;color:var(--tx)}
 .hero .offer-if{margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--tx3);max-width:52ch}
-/* light-theme green line (30. 10.): Trial Mint as a highlighter under every row (box-decoration-break: clone) with the
-   text in Trial Ink, so the line wears the trial colour at 4.5:1 or more; background only, the line box and the wrapping
-   (and so --fit) stay as they are. The dark theme keeps mint text */
-html:not([data-theme="dark"]) .hero h1 .b2{color:var(--ok-ink)}
-html:not([data-theme="dark"]) .hero h1 .b2 .mark-ok{padding:0 .05em;margin:0 -.05em;background:linear-gradient(transparent 54%,var(--ok-hi) 54%,var(--ok-hi) 92%,transparent 92%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
 </style>
 </head>
 <body>
@@ -1352,7 +1347,7 @@ html:not([data-theme="dark"]) .hero h1 .b2 .mark-ok{padding:0 .05em;margin:0 -.0
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="hero-in">
     <div class="copy">
-      <h1 style="--fit:10.89"><span class="b1">Used cars from Germany and across Europe.</span> <span class="b2"><span class="mark-ok">New listings straight to your WhatsApp.</span></span></h1>
+      <h1 style="--fit:10.89"><span class="b1">Used cars from Germany and across Europe.</span> <span class="b2">New listings straight to your WhatsApp.</span></h1>
       <p class="lead">Set up your used car search once: tell us which car you’re looking for. Depending on your plan, we check up to 29 portals (mobile.de, AutoScout24, avto.net …) once or twice a day and send you the new listings by WhatsApp or e-mail.</p>
       <p class="hook">No more checking portals by hand: set up your search in a minute, and we send you the new listings.</p>
       <div class="ctas"><a class="btn" href="{{APP}}">Set up your first search free</a><a class="btn alt" href="#dokaz" data-play><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4.5 2.8v10.4L13 8z" fill="currentColor"/></svg>How it works <span class="dur">56 s</span></a></div>
