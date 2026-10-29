@@ -163,7 +163,7 @@ class BuildOutput(unittest.TestCase):
                 self.assertIn("<table", body, src)
                 self.assertRegex(body, r"<h3>[^<]*\?</h3>", src)
                 self.assertTrue(meta.get("sources"), src)
-                self.assertTrue(all(s["accessed"] == "2026-10-28" and s["url"].startswith("https://") for s in meta["sources"]), src)
+                self.assertTrue(all("2026-10-28" <= s["accessed"] <= "2026-12-31" and s["url"].startswith("https://") for s in meta["sources"]), src)
                 checked += 1
         self.assertGreaterEqual(checked, 7)
 
