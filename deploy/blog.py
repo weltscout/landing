@@ -91,7 +91,7 @@ HOME_CSS = (
     "@media (max-width:900px){.hb-l{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.hb-l li:nth-child(3){display:none}}"
     "@media (max-width:600px){.hb-l{grid-template-columns:minmax(0,1fr);gap:28px;padding:0 16px}.hb-l li:nth-child(3){display:block}}"
     "#blog .hb-all-m{display:none}"
-    "@media (max-width:600px){#blog .hb-h>.hb-all{display:none}#blog .hb-all-m{display:flex;width:max-content;margin:20px var(--gut,16px) 0}}"
+    "@media (max-width:600px){#blog .hb-h>.hb-all{display:none}#blog .hb-all-m{display:flex;width:max-content;margin:var(--lead-gap,20px) var(--gut,16px) calc((1lh - 44px) / 2)}#blog .hb-h .eyebrow{margin-bottom:var(--eb-gap,12px)}}"
 )
 
 BLOG_CSS = CARD_CSS + (

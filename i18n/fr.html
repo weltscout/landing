@@ -1564,6 +1564,29 @@ details.fold>summary::-webkit-details-marker{display:none}
   footer .bot{margin-top:28px;padding-top:18px;gap:12px 16px}
   footer .bot>span{padding-top:14px}
 }
+
+/* mobile rhythm (30. 10., owner: "preveč je natlačeno"): on phones the page breathes, one token per step, measured from
+   the visible text and boxes rather than from padding: about 104 px between sections, 64 px inside the blue bands,
+   eyebrow -> heading 12, heading -> lead 18, head -> content 36, cards in a list 16, a button 32 under its text */
+@media (max-width:600px){
+  :root{--sec-y:100px;--band-y:64px;--sec-head:36px;--lead-gap:20px;--eb-gap:14px;--card-gap:16px;--cta-gap:32px}
+  section.final{margin-bottom:var(--sec-y)}
+  section.final .note{margin-bottom:0}
+  .eyebrow{margin-bottom:var(--eb-gap)}
+  .price-head{gap:var(--sec-head)}.price-head .bill{margin-top:0}
+  .contact-wrap,.faq-wrap{gap:var(--sec-head)}.contact-wrap .lead{margin-bottom:0}
+  .faq,.plans{gap:var(--card-gap)}
+  :is(.wa,.split) p:has(+ .btn){margin-bottom:0}
+  :is(.wa,.split) p + .btn{margin-top:var(--cta-gap)}
+  /* a 44 px text-only control that closes a block: the next block is measured from its text, not from its tap row */
+  #vprasanja .faq .more-btn,.fold-terms:not([open]),.fold-cl:not([open]){margin-bottom:calc((1lh - 44px) / 2)}
+  #dokaz .more-btn{margin-top:var(--lead-gap)}
+  .fold-terms{margin-top:0}
+  .car-dots{margin-top:8px}
+  footer .brand>.logo{display:flex;align-items:center;margin:0}
+  footer .brand p{margin-top:0}
+  footer .wm{margin-top:12px}
+}
 </style>
 </head>
 <body>

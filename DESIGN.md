@@ -77,6 +77,14 @@ spacing:
   block-gap: "clamp(48px, 3vw + 36px, 80px)"
   sec-head: "clamp(32px, 2.4vw + 24px, 60px)"
   lead-gap: "clamp(12px, 0.6vw + 10px, 20px)"
+  # phones (up to 600 px, owner 30. 10.: "preveč je natlačeno"): fixed steps instead of the fluid minimums
+  sec-y-phone: "100px"
+  band-y-phone: "64px"
+  sec-head-phone: "36px"
+  lead-gap-phone: "20px"
+  eb-gap-phone: "14px"
+  card-gap-phone: "16px"
+  cta-gap-phone: "32px"
   card-p: "clamp(20px, 1.15vw + 15.5px, 32px)"
   gutter: "24px"
 components:
@@ -176,7 +184,7 @@ It rejects what PRODUCT.md lists as anti-references: a page that looks AI-made (
 - Product first: app recordings, the WhatsApp phone, the results list with real prices.
 - Two colour roles only: blue acts, green reassures.
 - Hairline cards on a light grey page; nested panels are a tint, never a second border.
-- One vertical rhythm from tokens (`--sec-y`, `--block-gap`, `--sec-head`, `--lead-gap`), fluid from 390 to 1440 px.
+- One vertical rhythm from tokens (`--sec-y`, `--block-gap`, `--sec-head`, `--lead-gap`), fluid from 601 to 1440 px. On phones the tokens are fixed steps with more air (owner, 30. 10.): about 104 px of visible space between sections, 64 px inside the blue bands, eyebrow to heading 12, heading to lead 18, head to content 36, 16 between cards in a list, 32 above a button that follows its text.
 - One orchestrated motion moment (the H1 word reveal), everything else answers the visitor.
 - Seven languages, so every component survives the longest of them (de, fr, nl).
 
@@ -351,7 +359,7 @@ The page ends on the brand, on Surface (Dark Surface in dark), with no gradient:
 
 ### Do:
 - **Do** use Plan Blue (#0055DC) for every action and Trial Green / Trial Mint for every trial, WhatsApp and success message.
-- **Do** put spacing on the tokens: `--sec-y` between sections (one gap, never two paddings back to back), `--block-gap` inside a section, `--sec-head` under a heading block, `--lead-gap` under a heading.
+- **Do** put spacing on the tokens: `--sec-y` between sections (one gap, never two paddings back to back), `--block-gap` inside a section, `--sec-head` under a heading block, `--lead-gap` under a heading. On phones `--eb-gap` (eyebrow), `--card-gap` (cards in a list) and `--cta-gap` (a button under its text) join them. Measure the rhythm from the visible text and boxes: a 44 px text-only control that closes a block ("Pokaži vse", a closed fold) takes `margin-bottom: calc((1lh - 44px) / 2)`, so the next block counts from its text, not from its tap row; a paragraph right before such a button has no bottom margin, so the gap is the token and not a margin plus the token.
 - **Do** give every standalone card radius 24px, the Card shadow and `--card-p` padding; give nested panels radius 16px and a tint only.
 - **Do** check every text colour on a gradient or image by sampling the pixels under it; axe cannot measure those.
 - **Do** design at 390 px first and test 320, 390 and 1440 px in all 7 languages, light and dark.
