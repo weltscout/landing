@@ -1360,9 +1360,27 @@ footer .wm:before{content:"";display:block;aspect-ratio:6;background:currentColo
 .logo img{height:24px;width:auto}
 footer .logo img{height:24px}
 @media (max-width:900px){.logo img{height:22px}footer .logo img{height:24px}}
-nav{--logo-ratio:6;--nav-rest-m:267px;--nav-rest-d:770px}
-@media (min-width:371px) and (max-width:398px){nav .logo img{height:17px;height:round(down,(100vw - var(--nav-rest-m)) / var(--logo-ratio),1px)}}
-@media (min-width:901px) and (max-width:913px){nav .logo img{height:21px;height:round(down,(100vw - var(--nav-rest-d)) / var(--logo-ratio),1px)}}
+nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
+@media (min-width:371px) and (max-width:382px){nav .logo img{height:20px;height:min(22px,round(down,(100vw - var(--nav-rest-m)) / var(--logo-ratio),1px))}}
+@media (min-width:901px) and (max-width:919px){nav .logo img{height:21px;height:min(24px,round(down,(100vw - var(--nav-rest-d)) / var(--logo-ratio),1px))}}
+
+/* mobile bar (29. 10.): up to 900 px the nav is a full-width bar on a solid surface with a bottom hairline, 56 px
+   high, that slides away while scrolling down and comes back on scroll up (transform only, so nothing shifts).
+   On phones the announcement bar is one 36 px row with only the rotating fact; the full text stays for readers */
+@media (max-width:900px){
+  body>nav{top:0;margin-top:0;padding:0;transition:transform .28s var(--ease-out)}
+  body>nav.nav-up{transform:translateY(-100%)}
+  .nav-in{height:56px;max-width:none;border-radius:0;background:var(--surf);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 -1px 0 var(--line2)}
+  .mnav{margin:0 auto;border-radius:0 0 var(--r-lg) var(--r-lg)}
+}
+@media (max-width:900px) and (prefers-reduced-motion:reduce){body>nav{transition:none}}
+@media (max-width:600px){
+  .banner a{min-height:36px;padding:4px 8px 4px 12px;flex-wrap:nowrap;gap:0}
+  .banner .nocard,.banner .go{display:none}
+  .banner .annc{flex-basis:auto}
+  .banner b{font-size:14px;white-space:nowrap}
+  .banner .bp{width:28px;height:28px;margin-right:6px}
+}
 </style>
 </head>
 <body>
@@ -1660,6 +1678,18 @@ nav{--logo-ratio:6;--nav-rest-m:267px;--nav-rest-d:770px}
   mnav.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
   matchMedia("(min-width:901px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
   addEventListener("keydown", e => { if (e.key === "Escape" && !mnav.hidden) { setMenu(false); burger.focus(); } });
+
+  /* phones: the nav bar slides away while scrolling down and comes back on scroll up, never while the menu is
+     open or focus is inside it */
+  const navBar = $("body>nav"), navMq = matchMedia("(max-width:900px)");
+  if (navBar) {
+    let lastY = scrollY, queued = false;
+    const navUpd = () => { queued = false; const y = scrollY, dy = y - lastY;
+      if (!navMq.matches || y < 120 || !mnav.hidden || navBar.contains(document.activeElement)) { navBar.classList.remove("nav-up"); lastY = y; return; }
+      if (dy > 8) { navBar.classList.add("nav-up"); lastY = y; } else if (dy < -8) { navBar.classList.remove("nav-up"); lastY = y; } };
+    addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(navUpd); } }, {passive: true});
+    navBar.addEventListener("focusin", () => navBar.classList.remove("nav-up"));
+  }
 
   /* nav indicator */
   const links = $(".links");
