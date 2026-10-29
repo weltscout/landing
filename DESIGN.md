@@ -228,6 +228,7 @@ A cool, light palette: navy ink on pale grey, with one blue that acts and one gr
 - **Lead** (400, 19px, 1.6, max 58ch, pretty wrap; the hero lead is 17px on phones): the line under a heading.
 - **Body** (400, 17px, 1.6): running text; keep lines under 75ch.
 - **Label** (600, 13 to 14px, sentence case): eyebrows in accent blue, card labels in muted ink. Small print is 13px muted ink.
+- **Fallback while Geist loads:** every stack is `Geist, 'Geist Fallback', …`. "Geist Fallback" is local Arial (weights up to 500) and Arial Bold (550 and up), with `size-adjust` and ascent/descent overrides computed from Geist's metrics, so a late font barely moves the layout. With the font held back 1.2 s, the layout shift over 7 languages at 390 and 1440 px fell from 0.0215 to 0.0041 in total (largest single case 0.0033). Android has no Arial and keeps the system font. Only `font-display: optional` would make this exactly 0, and that would keep the fallback for the whole first visit on a slow connection.
 
 ### Named Rules
 **The Sentence Case Rule.** No tracked all-caps labels. Eyebrows and labels are sentence case, 14px, weight 600.

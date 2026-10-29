@@ -933,9 +933,9 @@ def legal_pages(live, sources):
 
 CONSENT_CSS = (
     ".ck{position:fixed;left:16px;right:16px;bottom:16px;z-index:90;max-width:560px;margin:0 auto;padding:18px 20px;border-radius:16px;"
-    "background:var(--surf);color:var(--tx);box-shadow:var(--sh-lg);border:1px solid var(--line2);font:15px/1.5 Geist,system-ui,sans-serif}"
+    "background:var(--surf);color:var(--tx);box-shadow:var(--sh-lg);border:1px solid var(--line2);font:15px/1.5 Geist,'Geist Fallback',system-ui,sans-serif}"
     ".ck[hidden]{display:none}.ck p{margin:0 0 14px;color:var(--tx2)}.ck a{color:var(--acc)}"
-    ".ck .b{display:flex;flex-wrap:wrap;gap:10px}.ck button{flex:1 1 140px;min-height:44px;border-radius:10px;font:600 15px Geist,system-ui,sans-serif;cursor:pointer;"
+    ".ck .b{display:flex;flex-wrap:wrap;gap:10px}.ck button{flex:1 1 140px;min-height:44px;border-radius:10px;font:600 15px Geist,'Geist Fallback',system-ui,sans-serif;cursor:pointer;"
     "border:1px solid var(--line3);background:transparent;color:var(--tx)}.ck button:focus-visible,.ck-open:focus-visible{outline:2px solid var(--acc);outline-offset:2px}"
     ".ck-open{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer}"
     "@media (min-width:900px){.ck{left:auto;right:24px;bottom:24px;max-width:400px;margin:0}}"

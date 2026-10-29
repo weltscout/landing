@@ -120,7 +120,7 @@ BLOG_CSS = CARD_CSS + (
     ".bi-h .lead{margin:0 0 8px;font-size:19px;line-height:1.55;color:var(--tx2);max-width:40ch;text-wrap:pretty}"
     ".filt{max-width:var(--maxw);margin:48px auto 0;padding:20px 24px 0;display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--line)}"
     ".filt[hidden]{display:none}"
-    ".filt button{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--tx2);font:500 15px Geist,system-ui,sans-serif;cursor:pointer}"
+    ".filt button{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--tx2);font:500 15px Geist,'Geist Fallback',system-ui,sans-serif;cursor:pointer}"
     ".filt button:hover{color:var(--tx);border-color:var(--line3)}.filt button[aria-pressed=true]{background:var(--tx);border-color:var(--tx);color:var(--pg)}"
     ".filt .n{font-size:13px;color:var(--tx3);font-variant-numeric:tabular-nums}.filt [aria-pressed=true] .n{color:inherit}"
     ".feed{list-style:none;max-width:var(--maxw);margin:40px auto 0;padding:0 24px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:64px 32px}"
