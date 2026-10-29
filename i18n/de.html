@@ -1539,6 +1539,14 @@ details.fold>summary::-webkit-details-marker{display:none}
 /* FAQ on phones (owner, 29. 10.): the first five questions show, "Pokaži vsa vprašanja (9)" shows the rest; all nine
    stay in the HTML (and in the FAQPage JSON-LD built from it) */
 @media (max-width:600px){.js .faq[data-more]:not(.all)>details:nth-of-type(n+6){display:none!important}}
+
+/* FAST on phones (owner, 29. 10.): the add-on is a fold; the summary is its heading, and the description and the
+   price panel show when it opens (the panel follows the fold through :has). Desktop is unchanged */
+@media (max-width:600px){
+  .fold-fast>summary .n{margin:0}
+  .addon:has(.fold-fast:not([open])) .ac{display:none}
+  .fold-fast[open]>p{margin-top:10px}
+}
 </style>
 </head>
 <body>
@@ -1700,7 +1708,7 @@ details.fold>summary::-webkit-details-marker{display:none}
   <p class="assure1 rv"><span>WhatsApp in jedem Paket</span><span>Konto und Suchen bleiben nach dem Test erhalten</span><span>Neue Portale meist in 4–7 Werktagen</span><a href="#kontakt">Unsicher, welches Paket? Schreiben Sie uns</a></p>
   <details class="fold fold-terms"><summary>Details zum Test und zur Suche</summary><p class="terms"><span>Der Test dauert 7 Tage und ist kostenlos, ohne Begrenzung der Anzahl der Suchen und der Prüfhäufigkeit. Vollen Zugriff erhalten Sie, sobald Sie bei der Registrierung Ihr Unternehmen angeben und einen Benachrichtigungskanal (WhatsApp oder E-Mail) wählen. Nach dem Test gelten die Grenzen des gewählten Pakets.</span></p>
   <p class="note after-plans">Die Suche läuft automatisch und benachrichtigt Sie über neue Inserate. Mehrere Verkäufer? Jeder braucht eine eigene Lizenz, oder wählen Sie Business MAX. Das Jahrespaket wird im Voraus bezahlt und bei vorzeitiger Kündigung nicht erstattet.</p></details>
-  <div class="addon rv" id="fast"><div><p class="k">Optional</p><h3 class="n">Zusatzpaket FAST</h3><p>Für Suchen, bei denen jede Sekunde zählt: Wir prüfen neue Inserate auf Wunsch sekündlich, als Zusatz zu Business oder Business +.</p></div><div class="ac"><div class="pr txt">Nach Vereinbarung</div><p>Häufigkeit und Preis vereinbaren wir anhand Ihrer Suchen.</p><a class="btn" href="#kontakt" data-prefill="Ich interessiere mich für das Zusatzpaket FAST: wie oft es neue Inserate prüft, was es kostet und zu welchem Paket ich es hinzufügen kann.">Nach FAST fragen</a></div></div>
+  <div class="addon rv" id="fast"><div><p class="k">Optional</p><details class="fold fold-fast"><summary><h3 class="n">Zusatzpaket FAST</h3></summary><p>Für Suchen, bei denen jede Sekunde zählt: Wir prüfen neue Inserate auf Wunsch sekündlich, als Zusatz zu Business oder Business +.</p></details></div><div class="ac"><div class="pr txt">Nach Vereinbarung</div><p>Häufigkeit und Preis vereinbaren wir anhand Ihrer Suchen.</p><a class="btn" href="#kontakt" data-prefill="Ich interessiere mich für das Zusatzpaket FAST: wie oft es neue Inserate prüft, was es kostet und zu welchem Paket ich es hinzufügen kann.">Nach FAST fragen</a></div></div>
 </section>
 
 <section class="honest">

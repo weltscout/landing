@@ -1539,6 +1539,14 @@ details.fold>summary::-webkit-details-marker{display:none}
 /* FAQ on phones (owner, 29. 10.): the first five questions show, "Pokaži vsa vprašanja (9)" shows the rest; all nine
    stay in the HTML (and in the FAQPage JSON-LD built from it) */
 @media (max-width:600px){.js .faq[data-more]:not(.all)>details:nth-of-type(n+6){display:none!important}}
+
+/* FAST on phones (owner, 29. 10.): the add-on is a fold; the summary is its heading, and the description and the
+   price panel show when it opens (the panel follows the fold through :has). Desktop is unchanged */
+@media (max-width:600px){
+  .fold-fast>summary .n{margin:0}
+  .addon:has(.fold-fast:not([open])) .ac{display:none}
+  .fold-fast[open]>p{margin-top:10px}
+}
 </style>
 </head>
 <body>
@@ -1700,7 +1708,7 @@ details.fold>summary::-webkit-details-marker{display:none}
   <p class="assure1 rv"><span>WhatsApp in elk abonnement</span><span>Uw account en zoekopdrachten blijven na de proefperiode bewaard</span><span>Nieuwe portalen meestal binnen 4–7 werkdagen</span><a href="#kontakt">Weet u niet welk abonnement past? Schrijf ons</a></p>
   <details class="fold fold-terms"><summary>Details over de proefperiode en het zoeken</summary><p class="terms"><span>De proefperiode duurt 7 dagen en is gratis, zonder limiet op het aantal zoekopdrachten of de controlefrequentie. Volledige toegang krijgt u zodra u bij het registreren uw bedrijf invult en een meldingskanaal (WhatsApp of e-mail) kiest. Na de proefperiode gelden de limieten van het gekozen abonnement.</span></p>
   <p class="note after-plans">De zoekopdracht loopt automatisch en meldt u nieuwe advertenties. Meer dan één verkoper? Iedereen heeft een eigen licentie nodig, of kies Business MAX. Het jaarabonnement wordt vooruit betaald en bij tussentijdse opzegging niet terugbetaald.</p></details>
-  <div class="addon rv" id="fast"><div><p class="k">Optioneel</p><h3 class="n">Extra pakket FAST</h3><p>Voor zoekopdrachten waarbij elke seconde telt: wij controleren nieuwe advertenties desgewenst elke seconde, als aanvulling op Business of Business +.</p></div><div class="ac"><div class="pr txt">In overleg</div><p>Frequentie en prijs spreken we af op basis van uw zoekopdrachten.</p><a class="btn" href="#kontakt" data-prefill="Ik heb interesse in het extra pakket FAST: hoe vaak het op nieuwe advertenties controleert, wat het kost en bij welk pakket ik het kan toevoegen.">Vraag naar FAST</a></div></div>
+  <div class="addon rv" id="fast"><div><p class="k">Optioneel</p><details class="fold fold-fast"><summary><h3 class="n">Extra pakket FAST</h3></summary><p>Voor zoekopdrachten waarbij elke seconde telt: wij controleren nieuwe advertenties desgewenst elke seconde, als aanvulling op Business of Business +.</p></details></div><div class="ac"><div class="pr txt">In overleg</div><p>Frequentie en prijs spreken we af op basis van uw zoekopdrachten.</p><a class="btn" href="#kontakt" data-prefill="Ik heb interesse in het extra pakket FAST: hoe vaak het op nieuwe advertenties controleert, wat het kost en bij welk pakket ik het kan toevoegen.">Vraag naar FAST</a></div></div>
 </section>
 
 <section class="honest">

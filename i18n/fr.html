@@ -1541,6 +1541,14 @@ details.fold>summary::-webkit-details-marker{display:none}
 /* FAQ on phones (owner, 29. 10.): the first five questions show, "Pokaži vsa vprašanja (9)" shows the rest; all nine
    stay in the HTML (and in the FAQPage JSON-LD built from it) */
 @media (max-width:600px){.js .faq[data-more]:not(.all)>details:nth-of-type(n+6){display:none!important}}
+
+/* FAST on phones (owner, 29. 10.): the add-on is a fold; the summary is its heading, and the description and the
+   price panel show when it opens (the panel follows the fold through :has). Desktop is unchanged */
+@media (max-width:600px){
+  .fold-fast>summary .n{margin:0}
+  .addon:has(.fold-fast:not([open])) .ac{display:none}
+  .fold-fast[open]>p{margin-top:10px}
+}
 </style>
 </head>
 <body>
@@ -1702,7 +1710,7 @@ details.fold>summary::-webkit-details-marker{display:none}
   <p class="assure1 rv"><span>WhatsApp dans toutes les formules</span><span>Compte et recherches conservés après l’essai</span><span>Nouveaux portails en général sous 4 à 7 jours ouvrables</span><a href="#kontakt">Un doute sur la formule ? Écrivez-nous</a></p>
   <details class="fold fold-terms"><summary>Détails sur l’essai et la recherche</summary><p class="terms"><span>L’essai dure 7 jours et il est gratuit, sans limite du nombre de recherches ni de la fréquence de vérification. Vous obtenez l’accès complet dès que vous indiquez votre entreprise et choisissez un canal de notification (WhatsApp ou e-mail) à l’inscription. Après l’essai, les limites de la formule choisie s’appliquent.</span></p>
   <p class="note after-plans">La recherche s’exécute automatiquement et vous prévient des nouvelles annonces. Plusieurs vendeurs ? Chacun a besoin de sa propre licence, ou choisissez Business MAX. L’abonnement annuel est payé d’avance et n’est pas remboursé en cas de résiliation anticipée.</p></details>
-  <div class="addon rv" id="fast"><div><p class="k">En option</p><h3 class="n">Option FAST</h3><p>Pour les recherches où chaque seconde compte : nous vérifions les nouvelles annonces jusqu’à une fois par seconde, en complément de Business ou Business +.</p></div><div class="ac"><div class="pr txt">Sur devis</div><p>Fréquence et prix convenus selon vos recherches.</p><a class="btn" href="#kontakt" data-prefill="L’option FAST m’intéresse : à quelle fréquence elle vérifie les nouvelles annonces, combien elle coûte et à quelle formule je peux l’ajouter.">Demander l’option FAST</a></div></div>
+  <div class="addon rv" id="fast"><div><p class="k">En option</p><details class="fold fold-fast"><summary><h3 class="n">Option FAST</h3></summary><p>Pour les recherches où chaque seconde compte : nous vérifions les nouvelles annonces jusqu’à une fois par seconde, en complément de Business ou Business +.</p></details></div><div class="ac"><div class="pr txt">Sur devis</div><p>Fréquence et prix convenus selon vos recherches.</p><a class="btn" href="#kontakt" data-prefill="L’option FAST m’intéresse : à quelle fréquence elle vérifie les nouvelles annonces, combien elle coûte et à quelle formule je peux l’ajouter.">Demander l’option FAST</a></div></div>
 </section>
 
 <section class="honest">

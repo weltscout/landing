@@ -1538,6 +1538,14 @@ details.fold>summary::-webkit-details-marker{display:none}
 /* FAQ on phones (owner, 29. 10.): the first five questions show, "Pokaži vsa vprašanja (9)" shows the rest; all nine
    stay in the HTML (and in the FAQPage JSON-LD built from it) */
 @media (max-width:600px){.js .faq[data-more]:not(.all)>details:nth-of-type(n+6){display:none!important}}
+
+/* FAST on phones (owner, 29. 10.): the add-on is a fold; the summary is its heading, and the description and the
+   price panel show when it opens (the panel follows the fold through :has). Desktop is unchanged */
+@media (max-width:600px){
+  .fold-fast>summary .n{margin:0}
+  .addon:has(.fold-fast:not([open])) .ac{display:none}
+  .fold-fast[open]>p{margin-top:10px}
+}
 </style>
 </head>
 <body>
@@ -1699,7 +1707,7 @@ details.fold>summary::-webkit-details-marker{display:none}
   <p class="assure1 rv"><span>WhatsApp v vseh paketih</span><span>Po preizkusu ostanejo račun in iskanja</span><span>Nov portal običajno v 4–7 delovnih dneh</span><a href="#kontakt">Ne veš, kateri paket? Piši nam</a></p>
   <details class="fold fold-terms"><summary>Podrobnosti o preizkusu in iskanju</summary><p class="terms"><span>Preizkus traja 7 dni in je brezplačen, brez omejitve števila iskanj in pogostosti preverjanja. Poln dostop dobiš, ko ob registraciji vpišeš podjetje in izbereš kanal za obvestila (WhatsApp ali e-pošta). Po preizkusu veljajo omejitve izbranega paketa.</span></p>
   <p class="note after-plans">Iskanje teče samodejno in te obvešča o novih oglasih. Več prodajalcev? Vsak rabi svojo licenco ali pa izberi Business MAX. Letni paket se plača vnaprej in se ob predčasni odpovedi ne vrača.</p></details>
-  <div class="addon rv" id="fast"><div><p class="k">Opcijsko</p><h3 class="n">Dodatni paket FAST</h3><p>Za iskanja, pri katerih šteje vsaka sekunda: nove oglase preverjamo tudi vsako sekundo, kot dodatek k paketu Business ali Business +.</p></div><div class="ac"><div class="pr txt">Po dogovoru</div><p>Pogostost in ceno uskladimo glede na tvoja iskanja.</p><a class="btn" href="#kontakt" data-prefill="Zanima me dodatni paket FAST: kako pogosto preverja nove oglase, koliko stane in h kateremu paketu ga lahko dodam.">Vprašaj za paket FAST</a></div></div>
+  <div class="addon rv" id="fast"><div><p class="k">Opcijsko</p><details class="fold fold-fast"><summary><h3 class="n">Dodatni paket FAST</h3></summary><p>Za iskanja, pri katerih šteje vsaka sekunda: nove oglase preverjamo tudi vsako sekundo, kot dodatek k paketu Business ali Business +.</p></details></div><div class="ac"><div class="pr txt">Po dogovoru</div><p>Pogostost in ceno uskladimo glede na tvoja iskanja.</p><a class="btn" href="#kontakt" data-prefill="Zanima me dodatni paket FAST: kako pogosto preverja nove oglase, koliko stane in h kateremu paketu ga lahko dodam.">Vprašaj za paket FAST</a></div></div>
 </section>
 
 <section class="honest">
