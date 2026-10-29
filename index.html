@@ -1240,22 +1240,27 @@ footer .wm:before{content:"WeltScout"}
   .banner .bp{position:relative}
   .banner .bp:after{content:"";position:absolute;inset:-6px}
 }
-/* CTA motion (29. 10.): the primary buttons (hero, nav, plans, closing band) catch the eye when they come into view: a
-   soft sheen crosses the button (background-position) and a blue halo pulses once (opacity), twice more 6 s apart, then
-   never again. Hover and focus: the halo stays and the arrow moves 4 px; pressed: scale .98. No positional lift (buttons
-   do not jump, see Buttons). Reduced motion, ?still and the motion switch: no sweep or pulse, the hover state stays */
-:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)){--sheen:rgba(255,255,255,.07);position:relative;isolation:isolate;background-image:linear-gradient(110deg,transparent 42%,var(--sheen) 50%,transparent 58%),linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 62%);background-size:300% 100%,100% 100%;background-position:120% 0,0 0;background-repeat:no-repeat}
-.plan.hl .btn,.final .btn:not(.alt){--sheen:rgba(0,64,177,.10)}
+/* CTA (29. 10.): every primary button (hero, nav, plans, closing band) has the arrow and one hover state: a blue halo
+   shows and the arrow moves 4 px; pressed: scale .98. No positional lift (buttons do not jump, see Buttons). Only the
+   hero button blinks for attention, see the hero pulse below */
+:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)){position:relative;isolation:isolate}
 :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt))::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;box-shadow:0 0 0 4px color-mix(in srgb,var(--blue-500) 26%,transparent),0 12px 30px -8px color-mix(in srgb,var(--blue-500) 70%,transparent);opacity:0;transition:opacity .2s;pointer-events:none}
 :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt))::after{content:"→" / "";display:inline-block;transition:transform .2s var(--ease-out)}
 :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):hover::before,:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):focus-visible::before{opacity:1}
 :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):hover::after,:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):focus-visible::after{transform:translateX(4px)}
 :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)):active{transform:scale(.98)}
-:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go{animation:ctaSheen .9s var(--ease-out) both}
-:is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before{animation:ctaGlow .9s ease-out both}
+/* hero pulse (29. 10.): a Bright Blue ring expands from the button and fades (box-shadow, 1.2 s), the button swells to
+   1.04 and back (transform, 0.7 s) and a sheen crosses it (background-position, 0.9 s); first 0.8 s after the button
+   comes into view, then every 3.5 s while it stays in view, never after the first hover or focus. The sheen is capped
+   so the label keeps 4.5:1 at every frame. Reduced motion, ?still and the motion switch: none */
+.hero .ctas .btn:not(.alt){background-image:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.07) 50%,transparent 58%),linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 62%);background-size:300% 100%,100% 100%;background-position:120% 0,0 0;background-repeat:no-repeat}
+.hero .ctas .btn.blink{animation:ctaSheen .9s var(--ease-out),ctaBump .7s cubic-bezier(.3,0,.3,1)}
+.hero .ctas .btn.blink::before{animation:ctaRing 1.2s cubic-bezier(.2,.6,.35,1)}
 @keyframes ctaSheen{from{background-position:120% 0,0 0}to{background-position:-20% 0,0 0}}
-@keyframes ctaGlow{0%,100%{opacity:0}40%{opacity:1}}
-.still :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go,.motion-off :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go,.still :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before,.motion-off :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt)).go::before{animation:none}
+@keyframes ctaBump{0%,100%{transform:none}40%{transform:scale(1.04)}}
+@keyframes ctaRing{from{opacity:1;box-shadow:0 0 0 0 color-mix(in srgb,var(--blue-500) 60%,transparent)}to{opacity:1;box-shadow:0 0 0 16px color-mix(in srgb,var(--blue-500) 0%,transparent)}}
+.still .hero .ctas .btn.blink,.motion-off .hero .ctas .btn.blink,.still .hero .ctas .btn.blink::before,.motion-off .hero .ctas .btn.blink::before{animation:none}
+@media (prefers-reduced-motion:reduce){.hero .ctas .btn.blink,.hero .ctas .btn.blink::before{animation:none}}
 /* owner round (29. 10.): a hook line next to the hero button (what WeltScout replaces, how long the setup takes) and
    FAST as its own card in the pricing language: plan-size name, the offer line in price type, a primary button */
 .hero .hook{margin:var(--lead-gap) 0 0;max-width:46ch;font-size:17px;font-weight:600;line-height:1.45;color:var(--tx);text-wrap:pretty;animation:h1in 1s cubic-bezier(.16,1,.3,1) .25s both}
@@ -1716,20 +1721,25 @@ footer .wm:before{content:"WeltScout"}
     addEventListener("popstate", () => { if (zst === "opening" || zst === "open") zclose(true); });
   }
 
-  /* CTA motion (29. 10.): a sheen and a halo when a primary button comes into view, twice more 6 s apart, then never
-     again (WCAG 2.2.2); the motion switch stops it, reduced motion and ?still skip it */
-  const ctas = $$(".hero .ctas .btn:not(.alt), nav .btn, .plan .btn:not(.alt), .final .btn:not(.alt)");
-  if (ctas.length && !RM && !STILL) {
-    const CTA_RUNS = 3, CTA_GAP = 6000;
-    const ctaPlay = el => { if (motionOff) return; el.classList.remove("go"); void el.offsetWidth; el.classList.add("go"); };
-    const ctaIo = new IntersectionObserver(es => es.forEach(e => {
-      if (!e.isIntersecting) return;
-      ctaIo.unobserve(e.target);
-      let n = 0;
-      const tick = () => { ctaPlay(e.target); if (++n < CTA_RUNS) setTimeout(tick, CTA_GAP); };
-      tick();
-    }), { threshold: .6 });
-    ctas.forEach(el => ctaIo.observe(el));
+  /* hero CTA pulse (29. 10.): 0.8 s after the button comes into view, then every 3.5 s while it stays in view; it stops
+     when the button leaves the view or the motion switch is pressed, and for good after the first hover or focus
+     (WCAG 2.2.2). Reduced motion and ?still: none. The other primary buttons only answer hover and press */
+  const hcta = $(".hero .ctas .btn:not(.alt)");
+  if (hcta && !RM && !STILL) {
+    const BLINK_FIRST = 800, BLINK_GAP = 3500;
+    let inView = false, seen = false, bt = 0;
+    const blink = () => { hcta.classList.remove("blink"); void hcta.offsetWidth; hcta.classList.add("blink"); bt = setTimeout(blink, BLINK_GAP); };
+    const blinkSync = () => {
+      if (inView && !seen && !motionOff) { if (!bt) bt = setTimeout(blink, BLINK_FIRST); return; }
+      clearTimeout(bt); bt = 0;
+      if (motionOff) hcta.classList.remove("blink");
+    };
+    const blinkSeen = () => { seen = true; blinkSync(); };
+    hcta.addEventListener("pointerenter", blinkSeen, { once: true });
+    hcta.addEventListener("focus", blinkSeen, { once: true });
+    hcta.addEventListener("animationend", e => { if (e.animationName === "ctaRing") hcta.classList.remove("blink"); });
+    new IntersectionObserver(es => { inView = es[0].isIntersecting; blinkSync(); }, { threshold: .6 }).observe(hcta);
+    document.addEventListener("motionchange", blinkSync);
   }
 
   /* faq: one open at a time, height + content eased */
