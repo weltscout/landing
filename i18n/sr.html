@@ -1327,11 +1327,15 @@ footer .wm:before{content:"WeltScout"}
 .hero .offer-pts .nocard{font-size:14px;padding:2px 11px 2px 9px}
 .hero .offer-pts .from{font-weight:600;color:var(--tx)}
 .hero .offer-if{margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--tx3);max-width:52ch}
-/* light-theme green line (30. 10.): Trial Mint as a highlighter under every row (box-decoration-break: clone) with the
-   text in Trial Ink, so the line wears the trial colour at 4.5:1 or more; background only, the line box and the wrapping
-   (and so --fit) stay as they are. The dark theme keeps mint text */
-html:not([data-theme="dark"]) .hero h1 .b2{color:var(--ok-ink)}
-html:not([data-theme="dark"]) .hero h1 .b2 .mark-ok{padding:0 .05em;margin:0 -.05em;background:linear-gradient(transparent 54%,var(--ok-hi) 54%,var(--ok-hi) 92%,transparent 92%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+/* green H1 line (30. 10.): Trial Mint text with a mint chat-bubble mark in front, in both themes. In the light theme
+   it sits in a Night Navy ribbon, one band per row (box-decoration-break: clone, radius 12px), because mint on the light
+   page is 1.65:1 and on Night Navy 10:1 or more. The ribbon is a wrapper at .75em, so its box stays inside the line
+   pitch (no band covers the row above) and the text inside is back at full size; the icon's width is in --fit */
+.hero h1 .b2{color:var(--ok-hi)}
+.hero h1 .b2 .mark-ok{font-size:.75em}
+.hero h1 .b2 .mk-t{font-size:calc(1em / .75)}
+.hero h1 .b2 .mk-i{width:.74em;height:.74em;margin-right:.2em;vertical-align:-.04em;fill:currentColor}
+html:not([data-theme="dark"]) .hero h1 .b2 .mark-ok{padding:.07em .32em .03em;margin:0 -.32em;border-radius:12px;background:var(--navy-950);-webkit-box-decoration-break:clone;box-decoration-break:clone}
 </style>
 </head>
 <body>
@@ -1351,7 +1355,7 @@ html:not([data-theme="dark"]) .hero h1 .b2 .mark-ok{padding:0 .05em;margin:0 -.0
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="hero-in">
     <div class="copy">
-      <h1 style="--fit:9.0"><span class="b1">Polovni automobili iz Nemačke i Evrope.</span> <span class="b2"><span class="mark-ok">Novi oglasi direktno na tvoj WhatsApp.</span></span></h1>
+      <h1 style="--fit:9.94"><span class="b1">Polovni automobili iz Nemačke i Evrope.</span> <span class="b2"><span class="mark-ok"><span class="mk-t"><svg class="mk-i" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3C7 3 3 6.6 3 11c0 2.2 1 4.2 2.7 5.6L5 21l4.3-2.2c.9.2 1.8.3 2.7.3 5 0 9-3.6 9-8s-4-8-9-8z"/></svg>Novi oglasi direktno na tvoj WhatsApp.</span></span></span></h1>
       <p class="lead">Upišeš koji auto tražiš. Mi jednom ili dvaput dnevno, zavisno od paketa, proveravamo do 29 portala (mobile.de, AutoScout24, avto.net …) i šaljemo ti nove oglase polovnih vozila na WhatsApp ili e-poštu.</p>
       <p class="hook">Bez ručnog pregledanja portala: pretragu podesiš za jedan minut, nove oglase šaljemo mi.</p>
       <div class="ctas"><a class="btn" href="{{APP}}">Podesi prvu pretragu besplatno</a><a class="btn alt" href="#dokaz" data-play><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4.5 2.8v10.4L13 8z" fill="currentColor"/></svg>Kako radi <span class="dur">56 s</span></a></div>
