@@ -1468,6 +1468,40 @@ details.fold>summary::-webkit-details-marker{display:none}
   .cu span{min-width:0;overflow:hidden;text-overflow:ellipsis}
   .cu em{flex:none}
 }
+
+/* facts icons (29. 10., owner): one 44 px tile per card in the card tint with a 24 px icon (1.75 px stroke, round
+   ends); the WhatsApp card carries the official WhatsApp glyph (paths unchanged, from WhatsApp Brand Resources) in
+   its official black #111B21 on light and its official green #25D366 on dark, the two variants with at least 3:1
+   against the card (green on white is only 1.98:1). Cards in a row share one height; desktop cards lift with a
+   shadow on hover (an opacity change on ::after, so nothing moves and the reveal transition stays) */
+.facts.spec{grid-auto-rows:1fr}
+.facts.spec .fx-ic{display:grid;place-items:center;width:44px;height:44px;margin:0 0 18px;max-width:none;border-radius:14px;background:color-mix(in oklch,var(--acc) 12%,var(--surf));color:var(--acc)}
+.facts.spec .fx-ic svg{width:24px;height:24px}
+.facts.spec .fx-wa{background:var(--surf2)}
+.facts.spec .fx-wa svg{width:26px;height:26px;fill:#111B21}
+[data-theme="dark"] .facts.spec .fx-wa svg{fill:#25D366}
+.facts.spec>div.hl .fx-ic{background:rgba(255,255,255,.16);color:#fff}
+.facts.spec b,.facts.spec b.word{margin-top:0;font-size:clamp(28px,2.9vw,42px)}
+.facts.spec .k{font-size:14px}
+.facts.spec span{font-size:15px}
+.facts.spec>div:nth-child(n){position:relative}
+@media (hover:hover) and (min-width:901px){
+  .facts.spec>div:not(.hl)::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:var(--sh-lg);opacity:0;transition:opacity .25s var(--ease-out);pointer-events:none}
+  .facts.spec>div:not(.hl):hover::after{opacity:1}
+}
+@media (max-width:600px){
+  .facts.spec .fx-ic{display:inline-grid;width:36px;height:36px;margin:0 10px 0 0;border-radius:11px;vertical-align:middle}
+  .facts.spec .fx-ic svg{width:20px;height:20px}
+  .facts.spec .fx-wa svg{width:22px;height:22px}
+  .facts.spec .k{display:inline;vertical-align:middle}
+  .facts.spec b,.facts.spec b.word{margin-top:12px}
+  .facts.spec b,.facts.spec b.word{font-size:28px}
+  .facts.spec span{font-size:14px}
+}
+@media (max-width:400px){.facts.spec b,.facts.spec b.word{font-size:24px}.facts.spec .k{font-size:13px}}
+/* below 357 px the trial card's "brezplačno" (sl, 24 px) no longer fits half the width, so the facts stack */
+@media (max-width:356px){.facts.spec{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.facts.spec>div::after{transition:none}}
 </style>
 </head>
 <body>
@@ -1513,10 +1547,10 @@ details.fold>summary::-webkit-details-marker{display:none}
 </header>
 
 <div class="facts spec" data-anim>
-  <div class="blur" data-anim><em class="k">Nov portal</em><b>4–7</b><span>delovnih dni za portal, ki ga predlagaš</span></div>
-  <div class="blur" data-anim><em class="k">Preverjanje</em><b>2×</b><span>na dan preverimo nove oglase (Business +)</span></div>
-  <div class="blur hl" data-anim><em class="k">Preizkus</em><b>7 dni <span class="free">brezplačno</span></b><span>polnega dostopa</span><span class="nocard">Brez kartice</span></div>
-  <div class="blur" data-anim><em class="k">Obvestila</em><b class="word">WhatsApp</b><span>in e-pošta: zadetek s fotografijami na telefon</span></div>
+  <div class="blur" data-anim><span class="fx-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="13" r="7.5"/><path d="M3 13h15M10.5 5.5c2 2 3.1 4.5 3.1 7.5s-1.1 5.5-3.1 7.5c-2-2-3.1-4.5-3.1-7.5s1.1-5.5 3.1-7.5zM19 2.5v5M16.5 5h5"/></svg></span><em class="k">Nov portal</em><b>4–7</b><span>delovnih dni za portal, ki ga predlagaš</span></div>
+  <div class="blur" data-anim><span class="fx-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.3-4.9L3.5 8.5M3.5 3.5v5h5M4 13a8 8 0 0 0 14.3 4.9l2.2-2.4M20.5 20.5v-5h-5M12 8.5V12l2.3 1.5"/></svg></span><em class="k">Preverjanje</em><b>2×</b><span>na dan preverimo nove oglase (Business +)</span></div>
+  <div class="blur hl" data-anim><span class="fx-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4.5" rx="1.2"/><path d="M5 12.5v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7M12 8v12.5M12 8S10.9 3.8 8.3 3.8a2.1 2.1 0 0 0 0 4.2H12m0 0s1.1-4.2 3.7-4.2a2.1 2.1 0 0 1 0 4.2H12"/></svg></span><em class="k">Preizkus</em><b>7 dni <span class="free">brezplačno</span></b><span>polnega dostopa</span><span class="nocard">Brez kartice</span></div>
+  <div class="blur" data-anim><span class="fx-ic fx-wa" aria-hidden="true"><svg viewBox="0 0 720 720"><path d="M360,0C161.18,0,0,161.18,0,360c0,65.41,17.45,126.75,47.94,179.61L0,720l187.02-44.21c51.34,28.18,110.28,44.21,172.98,44.21,198.82,0,360-161.18,360-360S558.82,0,360,0ZM360,655.52c-60.17,0-116.13-17.98-162.82-48.87l-110.49,28.14,30.99-105.61c-33.53-47.93-53.2-106.26-53.2-169.19,0-163.21,132.31-295.52,295.52-295.52s295.52,132.31,295.52,295.52-132.31,295.52-295.52,295.52Z"/><path d="M444.35,407.52l87.1,41.06c4,1.88,6.56,5.94,6.2,10.34-.94,11.46-5.54,34.43-26.13,55.02-58.12,58.12-162.49-7.64-166.74-10.18-25.67-13.79-50.06-32.24-73.19-55.36-23.12-23.12-41.58-47.52-55.37-73.19-2.55-4.24-68.31-108.61-10.18-166.74,20.59-20.59,43.56-25.19,55.02-26.13,4.41-.36,8.46,2.2,10.34,6.2l41.07,87.1c1.94,4.12,1.09,9.02-2.13,12.24l-30.61,30.61c-6.62,6.62-8.56,16.93-4,25.11,11.17,20.03,26.19,39.32,43.59,57.07,17.75,17.4,37.04,32.43,57.07,43.59,8.18,4.56,18.48,2.62,25.11-4l30.61-30.61c3.22-3.22,8.12-4.08,12.24-2.13Z"/></svg></span><em class="k">Obvestila</em><b class="word">WhatsApp</b><span>in e-pošta: zadetek s fotografijami na telefon</span></div>
 </div>
 
 
