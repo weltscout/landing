@@ -486,7 +486,6 @@ def icon_tags():
         if not (SRC / p.lstrip("/")).exists():
             sys.exit(f"icon {p} missing")
     return (
-        f'<link rel="icon" href="{ic["svg"]}" type="image/svg+xml">'
         f'<link rel="icon" href="{ic["icon"]}" type="image/png" sizes="48x48">'
         f'<link rel="apple-touch-icon" href="{ic["appleTouch"]}" sizes="180x180">'
     )
