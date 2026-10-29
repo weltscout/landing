@@ -1218,8 +1218,8 @@ footer .bot{margin-top:clamp(48px,3vw + 36px,80px);padding-top:24px}
 footer .bot .langs{order:1}
 footer .bot .sw{order:2}
 footer .bot>span{order:3;flex-basis:100%;padding-top:20px;border-top:1px solid var(--line);color:var(--tx3)}
-footer .wm{margin:clamp(24px,3vw,48px) 0 -.13em;font-size:calc(100cqi / 4.45);font-weight:600;letter-spacing:-.07em;line-height:.8;white-space:nowrap;color:var(--panel-bg);user-select:none;pointer-events:none}
-footer .wm:before{content:"WeltScout"}
+footer .wm{margin:calc(clamp(24px,3vw,48px) + .6cqi) 0 -2.4cqi;color:var(--panel-bg);pointer-events:none}
+footer .wm:before{content:"";display:block;aspect-ratio:6;background:currentColor;-webkit-mask:url("img/logo-weltscout-t2.svg") 0 0/100% 100% no-repeat;mask:url("img/logo-weltscout-t2.svg") 0 0/100% 100% no-repeat}
 @media (max-width:600px){footer .cols>div:nth-child(3){display:block}footer .in{padding:56px 16px 0}footer .bot{margin-top:40px}}
 /* hero H1 fit (28. 10.): both H1 lines keep their breakpoint size unless the keyword line would need a third row;
    then both shrink so it fits two. --fit (em width the keyword line needs) is measured by deploy/h1_fit.py, stored on h1 */
