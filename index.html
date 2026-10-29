@@ -1546,6 +1546,21 @@ details.fold>summary::-webkit-details-marker{display:none}
   .addon:has(.fold-fast:not([open])) .ac{display:none}
   .fold-fast[open]>p{margin-top:10px}
 }
+
+/* compact footer on phones (owner, 29. 10.): less padding and smaller gaps; the e-mail and the social icons share a
+   row; every control keeps its 44 px target */
+@media (max-width:600px){
+  footer .in{padding-top:40px}
+  footer .cols{row-gap:24px}
+  footer .brand{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+  footer .brand>.logo,footer .brand>p{flex:0 0 100%}
+  footer .brand p{margin:12px 0 6px;font-size:17px}
+  footer .contact a{margin:0}
+  footer .social{margin-top:0}
+  footer .trust{margin-top:2px}
+  footer .bot{margin-top:28px;padding-top:18px;gap:12px 16px}
+  footer .bot>span{padding-top:14px}
+}
 </style>
 </head>
 <body>
