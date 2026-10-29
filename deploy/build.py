@@ -333,7 +333,7 @@ def seo(html, page, live):
     vis_faq = [
         (norm(a), norm(b))
         for a, b in re.findall(
-            r'<summary>(.*?)<span class="ic".*?</summary><div class="ans">(.*?)</div></details>',
+            r'<summary>((?:(?!</summary>).)*?)<span class="ic".*?</summary><div class="ans">(.*?)</div></details>',
             html,
             re.S,
         )

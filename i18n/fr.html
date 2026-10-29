@@ -1417,6 +1417,35 @@ nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
   .hero .ctas{margin-top:16px;gap:8px}
   .hero .ctas .btn.alt{--h:48px}
 }
+
+/* folds (29. 10.): <details class="fold"> is closed in the HTML. On phones it is an accordion; from 601 px its
+   content shows through ::details-content and the script marks it open, so nothing moves on load. The "česa ne
+   delamo" answers, the country list and the notes under the plans use it */
+details.fold>summary{list-style:none}
+details.fold>summary::-webkit-details-marker{display:none}
+.nots2 summary b{display:block;color:var(--tx);font-size:21px;font-weight:600;letter-spacing:-.02em;margin-bottom:4px}
+.def .fold{grid-column:2}
+.def .fold .st{margin-top:24px}
+@media (max-width:700px){.nots2 summary b{font-size:18px}.def .fold{grid-column:1}.def .fold .st{margin-top:14px}}
+@media (min-width:601px){
+  details.fold::details-content{content-visibility:visible;block-size:auto}
+  details.fold>summary{pointer-events:none}
+  .fold-cl>summary,.fold-terms>summary{display:none}
+}
+@media (max-width:600px){
+  details.fold>summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:44px;cursor:pointer;border-radius:8px}
+  details.fold>summary:after{content:"";flex:none;width:8px;height:8px;margin:0 6px 4px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);opacity:.55;transition:transform .25s var(--ease-out)}
+  details.fold[open]>summary:after{margin-bottom:-4px;transform:rotate(-135deg)}
+  details.fold>summary:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
+  .nots2 summary b{margin:0}
+  .nots2 .fold p{margin-top:8px}
+  .fold-cl>summary,.fold-terms>summary{font-weight:600;color:var(--acc)}
+  .fold-cl .cl{margin-top:6px}
+  .fold-terms{margin:var(--sec-head) var(--gut) 0}
+  .fold-terms>summary{justify-content:center}
+  .fold-terms .terms{margin-top:6px}
+}
+@media (prefers-reduced-motion:reduce){details.fold>summary:after{transition:none}}
 </style>
 </head>
 <body>
@@ -1576,23 +1605,23 @@ nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
       <p class="inc">Sur mesure</p><ul><li>Plus d’utilisateurs dans l’équipe</li><li>Nombre de recherches et fréquence de vérification sur mesure</li><li>Connexion par API</li></ul></div></div>
   </div>
   <p class="assure1 rv"><span>WhatsApp dans toutes les formules</span><span>Compte et recherches conservés après l’essai</span><span>Nouveaux portails en général sous 4 à 7 jours ouvrables</span><a href="#kontakt">Un doute sur la formule ? Écrivez-nous</a></p>
-  <p class="terms"><span>L’essai dure 7 jours et il est gratuit, sans limite du nombre de recherches ni de la fréquence de vérification. Vous obtenez l’accès complet dès que vous indiquez votre entreprise et choisissez un canal de notification (WhatsApp ou e-mail) à l’inscription. Après l’essai, les limites de la formule choisie s’appliquent.</span></p>
-  <p class="note after-plans">La recherche s’exécute automatiquement et vous prévient des nouvelles annonces. Plusieurs vendeurs ? Chacun a besoin de sa propre licence, ou choisissez Business MAX. L’abonnement annuel est payé d’avance et n’est pas remboursé en cas de résiliation anticipée.</p>
+  <details class="fold fold-terms"><summary>Détails sur l’essai et la recherche</summary><p class="terms"><span>L’essai dure 7 jours et il est gratuit, sans limite du nombre de recherches ni de la fréquence de vérification. Vous obtenez l’accès complet dès que vous indiquez votre entreprise et choisissez un canal de notification (WhatsApp ou e-mail) à l’inscription. Après l’essai, les limites de la formule choisie s’appliquent.</span></p>
+  <p class="note after-plans">La recherche s’exécute automatiquement et vous prévient des nouvelles annonces. Plusieurs vendeurs ? Chacun a besoin de sa propre licence, ou choisissez Business MAX. L’abonnement annuel est payé d’avance et n’est pas remboursé en cas de résiliation anticipée.</p></details>
   <div class="addon rv" id="fast"><div><p class="k">En option</p><h3 class="n">Option FAST</h3><p>Pour les recherches où chaque seconde compte : nous vérifions les nouvelles annonces jusqu’à une fois par seconde, en complément de Business ou Business +.</p></div><div class="ac"><div class="pr txt">Sur devis</div><p>Fréquence et prix convenus selon vos recherches.</p><a class="btn" href="#kontakt" data-prefill="L’option FAST m’intéresse : à quelle fréquence elle vérifie les nouvelles annonces, combien elle coûte et à quelle formule je peux l’ajouter.">Demander l’option FAST</a></div></div>
 </section>
 
 <section class="honest">
   <div class="sec-h rv"><h2>Nous disons aussi ce que nous ne faisons pas.</h2><p class="lead">Pour que vous sachiez ce que vous achetez.</p></div>
   <ol class="nots2">
-    <li class="rv"><span class="x"><span class="sr">Dans Business et Business +, nous ne faisons pas : </span><span class="xs">Alerte en temps réel</span></span><p><b>Non, pas d’alertes en temps réel.</b>Nous vérifions les nouvelles annonces selon le rythme de la formule : Business une fois par jour, Business + deux fois par jour. Une annonce n’arrive donc pas sur votre téléphone au moment de sa publication, mais à la vérification suivante. Des vérifications plus fréquentes sont proposées avec l’option FAST, sous les formules. <a class="fast" href="#fast">En savoir plus sur FAST</a></p></li>
-    <li class="rv"><span class="x"><span class="sr">Nous ne faisons pas : </span><span class="xs">La vente de voitures</span></span><p><b>Nous trouvons, nous ne vendons pas.</b>WeltScout ne vend pas de voitures. L’application trouve l’annonce sur un portail et l’envoie sur WhatsApp ou par e⁠-⁠mail ; la visite, l’accord et le paiement se font entre vous et le vendeur. WeltScout n’inspecte pas les véhicules et ne vérifie pas leur historique.</p></li>
-    <li class="rv"><span class="x"><span class="sr">Nous ne faisons pas : </span><span class="xs">L’estimation des prix</span></span><p><b>C’est vous qui décidez.</b>WeltScout n’estime pas les prix et ne calcule pas la valeur d’un véhicule. Pour chaque résultat, vous voyez le titre, l’année, le kilométrage, la puissance et le prix de l’annonce. Si l’annonce vaut un appel et si le prix est bon, c’est vous qui en jugez, par exemple en la comparant à d’autres annonces.</p></li>
+    <li class="rv"><span class="x"><span class="sr">Dans Business et Business +, nous ne faisons pas : </span><span class="xs">Alerte en temps réel</span></span><details class="fold"><summary><b>Non, pas d’alertes en temps réel.</b></summary><p>Nous vérifions les nouvelles annonces selon le rythme de la formule : Business une fois par jour, Business + deux fois par jour. Une annonce n’arrive donc pas sur votre téléphone au moment de sa publication, mais à la vérification suivante. Des vérifications plus fréquentes sont proposées avec l’option FAST, sous les formules. <a class="fast" href="#fast">En savoir plus sur FAST</a></p></details></li>
+    <li class="rv"><span class="x"><span class="sr">Nous ne faisons pas : </span><span class="xs">La vente de voitures</span></span><details class="fold"><summary><b>Nous trouvons, nous ne vendons pas.</b></summary><p>WeltScout ne vend pas de voitures. L’application trouve l’annonce sur un portail et l’envoie sur WhatsApp ou par e⁠-⁠mail ; la visite, l’accord et le paiement se font entre vous et le vendeur. WeltScout n’inspecte pas les véhicules et ne vérifie pas leur historique.</p></details></li>
+    <li class="rv"><span class="x"><span class="sr">Nous ne faisons pas : </span><span class="xs">L’estimation des prix</span></span><details class="fold"><summary><b>C’est vous qui décidez.</b></summary><p>WeltScout n’estime pas les prix et ne calcule pas la valeur d’un véhicule. Pour chaque résultat, vous voyez le titre, l’année, le kilométrage, la puissance et le prix de l’annonce. Si l’annonce vaut un appel et si le prix est bon, c’est vous qui en jugez, par exemple en la comparant à d’autres annonces.</p></details></li>
   </ol>
 </section>
 
 
 <section id="vprasanja">
-  <div class="def"><p class="k">En bref</p><p><b>WeltScout</b> est une application web de WeltScout d.o.o., entreprise slovène, pour les négociants et intermédiaires en véhicules d’occasion. Elle explore jusqu’à 29 portails locaux et européens dans 14 pays, vérifie les nouvelles annonces une ou deux fois par jour selon la formule et les envoie sur WhatsApp ou par e⁠-⁠mail. Les alertes ne sont pas en temps réel. WeltScout ne vend pas de voitures et n’en estime pas le prix. À partir de 129,90 € par utilisateur et par mois, hors TVA.</p><ul class="cl" aria-label="Pays explorés"><li><img class="fl" src="img/flags/si.webp" width="18" height="13" alt="">Slovénie</li><li><img class="fl" src="img/flags/hr.webp" width="18" height="13" alt="">Croatie</li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">Autriche</li><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">Allemagne</li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt="">Italie</li><li><img class="fl" src="img/flags/fr.webp" width="18" height="13" alt="">France</li><li><img class="fl" src="img/flags/nl.webp" width="18" height="13" alt="">Pays-Bas</li><li><img class="fl" src="img/flags/be.webp" width="18" height="13" alt="">Belgique</li><li><img class="fl" src="img/flags/lu.webp" width="18" height="13" alt="">Luxembourg</li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt="">Espagne</li><li><img class="fl" src="img/flags/pt.webp" width="18" height="13" alt="">Portugal</li><li><img class="fl" src="img/flags/pl.webp" width="18" height="13" alt="">Pologne</li><li><img class="fl" src="img/flags/ro.webp" width="18" height="13" alt="">Roumanie</li><li><img class="fl" src="img/flags/se.webp" width="18" height="13" alt="">Suède</li></ul><p class="st">Données d’octobre 2026</p></div>
+  <div class="def"><p class="k">En bref</p><p><b>WeltScout</b> est une application web de WeltScout d.o.o., entreprise slovène, pour les négociants et intermédiaires en véhicules d’occasion. Elle explore jusqu’à 29 portails locaux et européens dans 14 pays, vérifie les nouvelles annonces une ou deux fois par jour selon la formule et les envoie sur WhatsApp ou par e⁠-⁠mail. Les alertes ne sont pas en temps réel. WeltScout ne vend pas de voitures et n’en estime pas le prix. À partir de 129,90 € par utilisateur et par mois, hors TVA.</p><details class="fold fold-cl"><summary>Pays explorés (14)</summary><ul class="cl" aria-label="Pays explorés"><li><img class="fl" src="img/flags/si.webp" width="18" height="13" alt="">Slovénie</li><li><img class="fl" src="img/flags/hr.webp" width="18" height="13" alt="">Croatie</li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">Autriche</li><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">Allemagne</li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt="">Italie</li><li><img class="fl" src="img/flags/fr.webp" width="18" height="13" alt="">France</li><li><img class="fl" src="img/flags/nl.webp" width="18" height="13" alt="">Pays-Bas</li><li><img class="fl" src="img/flags/be.webp" width="18" height="13" alt="">Belgique</li><li><img class="fl" src="img/flags/lu.webp" width="18" height="13" alt="">Luxembourg</li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt="">Espagne</li><li><img class="fl" src="img/flags/pt.webp" width="18" height="13" alt="">Portugal</li><li><img class="fl" src="img/flags/pl.webp" width="18" height="13" alt="">Pologne</li><li><img class="fl" src="img/flags/ro.webp" width="18" height="13" alt="">Roumanie</li><li><img class="fl" src="img/flags/se.webp" width="18" height="13" alt="">Suède</li></ul><p class="st">Données d’octobre 2026</p></details></div>
   <div class="faq-wrap">
     <div class="side-h rv">
       <p class="eyebrow">Questions</p>
@@ -1714,6 +1743,12 @@ nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
   mnav.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
   matchMedia("(min-width:901px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
   addEventListener("keydown", e => { if (e.key === "Escape" && !mnav.hidden) { setMenu(false); burger.focus(); } });
+
+  /* folds: from 601 px every details.fold is open (its content already shows, so nothing moves) and its summary
+     leaves the tab order; on phones they start closed */
+  const foldMq = matchMedia("(min-width:601px)");
+  const setFolds = () => { for (const d of $$("details.fold")) { d.open = foldMq.matches; const sm = d.querySelector("summary"); if (sm) sm.tabIndex = foldMq.matches ? -1 : 0; } };
+  setFolds(); foldMq.addEventListener("change", setFolds);
 
   /* phones: carousels get position dots under them (decorative; the cards themselves stay a scrollable region) */
   for (const car of $$(".bento,.guides")) {

@@ -1415,6 +1415,35 @@ nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
   .hero .ctas{margin-top:16px;gap:8px}
   .hero .ctas .btn.alt{--h:48px}
 }
+
+/* folds (29. 10.): <details class="fold"> is closed in the HTML. On phones it is an accordion; from 601 px its
+   content shows through ::details-content and the script marks it open, so nothing moves on load. The "česa ne
+   delamo" answers, the country list and the notes under the plans use it */
+details.fold>summary{list-style:none}
+details.fold>summary::-webkit-details-marker{display:none}
+.nots2 summary b{display:block;color:var(--tx);font-size:21px;font-weight:600;letter-spacing:-.02em;margin-bottom:4px}
+.def .fold{grid-column:2}
+.def .fold .st{margin-top:24px}
+@media (max-width:700px){.nots2 summary b{font-size:18px}.def .fold{grid-column:1}.def .fold .st{margin-top:14px}}
+@media (min-width:601px){
+  details.fold::details-content{content-visibility:visible;block-size:auto}
+  details.fold>summary{pointer-events:none}
+  .fold-cl>summary,.fold-terms>summary{display:none}
+}
+@media (max-width:600px){
+  details.fold>summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:44px;cursor:pointer;border-radius:8px}
+  details.fold>summary:after{content:"";flex:none;width:8px;height:8px;margin:0 6px 4px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);opacity:.55;transition:transform .25s var(--ease-out)}
+  details.fold[open]>summary:after{margin-bottom:-4px;transform:rotate(-135deg)}
+  details.fold>summary:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
+  .nots2 summary b{margin:0}
+  .nots2 .fold p{margin-top:8px}
+  .fold-cl>summary,.fold-terms>summary{font-weight:600;color:var(--acc)}
+  .fold-cl .cl{margin-top:6px}
+  .fold-terms{margin:var(--sec-head) var(--gut) 0}
+  .fold-terms>summary{justify-content:center}
+  .fold-terms .terms{margin-top:6px}
+}
+@media (prefers-reduced-motion:reduce){details.fold>summary:after{transition:none}}
 </style>
 </head>
 <body>
@@ -1574,23 +1603,23 @@ nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
       <p class="inc">Po dogovoru</p><ul><li>Više korisnika u timu</li><li>Broj pretraga i učestalost provere po dogovoru</li><li>Povezivanje preko API-ja</li></ul></div></div>
   </div>
   <p class="assure1 rv"><span>WhatsApp u svim paketima</span><span>Posle probnog perioda ostaju nalog i pretrage</span><span>Novi portal obično za 4–7 radnih dana</span><a href="#kontakt">Ne znaš koji paket? Piši nam</a></p>
-  <p class="terms"><span>Probni period traje 7 dana i besplatan je, bez ograničenja broja pretraga i učestalosti provere. Pun pristup dobijaš kad pri registraciji upišeš firmu i izabereš kanal za obaveštenja (WhatsApp ili e-pošta). Posle probnog perioda važe ograničenja izabranog paketa.</span></p>
-  <p class="note after-plans">Pretraga se izvršava automatski i obaveštava te o novim oglasima. Više prodavaca? Svaki treba svoju licencu ili izaberi Business MAX. Godišnji paket se plaća unapred i pri prevremenom otkazivanju se ne vraća.</p>
+  <details class="fold fold-terms"><summary>Detalji o probnom periodu i pretrazi</summary><p class="terms"><span>Probni period traje 7 dana i besplatan je, bez ograničenja broja pretraga i učestalosti provere. Pun pristup dobijaš kad pri registraciji upišeš firmu i izabereš kanal za obaveštenja (WhatsApp ili e-pošta). Posle probnog perioda važe ograničenja izabranog paketa.</span></p>
+  <p class="note after-plans">Pretraga se izvršava automatski i obaveštava te o novim oglasima. Više prodavaca? Svaki treba svoju licencu ili izaberi Business MAX. Godišnji paket se plaća unapred i pri prevremenom otkazivanju se ne vraća.</p></details>
   <div class="addon rv" id="fast"><div><p class="k">Opciono</p><h3 class="n">Dodatni paket FAST</h3><p>Za pretrage u kojima se računa svaka sekunda: nove oglase proveravamo i svake sekunde, kao dodatak paketu Business ili Business +.</p></div><div class="ac"><div class="pr txt">Po dogovoru</div><p>Učestalost i cenu dogovaramo prema tvojim pretragama.</p><a class="btn" href="#kontakt" data-prefill="Zanima me dodatni paket FAST: koliko često proverava nove oglase, koliko košta i uz koji paket može da se doda.">Pitaj za paket FAST</a></div></div>
 </section>
 
 <section class="honest">
   <div class="sec-h rv"><h2>Reći ćemo i šta ne radimo.</h2><p class="lead">Da znaš šta kupuješ.</p></div>
   <ol class="nots2">
-    <li class="rv"><span class="x"><span class="sr">U paketima Business i Business + ne radimo: </span><span class="xs">Alarm u realnom vremenu</span></span><p><b>Ne, nema obaveštenja u realnom vremenu.</b>Nove oglase proveravamo po rasporedu paketa: Business 1× dnevno, Business + 2× dnevno. Zato oglas ne stiže na telefon u trenutku objave, već pri sledećoj proveri. Češća provera je opcioni paket FAST ispod paketa. <a class="fast" href="#fast">Više o paketu FAST</a></p></li>
-    <li class="rv"><span class="x"><span class="sr">Ne radimo: </span><span class="xs">Prodaja automobila</span></span><p><b>Pronalazimo, ne prodajemo.</b>WeltScout ne prodaje automobile. Pronađe oglas na portalu i pošalje ga na WhatsApp ili e-poštu, a pregled, dogovor i plaćanje su između tebe i prodavca. WeltScout ne pregleda vozila niti proverava njihovu istoriju.</p></li>
-    <li class="rv"><span class="x"><span class="sr">Ne radimo: </span><span class="xs">Procena cene</span></span><p><b>Ti proceniš.</b>WeltScout ne procenjuje cene i ne izračunava vrednost vozila. Uz rezultat vidiš naslov, godište, kilometre, snagu i cenu iz oglasa. Da li je oglas vredan poziva i da li je cena povoljna, procenjuješ ti, na primer poređenjem sa drugim oglasima.</p></li>
+    <li class="rv"><span class="x"><span class="sr">U paketima Business i Business + ne radimo: </span><span class="xs">Alarm u realnom vremenu</span></span><details class="fold"><summary><b>Ne, nema obaveštenja u realnom vremenu.</b></summary><p>Nove oglase proveravamo po rasporedu paketa: Business 1× dnevno, Business + 2× dnevno. Zato oglas ne stiže na telefon u trenutku objave, već pri sledećoj proveri. Češća provera je opcioni paket FAST ispod paketa. <a class="fast" href="#fast">Više o paketu FAST</a></p></details></li>
+    <li class="rv"><span class="x"><span class="sr">Ne radimo: </span><span class="xs">Prodaja automobila</span></span><details class="fold"><summary><b>Pronalazimo, ne prodajemo.</b></summary><p>WeltScout ne prodaje automobile. Pronađe oglas na portalu i pošalje ga na WhatsApp ili e-poštu, a pregled, dogovor i plaćanje su između tebe i prodavca. WeltScout ne pregleda vozila niti proverava njihovu istoriju.</p></details></li>
+    <li class="rv"><span class="x"><span class="sr">Ne radimo: </span><span class="xs">Procena cene</span></span><details class="fold"><summary><b>Ti proceniš.</b></summary><p>WeltScout ne procenjuje cene i ne izračunava vrednost vozila. Uz rezultat vidiš naslov, godište, kilometre, snagu i cenu iz oglasa. Da li je oglas vredan poziva i da li je cena povoljna, procenjuješ ti, na primer poređenjem sa drugim oglasima.</p></details></li>
   </ol>
 </section>
 
 
 <section id="vprasanja">
-  <div class="def"><p class="k">Ukratko</p><p><b>WeltScout</b> je veb-aplikacija slovenačke kompanije WeltScout d.o.o. za trgovce i posrednike polovnim vozilima. Pretražuje do 29 portala iz 14 evropskih zemalja, nove oglase proverava 1× ili 2× dnevno, zavisno od paketa, i šalje ih na WhatsApp ili e-poštu. Obaveštenja ne stižu u realnom vremenu. Ne prodaje automobile i ne procenjuje njihove cene. Od 129,90 € po korisniku mesečno, bez PDV-a.</p><ul class="cl" aria-label="Zemlje u pretrazi"><li><img class="fl" src="img/flags/si.webp" width="18" height="13" alt="">Slovenija</li><li><img class="fl" src="img/flags/hr.webp" width="18" height="13" alt="">Hrvatska</li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">Austrija</li><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">Nemačka</li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt="">Italija</li><li><img class="fl" src="img/flags/fr.webp" width="18" height="13" alt="">Francuska</li><li><img class="fl" src="img/flags/nl.webp" width="18" height="13" alt="">Holandija</li><li><img class="fl" src="img/flags/be.webp" width="18" height="13" alt="">Belgija</li><li><img class="fl" src="img/flags/lu.webp" width="18" height="13" alt="">Luksemburg</li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt="">Španija</li><li><img class="fl" src="img/flags/pt.webp" width="18" height="13" alt="">Portugalija</li><li><img class="fl" src="img/flags/pl.webp" width="18" height="13" alt="">Poljska</li><li><img class="fl" src="img/flags/ro.webp" width="18" height="13" alt="">Rumunija</li><li><img class="fl" src="img/flags/se.webp" width="18" height="13" alt="">Švedska</li></ul><p class="st">Stanje: oktobar 2026.</p></div>
+  <div class="def"><p class="k">Ukratko</p><p><b>WeltScout</b> je veb-aplikacija slovenačke kompanije WeltScout d.o.o. za trgovce i posrednike polovnim vozilima. Pretražuje do 29 portala iz 14 evropskih zemalja, nove oglase proverava 1× ili 2× dnevno, zavisno od paketa, i šalje ih na WhatsApp ili e-poštu. Obaveštenja ne stižu u realnom vremenu. Ne prodaje automobile i ne procenjuje njihove cene. Od 129,90 € po korisniku mesečno, bez PDV-a.</p><details class="fold fold-cl"><summary>Zemlje u pretrazi (14)</summary><ul class="cl" aria-label="Zemlje u pretrazi"><li><img class="fl" src="img/flags/si.webp" width="18" height="13" alt="">Slovenija</li><li><img class="fl" src="img/flags/hr.webp" width="18" height="13" alt="">Hrvatska</li><li><img class="fl" src="img/flags/at.webp" width="18" height="13" alt="">Austrija</li><li><img class="fl" src="img/flags/de.webp" width="18" height="13" alt="">Nemačka</li><li><img class="fl" src="img/flags/it.webp" width="18" height="13" alt="">Italija</li><li><img class="fl" src="img/flags/fr.webp" width="18" height="13" alt="">Francuska</li><li><img class="fl" src="img/flags/nl.webp" width="18" height="13" alt="">Holandija</li><li><img class="fl" src="img/flags/be.webp" width="18" height="13" alt="">Belgija</li><li><img class="fl" src="img/flags/lu.webp" width="18" height="13" alt="">Luksemburg</li><li><img class="fl" src="img/flags/es.webp" width="18" height="13" alt="">Španija</li><li><img class="fl" src="img/flags/pt.webp" width="18" height="13" alt="">Portugalija</li><li><img class="fl" src="img/flags/pl.webp" width="18" height="13" alt="">Poljska</li><li><img class="fl" src="img/flags/ro.webp" width="18" height="13" alt="">Rumunija</li><li><img class="fl" src="img/flags/se.webp" width="18" height="13" alt="">Švedska</li></ul><p class="st">Stanje: oktobar 2026.</p></details></div>
   <div class="faq-wrap">
     <div class="side-h rv">
       <p class="eyebrow">Pitanja</p>
@@ -1712,6 +1741,12 @@ nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
   mnav.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
   matchMedia("(min-width:901px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
   addEventListener("keydown", e => { if (e.key === "Escape" && !mnav.hidden) { setMenu(false); burger.focus(); } });
+
+  /* folds: from 601 px every details.fold is open (its content already shows, so nothing moves) and its summary
+     leaves the tab order; on phones they start closed */
+  const foldMq = matchMedia("(min-width:601px)");
+  const setFolds = () => { for (const d of $$("details.fold")) { d.open = foldMq.matches; const sm = d.querySelector("summary"); if (sm) sm.tabIndex = foldMq.matches ? -1 : 0; } };
+  setFolds(); foldMq.addEventListener("change", setFolds);
 
   /* phones: carousels get position dots under them (decorative; the cards themselves stay a scrollable region) */
   for (const car of $$(".bento,.guides")) {
