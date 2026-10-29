@@ -794,6 +794,8 @@ LEGAL_CSS = (
     ".prose ul,.prose ol{padding-left:1.3em}.prose li{margin:.4em 0;padding-left:.25em}.prose li::marker{color:var(--acc);font-weight:600;font-variant-numeric:tabular-nums}"
     ".prose blockquote{margin:1.6em 0;padding:4px 0 4px 20px;border-left:2px solid var(--line3);color:var(--tx2)}"
     ".tw{margin:1.6em 0 2em;overflow-x:auto;border-radius:16px;background:var(--surf);box-shadow:var(--sh)}"
+    # phones: breadcrumb and mobile contents links are 44 px touch targets
+    "@media (max-width:600px){.crumbs a{display:inline-flex;align-items:center;min-height:44px;padding:0}.toc-m a{display:flex;align-items:center;min-height:44px}}"
     # a table wider than the screen scrolls inside its card; a soft shade at the edge that has more columns says so
     ".tw{--tw-sh:color-mix(in srgb,var(--tx) 16%,transparent);background:"
     "linear-gradient(90deg,var(--surf) 30%,transparent) left/32px 100% no-repeat local,"
