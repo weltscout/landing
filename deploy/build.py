@@ -794,6 +794,12 @@ LEGAL_CSS = (
     ".prose ul,.prose ol{padding-left:1.3em}.prose li{margin:.4em 0;padding-left:.25em}.prose li::marker{color:var(--acc);font-weight:600;font-variant-numeric:tabular-nums}"
     ".prose blockquote{margin:1.6em 0;padding:4px 0 4px 20px;border-left:2px solid var(--line3);color:var(--tx2)}"
     ".tw{margin:1.6em 0 2em;overflow-x:auto;border-radius:16px;background:var(--surf);box-shadow:var(--sh)}"
+    # a table wider than the screen scrolls inside its card; a soft shade at the edge that has more columns says so
+    ".tw{--tw-sh:color-mix(in srgb,var(--tx) 16%,transparent);background:"
+    "linear-gradient(90deg,var(--surf) 30%,transparent) left/32px 100% no-repeat local,"
+    "linear-gradient(270deg,var(--surf) 30%,transparent) right/32px 100% no-repeat local,"
+    "radial-gradient(farthest-side at 0 50%,var(--tw-sh),transparent) left/12px 100% no-repeat scroll,"
+    "radial-gradient(farthest-side at 100% 50%,var(--tw-sh),transparent) right/12px 100% no-repeat scroll,var(--surf)}"
     ".tw table{width:100%;min-width:34rem;border-collapse:collapse;font-size:15px;line-height:1.5}"
     ".tw th{padding:13px 16px;background:var(--surf2);color:var(--tx);font-size:14px;font-weight:600;text-align:left;vertical-align:bottom}"
     ".tw td{padding:14px 16px;border-top:1px solid var(--line2);vertical-align:top}.tw td:first-child{color:var(--tx);font-weight:500}"
