@@ -1379,6 +1379,17 @@ nav{--logo-ratio:6;--nav-rest-m:252px;--nav-rest-d:771px}
   .banner b{font-size:14px;white-space:nowrap}
   .banner .bp{width:28px;height:28px;margin-right:6px}
 }
+
+/* mobile hero (29. 10.): on phones the hero shows one picture, the WhatsApp phone with the alert, centred; the app
+   recording and its zoom control are for wider screens, where they have room */
+@media (max-width:600px){
+  .hero .duo .frame,.hero .duo .zoom{display:none}
+  .hero .stage{padding-top:0}
+  .hero .duo{display:flex;justify-content:center}
+  .waph{position:relative;right:auto;bottom:auto;width:208px}
+  .hero .mock-note{display:none}
+  .hero .stage .motion{position:relative;top:auto;right:auto;left:auto;display:flex;align-items:center;min-height:44px;width:max-content;margin:14px auto 0}
+}
 </style>
 </head>
 <body>
