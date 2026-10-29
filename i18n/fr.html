@@ -1330,6 +1330,9 @@ footer .wm:before{content:"WeltScout"}
 .hero .offer-pts .nocard{font-size:14px;padding:2px 11px 2px 9px}
 .hero .offer-pts .from{font-weight:600;color:var(--tx)}
 .hero .offer-if{margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--tx3);max-width:52ch}
+/* small phones (30. 10.): on short or narrow screens the hook line moves under the buttons and the trial lines (CSS
+   order, the same DOM), so the primary button stays above the cookie bar; the price stays right under the button */
+@media (max-width:600px) and (max-height:760px),(max-width:370px){.hero .copy{display:flex;flex-direction:column}.hero .copy .hook{order:1}}
 </style>
 </head>
 <body>
