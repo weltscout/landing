@@ -249,6 +249,19 @@ class BuildOutput(unittest.TestCase):
                         self.assertTrue(url.endswith(want), (page, url))
             self.assertEqual((self.out / want.lstrip("/")).read_bytes(), src, c)
 
+    def test_no_lead_or_section_heading_ends_on_a_lone_short_word(self):
+        # The last two words of every lead and h2/h3 on a home page are joined by a no-break
+        # space, so a phone never shows the final short word alone on its own row.
+        import re, html as h
+        for c in self.langs():
+            page = (self.out / c / "index.html").read_text()
+            for tag, inner in re.findall(r'<(h2|h3|p class="lead[^"]*")[^>]*>(.*?)</(?:h2|h3|p)>', page, re.S):
+                text = h.unescape(re.sub(r"<[^>]+>", " ", inner)).rstrip()
+                words = text.split()
+                if len(words) < 3 or len(words[-1]) > 14:
+                    continue
+                self.assertIn("\u00a0" + words[-1], text, (c, tag, text[-40:]))
+
     def test_social_previews_repeat_the_title_and_meta_description(self):
         # One source: og:* and twitter:* are derived from <title> and the meta description,
         # so a copy change cannot leave a stale preview behind.

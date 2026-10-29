@@ -695,6 +695,34 @@ def doc_page(l, head, main, alt, css="", current=None, js="", cls=""):
 
 
 
+LONE_WORD_MAX = 14
+
+
+def no_widows(html):
+    """Joins the last two words of every lead and h2/h3 with a no-break space, so a phone never shows a short last
+    word alone on its own row (text-wrap: pretty is not applied by every browser). Tags inside are skipped; a last
+    word longer than LONE_WORD_MAX stays breakable so a narrow screen cannot overflow."""
+
+    def join(m):
+        inner, i, word = m.group(3), len(m.group(3)) - 1, 0
+        while i >= 0:
+            ch = inner[i]
+            if ch == ">":
+                i = inner.rfind("<", 0, i) - 1
+                continue
+            if ch.isspace():
+                if word:
+                    break
+            else:
+                word += 1
+            i -= 1
+        if i < 0 or not word or word > LONE_WORD_MAX:
+            return m.group(0)
+        return m.group(1) + inner[:i] + "\u00a0" + inner[i + 1 :] + m.group(4)
+
+    return re.sub(r'(<(h2|h3|p class="lead[^"]*")[^>]*>)(.*?)(</(?:h2|h3|p)>)', join, html, flags=re.S)
+
+
 def lighter_preloads(page):
     """Preload the latin-ext font subset only when the hero copy (H1, lead, buttons, offer line) uses its glyphs. Text
     further down still gets it through unicode-range, without competing with the LCP image on the first request wave."""
@@ -972,7 +1000,7 @@ for l in live:
     CHROME[l["code"]] = chrome_parts(l["code"], page, sources[l["code"]])
     page = blog.home_section(page, l, BLOG_POSTS.get(l["code"]))
     page = absolutize(consent(page, l, legal_url(l["code"], COOKIE_STEM)))
-    page = lighter_preloads(page)
+    page = lighter_preloads(no_widows(page))
     (OUT / l["code"] / "index.html").write_text(page)
     if l["code"] == CONF["default"]:
         (OUT / "index.html").write_text(page)
