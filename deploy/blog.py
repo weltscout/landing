@@ -13,9 +13,12 @@ with a JSON front matter comment holding the standard's §6.1 fields:
      "ai_disclosure_text": "...", "published": "YYYY-MM-DD", "updated": "YYYY-MM-DD",
      "last_fact_check": "YYYY-MM-DD", "status": "draft|review|published",
      "sources": [{"title": "...", "publisher": "...", "url": "https://...", "accessed": "YYYY-MM-DD", "kind": "official"}],
-     "image": {"src": "/img/blog/x.webp", "alt": "...", "width": 1600, "height": 900},
+     "image": {"src": "/img/blog/x.webp", "alt": "...", "width": 1600, "height": 900, "share": true},
      "changelog": [{"date": "YYYY-MM-DD", "change": "..."}], "legacy": ["/post/old-slug"]}
     -->
+
+Sharing: the post image is the og:image and twitter:image unless it says "share": false (an app screenshot that still
+shows the app's old logo, for example); such a post shares the language card that deploy/og.js renders.
 
 Authorship: a post with "author": {"name": "...", "type": "Person|Organization", "url": "https://..."}
 shows that author (JSON-LD author, Person by default). The editorial team, defined once per language in
@@ -222,6 +225,8 @@ def parse(path, src):
     img = meta["image"]
     if not (src / img["src"].lstrip("/")).exists() or not img.get("alt"):
         fail(path, f"image {img.get('src')} missing on disk or without alt")
+    if not isinstance(img.get("share", True), bool):
+        fail(path, 'image "share" must be true or false')
     for tag in re.findall(r"<img\b[^>]*>", body):
         if " alt=" not in tag:
             fail(path, f"img without alt: {tag[:80]}")
@@ -462,21 +467,15 @@ def build(conf, out, live, sources, h):
             "sameAs": conf["org"]["sameAs"],
         }
 
-    def head(l, title, desc, canon, alts, ld, index, og_img=None):
+    def head(l, title, desc, canon, alts, ld, index, og_img=None, kind="website"):
+        """og_img: the page's own share image (a post photo); without one the language card is shared (h["share"])."""
         robots = "" if index else '<meta name="robots" content="noindex, nofollow">'
-        og = (
-            f'<meta property="og:image" content="{site}{og_img["src"]}"><meta property="og:image:width" content="{og_img["width"]}">'
-            f'<meta property="og:image:height" content="{og_img["height"]}"><meta property="og:image:alt" content="{e(og_img["alt"])}">'
-            f'<meta name="twitter:card" content="summary_large_image">'
-            if og_img
-            else ""
-        )
         return (
             f'<title>{e(title)}</title><meta name="description" content="{e(desc)}">{robots}'
             f'<link rel="canonical" href="{canon}">{alts}'
-            f'<meta property="og:type" content="{"article" if og_img else "website"}"><meta property="og:title" content="{e(title)}">'
+            f'<meta property="og:type" content="{kind}"><meta property="og:title" content="{e(title)}">'
             f'<meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canon}">'
-            f'<meta property="og:locale" content="{l["locale"][0]}">{og}'
+            f'<meta property="og:locale" content="{l["locale"][0]}">{h["share"](l["code"], og_img)}'
             f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False, separators=(",", ":"))}</script>'
         )
 
@@ -684,7 +683,7 @@ def build(conf, out, live, sources, h):
             }
             page = h["page"](
                 l,
-                head(l, p.get("seo_title") or p["title"], p["meta_description"], canon, alts, ld, indexable(p), img),
+                head(l, p.get("seo_title") or p["title"], p["meta_description"], canon, alts, ld, indexable(p), img if img.get("share", True) else None, "article"),
                 main,
                 switch(lambda c: f"/{c}/blog/{members[c]['slug']}/" if c in members else None),
                 BLOG_CSS,

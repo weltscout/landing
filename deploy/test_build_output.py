@@ -398,6 +398,42 @@ class BuildOutput(unittest.TestCase):
                         self.assertTrue(url.endswith(want), (page, url))
             self.assertEqual((self.out / want.lstrip("/")).read_bytes(), src, c)
 
+    def test_every_page_shares_one_image_with_og_and_twitter(self):
+        # Home, blog, legal, about and 404 pages all carry og:image and twitter:image (the same picture), a large card
+        # and an alt, and the picture is a file the build published.
+        site = urlparse(CONF["site"])
+        pages = [p for p in self.out.rglob("*.html") if 'http-equiv="refresh"' not in p.read_text()]
+        self.assertGreater(len(pages), 100)
+        for page in pages:
+            html = page.read_text()
+            og = re.findall(r'<meta property="og:image" content="([^"]+)"', html)
+            tw = re.findall(r'<meta name="twitter:image" content="([^"]+)"', html)
+            where = page.relative_to(self.out)
+            self.assertEqual(len(og), 1, where)
+            self.assertEqual(og, tw, where)
+            self.assertEqual(re.findall(r'<meta name="twitter:card" content="([^"]+)"', html), ["summary_large_image"], where)
+            self.assertRegex(html, r'<meta property="og:image:alt" content="[^"]+"', where)
+            url = urlparse(og[0])
+            self.assertEqual(url.netloc, site.netloc, where)
+            self.assertTrue((self.out / url.path.lstrip("/")).is_file(), (where, og[0]))
+
+    def test_a_post_image_not_for_sharing_gives_way_to_the_language_card(self):
+        # "share": false keeps an app screenshot (the app still shows its old logo) out of social previews.
+        import hashlib
+
+        seen = 0
+        for src in sorted((ROOT / "blog").glob("*/*.html")):
+            meta, _ = blog.front_matter(src)
+            if meta["image"].get("share", True):
+                continue
+            code = src.parent.name
+            card = (ROOT / "img" / "og" / f"{code}.jpg").read_bytes()
+            want = f"/img/og/{code}-{hashlib.sha256(card).hexdigest()[:10]}.jpg"
+            html = (self.out / code / "blog" / src.stem / "index.html").read_text()
+            self.assertEqual(re.findall(r'<meta property="og:image" content="[^"]*?(/img/[^"]+)"', html), [want], src.name)
+            seen += 1
+        self.assertGreater(seen, 0)
+
     def test_no_lead_or_section_heading_ends_on_a_lone_short_word(self):
         # The last two words of every lead and h2/h3 on a home page are joined by a no-break
         # space, so a phone never shows the final short word alone on its own row.

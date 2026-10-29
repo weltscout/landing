@@ -227,12 +227,11 @@ def seo(html, page, live):
     if not re.search(rf'<html lang="{page}[-"]', html):
         die(page, "html lang does not match page code")
     ogimg_file = SRC / "img" / "og" / f"{page}.jpg"
-    if not ogimg_file.exists() or img_size(ogimg_file) != (1200, 630):
+    if not ogimg_file.exists() or img_size(ogimg_file) != (OG_W, OG_H):
         die(
             page,
-            f"{ogimg_file.name}: og image missing or not 1200x630 (run deploy/og.js)",
+            f"{ogimg_file.name}: og image missing or not {OG_W}x{OG_H} (run deploy/og.js)",
         )
-    ogimg = site + og_image_path(page)
     q = lambda v: htmllib.escape(v, quote=True)
     locs = [loc for l in live for loc in l["locale"]]
     html, n = re.subn(r'<link rel="icon"[^>]*>', lambda _: icon_tags(), html, count=1)
@@ -253,14 +252,9 @@ def seo(html, page, live):
         if x != me["locale"][0]
     ]
     tags += [
-        f'<meta property="og:image" content="{ogimg}">',
-        '<meta property="og:image:type" content="image/jpeg">',
-        '<meta property="og:image:width" content="1200">',
-        '<meta property="og:image:height" content="630">',
-        f'<meta property="og:image:alt" content="{q(ogt)}">',
+        share_tags(page, card=False),
         f'<meta name="twitter:title" content="{q(ogt)}">',
         f'<meta name="twitter:description" content="{q(ogd)}">',
-        f'<meta name="twitter:image" content="{ogimg}">',
     ]
     html, n = re.subn(
         r'(<meta name="description" content="[^"]*">)',
@@ -321,9 +315,9 @@ def seo(html, page, live):
             "about": {"@id": nodes["WebApplication"]["@id"]},
             "primaryImageOfPage": {
                 "@type": "ImageObject",
-                "url": ogimg,
-                "width": 1200,
-                "height": 630,
+                "url": site + og_image_path(page),
+                "width": OG_W,
+                "height": OG_H,
             },
         }
     )
@@ -510,6 +504,33 @@ def og_image_path(code):
     so a re-rendered image gets a new URL and no CDN or social-network cache can keep showing the old one."""
     src = SRC / "img" / "og" / f"{code}.jpg"
     return f"/img/og/{code}-{hashlib.sha256(src.read_bytes()).hexdigest()[:10]}.jpg"
+
+
+OG_W, OG_H = 1200, 630
+
+
+def og_card(code):
+    """The language's share card: deploy/og.js renders it from the page itself (wordmark, hero H1, trial pill, the hero's
+    WhatsApp phone), so its alt is the hero H1 it shows."""
+    h1 = re.search(r"<h1\b[^>]*>(.*?)</h1>", sources[code], re.S)
+    alt = re.sub(r"\s+", " ", htmllib.unescape(re.sub(r"<[^>]+>", " ", h1.group(1)))).strip()
+    return {"src": og_image_path(code), "width": OG_W, "height": OG_H, "alt": alt}
+
+
+def share_tags(code, img=None, card=True):
+    """og:image and twitter:image of one page, the same picture for both: the page's own image when it has one (a blog
+    post photo), else the language card. Every page type takes its share tags from here."""
+    img = img or og_card(code)
+    q = lambda v: htmllib.escape(str(v), quote=True)
+    src = CONF["site"] + img["src"]
+    kind = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}[pathlib.Path(img["src"]).suffix.lower()]
+    return (
+        f'<meta property="og:image" content="{src}"><meta property="og:image:type" content="{kind}">'
+        f'<meta property="og:image:width" content="{img["width"]}"><meta property="og:image:height" content="{img["height"]}">'
+        f'<meta property="og:image:alt" content="{q(img["alt"])}">'
+        + ('<meta name="twitter:card" content="summary_large_image">' if card else "")
+        + f'<meta name="twitter:image" content="{src}">'
+    )
 
 
 def legal_slug(code, stem):
@@ -778,7 +799,7 @@ def write_not_found(live, posts):
         if posts.get(code):
             links += f'<a class="btn alt" href="/{code}/blog/">{e(l["blog"]["name"])}</a>'
         main = f'<header class="doc-h"><h1>{e(t["title"])}</h1><p class="upd">{e(t["text"])}</p><p class="nf-a">{links}</p></header>'
-        head = f'<title>{e(t["title"])} | WeltScout</title><meta name="robots" content="noindex">'
+        head = f'<title>{e(t["title"])} | WeltScout</title><meta name="robots" content="noindex">{share_tags(code)}'
         page = doc_page(l, head, main, {x["code"]: f"/{x['code']}/" for x in live}, css=NOT_FOUND_CSS, cls="nf")
         page = absolutize(consent(page, l, legal_url(code, COOKIE_STEM)))
         (OUT / code / "404.html").write_text(page)
@@ -909,8 +930,7 @@ def legal_pages(live, sources):
                 f'<meta name="description" content="{e(desc)}">{robots}<link rel="canonical" href="{canon}">{alts}'
                 f'<meta property="og:type" content="website"><meta property="og:title" content="{e(title)} | WeltScout">'
                 f'<meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{canon}">'
-                f'<meta property="og:locale" content="{l["locale"][0]}"><meta property="og:image" content="{site}{og_image_path(code)}">'
-                '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
+                f'<meta property="og:locale" content="{l["locale"][0]}">{share_tags(code)}'
             )
             url = legal_url(code, s)
             page = doc_page(
@@ -1057,6 +1077,7 @@ blog_out = blog.build(
         "page": doc_page,
         "chrome": CHROME,
         "cookie_url": lambda c: legal_url(c, COOKIE_STEM),
+        "share": share_tags,
     },
 )
 blog_out["redirects"] = legal_redirects(live) + blog_out["redirects"]
