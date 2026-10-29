@@ -26,6 +26,29 @@ SWITCH_CSS = (
     "footer .langs a{display:inline-flex;align-items:center;gap:6px}</style>"
 )
 
+CREDIT_CSS = (
+    '<style id="credit">footer .credit{white-space:nowrap}'
+    "footer .credit a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}"
+    "footer .credit a:hover{color:var(--tx)}"
+    "@media (max-width:600px){footer .credit a{display:inline-block;padding:13px 4px;margin:-13px -4px}}</style>"
+)
+
+
+def footer_credit(html, lang):
+    """The site credit at the end of the footer's legal line: link from langs.json "credit", label from the language's ui.credit."""
+    credit = CONF.get("credit")
+    if not credit:
+        return html
+    label = lang["ui"].get("credit")
+    if not label:
+        die(lang["code"], 'langs.json has a "credit" link but no ui.credit label for this language')
+    legal = re.compile(r'(<div class="bot">\s*<span>)([^<]*)(</span>)')
+    if len(legal.findall(html)) != 1:
+        die(lang["code"], 'footer legal line <div class="bot"><span>...</span> not found for the credit')
+    link = f'<span class="credit">{label} <a href="{credit["url"]}" rel="noopener">{credit["name"]}</a></span>'
+    html = legal.sub(lambda m: f"{m[1]}{m[2]} · {link}{m[3]}", html, count=1)
+    return html.replace("</head>", CREDIT_CSS + "</head>", 1)
+
 
 def die(page, msg):
     sys.exit(f"{page}: {msg}")
@@ -998,7 +1021,7 @@ missing = [l["code"] for l in CONF["langs"] if l not in live]
 meta, sources = {}, {}
 for l in live:
     (OUT / l["code"]).mkdir()
-    sources[l["code"]] = social_links((SRC / l["file"]).read_text(), l["code"])
+    sources[l["code"]] = footer_credit(social_links((SRC / l["file"]).read_text(), l["code"]), l)
     page, meta[l["code"]] = seo(
         localize(sources[l["code"]], l["code"], live), l["code"], live
     )

@@ -331,6 +331,22 @@ class BuildOutput(unittest.TestCase):
         self.assertIn("instagram.com", icons)
         self.assertNotIn("wikidata.org", icons)
 
+    def test_site_credit_ends_the_footer_legal_line_on_every_page_in_the_page_language(self):
+        credit = CONF["credit"]
+        labels = {l["code"]: l["ui"]["credit"] for l in CONF["langs"]}
+        legal = re.compile(
+            r'<div class="bot">\s*<span>[^<]*· <span class="credit">([^<]*) <a href="([^"]*)" rel="noopener">([^<]*)</a></span></span>'
+        )
+        pages = sorted(self.out.rglob("*.html"))
+        self.assertGreater(len(pages), len(labels))
+        for page in pages:
+            m = legal.search(page.read_text())
+            self.assertIsNotNone(m, page)
+            self.assertIn(m[1], labels.values(), page)
+            self.assertEqual((m[2], m[3]), (credit["url"], credit["name"]), page)
+        for code, label in labels.items():
+            self.assertEqual(legal.search((self.out / code / "index.html").read_text())[1], label, code)
+
 
 class WordingRules(unittest.TestCase):
     """Portal names belong to dated data studies only; claims of constant or instant alerts are refused everywhere."""

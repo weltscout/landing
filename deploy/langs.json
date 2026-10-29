@@ -104,7 +104,8 @@
         "toc": "Vsebina",
         "crumbs": "Drobtinice",
         "table": "Tabela",
-        "date": "{d}. {m}. {y}"
+        "date": "{d}. {m}. {y}",
+        "credit": "Izdelava:"
       },
       "notFound": {
         "title": "Strani ni mogoče najti",
@@ -172,7 +173,8 @@
         "toc": "Sadržaj",
         "crumbs": "Navigacijski put",
         "table": "Tablica",
-        "date": "{d}. {m}. {y}."
+        "date": "{d}. {m}. {y}.",
+        "credit": "Izrada:"
       },
       "notFound": {
         "title": "Stranica nije pronađena",
@@ -241,7 +243,8 @@
         "toc": "Sadržaj",
         "crumbs": "Navigaciona putanja",
         "table": "Tabela",
-        "date": "{d}. {m}. {y}."
+        "date": "{d}. {m}. {y}.",
+        "credit": "Izrada:"
       },
       "notFound": {
         "title": "Stranica nije pronađena",
@@ -323,7 +326,8 @@
           "October",
           "November",
           "December"
-        ]
+        ],
+        "credit": "Website by"
       },
       "notFound": {
         "title": "Page not found",
@@ -391,7 +395,8 @@
         "toc": "Inhalt",
         "crumbs": "Brotkrümelnavigation",
         "table": "Tabelle",
-        "date": "{dd}.{mm}.{y}"
+        "date": "{dd}.{mm}.{y}",
+        "credit": "Website von"
       },
       "notFound": {
         "title": "Seite nicht gefunden",
@@ -475,7 +480,8 @@
           "oktober",
           "november",
           "december"
-        ]
+        ],
+        "credit": "Website door"
       },
       "notFound": {
         "title": "Pagina niet gevonden",
@@ -559,7 +565,8 @@
           "octobre",
           "novembre",
           "décembre"
-        ]
+        ],
+        "credit": "Réalisation :"
       },
       "notFound": {
         "title": "Page introuvable",
@@ -572,5 +579,9 @@
   "blogIndexStatuses": [
     "published",
     "review"
-  ]
+  ],
+  "credit": {
+    "url": "https://befly.si",
+    "name": "befly.si"
+  }
 }
