@@ -665,7 +665,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 .hero-in>.trustbar{grid-area:trust;justify-self:start;position:static;left:auto;transform:none;margin:26px 0 0!important}
 .hero .stage{grid-area:stage;position:relative;margin:0;animation:h1in 1s var(--ease-out) .2s both}
 .still .hero h1 .b1,.still .hero h1 .b2,.still .hero .stage{animation:none}
-@media (max-width:979px){
+@media (max-width:1199px){
   .hero-in{grid-template-columns:minmax(0,1fr);grid-template-areas:"copy" "stage" "trust";grid-template-rows:none}
   .hero .copy{padding-top:0;max-width:680px}
   .hero .stage{width:100%;max-width:600px;margin-top:44px}
@@ -831,7 +831,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 .hero-vid{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:18px;background:var(--surf);box-shadow:var(--sh-lg);border:1px solid var(--line)}
 .hero h1 .b2{color:var(--ok-tx);font-weight:700}
 @media (max-width:600px){.hero-vid{aspect-ratio:4/5}}
-@media (min-width:980px){.hero-in{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);column-gap:48px}.hero h1{font-size:clamp(40px,3.6vw,54px)}.hero .stage{padding-top:36px}}
+@media (min-width:1200px){.hero-in{grid-template-columns:minmax(min-content,.82fr) minmax(0,1.18fr);column-gap:48px}.hero .ctas{flex-wrap:nowrap}.hero h1{font-size:clamp(40px,3.6vw,54px)}.hero .stage{padding-top:36px}}
 /* hero design pass (20. 10.): product in a browser frame with a soft brand glow, pause control on the frame, eyebrow as a pill on every width */
 .hero .stage{isolation:isolate}
 .hero .stage:before{content:"";position:absolute;z-index:-1;inset:-14% -10% 4%;background:radial-gradient(closest-side,color-mix(in oklch,var(--acc) 30%,transparent),transparent 72%);pointer-events:none}
@@ -843,7 +843,7 @@ footer .langs a[aria-current]{background:var(--surf2);color:var(--tx);font-weigh
 .hero .stage .motion{position:absolute!important;z-index:2;top:4px;right:8px;left:auto;bottom:auto;width:auto;height:28px;margin:0;min-height:28px;padding:0 11px;line-height:1;border-radius:999px;font-size:12.5px;background:color-mix(in srgb,var(--surf) 86%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .hero .mock-note{margin:14px 4px 0;text-align:left;font-size:12.5px;color:var(--tx3)}
 @media (max-width:600px){.hero .frame{border-radius:16px}.hero .frame .bar span{display:none}}
-@media (min-width:980px){.hero .stage .motion{top:40px}}
+@media (min-width:1200px){.hero .stage .motion{top:40px}}
 /* owners' feedback (27. 10.): phone with an example WhatsApp alert next to the app frame, EU proof with visible results, FAST link */
 :root{--wa-chat:#EFEAE2;--wa-head:#F0F2F5;--wa-ink:#111B21;--wa-muted:#54656F;--wa-price:#0B6E4F;--ph-bezel:#0E1116;--paper-ok:#065C38;--paper-muted:var(--slate-600);--paper-line:rgba(0,18,46,.1)}
 .hero .duo{position:relative}
@@ -1277,6 +1277,11 @@ footer .wm:before{content:"WeltScout"}
 @media (max-width:600px){nav :is(.hero .ctas .btn:not(.alt),.btn)::after{display:none}}
 /* at 360 px and below the longest labels need the arrow's room */
 @media (max-width:360px){body :is(.hero .ctas .btn:not(.alt),nav .btn,.plan .btn:not(.alt),.final .btn:not(.alt))::after{display:none}}
+/* hero buttons on one row (29. 10.): the two-column hero starts at 1200 px, where its copy column is never narrower than
+   the button row (minmax(min-content, ...) with a nowrap row), so every language gets the width its own labels need;
+   below 1200 the hero is one column and the row fits from 601 px. The demo button reads play icon, label, duration */
+.hero .ctas .btn.alt svg{flex:none}
+.hero .ctas .btn.alt .dur{font-weight:500;color:var(--tx2)}
 </style>
 </head>
 <body>
@@ -1299,7 +1304,7 @@ footer .wm:before{content:"WeltScout"}
       <h1 style="--fit:8.38"><span class="b1">Rabljeni avtomobili iz Evrope.</span> <span class="b2">Novi oglasi naravnost na tvoj WhatsApp.</span></h1>
       <p class="lead">Vpišeš, kateri avto iščeš. Mi enkrat ali dvakrat na dan, odvisno od paketa, pregledamo do 29 portalov (mobile.de, AutoScout24, avto.net …) in ti pošljemo nove oglase rabljenih vozil iz Nemčije in Evrope: na WhatsApp ali po e-pošti.</p>
       <p class="hook">Brez ročnega pregledovanja portalov: iskanje nastaviš v eni minuti, nove oglase ti pošljemo mi.</p>
-      <div class="ctas"><a class="btn" href="{{APP}}">Nastavi prvo iskanje brezplačno</a><a class="btn alt" href="#dokaz" data-play>Poglej, kako deluje (56 s)</a></div>
+      <div class="ctas"><a class="btn" href="{{APP}}">Nastavi prvo iskanje brezplačno</a><a class="btn alt" href="#dokaz" data-play><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4.5 2.8v10.4L13 8z" fill="currentColor"/></svg>Kako deluje <span class="dur">56 s</span></a></div>
       <p class="note offer"><span class="nocard">Brez kartice</span> 7 dni brezplačno s polnim dostopom, ko ob registraciji vpišeš podjetje in kanal za obvestila. <span class="from">Nato od 129,90 € na mesec.</span></p>
     </div>
     <div class="stage">
