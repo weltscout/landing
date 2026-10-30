@@ -7,6 +7,9 @@ on:
 permissions:
   contents: read
 
+env:
+  WS_SITE: https://www.weltscout.com
+
 # One deploy at a time; later pushes queue instead of interleaving uploads.
 concurrency:
   group: deploy-main
@@ -29,13 +32,12 @@ jobs:
       - name: Run tests
         run: python3 -m unittest discover -s deploy -p "test_*.py" -v
 
-      # Preview build until the www.weltscout.com cut-over: canonical URLs on
-      # the b-cdn.net hostname and X-Robots-Tag: noindex (WS_INDEXABLE=0).
+      # Production: canonical URLs, same-origin guard and indexing on www.weltscout.com.
       - name: Build site
         run: python3 deploy/build.py dist
         env:
-          WS_SITE: https://weltscout-landing.b-cdn.net
-          WS_INDEXABLE: "0"
+          WS_SITE: ${{ env.WS_SITE }}
+          WS_INDEXABLE: "1"
 
       - name: Generate edge script
         run: python3 deploy/edge_script.py dist
@@ -65,3 +67,5 @@ jobs:
 
       - name: Verify the deploy
         run: bash deploy/verify.sh
+        env:
+          WS_INDEXABLE: "1"
