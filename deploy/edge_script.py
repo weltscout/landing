@@ -11,6 +11,7 @@ it never writes a partial translation.
 """
 
 import json
+import os
 import pathlib
 import re
 import sys
@@ -169,12 +170,18 @@ def dest_template(dest, groups, where):
     return DEST_PARAM.sub(sub, dest)
 
 
+def canonical_site():
+    conf = json.loads((pathlib.Path(__file__).parent / "langs.json").read_text())
+    return os.environ.get("WS_SITE", conf["site"]).rstrip("/")
+
+
 def bundle_script(data):
     tpl = TEMPLATE.read_text()
     for token, value in (
         ("{{DATA}}", json.dumps(data, ensure_ascii=False, indent=1)),
         ("{{CORE}}", CORE.read_text()),
         ("{{SITE}}", SITE_URL),
+        ("{{CANONICAL}}", canonical_site()),
     ):
         tpl = tpl.replace(token, value)
     return tpl

@@ -67,7 +67,6 @@ jobs:
       - name: Verify the deploy
         run: bash deploy/verify.sh
         env:
-          # Verify the just-uploaded Bunny content even before www DNS moves.
-          BASE_URL: https://weltscout-landing.b-cdn.net
+          # The system hostname now redirects to www, so verify the live site.
           SITE_URL: https://www.weltscout.com
           INDEXABLE: "1"
