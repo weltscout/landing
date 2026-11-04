@@ -1100,6 +1100,7 @@ sitemap = sitemap.replace(
 (OUT / "sitemap.xml").write_text(sitemap)
 (OUT / "llms.txt").write_text(llms)
 shutil.copy(SRC / "tokens.css", OUT / "tokens.css")
+shutil.copy(SRC / "BingSiteAuth.xml", OUT / "BingSiteAuth.xml")
 for d in ("img", "fonts"):
     shutil.copytree(SRC / d, OUT / d)
 for l in live:
