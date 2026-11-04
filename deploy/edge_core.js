@@ -105,6 +105,9 @@ function responseHeaders(data, path) {
 }
 
 async function wsHandle(data, req, deps) {
+  // Bunny renews migrated certificates through HTTP-01. The platform must see
+  // the original challenge URL, not our clean-URL redirect or branded 404.
+  if (req.path.startsWith("/.well-known/acme-challenge/")) return { type: "passthrough" };
   const headers = responseHeaders(data, req.path);
   if (req.path === "/api/contact") {
     const res = await contact(req, deps);

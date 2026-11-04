@@ -106,6 +106,41 @@ class EdgeScript(unittest.TestCase):
 
     # --- cleanUrls ---
 
+    def test_acme_challenges_bypass_rewrites_and_contact_delivery(self):
+        out = self.run_cases([
+            {"req": {"method": "GET", "path": "/.well-known/acme-challenge/token", "query": ""}},
+            {"req": {"method": "HEAD", "path": "/.well-known/acme-challenge/token.html", "query": "x=1"}},
+        ])
+        self.assertEqual([d["type"] for d in out["decisions"]], ["passthrough", "passthrough"])
+        self.assertEqual(out["sent"], [])
+
+    def test_generated_middleware_returns_the_original_acme_request(self):
+        driver = r"""
+const fs = require('node:fs'), vm = require('node:vm'), assert = require('node:assert/strict');
+let onRequest;
+const chain = {
+  onClientRequest(fn) { onRequest = fn; return this; },
+  onClientResponse() { return this; },
+};
+const source = fs.readFileSync(process.argv[1], 'utf8').replace(/^import .*\n/, '');
+vm.runInNewContext(source, {
+  BunnySDK: { net: { http: { servePullZone() { return chain; } } } },
+  URL, Request, Response, Headers,
+  fetch: async () => { throw new Error('ACME must not fetch the branded 404 or submit contact'); },
+});
+(async () => {
+  for (const method of ['GET', 'HEAD']) {
+    const request = new Request('http://www.weltscout.com/.well-known/acme-challenge/token.html?x=1', { method });
+    assert.equal(await onRequest({ request }), request);
+  }
+})().catch(e => { console.error(e); process.exitCode = 1; });
+"""
+        result = subprocess.run(
+            ["node", "-e", driver, str(self.dist / "edge_script.js")],
+            capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_html_extension_redirects_like_clean_urls(self):
         paths = ["/sl/index.html", "/index.html", "/hr/privacy-policy/index.html"]
         want = ["/sl", "/", "/hr/privacy-policy"]
