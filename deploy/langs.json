@@ -23,6 +23,14 @@
   },
   "legacyRedirects": [
     {
+      "from": "/fr/post/kako-pohitriti-iskanje-avtov-na-portalih",
+      "to": "/sl/blog/kako-pohitriti-iskanje-avtov-na-portalih/"
+    },
+    {
+      "from": "/fr/post/kako-pohitriti-iskanje-avtov-na-portalih/",
+      "to": "/sl/blog/kako-pohitriti-iskanje-avtov-na-portalih/"
+    },
+    {
       "from": "/post/:slug*",
       "to": "/{default}/"
     },

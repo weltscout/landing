@@ -77,7 +77,10 @@ BunnySDK.net.http
     return toResponse(decision);
   })
   .onClientResponse((ctx) => {
-    const headers = responseHeaders(DATA, new URL(ctx.request.url).pathname);
+    const url = new URL(ctx.request.url);
+    const headers = responseHeaders(DATA, url.pathname);
     for (const [k, v] of Object.entries(headers)) ctx.response.headers.set(k, v);
+    // The Bunny system hostname serves the same pages as the site; keep it out of the index (canonical already points to www).
+    if (url.hostname.endsWith(".b-cdn.net")) ctx.response.headers.set("X-Robots-Tag", "noindex, nofollow");
     return Promise.resolve(ctx.response);
   });
