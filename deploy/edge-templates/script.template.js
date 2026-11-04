@@ -59,6 +59,7 @@ BunnySDK.net.http
       },
       { submitContact },
     );
+    if (decision.type === "passthrough") return ctx.request;
     if (decision.type === "notfound") {
       // The built 404 page comes from this pull zone; the visitor gets it with status 404.
       url.pathname = decision.path;

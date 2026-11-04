@@ -54,7 +54,37 @@ python3 deploy/build.py dist && python3 deploy/edge_script.py dist
 
 `deploy/edge_script.py` translates `dist/vercel.json` into `dist/edge_script.js` — the Bunny middleware (before-cache edge script): redirects (301/302) and clean URLs, response headers, and `/api/contact` (port of `deploy/api/contact.js`, same status matrix, same Chatwoot Client API delivery). The routing logic lives in `deploy/edge_core.js` and is shared verbatim into the generated script. It fails loudly on any `vercel.json` construct it cannot translate and never writes a partial translation. Test: `python3 -m unittest deploy/test_edge_script.py -v` (needs node 20+).
 
-Deploys run on merge to `main` via `.github/workflows/deploy.yaml`: build (preview flags until the www.weltscout.com cut-over), generate, upload via `deploy/stage_upload.py`, push the script, then `deploy/verify.sh` smoke-tests the live edge (page, headers, a redirect, the contact endpoint).
+Deploys run on merge to `main` via `.github/workflows/deploy.yaml`: build production content for `https://www.weltscout.com`, generate, upload via `deploy/stage_upload.py`, push the script, then `deploy/verify.sh` checks the live Bunny edge. **The first production merge must be coordinated with [adnotifier#2566](https://github.com/weltscout/adnotifier/issues/2566): deploy and verify through the Bunny system hostname first, then separately approve www DNS, normal HTTP-01 certificate issuance, forced HTTPS, and finally the apex redirect.** The user accepts possible landing HTTPS downtime between the www switch and certificate readiness; issuance failures can extend it. Route53 stays authoritative; the private adnotifier repo owns all infrastructure and the separate apex-to-www redirect. Preparing this PR does not authorize its production deployment or any DNS/API mutation.
+
+The verifier uses Python's standard library (`deploy/verify.py`, no dependencies).
+It checks production/preview indexing, the root canonical and Open Graph URL,
+robots.txt, sitemap URLs, security headers, a legacy redirect, and exactly one
+honeypot contact request. **It never submits a real contact message.** The
+middleware leaves `/.well-known/acme-challenge/` requests untouched so Bunny can
+renew the migrated certificate through HTTP-01.
+
+Fetch the just-deployed Bunny content before www DNS moves, but require production URLs:
+
+```sh
+BASE_URL=https://weltscout-landing.b-cdn.net SITE_URL=https://www.weltscout.com INDEXABLE=1 bash deploy/verify.sh
+```
+
+After DNS cut-over, also verify the public custom domain (`SITE_URL` defaults to `langs.json`):
+
+```sh
+bash deploy/verify.sh
+```
+
+For a preview build, match all three values explicitly:
+
+```sh
+BASE_URL=https://weltscout-landing.b-cdn.net SITE_URL=https://weltscout-landing.b-cdn.net INDEXABLE=0 bash deploy/verify.sh
+```
+
+Both repos deploy on merge. Keep production activation separately approved; do
+not cancel Webflow until the apex and www have both been verified independently
+of it. For rollback, move DNS back to Webflow **before** redeploying preview
+content, so real users never get the preview's noindex/canonical settings.
 
 ## Blog
 
