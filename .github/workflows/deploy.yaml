@@ -30,7 +30,8 @@ jobs:
         run: python3 -m unittest discover -s deploy -p "test_*.py" -v
 
       # Production content: coordinate this merge with the approved cut-over
-      # in adnotifier#2566 after www's Bunny certificate is ready.
+      # in adnotifier#2566: verify this deployment on the system hostname before
+      # separately approving www DNS, HTTP-01 issuance, HTTPS, and apex activation.
       - name: Build site
         run: python3 deploy/build.py dist
         env:
