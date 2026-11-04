@@ -46,6 +46,10 @@ BunnySDK.net.http
   .servePullZone({ url: "{{SITE}}" })
   .onClientRequest(async (ctx) => {
     const url = new URL(ctx.request.url);
+    // The Bunny system hostname must not serve a second copy of the site: send it to the canonical host, path and query kept.
+    if (url.hostname.endsWith(".b-cdn.net")) {
+      return new Response(null, { status: 301, headers: { Location: "{{CANONICAL}}" + url.pathname + url.search } });
+    }
     const decision = await wsHandle(
       DATA,
       {
