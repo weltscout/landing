@@ -84,6 +84,8 @@ class BuildOutput(unittest.TestCase):
         for l in self.langs_with_posts():
             for src in sorted((ROOT / "blog" / l["code"]).glob("*.html")):
                 meta, _ = blog.front_matter(src)
+                if blog.scheduled(meta):
+                    continue
                 html = (
                     self.out / l["code"] / "blog" / src.stem / "index.html"
                 ).read_text()

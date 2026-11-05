@@ -1140,6 +1140,8 @@ print(
     len(blog_out["redirects"]),
     "| not indexed (status):",
     len(blog_out["held"]),
+    "| scheduled:",
+    blog.SCHEDULED or "none",
 )
 print(
     "legal pages:",
