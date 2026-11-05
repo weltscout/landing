@@ -3,6 +3,10 @@ name: Deploy
 on:
   push:
     branches: [main]
+  # Daily rebuild: a blog post dated in the future (deploy/blog.py scheduled()) goes live on its day without a merge.
+  schedule:
+    - cron: "10 5 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read

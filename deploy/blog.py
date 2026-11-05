@@ -38,7 +38,7 @@ about/<code>.html is the editorial team page of a language that has posts: front
 {"title", "meta_description", "published", "updated"}, one <h1>, a <p class="short">, H2 sections.
 """
 
-import datetime, html as htmllib, json, math, re, sys, unicodedata
+import datetime, html as htmllib, json, math, os, re, sys, unicodedata
 from zoneinfo import ZoneInfo
 
 TZ = ZoneInfo("Europe/Ljubljana")
@@ -63,6 +63,18 @@ BANNED_PORTALS = re.compile(r"\b(mobile\.de|autoscout24|avto\.net|njuskalo|willh
 PORTAL_NAMES_OK = ("data-study",)
 
 WPM = 200
+
+
+def today():
+    """Today in Ljubljana as YYYY-MM-DD; BLOG_TODAY overrides it (tests, previews of a later day)."""
+    return os.environ.get("BLOG_TODAY") or datetime.datetime.now(TZ).date().isoformat()
+
+
+def scheduled(meta):
+    """A post whose published date is still ahead is validated but neither built, listed nor put in the sitemap."""
+    return meta["published"] > today()
+
+
 UI_KEYS = ("toc", "crumbs", "table", "date")
 BLOG_KEYS = ("audience", "filter", "minutes", "all", "short", "cta", "home", "name", "latest")
 FEED_SIZES = ("lead", "md", "md", "sm", "sm", "sm")
@@ -185,7 +197,7 @@ def parse(path, src):
             datetime.datetime.strptime(meta[k], DATE)
     if meta["updated"] < meta["published"]:
         fail(path, "updated is before published")
-    if meta["updated"] > datetime.date.today().isoformat():
+    if meta["updated"] > today() and not scheduled(meta):
         fail(path, "updated is in the future")
     for k, allowed in (
         ("audience", ("b2b", "b2c", "both")),
@@ -270,12 +282,18 @@ def parse_about(path):
     return meta
 
 
+SCHEDULED = []
+
+
 def load(src, live):
     posts, seen_legacy, groups = {}, {}, {}
+    SCHEDULED.clear()
     for l in live:
         d = src / "blog" / l["code"]
+        parsed = [parse(p, src) for p in d.glob("*.html")] if d.exists() else []
+        SCHEDULED.extend("%s/%s:%s" % (l["code"], m["slug"], m["published"]) for m in parsed if scheduled(m))
         posts[l["code"]] = sorted(
-            (parse(p, src) for p in d.glob("*.html")) if d.exists() else [],
+            [m for m in parsed if not scheduled(m)],
             key=lambda p: (p["published"], p["updated"], p["slug"]),
             reverse=True,
         )
