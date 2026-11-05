@@ -1612,6 +1612,24 @@ details.fold>summary::-webkit-details-marker{display:none}
   .panel{order:3;padding:24px 20px 20px}
   .tab .pr{display:none}
 }
+/* zakaj WeltScout (5. 11.): three hairline cards (.bx), one tinted proof panel and the closing ask; tokens only, no new colour or font */
+.why-list{list-style:none;margin:0 auto;padding:0 24px;max-width:var(--maxw);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.why-list>.bx{padding:0}
+.why-list .tx{padding:var(--card-p)}
+.why-list h3{font-size:clamp(21px,.5vw + 19px,24px)}
+.why-proof{max-width:var(--maxw);margin:var(--block-gap) auto 0;padding:0 24px}
+.why-proof .pn{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px clamp(24px,3vw,56px);align-items:center;padding:var(--card-p);border-radius:var(--r-md);background:var(--panel-bg)}
+.why-proof .pl{margin:0;color:var(--tx);font-size:19px;font-weight:600;letter-spacing:-.02em;line-height:1.35;text-wrap:pretty}
+.why-proof .pr{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.why-proof .note{margin:0;color:var(--tx2)}
+.why-proof .also .d{margin-left:.6em;font-weight:400;color:var(--tx2)}
+.why-cta{max-width:var(--maxw);margin:var(--block-gap) auto 0;padding:0 24px}
+.why-cta .ask{margin:0;max-width:34ch;color:var(--tx);font-size:clamp(19px,.9vw + 15px,24px);font-weight:600;letter-spacing:-.02em;line-height:1.3;text-wrap:balance}
+.why-cta .btn{margin-top:24px}
+.why-cta .note{margin:14px 0 0;max-width:62ch;color:var(--tx2)}
+.why-cta .note b{color:var(--tx);font-weight:600}
+@media (max-width:900px){.why-list{grid-template-columns:minmax(0,1fr)}.why-proof .pn{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){.why-list,.why-proof,.why-cta{padding-left:var(--gut);padding-right:var(--gut)}.why-cta .btn{height:52px;width:100%}}
 </style>
 </head>
 <body>
@@ -1744,6 +1762,17 @@ details.fold>summary::-webkit-details-marker{display:none}
       <div class="tx"><h3>Search for your own stock too</h3><p>A search doesn’t have to be linked to a customer. Set one up for the cars you like to buy in for stock, and new listings reach you just as they do for customers.</p></div>
     </div>
   </div>
+</section>
+
+<section class="why" id="zakaj" aria-labelledby="zakaj-h">
+  <div class="sec-h rv"><p class="eyebrow">Why WeltScout</p><h2 id="zakaj-h">A good car won’t wait for your Friday.</h2><p class="lead">You’re a dealer, not a search engine. Set up the search once; we send new listings to WhatsApp or email, and you look after the customer.</p></div>
+  <ol class="why-list">
+    <li class="bx rv"><div class="tx"><h3>No more portal after portal.</h3><p>One search covers every portal you choose, and the results land in one list on one phone. Save a search for each customer and the filters stay put.</p></div></li>
+    <li class="bx rv"><div class="tx"><h3>A new listing comes to you.</h3><p>When WeltScout finds a new listing, it sends it to you on WhatsApp or by email with photos and details, and you decide whether it’s worth a call. We check for new listings on the plan’s schedule: Business once a day, Business + twice a day. A listing therefore does not reach your phone the moment it is posted, but at the next check.</p></div></li>
+    <li class="bx rv"><div class="tx"><h3>Their search is within reach.</h3><p>A customer calls and asks what you’ve got. Their search is already saved: open it and within seconds you see the first results from listings already online.</p></div></li>
+  </ol>
+  <div class="why-proof rv"><div class="pn"><p class="pl">A real example from the app: one search on 11 portals at once. On that day, 745 of the 854 matches came from mobile.de.</p><div class="pr"><p class="note">Recorded on 27 October 2026 with a test account. A snapshot of one search on one day, not market statistics.</p><a class="also" href="#dokaz" data-play>Watch the recording<span class="d">56 s</span></a></div></div></div>
+  <div class="why-cta rv"><p class="ask">Pick a customer who is looking for a car right now and set up their first search.</p><a class="btn" href="{{APP}}">Set up a search for your first customer</a><p class="note"><b>No card needed to try it.</b> Full access once you add your company and an alert channel at sign-up. After the trial, the limits of the plan you choose apply.</p></div>
 </section>
 
 <section id="cenik">

@@ -1614,6 +1614,24 @@ details.fold>summary::-webkit-details-marker{display:none}
   .panel{order:3;padding:24px 20px 20px}
   .tab .pr{display:none}
 }
+/* zakaj WeltScout (5. 11.): three hairline cards (.bx), one tinted proof panel and the closing ask; tokens only, no new colour or font */
+.why-list{list-style:none;margin:0 auto;padding:0 24px;max-width:var(--maxw);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.why-list>.bx{padding:0}
+.why-list .tx{padding:var(--card-p)}
+.why-list h3{font-size:clamp(21px,.5vw + 19px,24px)}
+.why-proof{max-width:var(--maxw);margin:var(--block-gap) auto 0;padding:0 24px}
+.why-proof .pn{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px clamp(24px,3vw,56px);align-items:center;padding:var(--card-p);border-radius:var(--r-md);background:var(--panel-bg)}
+.why-proof .pl{margin:0;color:var(--tx);font-size:19px;font-weight:600;letter-spacing:-.02em;line-height:1.35;text-wrap:pretty}
+.why-proof .pr{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.why-proof .note{margin:0;color:var(--tx2)}
+.why-proof .also .d{margin-left:.6em;font-weight:400;color:var(--tx2)}
+.why-cta{max-width:var(--maxw);margin:var(--block-gap) auto 0;padding:0 24px}
+.why-cta .ask{margin:0;max-width:34ch;color:var(--tx);font-size:clamp(19px,.9vw + 15px,24px);font-weight:600;letter-spacing:-.02em;line-height:1.3;text-wrap:balance}
+.why-cta .btn{margin-top:24px}
+.why-cta .note{margin:14px 0 0;max-width:62ch;color:var(--tx2)}
+.why-cta .note b{color:var(--tx);font-weight:600}
+@media (max-width:900px){.why-list{grid-template-columns:minmax(0,1fr)}.why-proof .pn{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){.why-list,.why-proof,.why-cta{padding-left:var(--gut);padding-right:var(--gut)}.why-cta .btn{height:52px;width:100%}}
 </style>
 </head>
 <body>
@@ -1746,6 +1764,17 @@ details.fold>summary::-webkit-details-marker{display:none}
       <div class="tx"><h3>Cherchez aussi pour votre propre stock</h3><p>Une recherche n’a pas besoin d’être liée à un client. Créez-en une pour les voitures que vous aimez acheter pour votre stock : les nouvelles annonces vous parviennent comme pour vos clients.</p></div>
     </div>
   </div>
+</section>
+
+<section class="why" id="zakaj" aria-labelledby="zakaj-h">
+  <div class="sec-h rv"><p class="eyebrow">Pourquoi WeltScout</p><h2 id="zakaj-h">Une bonne voiture n’attend pas vendredi.</h2><p class="lead">Vous êtes négociant, pas un moteur de recherche. Vous réglez la recherche une seule fois, nous vous envoyons les nouvelles annonces sur WhatsApp ou par e⁠-⁠mail, et vous vous occupez du client.</p></div>
+  <ol class="why-list">
+    <li class="bx rv"><div class="tx"><h3>Plus de portail après portail.</h3><p>Une seule recherche parcourt tous les portails que vous choisissez, et les résultats arrivent dans une liste, sur un seul téléphone. Pour chaque client, vous enregistrez sa recherche et les filtres restent en place.</p></div></li>
+    <li class="bx rv"><div class="tx"><h3>La nouvelle annonce vient à vous.</h3><p>Quand WeltScout trouve une nouvelle annonce, il vous l’envoie avec les photos et les détails sur WhatsApp ou par e⁠-⁠mail, et vous décidez si elle mérite un appel. Nous vérifions les nouvelles annonces selon le rythme de la formule : Business une fois par jour, Business + deux fois par jour. Une annonce n’arrive donc pas sur votre téléphone au moment de sa publication, mais à la vérification suivante.</p></div></li>
+    <li class="bx rv"><div class="tx"><h3>Sa recherche est à portée de main.</h3><p>Un client appelle et demande ce que vous avez. Sa recherche est déjà enregistrée : vous l’ouvrez et, en quelques secondes, vous voyez les premiers résultats parmi les annonces déjà en ligne.</p></div></li>
+  </ol>
+  <div class="why-proof rv"><div class="pn"><p class="pl">Un exemple réel tiré de l’application : une seule recherche sur 11 portails à la fois. Ce jour-là, 745 des 854 résultats provenaient de mobile.de.</p><div class="pr"><p class="note">Enregistré le 27 octobre 2026 avec un compte de test. Instantané d’une recherche un seul jour, pas une statistique de marché.</p><a class="also" href="#dokaz" data-play>Voir l’enregistrement<span class="d">56 s</span></a></div></div></div>
+  <div class="why-cta rv"><p class="ask">Choisissez un client qui cherche une voiture en ce moment et créez sa première recherche.</p><a class="btn" href="{{APP}}">Créer la première recherche d’un client</a><p class="note"><b>Essai sans carte bancaire.</b> Accès complet dès que vous indiquez votre entreprise et un canal d’alerte à l’inscription. Après l’essai, les limites de la formule choisie s’appliquent.</p></div>
 </section>
 
 <section id="cenik">
